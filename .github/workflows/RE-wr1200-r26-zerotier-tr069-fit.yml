@@ -1,0 +1,215 @@
+name: RE WR1200 R26 ZeroTier TR069 Fit Lab
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-zerotier-tr069-fit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wr1200-r26-zerotier-tr069-fit
+  cancel-in-progress: false
+
+jobs:
+  fit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils python3 >/dev/null
+
+      - name: Build stock + ZeroTier + TR069 removal matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/r26tr
+          mkdir -p /tmp/r26tr analysis/zerotier
+
+          R26ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          R25ZIP="firmware/cudy/stable/LT500/LT500V2-R25-2.4.16-20250804-150319-flash.zip"
+          unzip -q "$R26ZIP" -d /tmp/r26tr/r26pkg
+          unzip -q "$R25ZIP" -d /tmp/r26tr/r25pkg
+          R26BIN=$(find /tmp/r26tr/r26pkg -type f -name '*.bin' | head -n1)
+          R25BIN=$(find /tmp/r26tr/r25pkg -type f -name '*.bin' | head -n1)
+
+          python3 - "$R26BIN" "$R25BIN" <<'PY'
+          from pathlib import Path
+          import sys
+          for name,p in (("r26",sys.argv[1]),("r25",sys.argv[2])):
+              b=Path(p).read_bytes()
+              off=b.find(b"hsqs")
+              if off<0: raise SystemExit(name+" squashfs not found")
+              Path(f"/tmp/r26tr/{name}.off").write_text(str(off))
+              Path(f"/tmp/r26tr/{name}.sqfs").write_bytes(b[off:])
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/r26tr/r26root /tmp/r26tr/r26.sqfs >/dev/null
+          sudo unsquashfs -no-progress -d /tmp/r26tr/r25root /tmp/r26tr/r25.sqfs >/dev/null
+
+          sudo cp -a /tmp/r26tr/r26root /tmp/r26tr/root-client
+          sudo cp -a /tmp/r26tr/r26root /tmp/r26tr/root-final
+
+          CLIENT="builds/zerotier/1.8.6/clientonly-noportmapper-staticstdcpp-lto/zerotier-one"
+          sudo install -m 0755 "$CLIENT" /tmp/r26tr/root-client/usr/bin/zerotier-one
+          sudo install -m 0755 "$CLIENT" /tmp/r26tr/root-final/usr/bin/zerotier-one
+
+          # Copy only the lightweight, already target-proven integration from R25.
+          # Do NOT copy R25 zerotier-one or its heavy optional libraries.
+          copy_if_present() {
+            src="$1"; dst="$2"
+            if [ -e "/tmp/r26tr/r25root/$src" ] || [ -L "/tmp/r26tr/r25root/$src" ]; then
+              sudo mkdir -p "/tmp/r26tr/root-final/$(dirname "$dst")"
+              sudo cp -a "/tmp/r26tr/r25root/$src" "/tmp/r26tr/root-final/$dst"
+            fi
+          }
+
+          copy_if_present etc/config/zerotier etc/config/zerotier
+          copy_if_present etc/init.d/zerotier etc/init.d/zerotier
+          copy_if_present etc/uci-defaults/40_luci-zerotier etc/uci-defaults/40_luci-zerotier
+          copy_if_present usr/bin/zerotier.sh usr/bin/zerotier.sh
+          copy_if_present usr/lib/lua/luci/controller/zerotier.lua usr/lib/lua/luci/controller/zerotier.lua
+          if [ -d /tmp/r26tr/r25root/usr/lib/lua/luci/model/cbi/vpn/zerotier ]; then
+            sudo mkdir -p /tmp/r26tr/root-final/usr/lib/lua/luci/model/cbi/vpn
+            sudo cp -a /tmp/r26tr/r25root/usr/lib/lua/luci/model/cbi/vpn/zerotier               /tmp/r26tr/root-final/usr/lib/lua/luci/model/cbi/vpn/
+          fi
+          sudo ln -snf zerotier-one /tmp/r26tr/root-final/usr/bin/zerotier-cli
+          sudo ln -snf zerotier-one /tmp/r26tr/root-final/usr/bin/zerotier-idtool
+
+          # Project policy: TR-069 is permanently excluded.
+          # Remove only explicit CWMP/TR069-named files; do not touch cmagent or unrelated Cudy cloud components.
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil,re,json
+          root=Path("/tmp/r26tr/root-final")
+          rx=re.compile(r"(cwmp|tr[-_]?069)",re.I)
+          removed=[]
+          for p in sorted(root.rglob("*"),key=lambda x:len(x.parts),reverse=True):
+              rel=str(p.relative_to(root))
+              if not rx.search(rel):
+                  continue
+              try:
+                  if p.is_dir() and not p.is_symlink():
+                      shutil.rmtree(p)
+                      removed.append({"path":rel,"type":"dir"})
+                  else:
+                      size=p.stat().st_size if p.exists() and not p.is_symlink() else 0
+                      p.unlink()
+                      removed.append({"path":rel,"type":"file_or_link","raw_size":size})
+              except FileNotFoundError:
+                  pass
+          Path("/tmp/r26tr/tr069-removed.json").write_text(json.dumps(removed,indent=2))
+          print("TR069_REMOVED",len(removed))
+          for x in removed: print(x)
+          PY
+
+          build_sq() {
+            tree="$1"; out="$2"
+            sudo mksquashfs "$tree" "$out"               -comp xz -b 1048576 -always-use-fragments -no-exports -no-xattrs               -noappend -no-progress >/dev/null
+          }
+
+          build_sq /tmp/r26tr/root-client /tmp/r26tr/client.sqfs
+          build_sq /tmp/r26tr/root-final /tmp/r26tr/final.sqfs
+
+          python3 - <<'PY'
+          import hashlib,json,math,struct
+          from pathlib import Path
+
+          ERASE=65536
+          ROOTFS_END=0x7f0000
+          CURRENT_OVERLAY_USED=244*1024
+          off=int(Path("/tmp/r26tr/r26.off").read_text())
+
+          def used(p):
+              b=Path(p).read_bytes()[:96]
+              return struct.unpack_from("<Q",b,40)[0]
+          def roundup(x,a):
+              return ((x+a-1)//a)*a
+          def sha(p):
+              h=hashlib.sha256()
+              with open(p,"rb") as f:
+                  for c in iter(lambda:f.read(1024*1024),b""):h.update(c)
+              return h.hexdigest()
+
+          orig=used("/tmp/r26tr/r26.sqfs")
+          rows=[]
+          for name in ("client","final"):
+              p=f"/tmp/r26tr/{name}.sqfs"
+              u=used(p)
+              end=off+u
+              split=roundup(end,ERASE)
+              overlay=ROOTFS_END-split
+              rows.append({
+                  "variant":name,
+                  "squashfs_bytes_used":u,
+                  "delta_vs_stock":u-orig,
+                  "squashfs_end":end,
+                  "squashfs_end_hex":hex(end),
+                  "dynamic_rootfs_data_start":split,
+                  "dynamic_rootfs_data_start_hex":hex(split),
+                  "dynamic_rootfs_data_size":overlay,
+                  "dynamic_rootfs_data_kib":overlay//1024,
+                  "headroom_vs_current_overlay_used":overlay-CURRENT_OVERLAY_USED,
+                  "sha256":sha(p),
+              })
+
+          removed=json.loads(Path("/tmp/r26tr/tr069-removed.json").read_text())
+          result={
+              "erase_size":ERASE,
+              "rootfs_partition_end":ROOTFS_END,
+              "stock_squashfs_bytes_used":orig,
+              "current_target_overlay_used_bytes":CURRENT_OVERLAY_USED,
+              "tr069_removed":removed,
+              "variants":rows,
+          }
+          Path("analysis/zerotier/RE-WR1200V2-R26-ZEROTIER-TR069-FIT-01.json").write_text(json.dumps(result,indent=2))
+
+          md=[
+            "# WR1200 V2 / R26 ZeroTier + TR-069 removal fit 01","",
+            "Project policy: TR-069/CWMP is permanently excluded.",
+            "rootfs_data is modeled as the 64 KiB-aligned squashfs-split remainder of the rootfs partition.","",
+            f"- erase size: **{ERASE:,} B**",
+            f"- rootfs partition end: **{hex(ROOTFS_END)}**",
+            f"- current target overlay used: **{CURRENT_OVERLAY_USED:,} B (244 KiB)**",
+            f"- explicit CWMP/TR069 paths removed: **{len(removed)}**","",
+            "## Removed explicit TR-069/CWMP paths",""
+          ]
+          for x in removed:
+              md.append(f'- {x["path"]}')
+          md += ["","| Variant | SquashFS bytes_used | Delta vs stock | End | rootfs_data start | rootfs_data | Headroom vs current 244 KiB used |",
+                 "|---|---:|---:|---|---|---:|---:|"]
+          for r in rows:
+              md.append(
+                  f'| {r["variant"]} | {r["squashfs_bytes_used"]:,} | {r["delta_vs_stock"]:+,} | '
+                  f'{r["squashfs_end_hex"]} | {r["dynamic_rootfs_data_start_hex"]} | '
+                  f'{r["dynamic_rootfs_data_kib"]} KiB | {r["headroom_vs_current_overlay_used"]:+,} B |'
+              )
+          md += ["",
+                 "The final variant also embeds the lightweight R25 ZeroTier integration already proven on the target; "
+                 "it does not copy the old R25 zerotier-one, libstdc++, miniupnpc or natpmp payloads."]
+          Path("analysis/zerotier/RE-WR1200V2-R26-ZEROTIER-TR069-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-ZEROTIER-TR069-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish WR1200 ZeroTier TR069 fit analysis"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
