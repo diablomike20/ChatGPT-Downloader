@@ -1,0 +1,47 @@
+{
+  "candidate": {
+    "package": "zerotier_1.1.14-4_mipsel_24kc.ipk",
+    "source": "OpenWrt/LEDE packages-17.01 mipsel_24kc",
+    "binary_size": 666967,
+    "binary_sha256": "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0",
+    "needed": [
+      "libc.so",
+      "libgcc_s.so.1"
+    ]
+  },
+  "stock_squashfs_bytes_used": 5242960,
+  "squashfs_offset": 2583295,
+  "rootfs_data_boundary": 7864320,
+  "variants": [
+    {
+      "variant": "256k",
+      "bytes_used": 5503810,
+      "delta_vs_stock": 260850,
+      "end": 8087105,
+      "end_hex": "0x7b6641",
+      "headroom": -222785,
+      "fits": false,
+      "sha256": "b5b288e36a602d747fde4c31d231792ce225aef31d5eb582783a55cbfd3177e7"
+    },
+    {
+      "variant": "512k",
+      "bytes_used": 5400482,
+      "delta_vs_stock": 157522,
+      "end": 7983777,
+      "end_hex": "0x79d2a1",
+      "headroom": -119457,
+      "fits": false,
+      "sha256": "c5c4d085a39e7b492dad7680e601b09b5754c83211a0b3ca57ce9e65e4a07a41"
+    },
+    {
+      "variant": "1m",
+      "bytes_used": 5302842,
+      "delta_vs_stock": 59882,
+      "end": 7886137,
+      "end_hex": "0x785539",
+      "headroom": -21817,
+      "fits": false,
+      "sha256": "c7568a480b23b26185115b83c41a8d4dc3171e12666bf695c910b74301f01344"
+    }
+  ]
+}
