@@ -1,0 +1,29 @@
+{
+  "policy": "English source/default + Hungarian base.hu.lmo only",
+  "zerotier": {
+    "version": "1.1.14-4",
+    "binary_size": 666967,
+    "sha256": "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0",
+    "needed": [
+      "libc.so",
+      "libgcc_s.so.1"
+    ]
+  },
+  "hungarian": {
+    "base_hu_lmo_size": 42168,
+    "sha256": "14ac578496f675c0215889b1906ba6c8b8bdc98102f7dd27f2538758f1754203"
+  },
+  "lmo_files": [
+    "usr/lib/lua/luci/i18n/base.hu.lmo"
+  ],
+  "stock_squashfs_bytes_used": 5242960,
+  "final_squashfs_bytes_used": 5224058,
+  "delta_vs_stock": -18902,
+  "squashfs_offset": 2583295,
+  "rootfs_data_boundary": 7864320,
+  "absolute_end": 7807353,
+  "absolute_end_hex": "0x772179",
+  "headroom": 56967,
+  "fits": true,
+  "squashfs_sha256": "735e91fd3e10e295df5a75f164e9195e70f966feeb11ec8ed599a91e9499dd80"
+}
