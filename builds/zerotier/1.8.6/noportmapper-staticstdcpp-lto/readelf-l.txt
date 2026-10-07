@@ -1,0 +1,33 @@
+
+Elf file type is DYN (Shared object file)
+Entry point 0x4a4a0
+There are 11 program headers, starting at offset 52
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x00000034 0x00000034 0x00160 0x00160 R E 0x4
+  INTERP         0x000194 0x00000194 0x00000194 0x0001c 0x0001c R   0x1
+      [Requesting program interpreter: /lib/ld-musl-mipsel-sf.so.1]
+  ABIFLAGS       0x0001b0 0x000001b0 0x000001b0 0x00018 0x00018 R   0x8
+  LOAD           0x000000 0x00000000 0x00000000 0x1a8ee4 0x1a8ee4 R E 0x10000
+  LOAD           0x1a984c 0x001b984c 0x001b984c 0x0d768 0x90edc RW  0x10000
+  DYNAMIC        0x0001c8 0x000001c8 0x000001c8 0x00108 0x00108 R   0x4
+  TLS            0x1b00ee 0x001c00f0 0x001c00f0 0x00000 0x00008 R   0x4
+  GNU_EH_FRAME   0x187e7c 0x00187e7c 0x00187e7c 0x05da4 0x05da4 R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
+  GNU_RELRO      0x1a984c 0x001b984c 0x001b984c 0x097b4 0x097b4 R   0x1
+  NULL           0x000000 0x00000000 0x00000000 0x00000 0x00000     0x4
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     
+   01     .interp 
+   02     .MIPS.abiflags 
+   03     .interp .MIPS.abiflags .dynamic .hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .init .text .MIPS.stubs .fini .rodata .eh_frame_hdr .eh_frame 
+   04     .gcc_except_table .ctors .dtors .data.rel.ro .data .got .sdata .bss 
+   05     .dynamic 
+   06     .tbss 
+   07     .eh_frame_hdr 
+   08     
+   09     .gcc_except_table .ctors .dtors .data.rel.ro 
+   10     

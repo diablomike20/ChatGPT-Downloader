@@ -6,8 +6,10 @@ R26 baseline payload: 2,140,557 B logical / 779,813 B gzip-9 / 566,556 B XZ-9e.
 
 | Rank | Variant | Binary | NEEDED | R26 payload | gzip-9 | XZ-9e | Δ gzip vs R25 | Δ XZ vs R25 |
 |---:|---|---:|---|---:|---:|---:|---:|---:|
-| 1 | bundled-staticstdcpp-lto | 1828368 | libgcc_s.so.1, libc.so | 1828368 | 696418 | 489760 | 83395 | 76796 |
-| 2 | noportmapper-staticstdcpp | 2168800 | libgcc_s.so.1, libc.so | 2168800 | 769210 | 534588 | 10603 | 31968 |
-| 3 | bundled-staticstdcpp | 2205916 | libgcc_s.so.1, libc.so | 2205916 | 788473 | 546496 | -8660 | 20060 |
-| 4 | bundled-dynamic | 1662096 | libstdc++.so.6, libgcc_s.so.1, libc.so | 2965963 | 971496 | 672108 | -191683 | -105552 |
-| 5 | fullstatic | BUILD FAIL | | | | | | |
+| 1 | noportmapper-staticstdcpp-lto | 1799604 | libgcc_s.so.1, libc.so | 1799604 | 681696 | 478212 | 98117 | 88344 |
+| 2 | noportmapper-staticstdcpp-lto-nortti | 1791448 | libgcc_s.so.1, libc.so | 1791448 | 681620 | 480596 | 98193 | 85960 |
+| 3 | bundled-staticstdcpp-lto | 1828368 | libgcc_s.so.1, libc.so | 1828368 | 696418 | 489760 | 83395 | 76796 |
+| 4 | noportmapper-staticstdcpp | 2168800 | libgcc_s.so.1, libc.so | 2168800 | 769210 | 534588 | 10603 | 31968 |
+| 5 | bundled-staticstdcpp | 2205916 | libgcc_s.so.1, libc.so | 2205916 | 788473 | 546496 | -8660 | 20060 |
+| 6 | bundled-dynamic | 1662096 | libstdc++.so.6, libgcc_s.so.1, libc.so | 2965963 | 971496 | 672108 | -191683 | -105552 |
+| 7 | fullstatic | BUILD FAIL | | | | | | |
