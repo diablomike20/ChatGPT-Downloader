@@ -1,0 +1,231 @@
+name: RE ZeroTier 1.2.12 LEDE17 Compact R26 Fit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-zerotier-1.2.12-lede17-compact-r26-fit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-fit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      SDK_URL: https://archive.openwrt.org/releases/17.01.5/targets/ramips/mt7628/lede-sdk-17.01.5-ramips-mt7628_gcc-5.4.0_musl-1.1.16.Linux-x86_64.tar.xz
+      SDK_SHA256: faee0635a0b92c53ca4395198c9a07d37b034e220c54a7a526e5f82fb44c5cfe
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq build-essential git xz-utils file binutils squashfs-tools unzip python3 >/dev/null
+
+      - name: Fetch LEDE 17.01.5 mt7628 SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/zt1212/sdk
+          curl -fL --retry 3 "$SDK_URL" -o /tmp/zt1212/sdk.tar.xz
+          echo "$SDK_SHA256  /tmp/zt1212/sdk.tar.xz" | sha256sum -c -
+          tar -xJf /tmp/zt1212/sdk.tar.xz -C /tmp/zt1212/sdk --strip-components=1
+          TOOLCHAIN=$(find /tmp/zt1212/sdk/staging_dir -maxdepth 1 -type d -name 'toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16*' | head -n1)
+          test -n "$TOOLCHAIN"
+          echo "TOOLCHAIN=$TOOLCHAIN" >> "$GITHUB_ENV"
+          echo "CROSS=$TOOLCHAIN/bin/mipsel-openwrt-linux-musl-" >> "$GITHUB_ENV"
+          "$TOOLCHAIN/bin/mipsel-openwrt-linux-musl-gcc" -dumpmachine
+
+      - name: Fetch exact ZeroTier 1.2.12 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch 1.2.12 https://github.com/zerotier/ZeroTierOne.git /tmp/zt1212/src
+          cd /tmp/zt1212/src
+          git rev-parse HEAD | tee /tmp/zt1212/source-commit.txt
+          grep -E 'ZEROTIER_ONE_VERSION_(MAJOR|MINOR|REVISION)' version.h
+
+      - name: Build compact variants
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/zt1212/builds
+
+          cat >/tmp/zt1212/build-one.sh <<'SH'
+          #!/usr/bin/env bash
+          set -u
+          name="$1"
+          extra="$2"
+          src="/tmp/zt1212/builds/$name-src"
+          out="/tmp/zt1212/builds/$name"
+          rm -rf "$src" "$out"
+          cp -a /tmp/zt1212/src "$src"
+          mkdir -p "$out"
+          cd "$src"
+
+          # Remove automatic PortMapper/miniupnpc/natpmp block completely.
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path("make-linux.mk")
+          s=p.read_text()
+          pat=r'# Auto-detect miniupnpc and nat-pmp as well and use system libs if present,\n# otherwise build into binary as done on Mac and Windows\.\n.*?(?=# Use bundled http-parser)'
+          ns,n=re.subn(pat,'# PortMapper disabled for WR1200 compact client build.\n',s,flags=re.S)
+          if n!=1:
+              raise SystemExit(f"PortMapper patch count={n}")
+          p.write_text(ns)
+          PY
+
+          C="-Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto"
+          CXX="-Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -fno-rtti $extra"
+          LD="-pie -Wl,-z,relro,-z,now,--gc-sections,--as-needed -s -flto -static-libstdc++"
+
+          set +e
+          make -j2 one \
+            CC="${CROSS}gcc" CXX="${CROSS}g++" AR="${CROSS}ar" RANLIB="${CROSS}ranlib" \
+            CFLAGS="$C" CXXFLAGS="$CXX" LDFLAGS="$LD" \
+            >"$out/build.log" 2>&1
+          rc=$?
+          set -e
+          echo "$rc" >"$out/build.rc"
+          if [ "$rc" -ne 0 ]; then
+            tail -n 120 "$out/build.log"
+            exit 0
+          fi
+
+          "${CROSS}strip" --strip-all zerotier-one || true
+          cp zerotier-one "$out/zerotier-one"
+          "${CROSS}readelf" -d zerotier-one >"$out/readelf-d.txt" || true
+          "${CROSS}readelf" -h zerotier-one >"$out/readelf-h.txt"
+          file zerotier-one >"$out/file.txt"
+          sha256sum zerotier-one >"$out/SHA256SUMS.txt"
+          SH
+          chmod +x /tmp/zt1212/build-one.sh
+
+          /tmp/zt1212/build-one.sh compact ""
+          /tmp/zt1212/build-one.sh compact-noexceptions "-fno-exceptions"
+
+      - name: Prepare exact R26 stock rootfs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/zt1212/r26 analysis/zerotier
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/zt1212/r26/pkg
+          BIN=$(find /tmp/zt1212/r26/pkg -type f -name '*.bin' | head -n1)
+          cp "$BIN" /tmp/zt1212/r26/original.bin
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/zt1212/r26/original.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("no squashfs")
+          Path("/tmp/zt1212/r26/off").write_text(str(off))
+          Path("/tmp/zt1212/r26/original.sqfs").write_bytes(b[off:])
+          PY
+          sudo unsquashfs -no-progress -d /tmp/zt1212/r26/root /tmp/zt1212/r26/original.sqfs >/dev/null
+
+      - name: Repack all successful candidates
+        shell: bash
+        run: |
+          set -euo pipefail
+          for v in compact compact-noexceptions; do
+            [ -f "/tmp/zt1212/builds/$v/zerotier-one" ] || continue
+            sudo cp -a /tmp/zt1212/r26/root "/tmp/zt1212/r26/root-$v"
+            sudo install -m 0755 "/tmp/zt1212/builds/$v/zerotier-one" "/tmp/zt1212/r26/root-$v/usr/bin/zerotier-one"
+            sudo mksquashfs "/tmp/zt1212/r26/root-$v" "/tmp/zt1212/r26/$v-1m.sqfs" \
+              -comp xz -b 1048576 -noappend -no-progress >/dev/null
+            sudo mksquashfs "/tmp/zt1212/r26/root-$v" "/tmp/zt1212/r26/$v-1m-tight.sqfs" \
+              -comp xz -b 1048576 -always-use-fragments -no-exports -no-xattrs -noappend -no-progress >/dev/null
+          done
+
+          python3 - <<'PY'
+          import pathlib,subprocess,re,struct,json,hashlib
+          ROOTFS_DATA=0x780000
+          off=int(pathlib.Path("/tmp/zt1212/r26/off").read_text())
+          def used(p):
+              b=pathlib.Path(p).read_bytes()[:96]
+              return struct.unpack_from("<Q",b,40)[0]
+          orig=used("/tmp/zt1212/r26/original.sqfs")
+          rows=[]
+          for v in ("compact","compact-noexceptions"):
+              bd=pathlib.Path("/tmp/zt1212/builds")/v
+              rc=int((bd/"build.rc").read_text()) if (bd/"build.rc").exists() else 999
+              rec={"variant":v,"build_rc":rc}
+              if rc!=0 or not (bd/"zerotier-one").exists():
+                  rec["status"]="BUILD_FAIL"
+                  rec["build_log_tail"]="\n".join((bd/"build.log").read_text(errors="ignore").splitlines()[-80:])
+                  rows.append(rec);continue
+              z=bd/"zerotier-one"
+              dyn=(bd/"readelf-d.txt").read_text(errors="ignore")
+              needed=re.findall(r"Shared library: \[(.*?)\]",dyn)
+              rec.update({
+                  "status":"OK",
+                  "binary_size":z.stat().st_size,
+                  "binary_sha256":hashlib.sha256(z.read_bytes()).hexdigest(),
+                  "needed":needed,
+                  "fits_runtime_without_extra_libs":set(needed).issubset({"libc.so","libgcc_s.so.1","libpthread.so.0","libm.so.0","librt.so.0","libdl.so.2"}),
+                  "repack":[]
+              })
+              for suffix in ("1m","1m-tight"):
+                  p=f"/tmp/zt1212/r26/{v}-{suffix}.sqfs"
+                  if not pathlib.Path(p).exists():continue
+                  u=used(p);end=off+u
+                  rec["repack"].append({
+                      "mode":suffix,"bytes_used":u,"delta_vs_stock":u-orig,
+                      "end_hex":hex(end),"headroom":ROOTFS_DATA-end,"fits":end<=ROOTFS_DATA
+                  })
+              rows.append(rec)
+
+          result={
+              "source_commit":pathlib.Path("/tmp/zt1212/source-commit.txt").read_text().strip(),
+              "stock_squashfs_bytes_used":orig,
+              "squashfs_offset":off,
+              "rootfs_data_boundary":ROOTFS_DATA,
+              "results":rows
+          }
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.2.12-LEDE17-COMPACT-R26-FIT-01.json").write_text(json.dumps(result,indent=2))
+
+          md=[
+              "# ZeroTier 1.2.12 LEDE17 compact WR1200 R26 fit 01","",
+              f'- Source commit: {result["source_commit"]}',
+              f'- Stock SquashFS bytes_used: {orig:,} B',"",
+              "| Variant | Build | Binary | NEEDED | Repack | Headroom | Fits? |",
+              "|---|---|---:|---|---|---:|---|"
+          ]
+          for r in rows:
+              if r["status"]!="OK":
+                  md.append(f'| {r["variant"]} | FAIL | | | | | |')
+                  continue
+              for rp in r["repack"]:
+                  md.append(f'| {r["variant"]} | OK | {r["binary_size"]:,} | {", ".join(r["needed"])} | {rp["mode"]} | {rp["headroom"]:+,} | {"YES" if rp["fits"] else "NO"} |')
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.2.12-LEDE17-COMPACT-R26-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit results and successful binaries
+        shell: bash
+        run: |
+          set -e
+          mkdir -p builds/zerotier/1.2.12-lede17
+          for v in compact compact-noexceptions; do
+            if [ -f "/tmp/zt1212/builds/$v/zerotier-one" ]; then
+              mkdir -p "builds/zerotier/1.2.12-lede17/$v"
+              cp "/tmp/zt1212/builds/$v/zerotier-one" "builds/zerotier/1.2.12-lede17/$v/"
+              cp "/tmp/zt1212/builds/$v/readelf-d.txt" "builds/zerotier/1.2.12-lede17/$v/"
+              cp "/tmp/zt1212/builds/$v/SHA256SUMS.txt" "builds/zerotier/1.2.12-lede17/$v/"
+            fi
+          done
+          git config user.name "OpenCudy ZeroTier Build Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-ZEROTIER-1.2.12-LEDE17-COMPACT-R26-FIT-01.* builds/zerotier/1.2.12-lede17
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish compact ZeroTier 1.2.12 LEDE17 R26 fit"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
