@@ -1,0 +1,241 @@
+name: RE WR1200 R26 LEDE ZT Dynamic Rootfs Data Candidate
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-lede-zt-dynamic-split-candidate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils file python3 curl tar gzip unzip >/dev/null
+
+      - name: Fetch exact LEDE ZeroTier
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/dynfit
+          mkdir -p /tmp/dynfit/zt /tmp/dynfit/ztdata
+          URL="https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/packages/zerotier_1.1.14-4_mipsel_24kc.ipk"
+          curl -fL --retry 3 "$URL" -o /tmp/dynfit/zt.ipk
+          tar xzf /tmp/dynfit/zt.ipk -C /tmp/dynfit/zt
+          tar xzf /tmp/dynfit/zt/data.tar.gz -C /tmp/dynfit/ztdata
+          ZT=/tmp/dynfit/ztdata/usr/bin/zerotier-one
+          test "$(stat -c %s "$ZT")" = "666967"
+          test "$(sha256sum "$ZT" | awk '{print $1}')" = "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0"
+
+      - name: Build 1 MiB SquashFS candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/dynfit/r26 analysis/zerotier
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/dynfit/r26/pkg
+          BIN=$(find /tmp/dynfit/r26/pkg -type f -name '*.bin' | head -n1)
+          cp "$BIN" /tmp/dynfit/r26/original.bin
+
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/dynfit/r26/original.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off < 0:
+              raise SystemExit("SquashFS magic not found")
+          Path("/tmp/dynfit/r26/rootfs.offset").write_text(str(off))
+          Path("/tmp/dynfit/r26/original.sqfs").write_bytes(b[off:])
+          print("rootfs_offset",hex(off),"firmware_file_size",len(b),hex(len(b)))
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/dynfit/r26/root /tmp/dynfit/r26/original.sqfs >/dev/null
+          sudo install -m 0755 /tmp/dynfit/ztdata/usr/bin/zerotier-one /tmp/dynfit/r26/root/usr/bin/zerotier-one
+          sudo mksquashfs /tmp/dynfit/r26/root /tmp/dynfit/r26/candidate.sqfs             -comp xz -b 1048576 -noappend -no-progress >/tmp/dynfit/r26/mksquashfs.log
+
+      - name: Model split and construct analysis-only image
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,struct,collections
+
+          ERASE=0x10000
+          ROOTFS_END=0x7f0000
+          CURRENT_SPLIT=0x780000
+          EXPECTED_ROOTFS_OFFSET=0x276aff
+          ZT_SHA="815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0"
+
+          orig=Path("/tmp/dynfit/r26/original.bin").read_bytes()
+          sq=Path("/tmp/dynfit/r26/candidate.sqfs").read_bytes()
+          off=int(Path("/tmp/dynfit/r26/rootfs.offset").read_text())
+          if off != EXPECTED_ROOTFS_OFFSET:
+              raise SystemExit("unexpected rootfs offset")
+          if sq[:4] != b"hsqs":
+              raise SystemExit("candidate not SquashFS")
+
+          bytes_used=struct.unpack_from("<Q",sq,40)[0]
+          logical_end=off+bytes_used
+          padded_end=off+len(sq)
+          split=((logical_end+ERASE-1)//ERASE)*ERASE
+          new_data=ROOTFS_END-split
+
+          if split != 0x790000:
+              raise SystemExit("unexpected dynamic split "+hex(split))
+          if padded_end > split:
+              raise SystemExit("padded SquashFS overlaps new rootfs_data")
+
+          consumed=orig[CURRENT_SPLIT:min(split,len(orig))]
+          cnt=collections.Counter(consumed)
+          trailer=orig[split:] if len(orig)>split else b""
+
+          out=bytearray(orig)
+          if len(out)<split:
+              out.extend(b"\xff"*(split-len(out)))
+          prefix_sha=hashlib.sha256(orig[:off]).hexdigest()
+          out[off:split]=b"\xff"*(split-off)
+          out[off:off+len(sq)]=sq
+          if trailer:
+              if len(out)<split+len(trailer):
+                  out.extend(b"\xff"*(split+len(trailer)-len(out)))
+              out[split:split+len(trailer)]=trailer
+
+          if hashlib.sha256(bytes(out[:off])).hexdigest()!=prefix_sha:
+              raise SystemExit("prefix changed")
+          if bytes(out[split:split+len(trailer)])!=trailer:
+              raise SystemExit("trailer changed")
+
+          image=Path("/tmp/dynfit/RE-WR1200V2-R26-LEDE-ZT-1.1.14-DYNAMIC-SPLIT-ANALYSIS-ONLY.bin")
+          image.write_bytes(out)
+
+          result={
+            "status":"ANALYSIS_ONLY_NOT_FLASH_VERIFIED",
+            "stock":{
+              "firmware_file_size":len(orig),
+              "firmware_file_size_hex":hex(len(orig)),
+              "firmware_sha256":hashlib.sha256(orig).hexdigest(),
+              "rootfs_offset":off,
+              "rootfs_offset_hex":hex(off),
+              "current_rootfs_data_start":CURRENT_SPLIT,
+              "current_rootfs_data_start_hex":hex(CURRENT_SPLIT),
+              "rootfs_partition_end":ROOTFS_END,
+              "rootfs_partition_end_hex":hex(ROOTFS_END),
+              "eraseblock":ERASE,
+              "current_rootfs_data_size":ROOTFS_END-CURRENT_SPLIT
+            },
+            "candidate":{
+              "zerotier_version":"1.1.14-4",
+              "zerotier_sha256":ZT_SHA,
+              "squashfs_file_size":len(sq),
+              "squashfs_bytes_used":bytes_used,
+              "squashfs_logical_end":logical_end,
+              "squashfs_logical_end_hex":hex(logical_end),
+              "squashfs_padded_end":padded_end,
+              "squashfs_padded_end_hex":hex(padded_end),
+              "dynamic_rootfs_data_start":split,
+              "dynamic_rootfs_data_start_hex":hex(split),
+              "new_rootfs_data_size":new_data,
+              "new_rootfs_data_size_kib":new_data//1024,
+              "rootfs_data_loss_bytes":split-CURRENT_SPLIT,
+              "rootfs_data_loss_kib":(split-CURRENT_SPLIT)//1024,
+              "padding_before_new_split":split-padded_end,
+              "analysis_image_size":len(out),
+              "analysis_image_sha256":hashlib.sha256(out).hexdigest()
+            },
+            "consumed_stock_region":{
+              "start_hex":hex(CURRENT_SPLIT),
+              "end_hex":hex(split),
+              "bytes_present_in_stock_file":len(consumed),
+              "ff_bytes":cnt.get(0xff,0),
+              "zero_bytes":cnt.get(0,0),
+              "other_bytes":len(consumed)-cnt.get(0xff,0)-cnt.get(0,0),
+              "sha256":hashlib.sha256(consumed).hexdigest() if consumed else None
+            },
+            "preservation":{
+              "prefix_before_rootfs_sha256":prefix_sha,
+              "trailer_start_hex":hex(split),
+              "trailer_size":len(trailer),
+              "trailer_sha256":hashlib.sha256(trailer).hexdigest() if trailer else None,
+              "prefix_preserved":True,
+              "trailer_preserved":True
+            },
+            "overlay_capacity_model":{
+              "current_total_kib":448,
+              "current_used_kib":244,
+              "current_available_kib":204,
+              "new_partition_kib":new_data//1024,
+              "modeled_available_if_same_usage_kib":new_data//1024-244
+            }
+          }
+          Path("analysis/zerotier/RE-WR1200V2-R26-DYNAMIC-ROOTFS-DATA-FIT-01.json").write_text(json.dumps(result,indent=2))
+
+          md=[
+            "# WR1200 V2 / R26 dynamic rootfs_data fit 01","",
+            "Status: ANALYSIS ONLY - not flash/boot verified.","",
+            "## Result","",
+            "- Candidate SquashFS logical end: "+hex(logical_end),
+            "- Candidate SquashFS padded end: "+hex(padded_end),
+            "- Eraseblock-rounded rootfs_data start: "+hex(split),
+            "- New rootfs_data size: "+str(new_data//1024)+" KiB",
+            "- Overlay capacity lost: "+str((split-CURRENT_SPLIT)//1024)+" KiB",
+            "- Padding before new split: "+str(split-padded_end)+" B",
+            "- Modeled free overlay at current 244 KiB usage: "+str(new_data//1024-244)+" KiB","",
+            "## Candidate","",
+            "- ZeroTier: official LEDE/OpenWrt 17.01 mipsel_24kc 1.1.14-4",
+            "- ZeroTier SHA-256: "+ZT_SHA,
+            "- Analysis image SHA-256: "+result["candidate"]["analysis_image_sha256"],"",
+            "## Preservation","",
+            "- Prefix before SquashFS: PRESERVED",
+            "- Tail/trailer at and after 0x790000: PRESERVED byte-for-byte",
+            "- Trailer size: "+str(len(trailer))+" B","",
+            "## Limitation","",
+            "Moving rootfs_data from 0x780000 to 0x790000 changes the JFFS2 layout. "
+            "A real upgrade therefore needs explicit overlay/config migration or clean-overlay rebuild. "
+            "This is not TARGET_VERIFIED and must not be flashed solely from this analysis."
+          ]
+          Path("analysis/zerotier/RE-WR1200V2-R26-DYNAMIC-ROOTFS-DATA-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Verify candidate rootfs
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo unsquashfs -no-progress -d /tmp/dynfit/verify /tmp/dynfit/r26/candidate.sqfs >/dev/null
+          test "$(stat -c %s /tmp/dynfit/verify/usr/bin/zerotier-one)" = "666967"
+          test "$(sha256sum /tmp/dynfit/verify/usr/bin/zerotier-one | awk '{print $1}')" = "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0"
+
+      - name: Commit report
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-DYNAMIC-ROOTFS-DATA-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: prove dynamic rootfs_data fit for LEDE ZeroTier 1.1.14"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-WR1200V2-R26-DYNAMIC-ZT-ANALYSIS-ONLY
+          retention-days: 30
+          compression-level: 0
+          path: |
+            analysis/zerotier/RE-WR1200V2-R26-DYNAMIC-ROOTFS-DATA-FIT-01.*
+            /tmp/dynfit/RE-WR1200V2-R26-LEDE-ZT-1.1.14-DYNAMIC-SPLIT-ANALYSIS-ONLY.bin
+            /tmp/dynfit/r26/candidate.sqfs
