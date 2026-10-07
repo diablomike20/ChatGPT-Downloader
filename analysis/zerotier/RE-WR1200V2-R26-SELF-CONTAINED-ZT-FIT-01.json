@@ -1,0 +1,11 @@
+{
+  "squashfs_bytes_used": 5304826,
+  "squashfs_file_size": 5308416,
+  "logical_end_hex": "0x785cf9",
+  "padded_end_hex": "0x786aff",
+  "dynamic_split_hex": "0x790000",
+  "fits_before_0x790000": true,
+  "padding_to_0x790000": 38145,
+  "new_rootfs_data_kib": 384,
+  "zerotier_one_sha256": "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0"
+}
