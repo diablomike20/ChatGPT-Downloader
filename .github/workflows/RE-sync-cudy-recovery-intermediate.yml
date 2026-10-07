@@ -14,6 +14,8 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     timeout-minutes: 70
     steps:
       - uses: actions/checkout@v4
@@ -96,8 +98,11 @@ jobs:
 
           root=pathlib.Path("firmware/cudy/recovery-intermediate")
           fw=root/"firmware"
+          large=pathlib.Path("/tmp/cudy-recovery-large")
           shutil.rmtree(fw,ignore_errors=True)
+          shutil.rmtree(large,ignore_errors=True)
           fw.mkdir(parents=True)
+          large.mkdir(parents=True)
 
           exts={".bin",".img",".trx",".itb",".ubi",".uimage",".fw",".rom"}
           bysha={}
@@ -115,22 +120,39 @@ jobs:
               out=fw/name
               if out.exists():
                   out=fw/(p.stem+"-"+h[:8]+p.suffix)
-              shutil.copy2(p,out)
+
+              if size < 95_000_000:
+                  shutil.copy2(p,out)
+                  storage="git"
+                  location="firmware/"+out.name
+                  stored=out.name
+              else:
+                  lout=large/name
+                  if lout.exists():
+                      lout=large/(p.stem+"-"+h[:8]+p.suffix)
+                  shutil.copy2(p,lout)
+                  storage="github-release"
+                  location="release:cudy-recovery-intermediate-large"
+                  stored=lout.name
+
               rows.append({
-                  "stored_name":out.name,
+                  "stored_name":stored,
                   "original_name":p.name,
                   "size":size,
                   "sha256":h,
                   "source_path":str(p.relative_to(work)),
-                  "class":"RECOVERY_OR_INTERMEDIATE"
+                  "class":"RECOVERY_OR_INTERMEDIATE",
+                  "storage":storage,
+                  "location":location
               })
 
           rows.sort(key=lambda x:x["stored_name"].lower())
-          fields=["stored_name","original_name","size","sha256","source_path","class"]
+          fields=["stored_name","original_name","size","sha256","source_path","class","storage","location"]
           with open(root/"RE-CUDY-RECOVERY-INTERMEDIATE-MANIFEST.csv","w",newline="",encoding="utf-8-sig") as f:
               w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
           with open(root/"RE-CUDY-RECOVERY-INTERMEDIATE-SHA256SUMS.txt","w") as f:
-              for r in rows:f.write(f'{r["sha256"]}  firmware/{r["stored_name"]}\n')
+              for r in rows:
+                  f.write(f'{r["sha256"]}  {r["storage"]}:{r["stored_name"]}\n')
           (root/"README.md").write_text(
               "# Cudy recovery / intermediate firmware archive\n\n"
               "Recovered from the public Cudy intermediary/OpenWrt Google Drive. "
@@ -148,3 +170,11 @@ jobs:
           git diff --cached --quiet && exit 0
           git commit -m "RE: sync Cudy recovery-intermediate firmware payloads"
           git push origin HEAD:cudy-recovery-intermediate
+
+          if find /tmp/cudy-recovery-large -maxdepth 1 -type f | grep -q .; then
+            tag="cudy-recovery-intermediate-large"
+            if ! gh release view "$tag" >/dev/null 2>&1; then
+              gh release create "$tag"                 --target cudy-recovery-intermediate                 --title "Cudy recovery/intermediate large firmware payloads"                 --notes "Large payloads from the hash-verified Cudy intermediary/OpenWrt archive. SHA-256 provenance is tracked on the cudy-recovery-intermediate branch."
+            fi
+            find /tmp/cudy-recovery-large -maxdepth 1 -type f -print0 |               xargs -0 -r -n1 gh release upload "$tag" --clobber
+          fi
