@@ -140,6 +140,8 @@ jobs:
               h=sha(p)
               if h in bysha:continue
               bysha[h]=p
+              if h in moved_elsewhere:
+                  continue
               exp=expected.get(p.name)
               if exp and h!=exp:
                   raise SystemExit(f"HASH MISMATCH {p.name}: {h} != {exp}")
