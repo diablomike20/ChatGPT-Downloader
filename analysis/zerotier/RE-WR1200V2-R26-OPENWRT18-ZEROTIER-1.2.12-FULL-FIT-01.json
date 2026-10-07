@@ -1,0 +1,92 @@
+{
+  "candidate": "OpenWrt 18.06.0 zerotier 1.2.12-3 mipsel_24kc",
+  "stock_squashfs_bytes_used": 5242960,
+  "squashfs_offset": 2583295,
+  "rootfs_data_boundary": 7864320,
+  "dependency_closure": {
+    "files": [
+      {
+        "path": "usr/bin/zerotier-one",
+        "size": 573480,
+        "sha256": "9c7d047f448f8342e27b02821fd02e545dc8a6924808248cb2857bbbdbe2a415"
+      },
+      {
+        "path": "usr/lib/libminiupnpc.so.16",
+        "size": 37235,
+        "sha256": "1377652fd4533bc83768c54526a64a86273d0690e82f965d319d54d589d04e34"
+      },
+      {
+        "path": "usr/lib/libstdc++.so.6.0.24",
+        "size": 1332395,
+        "sha256": "03216d56bf352b13db2449b18e15a46e361fcaddfd8c7a6e1a46515cb5f003db"
+      }
+    ],
+    "resolution": [
+      {
+        "from": "/tmp/zt1812/allroot/usr/bin/zerotier-one",
+        "needed": "libminiupnpc.so.16",
+        "status": "ADD_18.06",
+        "path": "/tmp/zt1812/allroot/usr/lib/libminiupnpc.so.16"
+      },
+      {
+        "from": "/tmp/zt1812/allroot/usr/bin/zerotier-one",
+        "needed": "libstdc++.so.6",
+        "status": "ADD_18.06",
+        "path": "/tmp/zt1812/allroot/usr/lib/libstdc++.so.6"
+      },
+      {
+        "from": "/tmp/zt1812/allroot/usr/bin/zerotier-one",
+        "needed": "libgcc_s.so.1",
+        "status": "R26_PRESENT"
+      },
+      {
+        "from": "/tmp/zt1812/allroot/usr/bin/zerotier-one",
+        "needed": "libc.so",
+        "status": "R26_PRESENT"
+      },
+      {
+        "from": "/tmp/zt1812/allroot/usr/lib/libminiupnpc.so.16",
+        "needed": "libgcc_s.so.1",
+        "status": "R26_PRESENT"
+      },
+      {
+        "from": "/tmp/zt1812/allroot/usr/lib/libminiupnpc.so.16",
+        "needed": "libc.so",
+        "status": "R26_PRESENT"
+      },
+      {
+        "from": "/tmp/zt1812/allroot/usr/lib/libstdc++.so.6.0.24",
+        "needed": "libc.so",
+        "status": "R26_PRESENT"
+      },
+      {
+        "from": "/tmp/zt1812/allroot/usr/lib/libstdc++.so.6.0.24",
+        "needed": "libgcc_s.so.1",
+        "status": "R26_PRESENT"
+      }
+    ],
+    "logical_total": 1943110
+  },
+  "variants": [
+    {
+      "variant": "zt1812-1m",
+      "bytes_used": 5557622,
+      "delta_vs_stock": 314662,
+      "absolute_end": 8140917,
+      "absolute_end_hex": "0x7c3875",
+      "headroom": -276597,
+      "fits": false,
+      "sha256": "19e5ac0d9d8a0526f4f8436d25de7eb5da16632379f4a09cd6cc01516caa2462"
+    },
+    {
+      "variant": "zt1812-1m-tight",
+      "bytes_used": 5554870,
+      "delta_vs_stock": 311910,
+      "absolute_end": 8138165,
+      "absolute_end_hex": "0x7c2db5",
+      "headroom": -273845,
+      "fits": false,
+      "sha256": "c092cb2f70b0a00e99535ef2fb2dc1f66cfe4fc47e4726e118c9eb59025645c4"
+    }
+  ]
+}
