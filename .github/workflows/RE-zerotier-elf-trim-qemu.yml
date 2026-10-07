@@ -1,0 +1,209 @@
+name: RE ZeroTier ELF Trim And QEMU Smoke
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-zerotier-elf-trim-qemu.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  trim:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq qemu-user-static squashfs-tools xz-utils file python3 >/dev/null
+
+      - name: Extract R26 userspace for QEMU
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/zttrim
+          mkdir -p /tmp/zttrim analysis/zerotier builds/zerotier/1.8.6-trimmed
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/zttrim/pkg
+          BIN=$(find /tmp/zttrim/pkg -type f -name '*.bin' | head -n1)
+          python3 - "$BIN" <<'PY'
+          import pathlib,sys
+          b=pathlib.Path(sys.argv[1]).read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("no squashfs")
+          pathlib.Path("/tmp/zttrim/r26.sqfs").write_bytes(b[off:])
+          PY
+          sudo unsquashfs -no-progress -d /tmp/zttrim/r26root /tmp/zttrim/r26.sqfs >/dev/null
+
+      - name: Trim ELF section metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib,json,pathlib,struct,shutil,subprocess,gzip,lzma
+
+          variants=[
+              "clientonly-noportmapper-staticstdcpp-lto",
+              "clientonly-noportmapper-staticstdcpp-lto-nortti",
+          ]
+          rows=[]
+          outroot=pathlib.Path("builds/zerotier/1.8.6-trimmed")
+          outroot.mkdir(parents=True,exist_ok=True)
+
+          def sha(b): return hashlib.sha256(b).hexdigest()
+
+          for v in variants:
+              src=pathlib.Path("builds/zerotier/1.8.6")/v/"zerotier-one"
+              b=bytearray(src.read_bytes())
+              if b[:4] != b"\x7fELF" or b[4] != 1 or b[5] != 1:
+                  raise SystemExit(f"{v}: expected ELF32 little endian")
+
+              e_phoff=struct.unpack_from("<I",b,28)[0]
+              e_phentsize=struct.unpack_from("<H",b,42)[0]
+              e_phnum=struct.unpack_from("<H",b,44)[0]
+
+              max_end=0
+              segs=[]
+              for i in range(e_phnum):
+                  o=e_phoff+i*e_phentsize
+                  p_type,p_offset,p_vaddr,p_paddr,p_filesz,p_memsz,p_flags,p_align=struct.unpack_from("<IIIIIIII",b,o)
+                  if p_filesz:
+                      max_end=max(max_end,p_offset+p_filesz)
+                  segs.append({"type":p_type,"offset":p_offset,"filesz":p_filesz,"memsz":p_memsz})
+
+              original=bytes(b)
+              if max_end <= 0 or max_end > len(b):
+                  raise SystemExit(f"{v}: invalid program extent {max_end}")
+
+              # Section headers are not used by the ELF loader. Remove the table
+              # and section-name index, then truncate to the last file-backed segment.
+              struct.pack_into("<I",b,32,0)   # e_shoff
+              struct.pack_into("<H",b,46,0)   # e_shentsize
+              struct.pack_into("<H",b,48,0)   # e_shnum
+              struct.pack_into("<H",b,50,0)   # e_shstrndx
+              trimmed=bytes(b[:max_end])
+
+              dest=outroot/v
+              dest.mkdir(parents=True,exist_ok=True)
+              (dest/"zerotier-one").write_bytes(trimmed)
+
+              rows.append({
+                  "variant":v,
+                  "original_size":len(original),
+                  "trimmed_size":len(trimmed),
+                  "raw_saving":len(original)-len(trimmed),
+                  "original_sha256":sha(original),
+                  "trimmed_sha256":sha(trimmed),
+                  "original_xz9e":len(lzma.compress(original,format=lzma.FORMAT_XZ,preset=9|lzma.PRESET_EXTREME)),
+                  "trimmed_xz9e":len(lzma.compress(trimmed,format=lzma.FORMAT_XZ,preset=9|lzma.PRESET_EXTREME)),
+                  "original_gzip9":len(gzip.compress(original,9,mtime=0)),
+                  "trimmed_gzip9":len(gzip.compress(trimmed,9,mtime=0)),
+                  "program_file_extent":max_end,
+                  "program_headers":segs,
+              })
+
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.8.6-ELF-TRIM-01.json").write_text(json.dumps(rows,indent=2))
+          PY
+
+          chmod +x builds/zerotier/1.8.6-trimmed/*/zerotier-one
+
+          for v in clientonly-noportmapper-staticstdcpp-lto clientonly-noportmapper-staticstdcpp-lto-nortti; do
+            echo "=== $v original ==="
+            qemu-mipsel-static -L /tmp/zttrim/r26root "builds/zerotier/1.8.6/$v/zerotier-one" -v | tee "/tmp/zttrim/$v-original.txt"
+            echo "=== $v trimmed ==="
+            qemu-mipsel-static -L /tmp/zttrim/r26root "builds/zerotier/1.8.6-trimmed/$v/zerotier-one" -v | tee "/tmp/zttrim/$v-trimmed.txt"
+            diff -u "/tmp/zttrim/$v-original.txt" "/tmp/zttrim/$v-trimmed.txt"
+            file "builds/zerotier/1.8.6-trimmed/$v/zerotier-one"
+          done
+
+      - name: Repack persist variant with trimmed ELF
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo cp -a /tmp/zttrim/r26root /tmp/zttrim/root-persist
+
+          BIN="builds/zerotier/1.8.6-trimmed/clientonly-noportmapper-staticstdcpp-lto/zerotier-one"
+          sudo install -m 0755 "$BIN" /tmp/zttrim/root-persist/usr/bin/zerotier-one
+
+          sudo python3 - <<'PY'
+          from pathlib import Path
+          import re,shutil
+          root=Path("/tmp/zttrim/root-persist")
+          rx=re.compile(r"(cwmp|tr[-_]?069)",re.I)
+          for p in sorted(root.rglob("*"),key=lambda x:len(x.parts),reverse=True):
+              rel=str(p.relative_to(root))
+              if not rx.search(rel): continue
+              try:
+                  if p.is_dir() and not p.is_symlink(): shutil.rmtree(p)
+                  else: p.unlink()
+              except FileNotFoundError:
+                  pass
+          PY
+
+          sudo mksquashfs /tmp/zttrim/root-persist /tmp/zttrim/persist-trimmed.sqfs             -comp xz -b 1048576 -always-use-fragments -no-exports -no-xattrs             -noappend -no-progress >/dev/null
+
+          python3 - <<'PY'
+          import json,struct,pathlib
+          off=0x276aff
+          ERASE=65536
+          END=0x7f0000
+          p=pathlib.Path("/tmp/zttrim/persist-trimmed.sqfs")
+          b=p.read_bytes()[:96]
+          used=struct.unpack_from("<Q",b,40)[0]
+          abs_end=off+used
+          split=((abs_end+ERASE-1)//ERASE)*ERASE
+          overlay=END-split
+
+          rows=json.loads(pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.8.6-ELF-TRIM-01.json").read_text())
+          result={
+              "elf_variants":rows,
+              "persist_repack":{
+                  "squashfs_bytes_used":used,
+                  "absolute_end":abs_end,
+                  "absolute_end_hex":hex(abs_end),
+                  "dynamic_rootfs_data_start":split,
+                  "dynamic_rootfs_data_start_hex":hex(split),
+                  "dynamic_rootfs_data_size":overlay,
+                  "dynamic_rootfs_data_kib":overlay//1024,
+                  "headroom_vs_current_244KiB_used":overlay-(244*1024),
+              }
+          }
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.8.6-ELF-TRIM-01.json").write_text(json.dumps(result,indent=2))
+
+          md=["# ZeroTier 1.8.6 ELF trim + QEMU smoke 01","",
+              "Both original and trimmed binaries must print the same version under qemu-mipsel against the stock R26 rootfs.","",
+              "| Variant | Original | Trimmed | Raw saving | XZ before | XZ after | XZ saving |",
+              "|---|---:|---:|---:|---:|---:|---:|"]
+          for r in rows:
+              md.append(f'| {r["variant"]} | {r["original_size"]:,} | {r["trimmed_size"]:,} | {r["raw_saving"]:,} | {r["original_xz9e"]:,} | {r["trimmed_xz9e"]:,} | {r["original_xz9e"]-r["trimmed_xz9e"]:,} |')
+          q=result["persist_repack"]
+          md += ["","## Persist repack with trimmed baseline","",
+                 f'- SquashFS bytes_used: **{q["squashfs_bytes_used"]:,} B**',
+                 f'- SquashFS end: **{q["absolute_end_hex"]}**',
+                 f'- Dynamic rootfs_data start: **{q["dynamic_rootfs_data_start_hex"]}**',
+                 f'- Dynamic rootfs_data size: **{q["dynamic_rootfs_data_kib"]} KiB**',
+                 f'- Headroom vs current 244 KiB used: **{q["headroom_vs_current_244KiB_used"]:,} B**']
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.8.6-ELF-TRIM-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-ZEROTIER-1.8.6-ELF-TRIM-01.* builds/zerotier/1.8.6-trimmed
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish ZeroTier ELF trim and QEMU smoke result"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
