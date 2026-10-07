@@ -1,0 +1,184 @@
+{
+  "lib/upgrade/platform.sh": [
+    {
+      "line": 30,
+      "context": "0025: \t[ \"$?\" -eq 0 ] && return 0\n0026: \n0027: \treturn 1\n0028: }\n0029: \n0030: platform_do_upgrade() {\n0031: \tlocal board_flash=$(oem_board_flash)\n0032: \tlocal save_config_str=\"\"\n0033: \tlocal dd_count=96\n0034: \tlocal dd_skip=160\n0035: \n0036: \tif [ \"$board_flash\" = \"nand\" ]; then\n0037: \t\tdd_count=128"
+    },
+    {
+      "line": 32,
+      "context": "0027: \treturn 1\n0028: }\n0029: \n0030: platform_do_upgrade() {\n0031: \tlocal board_flash=$(oem_board_flash)\n0032: \tlocal save_config_str=\"\"\n0033: \tlocal dd_count=96\n0034: \tlocal dd_skip=160\n0035: \n0036: \tif [ \"$board_flash\" = \"nand\" ]; then\n0037: \t\tdd_count=128\n0038: \t\tdd_skip=640\n0039: \t\trm -rf /tmp/persistent/sysupgrade.tgz"
+    },
+    {
+      "line": 42,
+      "context": "0037: \t\tdd_count=128\n0038: \t\tdd_skip=640\n0039: \t\trm -rf /tmp/persistent/sysupgrade.tgz\n0040: \tfi\n0041: \n0042: \tif [ \"$SAVE_CONFIG\" -eq 1 ]; then\n0043: \t\tsave_config_str=\"-j $CONF_TAR\"\n0044: \tfi\n0045: \n0046: \tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0047: \t\tlocal img_boot_ver=\"$(get_oem_boot_version \"$1\")\"\n0048: \t\tlocal local_boot_ver=\"$(oem_boot_version)\"\n0049: "
+    },
+    {
+      "line": 43,
+      "context": "0038: \t\tdd_skip=640\n0039: \t\trm -rf /tmp/persistent/sysupgrade.tgz\n0040: \tfi\n0041: \n0042: \tif [ \"$SAVE_CONFIG\" -eq 1 ]; then\n0043: \t\tsave_config_str=\"-j $CONF_TAR\"\n0044: \tfi\n0045: \n0046: \tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0047: \t\tlocal img_boot_ver=\"$(get_oem_boot_version \"$1\")\"\n0048: \t\tlocal local_boot_ver=\"$(oem_boot_version)\"\n0049: \n0050: \t\tif [[ \"$img_boot_ver\" -gt \"$local_boot_ver\" ]]; then"
+    },
+    {
+      "line": 46,
+      "context": "0041: \n0042: \tif [ \"$SAVE_CONFIG\" -eq 1 ]; then\n0043: \t\tsave_config_str=\"-j $CONF_TAR\"\n0044: \tfi\n0045: \n0046: \tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0047: \t\tlocal img_boot_ver=\"$(get_oem_boot_version \"$1\")\"\n0048: \t\tlocal local_boot_ver=\"$(oem_boot_version)\"\n0049: \n0050: \t\tif [[ \"$img_boot_ver\" -gt \"$local_boot_ver\" ]]; then\n0051: \t\t\tsysupgrade_log \"sysupgrade uboot\"\n0052: \t\t\tget_image \"$1\" | dd bs=2k count=\"$dd_count\" conv=sync 2>/dev/null | mtd write - \"${BOOT_NAME:-u-boot}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0053: \t\t\tsysupgrade_log_end \"sysupgrade uboot ok\""
+    },
+    {
+      "line": 52,
+      "context": "0047: \t\tlocal img_boot_ver=\"$(get_oem_boot_version \"$1\")\"\n0048: \t\tlocal local_boot_ver=\"$(oem_boot_version)\"\n0049: \n0050: \t\tif [[ \"$img_boot_ver\" -gt \"$local_boot_ver\" ]]; then\n0051: \t\t\tsysupgrade_log \"sysupgrade uboot\"\n0052: \t\t\tget_image \"$1\" | dd bs=2k count=\"$dd_count\" conv=sync 2>/dev/null | mtd write - \"${BOOT_NAME:-u-boot}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0053: \t\t\tsysupgrade_log_end \"sysupgrade uboot ok\"\n0054: \t\tfi\n0055: \tfi\n0056: \n0057: \tif [ \"$board_flash\" = \"nand\" ]; then\n0058: \t\tsysupgrade_log \"sysupgrade firmware2\"\n0059: \t\tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then"
+    },
+    {
+      "line": 59,
+      "context": "0054: \t\tfi\n0055: \tfi\n0056: \n0057: \tif [ \"$board_flash\" = \"nand\" ]; then\n0058: \t\tsysupgrade_log \"sysupgrade firmware2\"\n0059: \t\tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0060: \t\t\tget_image \"$1\" | dd bs=2k skip=\"$dd_skip\" conv=sync 2>/dev/null | mtd write - firmware2 >>$SYSUPGRADE_LOG_FILE 2>&1\n0061: \t\telse\n0062: \t\t\tget_image \"$1\" | mtd write - firmware2 >>$SYSUPGRADE_LOG_FILE 2>&1\n0063: \t\tfi\n0064: \t\tsysupgrade_log_end \"sysupgrade firmware2 ok\"\n0065: \telse\n0066: \t\tsysupgrade_log \"sysupgrade firmware\""
+    },
+    {
+      "line": 60,
+      "context": "0055: \tfi\n0056: \n0057: \tif [ \"$board_flash\" = \"nand\" ]; then\n0058: \t\tsysupgrade_log \"sysupgrade firmware2\"\n0059: \t\tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0060: \t\t\tget_image \"$1\" | dd bs=2k skip=\"$dd_skip\" conv=sync 2>/dev/null | mtd write - firmware2 >>$SYSUPGRADE_LOG_FILE 2>&1\n0061: \t\telse\n0062: \t\t\tget_image \"$1\" | mtd write - firmware2 >>$SYSUPGRADE_LOG_FILE 2>&1\n0063: \t\tfi\n0064: \t\tsysupgrade_log_end \"sysupgrade firmware2 ok\"\n0065: \telse\n0066: \t\tsysupgrade_log \"sysupgrade firmware\"\n0067: \t\tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then"
+    },
+    {
+      "line": 62,
+      "context": "0057: \tif [ \"$board_flash\" = \"nand\" ]; then\n0058: \t\tsysupgrade_log \"sysupgrade firmware2\"\n0059: \t\tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0060: \t\t\tget_image \"$1\" | dd bs=2k skip=\"$dd_skip\" conv=sync 2>/dev/null | mtd write - firmware2 >>$SYSUPGRADE_LOG_FILE 2>&1\n0061: \t\telse\n0062: \t\t\tget_image \"$1\" | mtd write - firmware2 >>$SYSUPGRADE_LOG_FILE 2>&1\n0063: \t\tfi\n0064: \t\tsysupgrade_log_end \"sysupgrade firmware2 ok\"\n0065: \telse\n0066: \t\tsysupgrade_log \"sysupgrade firmware\"\n0067: \t\tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0068: \t\t\tget_image \"$1\" | dd bs=2k skip=\"$dd_skip\" conv=sync 2>/dev/null | mtd $save_config_str write - \"${PART_NAME:-firmware}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0069: \t\telse"
+    },
+    {
+      "line": 67,
+      "context": "0062: \t\t\tget_image \"$1\" | mtd write - firmware2 >>$SYSUPGRADE_LOG_FILE 2>&1\n0063: \t\tfi\n0064: \t\tsysupgrade_log_end \"sysupgrade firmware2 ok\"\n0065: \telse\n0066: \t\tsysupgrade_log \"sysupgrade firmware\"\n0067: \t\tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0068: \t\t\tget_image \"$1\" | dd bs=2k skip=\"$dd_skip\" conv=sync 2>/dev/null | mtd $save_config_str write - \"${PART_NAME:-firmware}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0069: \t\telse\n0070: \t\t\tget_image \"$1\" | mtd $save_config_str write - \"${PART_NAME:-firmware}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0071: \t\tfi\n0072: \t\tsysupgrade_log_end \"sysupgrade firmware ok\"\n0073: \tfi\n0074: "
+    },
+    {
+      "line": 68,
+      "context": "0063: \t\tfi\n0064: \t\tsysupgrade_log_end \"sysupgrade firmware2 ok\"\n0065: \telse\n0066: \t\tsysupgrade_log \"sysupgrade firmware\"\n0067: \t\tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0068: \t\t\tget_image \"$1\" | dd bs=2k skip=\"$dd_skip\" conv=sync 2>/dev/null | mtd $save_config_str write - \"${PART_NAME:-firmware}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0069: \t\telse\n0070: \t\t\tget_image \"$1\" | mtd $save_config_str write - \"${PART_NAME:-firmware}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0071: \t\tfi\n0072: \t\tsysupgrade_log_end \"sysupgrade firmware ok\"\n0073: \tfi\n0074: \n0075: \tif [ \"$SAVE_CONFIG\" -eq 1 -a \"$board_flash\" = \"nand\" ]; then"
+    },
+    {
+      "line": 70,
+      "context": "0065: \telse\n0066: \t\tsysupgrade_log \"sysupgrade firmware\"\n0067: \t\tif [ \"$OEM_UPGRADE_BOOT\" -eq 1 ]; then\n0068: \t\t\tget_image \"$1\" | dd bs=2k skip=\"$dd_skip\" conv=sync 2>/dev/null | mtd $save_config_str write - \"${PART_NAME:-firmware}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0069: \t\telse\n0070: \t\t\tget_image \"$1\" | mtd $save_config_str write - \"${PART_NAME:-firmware}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0071: \t\tfi\n0072: \t\tsysupgrade_log_end \"sysupgrade firmware ok\"\n0073: \tfi\n0074: \n0075: \tif [ \"$SAVE_CONFIG\" -eq 1 -a \"$board_flash\" = \"nand\" ]; then\n0076: \t\tsysupgrade_log \"restore config\"\n0077: \t\tmv \"$CONF_TAR\" \"/tmp/persistent/sysupgrade.tgz\" "
+    },
+    {
+      "line": 75,
+      "context": "0070: \t\t\tget_image \"$1\" | mtd $save_config_str write - \"${PART_NAME:-firmware}\" >>$SYSUPGRADE_LOG_FILE 2>&1\n0071: \t\tfi\n0072: \t\tsysupgrade_log_end \"sysupgrade firmware ok\"\n0073: \tfi\n0074: \n0075: \tif [ \"$SAVE_CONFIG\" -eq 1 -a \"$board_flash\" = \"nand\" ]; then\n0076: \t\tsysupgrade_log \"restore config\"\n0077: \t\tmv \"$CONF_TAR\" \"/tmp/persistent/sysupgrade.tgz\" \n0078: \t\tsysupgrade_log_end \"restore config ok\"\n0079: \tfi\n0080: }\n0081: \n0082: blink_led() {"
+    },
+    {
+      "line": 77,
+      "context": "0072: \t\tsysupgrade_log_end \"sysupgrade firmware ok\"\n0073: \tfi\n0074: \n0075: \tif [ \"$SAVE_CONFIG\" -eq 1 -a \"$board_flash\" = \"nand\" ]; then\n0076: \t\tsysupgrade_log \"restore config\"\n0077: \t\tmv \"$CONF_TAR\" \"/tmp/persistent/sysupgrade.tgz\" \n0078: \t\tsysupgrade_log_end \"restore config ok\"\n0079: \tfi\n0080: }\n0081: \n0082: blink_led() {\n0083: \t. /etc/diag.sh; set_state upgrade\n0084: }"
+    }
+  ],
+  "sbin/sysupgrade": [
+    {
+      "line": 11,
+      "context": "0006: RAMFS_COPY_BIN=\"\"\t# extra programs for temporary ramfs root\n0007: RAMFS_COPY_DATA=\"\"\t# extra data files\n0008: export MTD_CONFIG_ARGS=\"\"\n0009: export INTERACTIVE=0\n0010: export VERBOSE=1\n0011: export SAVE_CONFIG=1\n0012: export SAVE_OVERLAY=0\n0013: export SAVE_PARTITIONS=1\n0014: export DELAY=\n0015: export CONF_IMAGE=\n0016: export CONF_BACKUP_LIST=0\n0017: export CONF_BACKUP=\n0018: export CONF_RESTORE="
+    },
+    {
+      "line": 23,
+      "context": "0018: export CONF_RESTORE=\n0019: export NEED_IMAGE=\n0020: export HELP=0\n0021: export FORCE=0\n0022: export TEST=0\n0023: export OEM_UPGRADE_BOOT=1\n0024: export OEM_CHECK_IMAGE=\n0025: export REQUIRE_IMAGE_METADATA=1\n0026: \n0027: # parse options\n0028: while [ -n \"$1\" ]; do\n0029: \tcase \"$1\" in\n0030: \t\t-i) export INTERACTIVE=1;;"
+    },
+    {
+      "line": 34,
+      "context": "0029: \tcase \"$1\" in\n0030: \t\t-i) export INTERACTIVE=1;;\n0031: \t\t-d) export DELAY=\"$2\"; shift;;\n0032: \t\t-v) export VERBOSE=\"$(($VERBOSE + 1))\";;\n0033: \t\t-q) export VERBOSE=\"$(($VERBOSE - 1))\";;\n0034: \t\t-n) export SAVE_CONFIG=0;;\n0035: \t\t-c) export SAVE_OVERLAY=1;;\n0036: \t\t-p) export SAVE_PARTITIONS=0;;\n0037: \t\t-b|--create-backup) export CONF_BACKUP=\"$2\" NEED_IMAGE=1; shift;;\n0038: \t\t-r|--restore-backup) export CONF_RESTORE=\"$2\" NEED_IMAGE=1; shift;;\n0039: \t\t-l|--list-backup) export CONF_BACKUP_LIST=1; break;;\n0040: \t\t-e) export OEM_CHECK_IMAGE=\"$2\" NEED_IMAGE=1; shift;;\n0041: \t\t-f) export CONF_IMAGE=\"$2\"; shift;;"
+    },
+    {
+      "line": 55,
+      "context": "0050: \tesac\n0051: \tshift;\n0052: done\n0053: \n0054: export CONFFILES=/tmp/sysupgrade.conffiles\n0055: export CONF_TAR=/tmp/sysupgrade.tgz\n0056: \n0057: export ARGV=\"$*\"\n0058: export ARGC=\"$#\"\n0059: \n0060: [ -z \"$ARGV\" -a -z \"$NEED_IMAGE\" -o $HELP -gt 0 ] && {\n0061: \tcat <<EOF\n0062: Usage: $0 [<upgrade-option>...] <image file or URL>"
+    },
+    {
+      "line": 168,
+      "context": "0163: include /lib/upgrade\n0164: \n0165: [ \"$1\" = \"nand\" ] && nand_upgrade_stage2 $@\n0166: \n0167: do_save_conffiles() {\n0168: \tlocal conf_tar=\"${1:-$CONF_TAR}\"\n0169: \tlocal rversion=$(cat /etc/rom_version)\n0170: \n0171: \t[ -z \"$(rootfs_type)\" ] && {\n0172: \t\techo \"Cannot save config while running from ramdisk.\"\n0173: \t\task_bool 0 \"Abort\" && exit\n0174: \t\treturn 0\n0175: \t}"
+    },
+    {
+      "line": 242,
+      "context": "0237: \n0238: for check in $sysupgrade_image_check; do\n0239: \t( eval \"$check \\\"\\$ARGV\\\"\" ) || {\n0240: \t\tif [ $FORCE -eq 1 ]; then\n0241: \t\t\techo \"Image check '$check' failed but --force given - will update anyway!\"\n0242: \t\t\tOEM_UPGRADE_BOOT=0\n0243: \t\t\tbreak\n0244: \t\telse\n0245: \t\t\techo \"Image check '$check' failed.\"\n0246: \t\t\tOEM_UPGRADE_BOOT=0\n0247: \t\t\texit 1\n0248: \t\tfi\n0249: \t}"
+    },
+    {
+      "line": 246,
+      "context": "0241: \t\t\techo \"Image check '$check' failed but --force given - will update anyway!\"\n0242: \t\t\tOEM_UPGRADE_BOOT=0\n0243: \t\t\tbreak\n0244: \t\telse\n0245: \t\t\techo \"Image check '$check' failed.\"\n0246: \t\t\tOEM_UPGRADE_BOOT=0\n0247: \t\t\texit 1\n0248: \t\tfi\n0249: \t}\n0250: done\n0251: \n0252: if [ -n \"$CONF_IMAGE\" ]; then\n0253: \tcase \"$(get_magic_word $CONF_IMAGE cat)\" in"
+    },
+    {
+      "line": 261,
+      "context": "0256: \t\t*)\n0257: \t\t\techo \"Invalid config file. Please use only .tar.gz files\"\n0258: \t\t\texit 1\n0259: \t\t;;\n0260: \tesac\n0261: \tget_image \"$CONF_IMAGE\" \"cat\" > \"$CONF_TAR\"\n0262: \texport SAVE_CONFIG=1\n0263: elif ask_bool $SAVE_CONFIG \"Keep config files over reflash\"; then\n0264: \t[ $TEST -eq 1 ] || do_save_conffiles\n0265: \texport SAVE_CONFIG=1\n0266: else\n0267: \texport SAVE_CONFIG=0\n0268: fi"
+    },
+    {
+      "line": 262,
+      "context": "0257: \t\t\techo \"Invalid config file. Please use only .tar.gz files\"\n0258: \t\t\texit 1\n0259: \t\t;;\n0260: \tesac\n0261: \tget_image \"$CONF_IMAGE\" \"cat\" > \"$CONF_TAR\"\n0262: \texport SAVE_CONFIG=1\n0263: elif ask_bool $SAVE_CONFIG \"Keep config files over reflash\"; then\n0264: \t[ $TEST -eq 1 ] || do_save_conffiles\n0265: \texport SAVE_CONFIG=1\n0266: else\n0267: \texport SAVE_CONFIG=0\n0268: fi\n0269: "
+    },
+    {
+      "line": 263,
+      "context": "0258: \t\t\texit 1\n0259: \t\t;;\n0260: \tesac\n0261: \tget_image \"$CONF_IMAGE\" \"cat\" > \"$CONF_TAR\"\n0262: \texport SAVE_CONFIG=1\n0263: elif ask_bool $SAVE_CONFIG \"Keep config files over reflash\"; then\n0264: \t[ $TEST -eq 1 ] || do_save_conffiles\n0265: \texport SAVE_CONFIG=1\n0266: else\n0267: \texport SAVE_CONFIG=0\n0268: fi\n0269: \n0270: if [ $TEST -eq 1 ]; then"
+    },
+    {
+      "line": 265,
+      "context": "0260: \tesac\n0261: \tget_image \"$CONF_IMAGE\" \"cat\" > \"$CONF_TAR\"\n0262: \texport SAVE_CONFIG=1\n0263: elif ask_bool $SAVE_CONFIG \"Keep config files over reflash\"; then\n0264: \t[ $TEST -eq 1 ] || do_save_conffiles\n0265: \texport SAVE_CONFIG=1\n0266: else\n0267: \texport SAVE_CONFIG=0\n0268: fi\n0269: \n0270: if [ $TEST -eq 1 ]; then\n0271: \texit 0\n0272: fi"
+    },
+    {
+      "line": 267,
+      "context": "0262: \texport SAVE_CONFIG=1\n0263: elif ask_bool $SAVE_CONFIG \"Keep config files over reflash\"; then\n0264: \t[ $TEST -eq 1 ] || do_save_conffiles\n0265: \texport SAVE_CONFIG=1\n0266: else\n0267: \texport SAVE_CONFIG=0\n0268: fi\n0269: \n0270: if [ $TEST -eq 1 ]; then\n0271: \texit 0\n0272: fi\n0273: \n0274: run_hooks \"\" $sysupgrade_pre_upgrade"
+    },
+    {
+      "line": 298,
+      "context": "0293: \n0294: trap '' SIGINT SIGHUP SIGTERM SIGPIPE SIGQUIT SIGUSR1 SIGUSR2 SIGABRT SIGTSTP SIGCONT\n0295: \n0296: if [ -n \"$(rootfs_type)\" ]; then\n0297: \tv \"Switching to ramdisk...\"\n0298: \t(run_ramfs '. /lib/functions.sh; include /lib/upgrade; do_upgrade') &\n0299: else\n0300: \t(do_upgrade) &\n0301: fi"
+    },
+    {
+      "line": 300,
+      "context": "0295: \n0296: if [ -n \"$(rootfs_type)\" ]; then\n0297: \tv \"Switching to ramdisk...\"\n0298: \t(run_ramfs '. /lib/functions.sh; include /lib/upgrade; do_upgrade') &\n0299: else\n0300: \t(do_upgrade) &\n0301: fi"
+    }
+  ],
+  "lib/upgrade/common.sh": [
+    {
+      "line": 48,
+      "context": "0043: \t\tmtd_name=\"kpanic\"\n0044: \t\tmtdpart=\"$(find_mtd_part $mtd_name)\"\n0045: \t\t[ -z \"$mtdpart\" ] && return 1\n0046: \t}\n0047: \n0048: \tmtd -q write \"$SYSUPGRADE_LOG_FILE\" \"$mtd_name\"\n0049: }\n0050: \n0051: lede_reboot() {\n0052: \tsysupgrade_log \"reboot failed, force reboot\"\n0053: \tsysupgrade_log_end\n0054: \tsleep 1\n0055: "
+    },
+    {
+      "line": 387,
+      "context": "0382: \t\t\tprintf \"%2d %5d %7d\\n\" $part $lba $num >> \"/tmp/partmap.$filename\"\n0383: \t\tdone\n0384: \tfi\n0385: }\n0386: \n0387: jffs2_copy_config() {\n0388: \tif grep rootfs_data /proc/mtd >/dev/null; then\n0389: \t\t# squashfs+jffs2\n0390: \t\tmtd -e rootfs_data jffs2write \"$CONF_TAR\" rootfs_data\n0391: \telse\n0392: \t\t# jffs2\n0393: \t\tmtd jffs2write \"$CONF_TAR\" rootfs\n0394: \tfi"
+    },
+    {
+      "line": 388,
+      "context": "0383: \t\tdone\n0384: \tfi\n0385: }\n0386: \n0387: jffs2_copy_config() {\n0388: \tif grep rootfs_data /proc/mtd >/dev/null; then\n0389: \t\t# squashfs+jffs2\n0390: \t\tmtd -e rootfs_data jffs2write \"$CONF_TAR\" rootfs_data\n0391: \telse\n0392: \t\t# jffs2\n0393: \t\tmtd jffs2write \"$CONF_TAR\" rootfs\n0394: \tfi\n0395: }"
+    },
+    {
+      "line": 389,
+      "context": "0384: \tfi\n0385: }\n0386: \n0387: jffs2_copy_config() {\n0388: \tif grep rootfs_data /proc/mtd >/dev/null; then\n0389: \t\t# squashfs+jffs2\n0390: \t\tmtd -e rootfs_data jffs2write \"$CONF_TAR\" rootfs_data\n0391: \telse\n0392: \t\t# jffs2\n0393: \t\tmtd jffs2write \"$CONF_TAR\" rootfs\n0394: \tfi\n0395: }\n0396: "
+    },
+    {
+      "line": 390,
+      "context": "0385: }\n0386: \n0387: jffs2_copy_config() {\n0388: \tif grep rootfs_data /proc/mtd >/dev/null; then\n0389: \t\t# squashfs+jffs2\n0390: \t\tmtd -e rootfs_data jffs2write \"$CONF_TAR\" rootfs_data\n0391: \telse\n0392: \t\t# jffs2\n0393: \t\tmtd jffs2write \"$CONF_TAR\" rootfs\n0394: \tfi\n0395: }\n0396: \n0397: # Flash firmware to MTD partition"
+    },
+    {
+      "line": 392,
+      "context": "0387: jffs2_copy_config() {\n0388: \tif grep rootfs_data /proc/mtd >/dev/null; then\n0389: \t\t# squashfs+jffs2\n0390: \t\tmtd -e rootfs_data jffs2write \"$CONF_TAR\" rootfs_data\n0391: \telse\n0392: \t\t# jffs2\n0393: \t\tmtd jffs2write \"$CONF_TAR\" rootfs\n0394: \tfi\n0395: }\n0396: \n0397: # Flash firmware to MTD partition\n0398: #\n0399: # $(1): path to image"
+    },
+    {
+      "line": 393,
+      "context": "0388: \tif grep rootfs_data /proc/mtd >/dev/null; then\n0389: \t\t# squashfs+jffs2\n0390: \t\tmtd -e rootfs_data jffs2write \"$CONF_TAR\" rootfs_data\n0391: \telse\n0392: \t\t# jffs2\n0393: \t\tmtd jffs2write \"$CONF_TAR\" rootfs\n0394: \tfi\n0395: }\n0396: \n0397: # Flash firmware to MTD partition\n0398: #\n0399: # $(1): path to image\n0400: # $(2): (optional) pipe command to extract firmware, e.g. dd bs=n skip=m"
+    },
+    {
+      "line": 401,
+      "context": "0396: \n0397: # Flash firmware to MTD partition\n0398: #\n0399: # $(1): path to image\n0400: # $(2): (optional) pipe command to extract firmware, e.g. dd bs=n skip=m\n0401: default_do_upgrade() {\n0402: \tsync\n0403: \tif [ \"$SAVE_CONFIG\" -eq 1 ]; then\n0404: \t\tget_image \"$1\" \"$2\" | mtd $MTD_CONFIG_ARGS -j \"$CONF_TAR\" write - \"${PART_NAME:-image}\"\n0405: \telse\n0406: \t\tget_image \"$1\" \"$2\" | mtd write - \"${PART_NAME:-image}\"\n0407: \tfi\n0408: }"
+    },
+    {
+      "line": 403,
+      "context": "0398: #\n0399: # $(1): path to image\n0400: # $(2): (optional) pipe command to extract firmware, e.g. dd bs=n skip=m\n0401: default_do_upgrade() {\n0402: \tsync\n0403: \tif [ \"$SAVE_CONFIG\" -eq 1 ]; then\n0404: \t\tget_image \"$1\" \"$2\" | mtd $MTD_CONFIG_ARGS -j \"$CONF_TAR\" write - \"${PART_NAME:-image}\"\n0405: \telse\n0406: \t\tget_image \"$1\" \"$2\" | mtd write - \"${PART_NAME:-image}\"\n0407: \tfi\n0408: }\n0409: \n0410: do_upgrade() {"
+    },
+    {
+      "line": 404,
+      "context": "0399: # $(1): path to image\n0400: # $(2): (optional) pipe command to extract firmware, e.g. dd bs=n skip=m\n0401: default_do_upgrade() {\n0402: \tsync\n0403: \tif [ \"$SAVE_CONFIG\" -eq 1 ]; then\n0404: \t\tget_image \"$1\" \"$2\" | mtd $MTD_CONFIG_ARGS -j \"$CONF_TAR\" write - \"${PART_NAME:-image}\"\n0405: \telse\n0406: \t\tget_image \"$1\" \"$2\" | mtd write - \"${PART_NAME:-image}\"\n0407: \tfi\n0408: }\n0409: \n0410: do_upgrade() {\n0411: \tv \"Performing system upgrade...\""
+    },
+    {
+      "line": 406,
+      "context": "0401: default_do_upgrade() {\n0402: \tsync\n0403: \tif [ \"$SAVE_CONFIG\" -eq 1 ]; then\n0404: \t\tget_image \"$1\" \"$2\" | mtd $MTD_CONFIG_ARGS -j \"$CONF_TAR\" write - \"${PART_NAME:-image}\"\n0405: \telse\n0406: \t\tget_image \"$1\" \"$2\" | mtd write - \"${PART_NAME:-image}\"\n0407: \tfi\n0408: }\n0409: \n0410: do_upgrade() {\n0411: \tv \"Performing system upgrade...\"\n0412: \tsysupgrade_log \"Performing system upgrade...\"\n0413: \tif type 'platform_do_upgrade' >/dev/null 2>/dev/null; then"
+    },
+    {
+      "line": 410,
+      "context": "0405: \telse\n0406: \t\tget_image \"$1\" \"$2\" | mtd write - \"${PART_NAME:-image}\"\n0407: \tfi\n0408: }\n0409: \n0410: do_upgrade() {\n0411: \tv \"Performing system upgrade...\"\n0412: \tsysupgrade_log \"Performing system upgrade...\"\n0413: \tif type 'platform_do_upgrade' >/dev/null 2>/dev/null; then\n0414: \t\tplatform_do_upgrade \"$ARGV\"\n0415: \telse\n0416: \t\tdefault_do_upgrade \"$ARGV\"\n0417: \tfi"
+    },
+    {
+      "line": 413,
+      "context": "0408: }\n0409: \n0410: do_upgrade() {\n0411: \tv \"Performing system upgrade...\"\n0412: \tsysupgrade_log \"Performing system upgrade...\"\n0413: \tif type 'platform_do_upgrade' >/dev/null 2>/dev/null; then\n0414: \t\tplatform_do_upgrade \"$ARGV\"\n0415: \telse\n0416: \t\tdefault_do_upgrade \"$ARGV\"\n0417: \tfi\n0418: \n0419: \tif [ \"$SAVE_CONFIG\" -eq 1 ] && type 'platform_copy_config' >/dev/null 2>/dev/null; then\n0420: \t\tplatform_copy_config"
+    },
+    {
+      "line": 414,
+      "context": "0409: \n0410: do_upgrade() {\n0411: \tv \"Performing system upgrade...\"\n0412: \tsysupgrade_log \"Performing system upgrade...\"\n0413: \tif type 'platform_do_upgrade' >/dev/null 2>/dev/null; then\n0414: \t\tplatform_do_upgrade \"$ARGV\"\n0415: \telse\n0416: \t\tdefault_do_upgrade \"$ARGV\"\n0417: \tfi\n0418: \n0419: \tif [ \"$SAVE_CONFIG\" -eq 1 ] && type 'platform_copy_config' >/dev/null 2>/dev/null; then\n0420: \t\tplatform_copy_config\n0421: \tfi"
+    },
+    {
+      "line": 416,
+      "context": "0411: \tv \"Performing system upgrade...\"\n0412: \tsysupgrade_log \"Performing system upgrade...\"\n0413: \tif type 'platform_do_upgrade' >/dev/null 2>/dev/null; then\n0414: \t\tplatform_do_upgrade \"$ARGV\"\n0415: \telse\n0416: \t\tdefault_do_upgrade \"$ARGV\"\n0417: \tfi\n0418: \n0419: \tif [ \"$SAVE_CONFIG\" -eq 1 ] && type 'platform_copy_config' >/dev/null 2>/dev/null; then\n0420: \t\tplatform_copy_config\n0421: \tfi\n0422: \n0423: \tv \"Upgrade completed\""
+    },
+    {
+      "line": 419,
+      "context": "0414: \t\tplatform_do_upgrade \"$ARGV\"\n0415: \telse\n0416: \t\tdefault_do_upgrade \"$ARGV\"\n0417: \tfi\n0418: \n0419: \tif [ \"$SAVE_CONFIG\" -eq 1 ] && type 'platform_copy_config' >/dev/null 2>/dev/null; then\n0420: \t\tplatform_copy_config\n0421: \tfi\n0422: \n0423: \tv \"Upgrade completed\"\n0424: \tsysupgrade_log \"Upgrade completed\"\n0425: \t[ -n \"$DELAY\" ] && sleep \"$DELAY\"\n0426: \tv \"Rebooting system...\""
+    }
+  ]
+}
