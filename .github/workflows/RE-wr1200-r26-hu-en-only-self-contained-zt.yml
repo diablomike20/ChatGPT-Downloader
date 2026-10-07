@@ -65,6 +65,7 @@ jobs:
         run: |
           set -euo pipefail
           sudo cp -a /tmp/huen/r26root /tmp/huen/newroot
+          sudo chown -R "$(id -u):$(id -g)" /tmp/huen/newroot
 
           python3 - <<'PY'
           from pathlib import Path
