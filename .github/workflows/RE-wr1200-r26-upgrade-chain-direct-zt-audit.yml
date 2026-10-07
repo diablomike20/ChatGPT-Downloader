@@ -1,0 +1,269 @@
+name: RE WR1200 R26 Upgrade Chain and Direct ZT Image Audit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-upgrade-chain-direct-zt-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils file python3 curl tar gzip unzip binutils >/dev/null
+
+      - name: Extract stock R26 and exact LEDE ZeroTier
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/r26audit
+          mkdir -p /tmp/r26audit/pkg /tmp/r26audit/zt /tmp/r26audit/ztdata analysis/zerotier
+
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/r26audit/pkg
+          BIN=$(find /tmp/r26audit/pkg -type f -name '*.bin' | head -n1)
+          cp "$BIN" /tmp/r26audit/stock.bin
+
+          curl -fL --retry 3             "https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/packages/zerotier_1.1.14-4_mipsel_24kc.ipk"             -o /tmp/r26audit/zt.ipk
+          tar xzf /tmp/r26audit/zt.ipk -C /tmp/r26audit/zt
+          tar xzf /tmp/r26audit/zt/data.tar.gz -C /tmp/r26audit/ztdata
+
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/r26audit/stock.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("no squashfs")
+          Path("/tmp/r26audit/rootfs.offset").write_text(str(off))
+          Path("/tmp/r26audit/stock.sqfs").write_bytes(b[off:])
+          print(hex(off),len(b),hex(len(b)))
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/r26audit/root /tmp/r26audit/stock.sqfs >/dev/null
+
+      - name: Audit stock upgrade chain and image structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,zlib,struct,json,re,subprocess
+
+          root=Path("/tmp/r26audit/root")
+          stock=Path("/tmp/r26audit/stock.bin").read_bytes()
+          ROOTFS_OFF=int(Path("/tmp/r26audit/rootfs.offset").read_text())
+          FW_ABS=0x50000
+          CURRENT_SPLIT=0x780000
+          TRAILER=0x790000
+
+          def textfile(p):
+              q=root/p
+              return q.read_text(errors="replace") if q.exists() else ""
+
+          platform=textfile("lib/upgrade/platform.sh")
+          sysup=textfile("sbin/sysupgrade")
+
+          # uImage at absolute 0x50000 in full Cudy flash image.
+          hdr=bytearray(stock[FW_ABS:FW_ABS+64])
+          magic,hcrc,ts,size,load,ep,dcrc=struct.unpack(">7I",hdr[:28])
+          name=bytes(hdr[32:64]).split(b"\0",1)[0].decode(errors="replace")
+          stored_hcrc=hcrc
+          hdr[4:8]=b"\0\0\0\0"
+          calc_hcrc=zlib.crc32(hdr)&0xffffffff
+          data=stock[FW_ABS+64:FW_ABS+64+size]
+          calc_dcrc=zlib.crc32(data)&0xffffffff
+          uimage_end=FW_ABS+64+size
+
+          if magic!=0x27051956: raise SystemExit("uImage magic mismatch")
+          if calc_hcrc!=stored_hcrc: raise SystemExit("uImage header CRC mismatch")
+          if calc_dcrc!=dcrc: raise SystemExit("uImage data CRC mismatch")
+          if uimage_end!=ROOTFS_OFF:
+              raise SystemExit(f"uImage end {hex(uimage_end)} != squashfs {hex(ROOTFS_OFF)}")
+
+          def region(off,n=64):
+              b=stock[off:off+n]
+              return {
+                "offset_hex":hex(off),
+                "length":len(b),
+                "hex":b.hex(),
+                "ascii":"".join(chr(x) if 32<=x<127 else "." for x in b)
+              }
+
+          # collect strings from oem-check if present
+          oem=root/"sbin/oem-check"
+          oem_strings=[]
+          if oem.exists():
+              rr=subprocess.run(["strings","-a",str(oem)],capture_output=True,text=True)
+              for line in rr.stdout.splitlines():
+                  low=line.lower()
+                  if any(k in low for k in ("rsa","md5","sha","crc","image","firmware","board","fit","signature","verify")):
+                      oem_strings.append(line)
+              oem_strings=oem_strings[:300]
+
+          report={
+            "stock_sha256":hashlib.sha256(stock).hexdigest(),
+            "stock_size":len(stock),
+            "stock_size_hex":hex(len(stock)),
+            "firmware_absolute_start_hex":hex(FW_ABS),
+            "rootfs_absolute_start_hex":hex(ROOTFS_OFF),
+            "uimage":{
+              "magic":hex(magic),"header_crc_stored":hex(stored_hcrc),
+              "header_crc_calc":hex(calc_hcrc),"data_size":size,
+              "data_crc_stored":hex(dcrc),"data_crc_calc":hex(calc_dcrc),
+              "absolute_end_hex":hex(uimage_end),"name":name
+            },
+            "regions":{
+              "current_split":region(CURRENT_SPLIT,64),
+              "new_split_trailer":region(TRAILER,min(155,max(0,len(stock)-TRAILER))),
+              "end_minus_256":region(max(0,len(stock)-256),256)
+            },
+            "platform_relevant":[l for l in platform.splitlines() if any(k in l for k in ("oem-check","OEM_","platform_check_image","platform_do_upgrade","mtd","0x30000","0x50000"))],
+            "sysupgrade_relevant":[l for l in sysup.splitlines() if any(k in l for k in ("OEM_","--force","FORCE","platform_check_image","platform_do_upgrade","SAVE_CONFIG","CONF_BACKUP"))],
+            "oem_check_strings":oem_strings
+          }
+          Path("analysis/zerotier/RE-WR1200V2-R26-UPGRADE-CHAIN-AUDIT-01.json").write_text(json.dumps(report,indent=2))
+
+          md=[
+            "# WR1200 V2 / R26 upgrade-chain audit 01","",
+            "## Stock image","",
+            f'- SHA-256: {report["stock_sha256"]}',
+            f'- Size: {len(stock)} B ({hex(len(stock))})',
+            f'- Firmware/uImage absolute start: {hex(FW_ABS)}',
+            f'- SquashFS absolute start: {hex(ROOTFS_OFF)}',
+            f'- uImage end equals SquashFS start: YES',
+            f'- uImage header CRC: PASS',
+            f'- uImage data CRC: PASS',
+            f'- uImage name: {name}',"",
+            "## Bytes at current rootfs_data boundary 0x780000","",
+            report["regions"]["current_split"]["hex"],"",
+            "## Bytes at 0x790000 trailer","",
+            report["regions"]["new_split_trailer"]["hex"],"",
+            "## platform.sh relevant lines",""
+          ]
+          md += ["    "+x for x in report["platform_relevant"]]
+          md += ["","## sysupgrade relevant lines",""]
+          md += ["    "+x for x in report["sysupgrade_relevant"]]
+          Path("analysis/zerotier/RE-WR1200V2-R26-UPGRADE-CHAIN-AUDIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Build direct sysupgrade analysis candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          ZT=/tmp/r26audit/ztdata/usr/bin/zerotier-one
+          test "$(stat -c %s "$ZT")" = "666967"
+          test "$(sha256sum "$ZT" | awk '{print $1}')" = "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0"
+
+          sudo cp -a /tmp/r26audit/root /tmp/r26audit/newroot
+          sudo install -m 0755 "$ZT" /tmp/r26audit/newroot/usr/bin/zerotier-one
+          sudo mksquashfs /tmp/r26audit/newroot /tmp/r26audit/new.sqfs             -comp xz -b 1048576 -noappend -no-progress >/dev/null
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,struct,zlib,json
+
+          stock=Path("/tmp/r26audit/stock.bin").read_bytes()
+          sq=Path("/tmp/r26audit/new.sqfs").read_bytes()
+          off=int(Path("/tmp/r26audit/rootfs.offset").read_text())
+          ERASE=0x10000
+          FW_ABS=0x50000
+          ROOTFS_END=0x7f0000
+          old_split=0x780000
+          bytes_used=struct.unpack_from("<Q",sq,40)[0]
+          logical_end=off+bytes_used
+          split=((logical_end+ERASE-1)//ERASE)*ERASE
+          if split!=0x790000: raise SystemExit("split mismatch")
+          if off+len(sq)>split: raise SystemExit("sqfs padding overlap")
+
+          # Build full-flash-form analysis image preserving >=0x790000 tail.
+          full=bytearray(stock)
+          trailer=stock[split:]
+          full[off:split]=b"\xff"*(split-off)
+          full[off:off+len(sq)]=sq
+          full[split:split+len(trailer)]=trailer
+
+          # Build direct firmware/sysupgrade form by slicing off the first
+          # 0x50000 bytes (bootloader/env/factory area).
+          direct=bytes(full[FW_ABS:])
+
+          # Validate uImage CRC remains intact.
+          h=bytearray(direct[:64])
+          magic,hcrc,ts,size,load,ep,dcrc=struct.unpack(">7I",h[:28])
+          h[4:8]=b"\0\0\0\0"
+          ch=zlib.crc32(h)&0xffffffff
+          cd=zlib.crc32(direct[64:64+size])&0xffffffff
+          if magic!=0x27051956 or ch!=hcrc or cd!=dcrc:
+              raise SystemExit("direct candidate uImage CRC failure")
+
+          fp=Path("/tmp/r26audit/RE-WR1200V2-R26-LEDE-ZT-1.1.14-FULL-ANALYSIS-ONLY.bin")
+          dp=Path("/tmp/r26audit/RE-WR1200V2-R26-LEDE-ZT-1.1.14-DIRECT-SYSUPGRADE-ANALYSIS-ONLY.bin")
+          fp.write_bytes(full); dp.write_bytes(direct)
+
+          result={
+            "status":"ANALYSIS_ONLY",
+            "full_image_size":len(full),
+            "full_image_sha256":hashlib.sha256(full).hexdigest(),
+            "direct_sysupgrade_size":len(direct),
+            "direct_sysupgrade_sha256":hashlib.sha256(direct).hexdigest(),
+            "direct_starts_uimage":direct[:4].hex()=="27051956",
+            "uimage_header_crc_pass":ch==hcrc,
+            "uimage_data_crc_pass":cd==dcrc,
+            "candidate_squashfs_logical_end_hex":hex(logical_end),
+            "dynamic_rootfs_data_start_hex":hex(split),
+            "new_rootfs_data_size":ROOTFS_END-split,
+            "new_rootfs_data_size_kib":(ROOTFS_END-split)//1024,
+            "bootloader_prefix_removed_bytes":FW_ABS
+          }
+          Path("analysis/zerotier/RE-WR1200V2-R26-DIRECT-ZT-SYSUPGRADE-ANALYSIS-01.json").write_text(json.dumps(result,indent=2))
+          md=[
+            "# WR1200 V2 / R26 direct ZeroTier sysupgrade analysis 01","",
+            "Status: ANALYSIS ONLY - DO NOT FLASH from this report alone.","",
+            f'- Direct image starts with uImage: {result["direct_starts_uimage"]}',
+            f'- uImage header CRC: {"PASS" if result["uimage_header_crc_pass"] else "FAIL"}',
+            f'- uImage data CRC: {"PASS" if result["uimage_data_crc_pass"] else "FAIL"}',
+            f'- Direct image size: {len(direct)} B',
+            f'- Direct image SHA-256: {result["direct_sysupgrade_sha256"]}',
+            f'- Dynamic rootfs_data start after boot: {hex(split)}',
+            f'- Resulting rootfs_data: {(ROOTFS_END-split)//1024} KiB',"",
+            "The direct image omits the first 0x50000 bytes of the Cudy full-flash image, so it does not contain U-Boot, factory or other pre-firmware flash regions."
+          ]
+          Path("analysis/zerotier/RE-WR1200V2-R26-DIRECT-ZT-SYSUPGRADE-ANALYSIS-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit reports
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-UPGRADE-CHAIN-AUDIT-01.*                   analysis/zerotier/RE-WR1200V2-R26-DIRECT-ZT-SYSUPGRADE-ANALYSIS-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: audit WR1200 R26 upgrade chain and direct ZT image"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-WR1200V2-R26-DIRECT-ZT-ANALYSIS-01
+          retention-days: 30
+          compression-level: 0
+          path: |
+            analysis/zerotier/RE-WR1200V2-R26-UPGRADE-CHAIN-AUDIT-01.*
+            analysis/zerotier/RE-WR1200V2-R26-DIRECT-ZT-SYSUPGRADE-ANALYSIS-01.*
+            /tmp/r26audit/RE-WR1200V2-R26-LEDE-ZT-1.1.14-FULL-ANALYSIS-ONLY.bin
+            /tmp/r26audit/RE-WR1200V2-R26-LEDE-ZT-1.1.14-DIRECT-SYSUPGRADE-ANALYSIS-ONLY.bin
