@@ -1,0 +1,176 @@
+{
+  "elf_variants": [
+    {
+      "variant": "clientonly-noportmapper-staticstdcpp-lto",
+      "original_size": 1485336,
+      "trimmed_size": 1483800,
+      "raw_saving": 1536,
+      "original_sha256": "72158752b91eae72d8b0e02a5600beb7f96dd2441d8cfd886ff20c4e36579dcf",
+      "trimmed_sha256": "33d9d8d8cb3b148e4fc13b885f0a578759ea52b0d5c85bba6bc7d97caa095936",
+      "original_xz9e": 394476,
+      "trimmed_xz9e": 393760,
+      "original_gzip9": 559051,
+      "trimmed_gzip9": 558363,
+      "program_file_extent": 1483800,
+      "program_headers": [
+        {
+          "type": 6,
+          "offset": 52,
+          "filesz": 352,
+          "memsz": 352
+        },
+        {
+          "type": 3,
+          "offset": 404,
+          "filesz": 28,
+          "memsz": 28
+        },
+        {
+          "type": 1879048195,
+          "offset": 432,
+          "filesz": 24,
+          "memsz": 24
+        },
+        {
+          "type": 1,
+          "offset": 0,
+          "filesz": 1438524,
+          "memsz": 1438524
+        },
+        {
+          "type": 1,
+          "offset": 1440976,
+          "filesz": 42824,
+          "memsz": 581176
+        },
+        {
+          "type": 2,
+          "offset": 456,
+          "filesz": 264,
+          "memsz": 264
+        },
+        {
+          "type": 7,
+          "offset": 1460074,
+          "filesz": 0,
+          "memsz": 8
+        },
+        {
+          "type": 1685382480,
+          "offset": 1327440,
+          "filesz": 19836,
+          "memsz": 19836
+        },
+        {
+          "type": 1685382481,
+          "offset": 0,
+          "filesz": 0,
+          "memsz": 0
+        },
+        {
+          "type": 1685382482,
+          "offset": 1440976,
+          "filesz": 29488,
+          "memsz": 29488
+        },
+        {
+          "type": 0,
+          "offset": 0,
+          "filesz": 0,
+          "memsz": 0
+        }
+      ]
+    },
+    {
+      "variant": "clientonly-noportmapper-staticstdcpp-lto-nortti",
+      "original_size": 1485340,
+      "trimmed_size": 1483804,
+      "raw_saving": 1536,
+      "original_sha256": "c4144edb4e2db2a9d35315e4cfa1cbd89ee70059781aa161bcf64d5a5d953230",
+      "trimmed_sha256": "a7e627e276b91bdad0ef79db65488411111d3a4e4f90d3436486e49313c3ee8a",
+      "original_xz9e": 394244,
+      "trimmed_xz9e": 396048,
+      "original_gzip9": 558661,
+      "trimmed_gzip9": 557961,
+      "program_file_extent": 1483804,
+      "program_headers": [
+        {
+          "type": 6,
+          "offset": 52,
+          "filesz": 352,
+          "memsz": 352
+        },
+        {
+          "type": 3,
+          "offset": 404,
+          "filesz": 28,
+          "memsz": 28
+        },
+        {
+          "type": 1879048195,
+          "offset": 432,
+          "filesz": 24,
+          "memsz": 24
+        },
+        {
+          "type": 1,
+          "offset": 0,
+          "filesz": 1437340,
+          "memsz": 1437340
+        },
+        {
+          "type": 1,
+          "offset": 1441100,
+          "filesz": 42704,
+          "memsz": 581052
+        },
+        {
+          "type": 2,
+          "offset": 456,
+          "filesz": 264,
+          "memsz": 264
+        },
+        {
+          "type": 7,
+          "offset": 1460250,
+          "filesz": 0,
+          "memsz": 8
+        },
+        {
+          "type": 1685382480,
+          "offset": 1326224,
+          "filesz": 19836,
+          "memsz": 19836
+        },
+        {
+          "type": 1685382481,
+          "offset": 0,
+          "filesz": 0,
+          "memsz": 0
+        },
+        {
+          "type": 1685382482,
+          "offset": 1441100,
+          "filesz": 29364,
+          "memsz": 29364
+        },
+        {
+          "type": 0,
+          "offset": 0,
+          "filesz": 0,
+          "memsz": 0
+        }
+      ]
+    }
+  ],
+  "persist_repack": {
+    "squashfs_bytes_used": 5354430,
+    "absolute_end": 7937725,
+    "absolute_end_hex": "0x791ebd",
+    "dynamic_rootfs_data_start": 7995392,
+    "dynamic_rootfs_data_start_hex": "0x7a0000",
+    "dynamic_rootfs_data_size": 327680,
+    "dynamic_rootfs_data_kib": 320,
+    "headroom_vs_current_244KiB_used": 77824
+  }
+}
