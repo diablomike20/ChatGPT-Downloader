@@ -1,0 +1,118 @@
+name: RE Sync Cudy Beta Firmware
+
+on:
+  push:
+    branches: [cudy-beta]
+    paths:
+      - ".github/workflows/RE-sync-cudy-beta-firmware.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-beta
+          fetch-depth: 0
+
+      - name: Install download helpers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq megatools unzip >/dev/null
+          python3 -m pip install --quiet "gdown>=6.4.1"
+
+      - name: Download known beta firmware payloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/cudy-beta
+          mkdir -p /tmp/cudy-beta/packages
+
+          gdown "https://drive.google.com/uc?id=1FjO2JABXSdyY1AXWAjVVje8BYAu8iomt"             -O /tmp/cudy-beta/packages/WR3000-R31-2.4.2Beta-20250429-181532-sysupgrade.bin
+
+          (
+            cd /tmp/cudy-beta/packages
+            megadl 'https://mega.nz/file/Lixz3Z4K#wcGY0-oqeiLqU_CMFO8lQ0TpU_kE-slh8ebYUkX6nNQ'
+          )
+
+          find /tmp/cudy-beta/packages -maxdepth 1 -type f -printf '%f %s bytes\n'
+
+      - name: Verify and publish beta archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import csv, hashlib, pathlib, shutil, zipfile, os
+
+          expected={
+            "WR3000-R31-2.4.2Beta-20250429-181532-sysupgrade.bin":
+              "13d49b81fabab3ccf5335509086dbb9811882dc279ee47f77116065228e2a6a6",
+            "R46-2.1.10Beta-20240530-103557-flash.zip":
+              "57cfd4f6f1b782f5216b27ccf07dfbf535b028a08dc06d179fca70224be33e42",
+          }
+
+          src=pathlib.Path("/tmp/cudy-beta/packages")
+          root=pathlib.Path("firmware/cudy/beta")
+          pkg=root/"packages"; fw=root/"firmware"
+          shutil.rmtree(pkg,ignore_errors=True); shutil.rmtree(fw,ignore_errors=True)
+          pkg.mkdir(parents=True); fw.mkdir(parents=True)
+
+          def sha(p):
+            h=hashlib.sha256()
+            with open(p,"rb") as f:
+              for b in iter(lambda:f.read(1024*1024),b""):h.update(b)
+            return h.hexdigest()
+
+          rows=[]
+          for p in sorted(src.iterdir()):
+            if not p.is_file(): continue
+            h=sha(p)
+            exp=expected.get(p.name)
+            if exp and h!=exp:
+              raise SystemExit(f"HASH MISMATCH {p.name}: {h} != {exp}")
+            shutil.copy2(p,pkg/p.name)
+            rows.append({"kind":"package","filename":p.name,"size":p.stat().st_size,"sha256":h,
+                         "expected_sha256":exp or "","source":"historical FU7 source workflow"})
+
+            if p.suffix.lower()==".bin":
+              shutil.copy2(p,fw/p.name)
+              rows.append({"kind":"firmware","filename":p.name,"size":p.stat().st_size,"sha256":h,
+                           "expected_sha256":exp or "","source":"direct beta payload"})
+            elif zipfile.is_zipfile(p):
+              with zipfile.ZipFile(p) as z:
+                for info in z.infolist():
+                  if info.is_dir(): continue
+                  if not info.filename.lower().endswith((".bin",".img",".trx",".itb",".ubi",".uimage",".fw",".rom")):
+                    continue
+                  data=z.read(info)
+                  ih=hashlib.sha256(data).hexdigest()
+                  name=pathlib.Path(info.filename).name
+                  out=fw/name
+                  out.write_bytes(data)
+                  rows.append({"kind":"firmware","filename":name,"size":len(data),"sha256":ih,
+                               "expected_sha256":"","source":p.name+" :: "+info.filename})
+
+          fields=["kind","filename","size","sha256","expected_sha256","source"]
+          with open(root/"RE-CUDY-BETA-MANIFEST.csv","w",newline="",encoding="utf-8-sig") as f:
+            w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+          with open(root/"RE-CUDY-BETA-SHA256SUMS.txt","w") as f:
+            for r in rows:
+              f.write(f'{r["sha256"]}  {r["kind"]}/{r["filename"]}\n')
+          (root/"README.md").write_text(
+            "# Cudy beta firmware archive\n\n"
+            "Recovered from historical FU7 source URLs. Known historical payloads are SHA-256 gated.\n"
+          )
+          print("records",len(rows))
+          PY
+
+          git config user.name "OpenCudy Beta Archive Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add firmware/cudy/beta
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: sync verified Cudy beta firmware payloads"
+          git push origin HEAD:cudy-beta
