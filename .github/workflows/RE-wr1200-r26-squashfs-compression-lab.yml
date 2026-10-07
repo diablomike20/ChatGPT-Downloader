@@ -1,0 +1,153 @@
+name: RE WR1200 R26 ZeroTier SquashFS Compression Lab
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-squashfs-compression-lab.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wr1200-r26-squashfs-compression-lab
+  cancel-in-progress: false
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils attr python3 >/dev/null
+
+      - name: Build compression matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/r26sq
+          mkdir -p /tmp/r26sq analysis/zerotier
+
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/r26sq/pkg
+          BIN=$(find /tmp/r26sq/pkg -type f -name '*.bin' | head -n1)
+          cp "$BIN" /tmp/r26sq/original.bin
+
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/r26sq/original.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("no squashfs")
+          Path("/tmp/r26sq/off").write_text(str(off))
+          Path("/tmp/r26sq/original.sqfs").write_bytes(b[off:])
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/r26sq/root /tmp/r26sq/original.sqfs >/dev/null
+
+          CLIENT="builds/zerotier/1.8.6/clientonly-noportmapper-staticstdcpp-lto/zerotier-one"
+          test -f "$CLIENT"
+
+          sudo cp -a /tmp/r26sq/root /tmp/r26sq/root-client
+          sudo install -m 0755 "$CLIENT" /tmp/r26sq/root-client/usr/bin/zerotier-one
+
+          # Inventory xattrs before trying no-xattrs variants.
+          sudo getfattr -R -d -m- /tmp/r26sq/root-client > /tmp/r26sq/xattrs.txt 2>/dev/null || true
+
+          build_sq() {
+            name="$1"; shift
+            echo "=== $name ==="
+            sudo mksquashfs /tmp/r26sq/root-client "/tmp/r26sq/$name.sqfs"               -comp xz -noappend -no-progress "$@" >"/tmp/r26sq/$name.log"
+            unsquashfs -s "/tmp/r26sq/$name.sqfs" >"/tmp/r26sq/$name.superblock.txt"
+          }
+
+          # Safe geometry-only variants first.
+          build_sq client-256k -b 262144
+          build_sq client-512k -b 524288
+          build_sq client-1m   -b 1048576
+
+          # Metadata/fragments variants. These are analysis candidates only.
+          build_sq client-1m-noexports -b 1048576 -no-exports
+          build_sq client-1m-noexports-noxattrs -b 1048576 -no-exports -no-xattrs
+          build_sq client-1m-frag-noexports-noxattrs -b 1048576 -always-use-fragments -no-exports -no-xattrs
+
+          python3 - <<'PY'
+          import hashlib,json,struct
+          from pathlib import Path
+
+          ROOTFS_DATA=0x780000
+          off=int(Path("/tmp/r26sq/off").read_text())
+          xattrs=Path("/tmp/r26sq/xattrs.txt").read_text(errors="ignore")
+
+          def used(path):
+              b=Path(path).read_bytes()[:96]
+              return struct.unpack_from("<Q",b,40)[0]
+          def sha(path):
+              h=hashlib.sha256()
+              with open(path,"rb") as f:
+                  for c in iter(lambda:f.read(1024*1024),b""): h.update(c)
+              return h.hexdigest()
+
+          orig_used=used("/tmp/r26sq/original.sqfs")
+          rows=[]
+          for p in sorted(Path("/tmp/r26sq").glob("client-*.sqfs")):
+              u=used(p)
+              end=off+u
+              rows.append({
+                "variant":p.stem,
+                "bytes_used":u,
+                "delta_vs_stock":u-orig_used,
+                "absolute_end":end,
+                "absolute_end_hex":hex(end),
+                "headroom_before_rootfs_data":ROOTFS_DATA-end,
+                "fits":end<=ROOTFS_DATA,
+                "sha256":sha(p),
+              })
+
+          rows.sort(key=lambda r:r["bytes_used"])
+          result={
+            "stock_bytes_used":orig_used,
+            "squashfs_offset":off,
+            "rootfs_data_boundary":ROOTFS_DATA,
+            "xattr_output_nonempty":bool(xattrs.strip()),
+            "xattr_output":xattrs[:5000],
+            "variants":rows,
+          }
+
+          Path("analysis/zerotier/RE-WR1200V2-R26-SQUASHFS-COMPRESSION-LAB-01.json").write_text(json.dumps(result,indent=2))
+          md=[
+            "# WR1200 V2 / R26 SquashFS compression lab 01","",
+            f"- Stock SquashFS bytes_used: **{orig_used:,} B**",
+            f"- SquashFS offset: **{hex(off)}**",
+            "- rootfs_data boundary: **0x780000**",
+            f'- Existing xattr inventory non-empty: **{"YES" if xattrs.strip() else "NO"}**',"",
+            "| Rank | Variant | bytes_used | Delta vs stock | Headroom | Fits? |",
+            "|---:|---|---:|---:|---:|---|"
+          ]
+          for i,r in enumerate(rows,1):
+              md.append(f'| {i} | {r["variant"]} | {r["bytes_used"]:,} | {r["delta_vs_stock"]:+,} | {r["headroom_before_rootfs_data"]:+,} | {"YES" if r["fits"] else "NO"} |')
+          md += ["","Geometry-only 512 KiB / 1 MiB block variants preserve the file tree. "
+                  "no-exports/no-xattrs/fragment variants are size experiments and still require compatibility review before any target use."]
+          Path("analysis/zerotier/RE-WR1200V2-R26-SQUASHFS-COMPRESSION-LAB-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit results
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-SQUASHFS-COMPRESSION-LAB-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish WR1200 R26 SquashFS compression lab"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
