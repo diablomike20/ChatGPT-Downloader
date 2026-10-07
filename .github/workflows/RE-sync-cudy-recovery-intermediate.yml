@@ -5,6 +5,7 @@ on:
     branches: [cudy-recovery-intermediate]
     paths:
       - ".github/workflows/RE-sync-cudy-recovery-intermediate.yml"
+      - "firmware/cudy/recovery-intermediate/.trigger"
   workflow_dispatch:
 
 permissions:
