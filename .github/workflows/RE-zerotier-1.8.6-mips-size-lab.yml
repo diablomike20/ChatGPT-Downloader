@@ -82,7 +82,12 @@ jobs:
           print(hex(off))
           PY
 
-          unsquashfs -no-progress -d /tmp/ztlab/r25root /tmp/ztlab/r25.squashfs >/dev/null
+          # Non-root extraction can return exit 2 only because /dev/console cannot
+          # be created. Regular files are still extracted; validate the exact libs.
+          unsquashfs -no-progress -d /tmp/ztlab/r25root /tmp/ztlab/r25.squashfs >/dev/null || true
+          test -f /tmp/ztlab/r25root/usr/lib/libstdc++.so.6.0.21
+          test -f /tmp/ztlab/r25root/usr/lib/libminiupnpc.so.2.2.1
+          test -f /tmp/ztlab/r25root/usr/lib/libnatpmp.so.20150609
           ls -l /tmp/ztlab/r25root/usr/lib/libstdc++.so.6.0.21
           ls -l /tmp/ztlab/r25root/usr/lib/libminiupnpc.so.2.2.1
           ls -l /tmp/ztlab/r25root/usr/lib/libnatpmp.so.20150609
