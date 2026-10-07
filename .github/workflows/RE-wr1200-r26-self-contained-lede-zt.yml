@@ -1,0 +1,181 @@
+name: RE WR1200 R26 Self-contained LEDE ZT Candidate
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-self-contained-lede-zt.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools unzip curl tar gzip python3 file >/dev/null
+
+      - name: Extract R26 stock, R25 donor, and LEDE ZT package
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/selfzt
+          mkdir -p /tmp/selfzt/r26pkg /tmp/selfzt/r25pkg /tmp/selfzt/zt /tmp/selfzt/ztdata analysis/zerotier
+
+          unzip -q firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip -d /tmp/selfzt/r26pkg
+          unzip -q firmware/cudy/stable/LT500/LT500V2-R25-2.4.16-20250804-150319-flash.zip -d /tmp/selfzt/r25pkg
+          R26=$(find /tmp/selfzt/r26pkg -type f -name '*.bin' | head -n1)
+          R25=$(find /tmp/selfzt/r25pkg -type f -name '*.bin' | head -n1)
+
+          python3 - "$R26" "$R25" <<'PY'
+          import sys
+          from pathlib import Path
+          for src,out in [(sys.argv[1],"/tmp/selfzt/r26.sqfs"),(sys.argv[2],"/tmp/selfzt/r25.sqfs")]:
+              b=Path(src).read_bytes(); off=b.find(b"hsqs")
+              if off<0: raise SystemExit("no squashfs in "+src)
+              Path(out).write_bytes(b[off:])
+              if "r26" in out:
+                  Path("/tmp/selfzt/r26.bin").write_bytes(b)
+                  Path("/tmp/selfzt/r26.off").write_text(str(off))
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/selfzt/r26root /tmp/selfzt/r26.sqfs >/dev/null
+          sudo unsquashfs -no-progress -d /tmp/selfzt/r25root /tmp/selfzt/r25.sqfs >/dev/null
+
+          curl -fL --retry 3             https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/packages/zerotier_1.1.14-4_mipsel_24kc.ipk             -o /tmp/selfzt/zt.ipk
+          tar xzf /tmp/selfzt/zt.ipk -C /tmp/selfzt/zt
+          tar xzf /tmp/selfzt/zt/data.tar.gz -C /tmp/selfzt/ztdata
+
+      - name: Inspect exact donor integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,os
+
+          root=Path("/tmp/selfzt/r25root")
+          paths=[
+            "usr/bin/zerotier.sh",
+            "etc/init.d/zerotier",
+            "etc/config/zerotier",
+            "etc/uci-defaults/40_luci-zerotier",
+            "usr/lib/lua/luci/controller/zerotier.lua",
+            "usr/lib/lua/luci/model/cbi/vpn/zerotier/client.lua",
+            "usr/lib/lua/luci/model/cbi/vpn/zerotier/client_status.lua",
+            "usr/lib/lua/luci/model/cbi/vpn/zerotier/server.lua",
+            "usr/lib/lua/luci/model/cbi/vpn/zerotier/server_status.lua"
+          ]
+          inv=[]
+          texts={}
+          for rel in paths:
+              p=root/rel
+              if not p.exists():
+                  raise SystemExit("donor file missing: "+rel)
+              b=p.read_bytes()
+              inv.append({"path":"/"+rel,"size":len(b),"sha256":hashlib.sha256(b).hexdigest()})
+              if len(b)<20000:
+                  texts[rel]=b.decode(errors="replace")
+
+          rc=[]
+          rcd=root/"etc/rc.d"
+          if rcd.exists():
+              for p in sorted(rcd.glob("*zerotier*")):
+                  rc.append({"name":p.name,"target":os.readlink(p) if p.is_symlink() else None})
+
+          Path("analysis/zerotier/RE-WR1200V2-R26-R25-ZT-INTEGRATION-INVENTORY-01.json").write_text(
+              json.dumps({"files":inv,"rc_d":rc,"texts":texts},indent=2)
+          )
+          md=["# R25 native ZeroTier integration inventory 01",""]
+          for x in inv:
+              md.append(f'- {x["path"]}: {x["size"]} B, SHA-256 {x["sha256"]}')
+          md += ["","## Donor rc.d ZeroTier entries","",json.dumps(rc,indent=2),"",
+                 "## Donor uci-defaults","",texts.get("etc/uci-defaults/40_luci-zerotier",""),"",
+                 "## Donor server.lua","",texts.get("usr/lib/lua/luci/model/cbi/vpn/zerotier/server.lua","")]
+          Path("analysis/zerotier/RE-WR1200V2-R26-R25-ZT-INTEGRATION-INVENTORY-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Build self-contained ROM candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo cp -a /tmp/selfzt/r26root /tmp/selfzt/newroot
+
+          ZT=/tmp/selfzt/ztdata/usr/bin/zerotier-one
+          test "$(stat -c %s "$ZT")" = 666967
+          sudo install -m 0755 "$ZT" /tmp/selfzt/newroot/usr/bin/zerotier-one
+          sudo ln -sf zerotier-one /tmp/selfzt/newroot/usr/bin/zerotier-cli
+          sudo ln -sf zerotier-one /tmp/selfzt/newroot/usr/bin/zerotier-idtool
+
+          for rel in             usr/bin/zerotier.sh             etc/init.d/zerotier             etc/uci-defaults/40_luci-zerotier             usr/lib/lua/luci/controller/zerotier.lua             usr/lib/lua/luci/model/cbi/vpn/zerotier/client.lua             usr/lib/lua/luci/model/cbi/vpn/zerotier/client_status.lua             usr/lib/lua/luci/model/cbi/vpn/zerotier/server.lua             usr/lib/lua/luci/model/cbi/vpn/zerotier/server_status.lua
+          do
+            sudo mkdir -p "/tmp/selfzt/newroot/$(dirname "$rel")"
+            sudo cp -a "/tmp/selfzt/r25root/$rel" "/tmp/selfzt/newroot/$rel"
+          done
+
+          # Keep a clean donor default config in ROM. During a config-preserving
+          # upgrade the target's current /etc/config/zerotier will override it.
+          sudo cp -a /tmp/selfzt/r25root/etc/config/zerotier /tmp/selfzt/newroot/etc/config/zerotier
+
+          # Enable native init at boot in the ROM tree.
+          sudo mkdir -p /tmp/selfzt/newroot/etc/rc.d
+          sudo ln -sf ../init.d/zerotier /tmp/selfzt/newroot/etc/rc.d/S90zerotier
+
+          sudo mksquashfs /tmp/selfzt/newroot /tmp/selfzt/self-contained.sqfs             -comp xz -b 1048576 -noappend -no-progress >/dev/null
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct,hashlib,json
+          off=int(Path("/tmp/selfzt/r26.off").read_text())
+          sq=Path("/tmp/selfzt/self-contained.sqfs").read_bytes()
+          used=struct.unpack_from("<Q",sq,40)[0]
+          logical_end=off+used
+          padded_end=off+len(sq)
+          split=((logical_end+0xffff)//0x10000)*0x10000
+          result={
+            "squashfs_bytes_used":used,
+            "squashfs_file_size":len(sq),
+            "logical_end_hex":hex(logical_end),
+            "padded_end_hex":hex(padded_end),
+            "dynamic_split_hex":hex(split),
+            "fits_before_0x790000":padded_end<=0x790000,
+            "padding_to_0x790000":0x790000-padded_end,
+            "new_rootfs_data_kib":(0x7f0000-split)//1024,
+            "zerotier_one_sha256":hashlib.sha256(Path("/tmp/selfzt/newroot/usr/bin/zerotier-one").read_bytes()).hexdigest()
+          }
+          Path("analysis/zerotier/RE-WR1200V2-R26-SELF-CONTAINED-ZT-FIT-01.json").write_text(json.dumps(result,indent=2))
+          md=["# WR1200 V2 / R26 self-contained ZeroTier fit 01","",
+              f'- SquashFS logical end: {result["logical_end_hex"]}',
+              f'- SquashFS padded end: {result["padded_end_hex"]}',
+              f'- Dynamic rootfs_data start: {result["dynamic_split_hex"]}',
+              f'- Fits before 0x790000: {result["fits_before_0x790000"]}',
+              f'- Padding remaining: {result["padding_to_0x790000"]} B',
+              f'- Resulting rootfs_data: {result["new_rootfs_data_kib"]} KiB',"",
+              "Included in ROM: ZeroTier 1.1.14-4 binary, cli/idtool symlinks, native R25 wrapper/init/default config/uci-defaults and Cudy LuCI ZeroTier files, plus S90zerotier boot enable symlink."]
+          Path("analysis/zerotier/RE-WR1200V2-R26-SELF-CONTAINED-ZT-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit reports
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-R25-ZT-INTEGRATION-INVENTORY-01.*                   analysis/zerotier/RE-WR1200V2-R26-SELF-CONTAINED-ZT-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: prove self-contained R26 ZeroTier ROM fit"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
