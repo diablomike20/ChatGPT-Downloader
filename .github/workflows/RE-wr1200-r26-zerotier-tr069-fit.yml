@@ -59,10 +59,12 @@ jobs:
           sudo unsquashfs -no-progress -d /tmp/r26tr/r25root /tmp/r26tr/r25.sqfs >/dev/null
 
           sudo cp -a /tmp/r26tr/r26root /tmp/r26tr/root-client
+          sudo cp -a /tmp/r26tr/r26root /tmp/r26tr/root-persist
           sudo cp -a /tmp/r26tr/r26root /tmp/r26tr/root-final
 
           CLIENT="builds/zerotier/1.8.6/clientonly-noportmapper-staticstdcpp-lto/zerotier-one"
           sudo install -m 0755 "$CLIENT" /tmp/r26tr/root-client/usr/bin/zerotier-one
+          sudo install -m 0755 "$CLIENT" /tmp/r26tr/root-persist/usr/bin/zerotier-one
           sudo install -m 0755 "$CLIENT" /tmp/r26tr/root-final/usr/bin/zerotier-one
 
           # Copy only the lightweight, already target-proven integration from R25.
@@ -92,26 +94,29 @@ jobs:
           sudo python3 - <<'PY'
           from pathlib import Path
           import shutil,re,json
-          root=Path("/tmp/r26tr/root-final")
           rx=re.compile(r"(cwmp|tr[-_]?069)",re.I)
-          removed=[]
-          for p in sorted(root.rglob("*"),key=lambda x:len(x.parts),reverse=True):
-              rel=str(p.relative_to(root))
-              if not rx.search(rel):
-                  continue
-              try:
-                  if p.is_dir() and not p.is_symlink():
-                      shutil.rmtree(p)
-                      removed.append({"path":rel,"type":"dir"})
-                  else:
-                      size=p.stat().st_size if p.exists() and not p.is_symlink() else 0
-                      p.unlink()
-                      removed.append({"path":rel,"type":"file_or_link","raw_size":size})
-              except FileNotFoundError:
-                  pass
-          Path("/tmp/r26tr/tr069-removed.json").write_text(json.dumps(removed,indent=2))
-          print("TR069_REMOVED",len(removed))
-          for x in removed: print(x)
+          canonical=None
+          for tree in ("root-persist","root-final"):
+              root=Path("/tmp/r26tr")/tree
+              removed=[]
+              for p in sorted(root.rglob("*"),key=lambda x:len(x.parts),reverse=True):
+                  rel=str(p.relative_to(root))
+                  if not rx.search(rel):
+                      continue
+                  try:
+                      if p.is_dir() and not p.is_symlink():
+                          shutil.rmtree(p)
+                          removed.append({"path":rel,"type":"dir"})
+                      else:
+                          size=p.stat().st_size if p.exists() and not p.is_symlink() else 0
+                          p.unlink()
+                          removed.append({"path":rel,"type":"file_or_link","raw_size":size})
+                  except FileNotFoundError:
+                      pass
+              if canonical is None:
+                  canonical=removed
+              print(tree,"TR069_REMOVED",len(removed))
+          Path("/tmp/r26tr/tr069-removed.json").write_text(json.dumps(canonical or [],indent=2))
           PY
 
           build_sq() {
@@ -120,6 +125,7 @@ jobs:
           }
 
           build_sq /tmp/r26tr/root-client /tmp/r26tr/client.sqfs
+          build_sq /tmp/r26tr/root-persist /tmp/r26tr/persist.sqfs
           build_sq /tmp/r26tr/root-final /tmp/r26tr/final.sqfs
 
           python3 - <<'PY'
@@ -144,7 +150,7 @@ jobs:
 
           orig=used("/tmp/r26tr/r26.sqfs")
           rows=[]
-          for name in ("client","final"):
+          for name in ("client","persist","final"):
               p=f"/tmp/r26tr/{name}.sqfs"
               u=used(p)
               end=off+u
@@ -196,8 +202,9 @@ jobs:
                   f'{r["dynamic_rootfs_data_kib"]} KiB | {r["headroom_vs_current_overlay_used"]:+,} B |'
               )
           md += ["",
-                 "The final variant also embeds the lightweight R25 ZeroTier integration already proven on the target; "
-                 "it does not copy the old R25 zerotier-one, libstdc++, miniupnpc or natpmp payloads."]
+                 "- persist = upstream client + TR-069 removal, while keeping the already-persistent target ZeroTier integration in overlay (no ROM duplication).",
+                 "- final = persist plus the lightweight R25 ZeroTier integration embedded into ROM for factory-clean reconstruction.",
+                 "- Neither variant copies the old R25 zerotier-one, libstdc++, miniupnpc or natpmp payloads."]
           Path("analysis/zerotier/RE-WR1200V2-R26-ZEROTIER-TR069-FIT-01.md").write_text("\n".join(md)+"\n")
           print("\n".join(md))
           PY
