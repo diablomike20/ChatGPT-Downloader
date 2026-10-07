@@ -44,6 +44,9 @@ rootfs_data is modeled as the 64 KiB-aligned squashfs-split remainder of the roo
 | Variant | SquashFS bytes_used | Delta vs stock | End | rootfs_data start | rootfs_data | Headroom vs current 244 KiB used |
 |---|---:|---:|---|---|---:|---:|
 | client | 5,456,026 | +213,066 | 0x7aab99 | 0x7b0000 | 256 KiB | +12,288 B |
-| final | 5,356,530 | +113,570 | 0x7926f1 | 0x7a0000 | 320 KiB | +77,824 B |
+| persist | 5,354,842 | +111,882 | 0x792059 | 0x7a0000 | 320 KiB | +77,824 B |
+| final | 5,356,538 | +113,578 | 0x7926f9 | 0x7a0000 | 320 KiB | +77,824 B |
 
-The final variant also embeds the lightweight R25 ZeroTier integration already proven on the target; it does not copy the old R25 zerotier-one, libstdc++, miniupnpc or natpmp payloads.
+- persist = upstream client + TR-069 removal, while keeping the already-persistent target ZeroTier integration in overlay (no ROM duplication).
+- final = persist plus the lightweight R25 ZeroTier integration embedded into ROM for factory-clean reconstruction.
+- Neither variant copies the old R25 zerotier-one, libstdc++, miniupnpc or natpmp payloads.

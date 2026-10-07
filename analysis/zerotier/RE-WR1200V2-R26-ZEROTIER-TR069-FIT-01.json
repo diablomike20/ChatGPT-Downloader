@@ -165,20 +165,33 @@
       "dynamic_rootfs_data_size": 262144,
       "dynamic_rootfs_data_kib": 256,
       "headroom_vs_current_overlay_used": 12288,
-      "sha256": "3e3f09689769c2683cbc65fabdab8130987fc1f4dcce36e437fdabadca7671ac"
+      "sha256": "23a68f48db39d3aea27a9b84b793ec27970e0c797106ca64206d47379ec9ee22"
     },
     {
-      "variant": "final",
-      "squashfs_bytes_used": 5356530,
-      "delta_vs_stock": 113570,
-      "squashfs_end": 7939825,
-      "squashfs_end_hex": "0x7926f1",
+      "variant": "persist",
+      "squashfs_bytes_used": 5354842,
+      "delta_vs_stock": 111882,
+      "squashfs_end": 7938137,
+      "squashfs_end_hex": "0x792059",
       "dynamic_rootfs_data_start": 7995392,
       "dynamic_rootfs_data_start_hex": "0x7a0000",
       "dynamic_rootfs_data_size": 327680,
       "dynamic_rootfs_data_kib": 320,
       "headroom_vs_current_overlay_used": 77824,
-      "sha256": "a71dc65e2a70e4c7dd2c23abfa94586423fa0c8f180018f0fc18a063ad259137"
+      "sha256": "12ce3e9f65953f9d7a293bdef2c0c8be8a08e0cb3a6483e537b30eac06bdc1fd"
+    },
+    {
+      "variant": "final",
+      "squashfs_bytes_used": 5356538,
+      "delta_vs_stock": 113578,
+      "squashfs_end": 7939833,
+      "squashfs_end_hex": "0x7926f9",
+      "dynamic_rootfs_data_start": 7995392,
+      "dynamic_rootfs_data_start_hex": "0x7a0000",
+      "dynamic_rootfs_data_size": 327680,
+      "dynamic_rootfs_data_kib": 320,
+      "headroom_vs_current_overlay_used": 77824,
+      "sha256": "da17e9aaec8bc704a8d9a3fe19e16f8db15757591f76024df0110271a8348187"
     }
   ]
 }
