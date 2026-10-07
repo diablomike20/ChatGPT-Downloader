@@ -1,14 +1,13 @@
-# Cudy dev / beta firmware branch
+# Legacy FU7 umbrella branch
 
-This branch is intentionally separate from `main`.
+This branch is retained only for historical FU7 tooling/evidence.
 
-Allowed here:
-- beta / dev / test / internal / support-private firmware
-- recovery and intermediate images
-- historical support/FAQ/CDN/Wayback recovery evidence
-- FU7 legacy firmware-hunt material
+Active firmware storage has moved to classified branches:
 
-Stable public firmware belongs on `main` under `firmware/cudy/stable/`.
+- `cudy-beta` — beta/test/RC router firmware
+- `cudy-dev-support` — development/internal/unlisted/support-private router firmware
+- `cudy-recovery-intermediate` — recovery/intermediate/OpenWrt bridge firmware
+- `cudy-cellular-modem` — cellular/modem/baseband and CellularUpgrade payloads
+- `main` — normal public stable firmware
 
-Recovered binaries on this branch belong under:
-`firmware/cudy/dev-beta/`
+Historical FU7 content remains under `legacy/FU7/`.
