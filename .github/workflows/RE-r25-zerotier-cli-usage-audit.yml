@@ -1,0 +1,182 @@
+name: RE R25 ZeroTier CLI Usage Audit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-r25-zerotier-cli-usage-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools python3 unzip >/dev/null
+
+      - name: Extract exact R25 integration and audit CLI usage
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/r25ztaudit
+          mkdir -p /tmp/r25ztaudit analysis/zerotier
+
+          ZIP="firmware/cudy/stable/LT500/LT500V2-R25-2.4.16-20250804-150319-flash.zip"
+          unzip -q "$ZIP" -d /tmp/r25ztaudit/pkg
+          BIN=$(find /tmp/r25ztaudit/pkg -type f -name '*.bin' | head -n1)
+          test -n "$BIN"
+
+          python3 - "$BIN" <<'PY'
+          from pathlib import Path
+          import sys
+          b=Path(sys.argv[1]).read_bytes()
+          off=b.find(b"hsqs")
+          if off<0:
+              raise SystemExit("R25 squashfs not found")
+          Path("/tmp/r25ztaudit/r25.sqfs").write_bytes(b[off:])
+          print("R25_SQUASHFS_OFFSET",hex(off))
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/r25ztaudit/root /tmp/r25ztaudit/r25.sqfs >/dev/null
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,json,re
+
+          root=Path("/tmp/r25ztaudit/root")
+          exact=[
+            "etc/init.d/zerotier",
+            "etc/config/zerotier",
+            "etc/uci-defaults/40_luci-zerotier",
+            "usr/bin/zerotier.sh",
+            "usr/lib/lua/luci/controller/zerotier.lua",
+            "usr/lib/lua/luci/model/cbi/vpn/zerotier/client.lua",
+            "usr/lib/lua/luci/model/cbi/vpn/zerotier/client_status.lua",
+            "usr/lib/lua/luci/model/cbi/vpn/zerotier/server.lua",
+            "usr/lib/lua/luci/model/cbi/vpn/zerotier/server_status.lua",
+          ]
+
+          records=[]
+          combined=[]
+          for rel in exact:
+              p=root/rel
+              if not p.exists():
+                  records.append({"path":rel,"status":"MISSING"})
+                  continue
+              b=p.read_bytes()
+              t=b.decode("utf-8","replace")
+              records.append({
+                  "path":rel,
+                  "status":"PRESENT",
+                  "size":len(b),
+                  "sha256":hashlib.sha256(b).hexdigest(),
+                  "text":t
+              })
+              combined.append((rel,t))
+
+          patterns={
+            "zerotier_cli":r"zerotier-cli",
+            "zerotier_idtool":r"zerotier-idtool",
+            "zerotier_one":r"zerotier-one",
+            "api_commands":r"(listnetworks|listpeers|join|leave|/status)",
+          }
+          refs={}
+          for key,pat in patterns.items():
+              hits=[]
+              rx=re.compile(pat,re.I)
+              for rel,t in combined:
+                  for n,line in enumerate(t.splitlines(),1):
+                      if rx.search(line):
+                          hits.append({"path":rel,"line":n,"text":line})
+              refs[key]=hits
+
+          wide=[]
+          for p in root.rglob("*"):
+              if not p.is_file() or p.is_symlink():
+                  continue
+              try:
+                  if p.stat().st_size>512*1024:
+                      continue
+                  b=p.read_bytes()
+                  if b"\0" in b[:4096]:
+                      continue
+                  t=b.decode("utf-8","ignore")
+              except Exception:
+                  continue
+              if "zerotier-cli" in t or "zerotier-idtool" in t:
+                  rel=str(p.relative_to(root))
+                  lines=[]
+                  for n,line in enumerate(t.splitlines(),1):
+                      if "zerotier-cli" in line or "zerotier-idtool" in line:
+                          lines.append({"line":n,"text":line})
+                  wide.append({"path":rel,"hits":lines})
+
+          result={"exact_files":records,"exact_refs":refs,"wide_refs":wide}
+          Path("analysis/zerotier/RE-R25-ZEROTIER-CLI-USAGE-AUDIT-01.json").write_text(
+              json.dumps(result,indent=2,ensure_ascii=False)
+          )
+
+          md=[
+              "# R25 ZeroTier CLI / idtool usage audit 01",
+              "",
+              "Exact donor: LT500V2 R25 Cudy 2.4.16.",
+              "",
+              "## Exact integration references",
+              ""
+          ]
+          for key,hits in refs.items():
+              md.append("### "+key+": "+str(len(hits))+" hit(s)")
+              if hits:
+                  for h in hits:
+                      md.append("- "+h["path"]+":"+str(h["line"])+": "+h["text"])
+              else:
+                  md.append("- none")
+              md.append("")
+
+          md += ["## Wider rootfs references",""]
+          if wide:
+              for x in wide:
+                  md.append("### "+x["path"])
+                  for h in x["hits"]:
+                      md.append("- line "+str(h["line"])+": "+h["text"])
+          else:
+              md.append("- No additional text references to zerotier-cli or zerotier-idtool.")
+
+          md += ["","## Exact donor file bodies",""]
+          for r in records:
+              if r.get("status")!="PRESENT":
+                  continue
+              md.append("### "+r["path"])
+              md.append("----- BEGIN -----")
+              md.append(r["text"])
+              md.append("----- END -----")
+
+          Path("analysis/zerotier/RE-R25-ZEROTIER-CLI-USAGE-AUDIT-01.md").write_text(
+              "\n".join(md)+"\n"
+          )
+          print("\n".join(md[:100]))
+          PY
+
+      - name: Commit audit
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-R25-ZEROTIER-CLI-USAGE-AUDIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish R25 ZeroTier CLI usage audit"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
