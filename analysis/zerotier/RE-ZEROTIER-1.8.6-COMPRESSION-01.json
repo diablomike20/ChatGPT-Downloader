@@ -1,0 +1,42 @@
+[
+  {
+    "variant": "clientonly-noportmapper-staticstdcpp-lto",
+    "raw": 1485336,
+    "gzip9": 559051,
+    "bzip2_9": 521675,
+    "xz9e": 394476,
+    "sha256": "72158752b91eae72d8b0e02a5600beb7f96dd2441d8cfd886ff20c4e36579dcf",
+    "fits_448KiB_raw_region_bzip2": false,
+    "headroom_448KiB_bzip2": -62923
+  },
+  {
+    "variant": "clientonly-noportmapper-staticstdcpp-lto-nortti",
+    "raw": 1485340,
+    "gzip9": 558661,
+    "bzip2_9": 521024,
+    "xz9e": 394244,
+    "sha256": "c4144edb4e2db2a9d35315e4cfa1cbd89ee70059781aa161bcf64d5a5d953230",
+    "fits_448KiB_raw_region_bzip2": false,
+    "headroom_448KiB_bzip2": -62272
+  },
+  {
+    "variant": "noportmapper-staticstdcpp-lto",
+    "raw": 1799604,
+    "gzip9": 681608,
+    "bzip2_9": 632651,
+    "xz9e": 480484,
+    "sha256": "c7da86efad7634139e9a3e8b339e879822b93728fd064c419e16038e5c9dd670",
+    "fits_448KiB_raw_region_bzip2": false,
+    "headroom_448KiB_bzip2": -173899
+  },
+  {
+    "variant": "bundled-staticstdcpp-lto",
+    "raw": 1828368,
+    "gzip9": 696351,
+    "bzip2_9": 647368,
+    "xz9e": 489840,
+    "sha256": "988ea8fb9da39e4bea65dadd8934ca354a016fb23d05620d6dd843e58e0c9961",
+    "fits_448KiB_raw_region_bzip2": false,
+    "headroom_448KiB_bzip2": -188616
+  }
+]
