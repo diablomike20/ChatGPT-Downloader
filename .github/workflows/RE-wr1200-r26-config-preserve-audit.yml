@@ -1,0 +1,97 @@
+name: RE WR1200 R26 Config Preserve Audit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-config-preserve-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools unzip python3 >/dev/null
+
+      - name: Extract and audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/r26cfg
+          mkdir -p /tmp/r26cfg/pkg analysis/zerotier
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/r26cfg/pkg
+          BIN=$(find /tmp/r26cfg/pkg -type f -name '*.bin' | head -n1)
+          python3 - "$BIN" <<'PY'
+          import sys
+          from pathlib import Path
+          b=Path(sys.argv[1]).read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("no squashfs")
+          Path("/tmp/r26cfg/rootfs.sqfs").write_bytes(b[off:])
+          PY
+          sudo unsquashfs -no-progress -d /tmp/r26cfg/root /tmp/r26cfg/rootfs.sqfs >/dev/null
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re
+
+          root=Path("/tmp/r26cfg/root")
+          candidates=[
+            "lib/upgrade/platform.sh",
+            "sbin/sysupgrade",
+            "lib/upgrade/common.sh",
+            "lib/upgrade/stage2",
+          ]
+          keys=("CONF_TAR","SAVE_CONFIG","save_config","mtd "," -j ","jffs2","platform_do_upgrade","do_upgrade","OEM_UPGRADE_BOOT")
+          evidence={}
+          for rel in candidates:
+              p=root/rel
+              if not p.exists(): continue
+              lines=p.read_text(errors="replace").splitlines()
+              hits=[]
+              for i,line in enumerate(lines):
+                  if any(k in line for k in keys):
+                      a=max(0,i-5);b=min(len(lines),i+8)
+                      hits.append({"line":i+1,"context":"\n".join(f"{j+1:04d}: {lines[j]}" for j in range(a,b))})
+              evidence[rel]=hits
+
+          Path("analysis/zerotier/RE-WR1200V2-R26-CONFIG-PRESERVE-AUDIT-01.json").write_text(json.dumps(evidence,indent=2))
+          md=["# WR1200 V2 / R26 config-preserve audit 01",""]
+          for rel,hits in evidence.items():
+              md += ["## "+rel,""]
+              seen=set()
+              for h in hits:
+                  ctx=h["context"]
+                  if ctx in seen: continue
+                  seen.add(ctx)
+                  md += ["    "+x for x in ctx.splitlines()]
+                  md.append("")
+          Path("analysis/zerotier/RE-WR1200V2-R26-CONFIG-PRESERVE-AUDIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit report
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-CONFIG-PRESERVE-AUDIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: audit WR1200 R26 config preservation path"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
