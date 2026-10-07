@@ -1,0 +1,124 @@
+name: RE Sync Cudy Recovery Intermediate Firmware
+
+on:
+  push:
+    branches: [cudy-recovery-intermediate]
+    paths:
+      - ".github/workflows/RE-sync-cudy-recovery-intermediate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 70
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-recovery-intermediate
+          fetch-depth: 0
+
+      - name: Install helpers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq p7zip-full unzip >/dev/null
+          python3 -m pip install --quiet "gdown>=6.4.1"
+
+      - name: Download complete public Cudy intermediary folder
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/cudy-intermediary
+          mkdir -p /tmp/cudy-intermediary
+          gdown --folder             "https://drive.google.com/drive/folders/1BKVarlwlNxf7uJUtRhuMGUqeCa5KpMnj?usp=sharing"             -O /tmp/cudy-intermediary
+          count=$(find /tmp/cudy-intermediary -type f | wc -l)
+          echo "downloaded_files=$count"
+          test "$count" -gt 0
+
+      - name: Recursively extract and build clean firmware archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import csv,hashlib,os,pathlib,re,shutil,subprocess
+
+          src=pathlib.Path("/tmp/cudy-intermediary")
+          work=pathlib.Path("/tmp/cudy-intermediary-work")
+          shutil.rmtree(work,ignore_errors=True)
+          shutil.copytree(src,work)
+
+          seen=set()
+          for _ in range(6):
+              todo=[]
+              for p in work.rglob("*"):
+                  if not p.is_file() or str(p) in seen: continue
+                  if p.name.lower().endswith((".zip",".7z",".tar",".tgz",".tar.gz")):
+                      todo.append(p)
+              if not todo:break
+              for p in todo:
+                  seen.add(str(p))
+                  d=p.parent/(p.name+".contents")
+                  d.mkdir(exist_ok=True)
+                  subprocess.run(["7z","x","-y",f"-o{d}",str(p)],
+                                 stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=False)
+
+          def sha(p):
+              h=hashlib.sha256()
+              with open(p,"rb") as f:
+                  for b in iter(lambda:f.read(1024*1024),b""):h.update(b)
+              return h.hexdigest()
+
+          root=pathlib.Path("firmware/cudy/recovery-intermediate")
+          fw=root/"firmware"
+          shutil.rmtree(fw,ignore_errors=True)
+          fw.mkdir(parents=True)
+
+          exts={".bin",".img",".trx",".itb",".ubi",".uimage",".fw",".rom"}
+          bysha={}
+          rows=[]
+          for p in work.rglob("*"):
+              if not p.is_file():continue
+              if p.suffix.lower() not in exts:continue
+              try:size=p.stat().st_size
+              except:continue
+              if size<131072:continue
+              h=sha(p)
+              if h in bysha:continue
+              bysha[h]=p
+              name=re.sub(r'[^A-Za-z0-9._()+ -]+','_',p.name)
+              out=fw/name
+              if out.exists():
+                  out=fw/(p.stem+"-"+h[:8]+p.suffix)
+              shutil.copy2(p,out)
+              rows.append({
+                  "stored_name":out.name,
+                  "original_name":p.name,
+                  "size":size,
+                  "sha256":h,
+                  "source_path":str(p.relative_to(work)),
+                  "class":"RECOVERY_OR_INTERMEDIATE"
+              })
+
+          rows.sort(key=lambda x:x["stored_name"].lower())
+          fields=["stored_name","original_name","size","sha256","source_path","class"]
+          with open(root/"RE-CUDY-RECOVERY-INTERMEDIATE-MANIFEST.csv","w",newline="",encoding="utf-8-sig") as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+          with open(root/"RE-CUDY-RECOVERY-INTERMEDIATE-SHA256SUMS.txt","w") as f:
+              for r in rows:f.write(f'{r["sha256"]}  firmware/{r["stored_name"]}\n')
+          (root/"README.md").write_text(
+              "# Cudy recovery / intermediate firmware archive\n\n"
+              "Recovered from the public Cudy intermediary/OpenWrt Google Drive. "
+              "Archives are recursively extracted and firmware binaries are SHA-256 deduplicated.\n"
+          )
+          print("unique firmware",len(rows),"bytes",sum(x["size"] for x in rows))
+          if not rows:raise SystemExit("No firmware binaries extracted")
+          PY
+
+          git config user.name "OpenCudy Recovery Archive Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add firmware/cudy/recovery-intermediate
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: sync Cudy recovery-intermediate firmware payloads"
+          git push origin HEAD:cudy-recovery-intermediate
