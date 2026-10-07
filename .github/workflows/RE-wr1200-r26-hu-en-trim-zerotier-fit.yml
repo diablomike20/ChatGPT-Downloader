@@ -1,0 +1,203 @@
+name: RE WR1200 R26 HU-EN Trim + LEDE ZeroTier Fit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-hu-en-trim-zerotier-fit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils file python3 curl tar gzip >/dev/null
+
+      - name: Fetch exact LEDE 17.01 ZeroTier 1.1.14-4
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/huen/ztpkg /tmp/huen/ztroot
+          URL="https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/packages/zerotier_1.1.14-4_mipsel_24kc.ipk"
+          curl -fL --retry 3 "$URL" -o /tmp/huen/zerotier.ipk
+          tar xzf /tmp/huen/zerotier.ipk -C /tmp/huen/ztpkg
+          tar xzf /tmp/huen/ztpkg/data.tar.gz -C /tmp/huen/ztroot
+          test -f /tmp/huen/ztroot/usr/bin/zerotier-one
+          test "$(stat -c %s /tmp/huen/ztroot/usr/bin/zerotier-one)" = "666967"
+
+      - name: Extract exact WR1200 V2 R26 stock rootfs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/huen/r26/pkg analysis/zerotier
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/huen/r26/pkg
+          BIN=$(find /tmp/huen/r26/pkg -type f -name '*.bin' | head -n1)
+          cp "$BIN" /tmp/huen/r26/original.bin
+
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/huen/r26/original.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("SquashFS not found")
+          Path("/tmp/huen/r26/off").write_text(str(off))
+          Path("/tmp/huen/r26/original.sqfs").write_bytes(b[off:])
+          print("offset",hex(off))
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/huen/r26/root /tmp/huen/r26/original.sqfs >/dev/null
+
+      - name: Inventory and trim all non-Hungarian LuCI translations
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo cp -a /tmp/huen/r26/root /tmp/huen/r26/root-huen
+
+          # Add the best ready-made donor ZeroTier candidate.
+          sudo install -m 0755 /tmp/huen/ztroot/usr/bin/zerotier-one             /tmp/huen/r26/root-huen/usr/bin/zerotier-one
+
+          python3 - <<'PY'
+          import pathlib,re,json,os
+          root=pathlib.Path("/tmp/huen/r26/root-huen")
+          removed=[]
+          kept=[]
+          all_lmo=[]
+
+          # LuCI message catalogs. English is source/default text and normally has no .en.lmo.
+          i18n=root/"usr/lib/lua/luci/i18n"
+          if i18n.exists():
+              for p in sorted(i18n.glob("*.lmo")):
+                  all_lmo.append((str(p.relative_to(root)),p.stat().st_size))
+                  # Keep Hungarian locale variants only.
+                  name=p.name.lower()
+                  if re.search(r'\.hu(?:[-_][a-z0-9]+)?\.lmo$',name):
+                      kept.append((str(p.relative_to(root)),p.stat().st_size))
+                  else:
+                      removed.append((str(p.relative_to(root)),p.stat().st_size))
+                      p.unlink()
+
+          # Remove language-install/default scripts for every non-HU locale.
+          # Keep generic scripts and any Hungarian-specific ones.
+          ud=root/"etc/uci-defaults"
+          if ud.exists():
+              for p in sorted(ud.iterdir()):
+                  if not p.is_file() and not p.is_symlink():
+                      continue
+                  n=p.name.lower()
+                  # Cudy/OpenWrt language defaults normally include locale token in filename.
+                  if ("luci-i18n" in n or "luci_lang" in n or "language" in n):
+                      if re.search(r'(^|[-_.])hu($|[-_.])',n):
+                          kept.append((str(p.relative_to(root)),p.lstat().st_size))
+                      else:
+                          removed.append((str(p.relative_to(root)),p.lstat().st_size))
+                          p.unlink()
+
+          result={
+              "all_lmo_before":all_lmo,
+              "kept":kept,
+              "removed":removed,
+              "removed_logical_bytes":sum(x[1] for x in removed),
+              "removed_file_count":len(removed),
+          }
+          pathlib.Path("/tmp/huen/trim.json").write_text(json.dumps(result,indent=2,ensure_ascii=False))
+          print(json.dumps(result,indent=2,ensure_ascii=False))
+          PY
+
+      - name: Repack 256K 512K and 1M
+        shell: bash
+        run: |
+          set -euo pipefail
+          for spec in "256k 262144" "512k 524288" "1m 1048576"; do
+            set -- $spec
+            name="$1"; block="$2"
+            sudo mksquashfs /tmp/huen/r26/root-huen "/tmp/huen/r26/huen-$name.sqfs"               -comp xz -b "$block" -noappend -no-progress >/tmp/huen/r26/mksquashfs-$name.log
+          done
+
+          # Also test tight 1M purely as fallback.
+          sudo mksquashfs /tmp/huen/r26/root-huen /tmp/huen/r26/huen-1m-tight.sqfs             -comp xz -b 1048576 -always-use-fragments -no-exports -no-xattrs             -noappend -no-progress >/tmp/huen/r26/mksquashfs-1m-tight.log
+
+          python3 - <<'PY'
+          import json,struct,hashlib,pathlib
+          ROOTFS_DATA=0x780000
+          off=int(pathlib.Path("/tmp/huen/r26/off").read_text())
+          trim=json.loads(pathlib.Path("/tmp/huen/trim.json").read_text())
+
+          def used(p):
+              b=pathlib.Path(p).read_bytes()[:96]
+              return struct.unpack_from("<Q",b,40)[0]
+
+          orig=used("/tmp/huen/r26/original.sqfs")
+          rows=[]
+          for name in ("256k","512k","1m","1m-tight"):
+              p=f"/tmp/huen/r26/huen-{name}.sqfs"
+              u=used(p); end=off+u
+              rows.append({
+                  "variant":name,
+                  "bytes_used":u,
+                  "delta_vs_stock":u-orig,
+                  "end":end,
+                  "end_hex":hex(end),
+                  "headroom":ROOTFS_DATA-end,
+                  "fits":end<=ROOTFS_DATA,
+                  "sha256":hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+              })
+
+          result={
+              "policy":"Keep English built-in/default + Hungarian LuCI catalogs only",
+              "zerotier":"LEDE 17.01 ZeroTier 1.1.14-4 mipsel_24kc",
+              "stock_squashfs_bytes_used":orig,
+              "squashfs_offset":off,
+              "rootfs_data_boundary":ROOTFS_DATA,
+              "trim":trim,
+              "variants":rows
+          }
+          pathlib.Path("analysis/zerotier/RE-WR1200V2-R26-HU-EN-TRIM-ZEROTIER-FIT-01.json").write_text(json.dumps(result,indent=2,ensure_ascii=False))
+
+          md=[
+            "# WR1200 V2 / R26 HU+EN trim + LEDE ZeroTier fit 01","",
+            "- Language policy: English default/source + Hungarian catalogs only.",
+            "- ZeroTier: LEDE 17.01 / 1.1.14-4 / mipsel_24kc.",
+            f'- Removed translation/default files: **{trim["removed_file_count"]}**',
+            f'- Removed logical bytes: **{trim["removed_logical_bytes"]:,} B**',
+            f'- Stock SquashFS bytes_used: **{orig:,} B**',"",
+            "| Variant | SquashFS bytes_used | Delta vs stock | End | Headroom | Fits? |",
+            "|---|---:|---:|---|---:|---|"
+          ]
+          for r in rows:
+              md.append(f'| {r["variant"]} | {r["bytes_used"]:,} | {r["delta_vs_stock"]:+,} | {r["end_hex"]} | {r["headroom"]:+,} | {"YES" if r["fits"] else "NO"} |')
+
+          md += ["","## Kept locale files",""]
+          for p,s in trim["kept"]:
+              md.append(f"- {p} ({s:,} B)")
+          md += ["","## Removed locale files",""]
+          for p,s in trim["removed"]:
+              md.append(f"- {p} ({s:,} B)")
+
+          pathlib.Path("analysis/zerotier/RE-WR1200V2-R26-HU-EN-TRIM-ZEROTIER-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md[:20]))
+          PY
+
+      - name: Commit results
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-HU-EN-TRIM-ZEROTIER-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: measure HU-EN-only R26 with LEDE ZeroTier"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
