@@ -8,6 +8,7 @@ Dedicated download/archive/analysis repository used by ChatGPT-assisted OpenCudy
 - **cudy-beta** — beta/test/RC firmware.
 - **cudy-dev-support** — development, internal, unlisted and support-private firmware.
 - **cudy-recovery-intermediate** — recovery, transitional/intermediate and OpenWrt bridge firmware.
+- **cudy-cellular-modem** — cellular/modem/baseband and CellularUpgrade firmware; oversized images may use GitHub Release assets.
 - **cudy-dev-beta** — legacy FU7 history/tooling archive only; superseded for active firmware storage.
 
 The older `diablomike20/Website-downloader` repository remains a **website downloader/crawler**. Firmware collection and firmware-analysis workflows are moved here.
