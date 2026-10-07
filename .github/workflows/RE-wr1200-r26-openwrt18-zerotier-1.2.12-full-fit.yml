@@ -44,14 +44,25 @@ jobs:
             fi
           done
 
+          TARGET_BASE="https://downloads.openwrt.org/releases/18.06.0/targets/ramips/mt76x8/packages"
+          curl -fsSL "$TARGET_BASE/Packages.gz" -o /tmp/zt1812/target.Packages.gz
+          gzip -dc /tmp/zt1812/target.Packages.gz > /tmp/zt1812/target.Packages
+
           python3 - <<'PY'
           import re, pathlib, urllib.request
 
-          base="https://downloads.openwrt.org/releases/18.06.0/packages/mipsel_24kc"
-          feeds=["base","packages","routing","luci","telephony"]
+          generic_base="https://downloads.openwrt.org/releases/18.06.0/packages/mipsel_24kc"
+          target_base="https://downloads.openwrt.org/releases/18.06.0/targets/ramips/mt76x8/packages"
+          sources=[
+              ("base",pathlib.Path("/tmp/zt1812/base.Packages"),generic_base+"/base"),
+              ("packages",pathlib.Path("/tmp/zt1812/packages.Packages"),generic_base+"/packages"),
+              ("routing",pathlib.Path("/tmp/zt1812/routing.Packages"),generic_base+"/routing"),
+              ("luci",pathlib.Path("/tmp/zt1812/luci.Packages"),generic_base+"/luci"),
+              ("telephony",pathlib.Path("/tmp/zt1812/telephony.Packages"),generic_base+"/telephony"),
+              ("target",pathlib.Path("/tmp/zt1812/target.Packages"),target_base),
+          ]
           indexes={}
-          for feed in feeds:
-              p=pathlib.Path(f"/tmp/zt1812/{feed}.Packages")
+          for feed,p,urlbase in sources:
               if not p.exists(): continue
               paras=p.read_text(errors="ignore").split("\n\n")
               for para in paras:
@@ -60,7 +71,7 @@ jobs:
                       if ": " in line:
                           k,v=line.split(": ",1); d[k]=v
                   if "Package" in d and "Filename" in d:
-                      indexes.setdefault(d["Package"],[]).append((feed,d))
+                      indexes.setdefault(d["Package"],[]).append((feed,urlbase,d))
 
           # zerotier package metadata; support both legacy tar.gz ipk and ar ipk
           import subprocess, os, tarfile
@@ -98,10 +109,10 @@ jobs:
               cand=indexes.get(pkg,[])
               if not cand:
                   raise SystemExit(f"dependency not found in 18.06 indexes: {pkg}")
-              feed,d=cand[0]
-              url=f"{base}/{feed}/{d['Filename']}"
+              feed,urlbase,d=cand[0]
+              url=f"{urlbase}/{d['Filename']}"
               out=pathlib.Path("/tmp/zt1812/pkgs")/d["Filename"].split("/")[-1]
-              print("FETCH",pkg,url)
+              print("FETCH",pkg,feed,url)
               urllib.request.urlretrieve(url,out)
           PY
 
