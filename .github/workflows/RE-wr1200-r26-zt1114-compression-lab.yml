@@ -1,0 +1,93 @@
+name: RE WR1200 R26 ZeroTier 1.1.14 Compression Lab
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-zt1114-compression-lab.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  compression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xz-utils bzip2 file binutils >/dev/null
+          UPX_VERSION=4.2.4
+          curl -fL --retry 3 "https://github.com/upx/upx/releases/download/v${UPX_VERSION}/upx-${UPX_VERSION}-amd64_linux.tar.xz" -o /tmp/upx.tar.xz
+          tar -xJf /tmp/upx.tar.xz -C /tmp
+          sudo install -m 0755 "/tmp/upx-${UPX_VERSION}-amd64_linux/upx" /usr/local/bin/upx
+          upx --version
+
+      - name: Fetch exact LEDE package
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/zt1114/ipk /tmp/zt1114/data
+          curl -fL --retry 3 "https://archive.openwrt.org/releases/17.01.7/packages/mipsel_24kc/packages/zerotier_1.1.14-4_mipsel_24kc.ipk" -o /tmp/zt1114/zerotier.ipk
+          tar xzf /tmp/zt1114/zerotier.ipk -C /tmp/zt1114/ipk
+          tar xzf /tmp/zt1114/ipk/data.tar.gz -C /tmp/zt1114/data
+          ZT=/tmp/zt1114/data/usr/bin/zerotier-one
+          test "$(stat -c %s "$ZT")" = "666967"
+          test "$(sha256sum "$ZT" | awk '{print $1}')" = "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0"
+          file "$ZT"
+
+      - name: Measure compression
+        shell: bash
+        run: |
+          set -euo pipefail
+          ZT=/tmp/zt1114/data/usr/bin/zerotier-one
+          mkdir -p /tmp/zt1114/out analysis/zerotier
+          gzip -9 -c "$ZT" > /tmp/zt1114/out/zerotier-one.gz
+          bzip2 -9 -c "$ZT" > /tmp/zt1114/out/zerotier-one.bz2
+          xz -9e -c "$ZT" > /tmp/zt1114/out/zerotier-one.xz
+          cp "$ZT" /tmp/zt1114/out/zerotier-one.upx-best
+          set +e
+          upx --best /tmp/zt1114/out/zerotier-one.upx-best > /tmp/zt1114/upx-best.log 2>&1
+          UPX_BEST_RC=$?
+          cp "$ZT" /tmp/zt1114/out/zerotier-one.upx-lzma
+          upx --best --lzma /tmp/zt1114/out/zerotier-one.upx-lzma > /tmp/zt1114/upx-lzma.log 2>&1
+          UPX_LZMA_RC=$?
+          set -e
+          export UPX_BEST_RC UPX_LZMA_RC
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          root=Path('/tmp/zt1114'); out=root/'out'; limit=188*1024; raw=root/'data/usr/bin/zerotier-one'
+          def row(name,p,rc=None):
+              p=Path(p); size=p.stat().st_size if p.exists() else None
+              return {'name':name,'size':size,'fits_188KiB':bool(size is not None and size<=limit),'headroom':(limit-size if size is not None else None),'rc':rc}
+          rows=[row('raw',raw),row('gzip-9',out/'zerotier-one.gz'),row('bzip2-9',out/'zerotier-one.bz2'),row('xz-9e',out/'zerotier-one.xz'),row('upx-best',out/'zerotier-one.upx-best',int(os.environ['UPX_BEST_RC'])),row('upx-best-lzma',out/'zerotier-one.upx-lzma',int(os.environ['UPX_LZMA_RC']))]
+          result={'target':'Cudy WR1200 V2 / R26','overlay_free_bytes':limit,'binary_size':raw.stat().st_size,'binary_sha256':hashlib.sha256(raw.read_bytes()).hexdigest(),'variants':rows,'upx_best_log':(root/'upx-best.log').read_text(errors='replace'),'upx_lzma_log':(root/'upx-lzma.log').read_text(errors='replace')}
+          Path('analysis/zerotier/RE-WR1200V2-R26-ZT1114-COMPRESSION-LAB-01.json').write_text(json.dumps(result,indent=2))
+          md=['# WR1200 V2 / R26 ZeroTier 1.1.14 compression lab 01','',f'Input: {raw.stat().st_size} B, SHA-256 {result["binary_sha256"]}',f'Current measured free overlay: {limit} B (188 KiB)','', '| Variant | Size | Fits 188 KiB? | Headroom | RC |','|---|---:|---|---:|---:|']
+          for r in rows: md.append(f'| {r["name"]} | {r["size"]} | {"YES" if r["fits_188KiB"] else "NO"} | {r["headroom"]} | {r["rc"] if r["rc"] is not None else ""} |')
+          md += ['', 'UPX --best: '+result['upx_best_log'].strip().replace('\n',' / '), 'UPX --best --lzma: '+result['upx_lzma_log'].strip().replace('\n',' / '), '', 'Classification: BUILD/STATIC evidence only; packed execution remains TARGET_REQUIRED.']
+          Path('analysis/zerotier/RE-WR1200V2-R26-ZT1114-COMPRESSION-LAB-01.md').write_text('\n'.join(md)+'\n')
+          print('\n'.join(md))
+          PY
+
+      - name: Commit result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-ZT1114-COMPRESSION-LAB-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: measure WR1200 ZeroTier 1.1.14 persistence compression"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
