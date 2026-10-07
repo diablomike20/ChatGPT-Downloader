@@ -1,0 +1,176 @@
+name: RE ZeroTier Micro Opt QEMU And Fit Gate
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - "builds/zerotier/1.8.6/clientonly-noportmapper-staticstdcpp-lto-hidden/**"
+      - "builds/zerotier/1.8.6/clientonly-noportmapper-staticstdcpp-lto-hidden-micro/**"
+      - "builds/zerotier/1.8.6/clientonly-noportmapper-staticstdcpp-lto-hidden-micro-nothreadsafe/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: zerotier-micro-qemu-fit-gate
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq qemu-user-static squashfs-tools python3 unzip >/dev/null
+
+      - name: Extract stock R26 userspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ztmicro
+          mkdir -p /tmp/ztmicro analysis/zerotier
+
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/ztmicro/pkg
+          BIN=$(find /tmp/ztmicro/pkg -type f -name '*.bin' | head -n1)
+
+          python3 - "$BIN" <<'PY'
+          import pathlib,sys
+          b=pathlib.Path(sys.argv[1]).read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("no squashfs")
+          pathlib.Path("/tmp/ztmicro/off").write_text(str(off))
+          pathlib.Path("/tmp/ztmicro/r26.sqfs").write_bytes(b[off:])
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/ztmicro/r26root /tmp/ztmicro/r26.sqfs >/dev/null
+
+      - name: QEMU personality smoke and SquashFS fit
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          variants="
+          clientonly-noportmapper-staticstdcpp-lto-hidden
+          clientonly-noportmapper-staticstdcpp-lto-hidden-micro
+          clientonly-noportmapper-staticstdcpp-lto-hidden-micro-nothreadsafe
+          "
+
+          for v in $variants; do
+            bin="builds/zerotier/1.8.6/$v/zerotier-one"
+            test -x "$bin"
+
+            echo "=== $v daemon version ==="
+            qemu-mipsel-static -L /tmp/ztmicro/r26root "$bin" -v | tee "/tmp/ztmicro/$v-daemon-v.txt"
+            grep -qx '1.8.6' "/tmp/ztmicro/$v-daemon-v.txt"
+
+            echo "=== $v cli version ==="
+            qemu-mipsel-static -0 zerotier-cli -L /tmp/ztmicro/r26root "$bin" -v | tee "/tmp/ztmicro/$v-cli-v.txt"
+            grep -qx '1.8.6' "/tmp/ztmicro/$v-cli-v.txt"
+
+            echo "=== $v idtool generate/validate ==="
+            rm -f "/tmp/ztmicro/$v.secret" "/tmp/ztmicro/$v.public"
+            qemu-mipsel-static -0 zerotier-idtool -L /tmp/ztmicro/r26root "$bin" generate               "/tmp/ztmicro/$v.secret" "/tmp/ztmicro/$v.public" >/tmp/ztmicro/$v-idtool-generate.txt
+            test -s "/tmp/ztmicro/$v.secret"
+            test -s "/tmp/ztmicro/$v.public"
+            qemu-mipsel-static -0 zerotier-idtool -L /tmp/ztmicro/r26root "$bin" validate               "/tmp/ztmicro/$v.secret" | tee "/tmp/ztmicro/$v-idtool-validate.txt"
+            grep -q 'valid identity' "/tmp/ztmicro/$v-idtool-validate.txt"
+
+            sudo cp -a /tmp/ztmicro/r26root "/tmp/ztmicro/root-$v"
+            sudo install -m 0755 "$bin" "/tmp/ztmicro/root-$v/usr/bin/zerotier-one"
+
+            sudo python3 - "$v" <<'PY'
+          from pathlib import Path
+          import re,shutil,sys
+          root=Path("/tmp/ztmicro")/("root-"+sys.argv[1])
+          rx=re.compile(r"(cwmp|tr[-_]?069)",re.I)
+          for p in sorted(root.rglob("*"),key=lambda x:len(x.parts),reverse=True):
+              rel=str(p.relative_to(root))
+              if not rx.search(rel): continue
+              try:
+                  if p.is_dir() and not p.is_symlink(): shutil.rmtree(p)
+                  else: p.unlink()
+              except FileNotFoundError: pass
+          PY
+
+            sudo mksquashfs "/tmp/ztmicro/root-$v" "/tmp/ztmicro/$v.sqfs"               -comp xz -b 1048576 -always-use-fragments -no-exports -no-xattrs               -noappend -no-progress >/dev/null
+          done
+
+          python3 - <<'PY'
+          import hashlib,json,pathlib,struct
+
+          off=int(pathlib.Path("/tmp/ztmicro/off").read_text())
+          ERASE=65536
+          ROOTFS_END=0x7f0000
+          TARGET_384_SPLIT=0x790000
+          variants=[
+            "clientonly-noportmapper-staticstdcpp-lto-hidden",
+            "clientonly-noportmapper-staticstdcpp-lto-hidden-micro",
+            "clientonly-noportmapper-staticstdcpp-lto-hidden-micro-nothreadsafe",
+          ]
+          rows=[]
+          for v in variants:
+              bp=pathlib.Path("builds/zerotier/1.8.6")/v/"zerotier-one"
+              sq=pathlib.Path("/tmp/ztmicro")/(v+".sqfs")
+              b=sq.read_bytes()[:96]
+              used=struct.unpack_from("<Q",b,40)[0]
+              end=off+used
+              split=((end+ERASE-1)//ERASE)*ERASE
+              overlay=ROOTFS_END-split
+              rows.append({
+                "variant":v,
+                "binary_size":bp.stat().st_size,
+                "binary_sha256":hashlib.sha256(bp.read_bytes()).hexdigest(),
+                "squashfs_bytes_used":used,
+                "squashfs_end":end,
+                "squashfs_end_hex":hex(end),
+                "bytes_over_0x790000":max(0,end-TARGET_384_SPLIT),
+                "rootfs_data_start":split,
+                "rootfs_data_start_hex":hex(split),
+                "rootfs_data_kib":overlay//1024,
+                "headroom_vs_current_244k":overlay-(244*1024),
+                "qemu_daemon_version":"PASS",
+                "qemu_cli_version":"PASS",
+                "qemu_idtool_generate_validate":"PASS",
+              })
+
+          rows.sort(key=lambda x:(x["rootfs_data_start"],x["squashfs_bytes_used"]))
+          result={"variants":rows}
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-MICRO-OPT-QEMU-FIT-01.json").write_text(json.dumps(result,indent=2))
+
+          md=[
+            "# ZeroTier micro-opt QEMU + R26 fit gate 01","",
+            "All listed candidates passed daemon version, CLI version, and idtool generate/validate under qemu-mipsel against the stock R26 userspace.","",
+            "| Rank | Variant | Binary | SquashFS | End | Over 0x790000 | rootfs_data | Headroom vs current 244KiB |",
+            "|---:|---|---:|---:|---|---:|---:|---:|"
+          ]
+          for i,r in enumerate(rows,1):
+              md.append(
+                f'| {i} | {r["variant"]} | {r["binary_size"]:,} | {r["squashfs_bytes_used"]:,} | '
+                f'{r["squashfs_end_hex"]} | {r["bytes_over_0x790000"]:,} | '
+                f'{r["rootfs_data_kib"]} KiB | {r["headroom_vs_current_244k"]:,} B |'
+              )
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-MICRO-OPT-QEMU-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit gate result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-ZEROTIER-MICRO-OPT-QEMU-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish ZeroTier micro-opt QEMU fit gate"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
