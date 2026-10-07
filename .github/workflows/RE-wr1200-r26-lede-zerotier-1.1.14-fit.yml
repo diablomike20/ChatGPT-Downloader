@@ -1,0 +1,151 @@
+name: RE WR1200 R26 LEDE ZeroTier 1.1.14 Fit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-lede-zerotier-1.1.14-fit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils file python3 >/dev/null
+
+      - name: Fetch exact LEDE 17.01 mipsel_24kc ZeroTier package
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ledezt
+          URL="https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/packages/zerotier_1.1.14-4_mipsel_24kc.ipk"
+          curl -fL --retry 3 "$URL" -o /tmp/ledezt/zerotier_1.1.14-4_mipsel_24kc.ipk
+          file /tmp/ledezt/zerotier_1.1.14-4_mipsel_24kc.ipk
+
+          mkdir -p /tmp/ledezt/ipk
+          tar xzf /tmp/ledezt/zerotier_1.1.14-4_mipsel_24kc.ipk -C /tmp/ledezt/ipk
+          mkdir -p /tmp/ledezt/data /tmp/ledezt/control
+          tar xzf /tmp/ledezt/ipk/data.tar.gz -C /tmp/ledezt/data
+          tar xzf /tmp/ledezt/ipk/control.tar.gz -C /tmp/ledezt/control
+
+          cat /tmp/ledezt/control/control
+          ZT=/tmp/ledezt/data/usr/bin/zerotier-one
+          test -f "$ZT"
+          test "$(stat -c %s "$ZT")" = "666967"
+          test "$(sha256sum "$ZT" | awk '{print $1}')" = "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0"
+          readelf -d "$ZT" | grep NEEDED
+          file "$ZT"
+
+      - name: Repack exact WR1200 V2 R26 stock rootfs with LEDE ZeroTier
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ledezt/r26
+          mkdir -p /tmp/ledezt/r26 analysis/zerotier
+
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/ledezt/r26/pkg
+          BIN=$(find /tmp/ledezt/r26/pkg -type f -name '*.bin' | head -n1)
+          cp "$BIN" /tmp/ledezt/r26/original.bin
+
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/ledezt/r26/original.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("SquashFS not found")
+          Path("/tmp/ledezt/r26/off").write_text(str(off))
+          Path("/tmp/ledezt/r26/original.sqfs").write_bytes(b[off:])
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/ledezt/r26/root /tmp/ledezt/r26/original.sqfs >/dev/null
+
+          for v in 256k 512k 1m; do
+            sudo cp -a /tmp/ledezt/r26/root "/tmp/ledezt/r26/root-$v"
+            sudo install -m 0755 /tmp/ledezt/data/usr/bin/zerotier-one "/tmp/ledezt/r26/root-$v/usr/bin/zerotier-one"
+          done
+
+          sudo mksquashfs /tmp/ledezt/r26/root-256k /tmp/ledezt/r26/ledezt-256k.sqfs -comp xz -b 262144 -noappend -no-progress >/dev/null
+          sudo mksquashfs /tmp/ledezt/r26/root-512k /tmp/ledezt/r26/ledezt-512k.sqfs -comp xz -b 524288 -noappend -no-progress >/dev/null
+          sudo mksquashfs /tmp/ledezt/r26/root-1m /tmp/ledezt/r26/ledezt-1m.sqfs -comp xz -b 1048576 -noappend -no-progress >/dev/null
+
+          python3 - <<'PY'
+          import hashlib,json,struct
+          from pathlib import Path
+
+          ROOTFS_DATA=0x780000
+          off=int(Path("/tmp/ledezt/r26/off").read_text())
+          def used(p):
+              b=Path(p).read_bytes()[:96]
+              return struct.unpack_from("<Q",b,40)[0]
+          def sha(p):
+              h=hashlib.sha256()
+              with open(p,"rb") as f:
+                  for c in iter(lambda:f.read(1024*1024),b""):h.update(c)
+              return h.hexdigest()
+
+          orig=used("/tmp/ledezt/r26/original.sqfs")
+          rows=[]
+          for v in ("256k","512k","1m"):
+              p=f"/tmp/ledezt/r26/ledezt-{v}.sqfs"
+              u=used(p); end=off+u
+              rows.append({
+                "variant":v,"bytes_used":u,"delta_vs_stock":u-orig,
+                "end":end,"end_hex":hex(end),
+                "headroom":ROOTFS_DATA-end,"fits":end<=ROOTFS_DATA,
+                "sha256":sha(p)
+              })
+
+          result={
+            "candidate":{
+              "package":"zerotier_1.1.14-4_mipsel_24kc.ipk",
+              "source":"OpenWrt/LEDE packages-17.01 mipsel_24kc",
+              "binary_size":666967,
+              "binary_sha256":"815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0",
+              "needed":["libc.so","libgcc_s.so.1"]
+            },
+            "stock_squashfs_bytes_used":orig,
+            "squashfs_offset":off,
+            "rootfs_data_boundary":ROOTFS_DATA,
+            "variants":rows
+          }
+          Path("analysis/zerotier/RE-WR1200V2-R26-LEDE-ZEROTIER-1.1.14-FIT-01.json").write_text(json.dumps(result,indent=2))
+          md=[
+            "# WR1200 V2 / R26 + LEDE ZeroTier 1.1.14-4 fit 01","",
+            "- Candidate: LEDE/OpenWrt 17.01 packages, mipsel_24kc",
+            "- zerotier-one: 666,967 B",
+            "- SHA-256: 815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0",
+            "- NEEDED: libc.so, libgcc_s.so.1",
+            f"- Stock SquashFS bytes_used: {orig:,} B","",
+            "| Block | SquashFS bytes_used | Delta vs stock | End | Headroom | Fits? |",
+            "|---|---:|---:|---|---:|---|"
+          ]
+          for r in rows:
+              md.append(f'| {r["variant"]} | {r["bytes_used"]:,} | {r["delta_vs_stock"]:+,} | {r["end_hex"]} | {r["headroom"]:+,} | {"YES" if r["fits"] else "NO"} |')
+          Path("analysis/zerotier/RE-WR1200V2-R26-LEDE-ZEROTIER-1.1.14-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-LEDE-ZEROTIER-1.1.14-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish LEDE ZeroTier 1.1.14 R26 fit result"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
