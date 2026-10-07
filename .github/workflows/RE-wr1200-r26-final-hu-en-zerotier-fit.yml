@@ -1,0 +1,227 @@
+name: RE WR1200 R26 Final HU-EN + LEDE ZeroTier Fit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-final-hu-en-zerotier-fit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils python3 curl tar gzip binutils >/dev/null
+
+      - name: Fetch LEDE17 ZeroTier and Hungarian LuCI catalog
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/finalhu
+          mkdir -p /tmp/finalhu/ztpkg /tmp/finalhu/ztroot /tmp/finalhu/hupkg /tmp/finalhu/huroot
+
+          ZTBASE="https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/packages"
+          curl -fL --retry 3 "$ZTBASE/zerotier_1.1.14-4_mipsel_24kc.ipk" -o /tmp/finalhu/zerotier.ipk
+          tar xzf /tmp/finalhu/zerotier.ipk -C /tmp/finalhu/ztpkg
+          tar xzf /tmp/finalhu/ztpkg/data.tar.gz -C /tmp/finalhu/ztroot
+          test -f /tmp/finalhu/ztroot/usr/bin/zerotier-one
+
+          LUCIBASE="https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/luci"
+          curl -fL --retry 3 "$LUCIBASE/Packages.gz" -o /tmp/finalhu/luci-Packages.gz
+          gzip -dc /tmp/finalhu/luci-Packages.gz > /tmp/finalhu/luci-Packages
+
+          python3 - <<'PY'
+          import pathlib,re,urllib.request
+          text=pathlib.Path("/tmp/finalhu/luci-Packages").read_text(errors="ignore")
+          para=None
+          for p in text.split("\n\n"):
+              if re.search(r"^Package:\s*luci-i18n-base-hu\s*$",p,re.M):
+                  para=p
+                  break
+          if para is None:
+              raise SystemExit("luci-i18n-base-hu not found")
+          d={}
+          for line in para.splitlines():
+              if ": " in line:
+                  k,v=line.split(": ",1)
+                  d[k]=v
+          print(para)
+          fn=d["Filename"]
+          url="https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/luci/"+fn
+          pathlib.Path("/tmp/finalhu/hu-package-meta.txt").write_text(para+"\nURL: "+url+"\n")
+          urllib.request.urlretrieve(url,"/tmp/finalhu/hu.ipk")
+          PY
+
+          python3 - <<'PY'
+          import pathlib,tarfile,subprocess
+          ipk=pathlib.Path("/tmp/finalhu/hu.ipk")
+          d=pathlib.Path("/tmp/finalhu/hupkg")
+          sig=ipk.read_bytes()[:8]
+          if sig==b"!<arch>\n":
+              subprocess.run(["ar","x",str(ipk)],cwd=d,check=True)
+          else:
+              with tarfile.open(ipk,"r:gz") as t:
+                  t.extractall(d)
+          data=next(d.glob("data.tar.*"))
+          with tarfile.open(data,"r:*") as t:
+              t.extractall("/tmp/finalhu/huroot")
+          PY
+
+          echo "=== HU PACKAGE ==="
+          cat /tmp/finalhu/hu-package-meta.txt
+          echo "=== HU PAYLOAD ==="
+          find /tmp/finalhu/huroot \( -type f -o -type l \) -print | sort
+          HU=$(find /tmp/finalhu/huroot/usr/lib/lua/luci/i18n -type f -name '*.hu.lmo' | head -n1)
+          test -n "$HU"
+          stat -c '%s %n' "$HU"
+          echo "$HU" > /tmp/finalhu/hu-lmo-path
+
+      - name: Prepare exact R26 and build HU+EN tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/finalhu/r26/pkg analysis/zerotier
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/finalhu/r26/pkg
+          BIN=$(find /tmp/finalhu/r26/pkg -type f -name '*.bin' | head -n1)
+          cp "$BIN" /tmp/finalhu/r26/original.bin
+
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/finalhu/r26/original.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off<0:
+              raise SystemExit("SquashFS not found")
+          Path("/tmp/finalhu/r26/off").write_text(str(off))
+          Path("/tmp/finalhu/r26/original.sqfs").write_bytes(b[off:])
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/finalhu/r26/root /tmp/finalhu/r26/original.sqfs >/dev/null
+          sudo cp -a /tmp/finalhu/r26/root /tmp/finalhu/r26/root-final
+
+          sudo install -m 0755 /tmp/finalhu/ztroot/usr/bin/zerotier-one \
+            /tmp/finalhu/r26/root-final/usr/bin/zerotier-one
+
+          sudo find /tmp/finalhu/r26/root-final/usr/lib/lua/luci/i18n -maxdepth 1 \
+            -type f -name '*.lmo' -delete
+
+          HU=$(cat /tmp/finalhu/hu-lmo-path)
+          sudo install -m 0644 "$HU" /tmp/finalhu/r26/root-final/usr/lib/lua/luci/i18n/base.hu.lmo
+
+          if [ -d /tmp/finalhu/r26/root-final/etc/uci-defaults ]; then
+            sudo find /tmp/finalhu/r26/root-final/etc/uci-defaults -maxdepth 1 -type f \
+              -name 'luci-i18n-business-*' ! -name 'luci-i18n-business-en' -delete
+          fi
+
+          HUDEF=$(find /tmp/finalhu/huroot/etc/uci-defaults -type f 2>/dev/null | head -n1 || true)
+          if [ -n "$HUDEF" ]; then
+            sudo install -m 0755 "$HUDEF" /tmp/finalhu/r26/root-final/etc/uci-defaults/luci-i18n-base-hu
+          fi
+
+          echo "=== FINAL I18N ==="
+          find /tmp/finalhu/r26/root-final/usr/lib/lua/luci/i18n -maxdepth 1 -type f -name '*.lmo' -printf '%s %p\n' | sort -n
+          echo "=== FINAL LANGUAGE DEFAULTS ==="
+          find /tmp/finalhu/r26/root-final/etc/uci-defaults -maxdepth 1 -type f \( -name 'luci-i18n-*' -o -name '*language*' \) -printf '%s %p\n' | sort -n || true
+
+      - name: Repack with stock 256K geometry and validate
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo mksquashfs /tmp/finalhu/r26/root-final /tmp/finalhu/r26/final-256k.sqfs \
+            -comp xz -b 262144 -noappend -no-progress >/tmp/finalhu/r26/mksquashfs.log
+
+          python3 - <<'PY'
+          import pathlib,struct,json,hashlib,subprocess,re
+          ROOTFS_DATA=0x780000
+          off=int(pathlib.Path("/tmp/finalhu/r26/off").read_text())
+
+          def used(p):
+              b=pathlib.Path(p).read_bytes()[:96]
+              return struct.unpack_from("<Q",b,40)[0]
+
+          orig=used("/tmp/finalhu/r26/original.sqfs")
+          final=used("/tmp/finalhu/r26/final-256k.sqfs")
+          end=off+final
+
+          zt=pathlib.Path("/tmp/finalhu/r26/root-final/usr/bin/zerotier-one")
+          dyn=subprocess.run(["readelf","-d",str(zt)],capture_output=True,text=True).stdout
+          needed=re.findall(r"Shared library: \[(.*?)\]",dyn)
+
+          hu=pathlib.Path("/tmp/finalhu/r26/root-final/usr/lib/lua/luci/i18n/base.hu.lmo")
+          lmos=list(pathlib.Path("/tmp/finalhu/r26/root-final/usr/lib/lua/luci/i18n").glob("*.lmo"))
+
+          result={
+            "policy":"English source/default + Hungarian base.hu.lmo only",
+            "zerotier":{
+              "version":"1.1.14-4",
+              "binary_size":zt.stat().st_size,
+              "sha256":hashlib.sha256(zt.read_bytes()).hexdigest(),
+              "needed":needed
+            },
+            "hungarian":{
+              "base_hu_lmo_size":hu.stat().st_size,
+              "sha256":hashlib.sha256(hu.read_bytes()).hexdigest()
+            },
+            "lmo_files":[str(p.relative_to("/tmp/finalhu/r26/root-final")) for p in lmos],
+            "stock_squashfs_bytes_used":orig,
+            "final_squashfs_bytes_used":final,
+            "delta_vs_stock":final-orig,
+            "squashfs_offset":off,
+            "rootfs_data_boundary":ROOTFS_DATA,
+            "absolute_end":end,
+            "absolute_end_hex":hex(end),
+            "headroom":ROOTFS_DATA-end,
+            "fits":end<=ROOTFS_DATA,
+            "squashfs_sha256":hashlib.sha256(pathlib.Path("/tmp/finalhu/r26/final-256k.sqfs").read_bytes()).hexdigest()
+          }
+
+          if len(lmos)!=1 or lmos[0].name!="base.hu.lmo":
+              raise SystemExit("unexpected final locale set: "+repr([p.name for p in lmos]))
+          if not result["fits"]:
+              raise SystemExit("final HU+EN+ZT image does not fit")
+
+          pathlib.Path("analysis/zerotier/RE-WR1200V2-R26-FINAL-HU-EN-ZEROTIER-FIT-01.json").write_text(json.dumps(result,indent=2,ensure_ascii=False))
+          md=[
+            "# WR1200 V2 / R26 final HU+EN + LEDE ZeroTier fit 01","",
+            "- SquashFS geometry: stock-compatible 256 KiB XZ blocks",
+            "- Language policy: English built-in/default + Hungarian only",
+            "- ZeroTier: LEDE 17.01 1.1.14-4 / mipsel_24kc","",
+            f'- Hungarian catalog: **{result["hungarian"]["base_hu_lmo_size"]:,} B**',
+            f'- ZeroTier binary: **{result["zerotier"]["binary_size"]:,} B**',
+            f'- ZeroTier NEEDED: {", ".join(result["zerotier"]["needed"])}',
+            f'- Stock SquashFS bytes_used: **{orig:,} B**',
+            f'- Final SquashFS bytes_used: **{final:,} B**',
+            f'- Delta vs stock: **{final-orig:+,} B**',
+            f'- End: **{hex(end)}**',
+            f'- rootfs_data boundary: **0x780000**',
+            f'- Headroom: **{ROOTFS_DATA-end:+,} B**',
+            f'- FIT: **{"YES" if result["fits"] else "NO"}**',
+          ]
+          pathlib.Path("analysis/zerotier/RE-WR1200V2-R26-FINAL-HU-EN-ZEROTIER-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-FINAL-HU-EN-ZEROTIER-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: verify final HU-EN R26 with LEDE ZeroTier"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
