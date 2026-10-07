@@ -1,0 +1,146 @@
+{
+  "policy": "keep English (en) and Hungarian (hu); remove other language-specific LuCI translation payloads",
+  "lmo_inventory": [
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.de.lmo",
+      "size": 77292,
+      "lang": "de"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.es.lmo",
+      "size": 77740,
+      "lang": "es"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.fr.lmo",
+      "size": 80836,
+      "lang": "fr"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.he.lmo",
+      "size": 90228,
+      "lang": "he"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.it.lmo",
+      "size": 69784,
+      "lang": "it"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.ko.lmo",
+      "size": 83008,
+      "lang": "ko"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.pt.lmo",
+      "size": 76000,
+      "lang": "pt"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.ru.lmo",
+      "size": 118360,
+      "lang": "ru"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.uk.lmo",
+      "size": 114360,
+      "lang": "uk"
+    }
+  ],
+  "kept": [],
+  "removed": [
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.de.lmo",
+      "size": 77292,
+      "lang": "de"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.es.lmo",
+      "size": 77740,
+      "lang": "es"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.fr.lmo",
+      "size": 80836,
+      "lang": "fr"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.he.lmo",
+      "size": 90228,
+      "lang": "he"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.it.lmo",
+      "size": 69784,
+      "lang": "it"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.ko.lmo",
+      "size": 83008,
+      "lang": "ko"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.pt.lmo",
+      "size": 76000,
+      "lang": "pt"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.ru.lmo",
+      "size": 118360,
+      "lang": "ru"
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.uk.lmo",
+      "size": 114360,
+      "lang": "uk"
+    },
+    {
+      "path": "/etc/uci-defaults/luci-i18n-business-de",
+      "size": 62,
+      "lang": "de"
+    },
+    {
+      "path": "/etc/uci-defaults/luci-i18n-business-es",
+      "size": 64,
+      "lang": "es"
+    },
+    {
+      "path": "/etc/uci-defaults/luci-i18n-business-fr",
+      "size": 64,
+      "lang": "fr"
+    },
+    {
+      "path": "/etc/uci-defaults/luci-i18n-business-he",
+      "size": 71,
+      "lang": "he"
+    },
+    {
+      "path": "/etc/uci-defaults/luci-i18n-business-it",
+      "size": 64,
+      "lang": "it"
+    },
+    {
+      "path": "/etc/uci-defaults/luci-i18n-business-ko",
+      "size": 64,
+      "lang": "ko"
+    },
+    {
+      "path": "/etc/uci-defaults/luci-i18n-business-pt",
+      "size": 69,
+      "lang": "pt"
+    },
+    {
+      "path": "/etc/uci-defaults/luci-i18n-business-ru",
+      "size": 70,
+      "lang": "ru"
+    },
+    {
+      "path": "/etc/uci-defaults/luci-i18n-business-uk",
+      "size": 78,
+      "lang": "uk"
+    }
+  ],
+  "removed_logical_bytes": 788214,
+  "hungarian_present": false,
+  "english_present": false
+}

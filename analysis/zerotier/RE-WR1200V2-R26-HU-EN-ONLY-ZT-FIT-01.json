@@ -1,0 +1,16 @@
+{
+  "squashfs_bytes_used": 5035970,
+  "squashfs_file_size": 5038080,
+  "logical_end": 7619265,
+  "logical_end_hex": "0x7442c1",
+  "padded_end": 7621375,
+  "padded_end_hex": "0x744aff",
+  "old_rootfs_data_start_hex": "0x780000",
+  "headroom_before_old_split_logical": 245055,
+  "headroom_before_old_split_padded": 242945,
+  "rounded_rootfs_data_start_hex": "0x750000",
+  "preserves_original_rootfs_data_start": true,
+  "preserves_448k_overlay": true,
+  "resulting_rootfs_data_kib": 640,
+  "zerotier_sha256": "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0"
+}
