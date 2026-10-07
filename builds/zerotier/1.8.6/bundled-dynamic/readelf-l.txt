@@ -1,0 +1,31 @@
+
+Elf file type is DYN (Shared object file)
+Entry point 0x44cf0
+There are 10 program headers, starting at offset 52
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x00000034 0x00000034 0x00140 0x00140 R E 0x4
+  INTERP         0x000174 0x00000174 0x00000174 0x0001c 0x0001c R   0x1
+      [Requesting program interpreter: /lib/ld-musl-mipsel-sf.so.1]
+  ABIFLAGS       0x000190 0x00000190 0x00000190 0x00018 0x00018 R   0x8
+  LOAD           0x000000 0x00000000 0x00000000 0x18b938 0x18b938 R E 0x10000
+  LOAD           0x18c764 0x0019c764 0x0019c764 0x08f58 0x8af78 RW  0x10000
+  DYNAMIC        0x0001a8 0x000001a8 0x000001a8 0x00110 0x00110 R   0x4
+  GNU_EH_FRAME   0x171fc0 0x00171fc0 0x00171fc0 0x04254 0x04254 R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x10
+  GNU_RELRO      0x18c764 0x0019c764 0x0019c764 0x0689c 0x0689c R   0x1
+  NULL           0x000000 0x00000000 0x00000000 0x00000 0x00000     0x4
+
+ Section to Segment mapping:
+  Segment Sections...
+   00     
+   01     .interp 
+   02     .MIPS.abiflags 
+   03     .interp .MIPS.abiflags .dynamic .hash .dynsym .dynstr .gnu.version .gnu.version_r .rel.dyn .init .text .MIPS.stubs .fini .rodata .eh_frame_hdr .eh_frame 
+   04     .gcc_except_table .ctors .dtors .data.rel.ro .data .got .sdata .bss 
+   05     .dynamic 
+   06     .eh_frame_hdr 
+   07     
+   08     .gcc_except_table .ctors .dtors .data.rel.ro 
+   09     

@@ -1,0 +1,483 @@
+=== bundled-staticstdcpp-lto / bundled-staticstdcpp-lto ===
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/AES.o node/AES.cpp
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/AES_aesni.o node/AES_aesni.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/AES_armcrypto.o node/AES_armcrypto.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/C25519.o node/C25519.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Capability.o node/Capability.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/CertificateOfMembership.o node/CertificateOfMembership.cpp
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/Capability.cpp:17:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/CertificateOfOwnership.o node/CertificateOfOwnership.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/CertificateOfMembership.cpp:16:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/CertificateOfOwnership.cpp:17:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Identity.o node/Identity.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/IncomingPacket.o node/IncomingPacket.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/InetAddress.o node/InetAddress.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Membership.o node/Membership.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/IncomingPacket.hpp:23,
+                 from node/IncomingPacket.cpp:23:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Membership.cpp:18:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Multicaster.o node/Multicaster.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Network.o node/Network.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/Multicaster.cpp:19:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/Switch.hpp:28,
+                 from node/Network.cpp:28:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/NetworkConfig.o node/NetworkConfig.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Node.o node/Node.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/OutboundMulticast.o node/OutboundMulticast.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Node.hpp:37:0,
+                 from node/Node.cpp:24:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/Switch.hpp:28,
+                 from node/OutboundMulticast.cpp:17:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Packet.o node/Packet.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Path.o node/Path.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Peer.o node/Peer.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Node.hpp:37:0,
+                 from node/Path.cpp:16:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Peer.cpp:16:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Poly1305.o node/Poly1305.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Revocation.o node/Revocation.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/Revocation.cpp:17:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Salsa20.o node/Salsa20.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/SelfAwareness.o node/SelfAwareness.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/SHA512.o node/SHA512.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Switch.o node/Switch.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Node.hpp:37:0,
+                 from node/SelfAwareness.cpp:24:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/Switch.hpp:28,
+                 from node/Switch.cpp:26:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Tag.o node/Tag.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/Tag.cpp:17:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Topology.o node/Topology.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Trace.o node/Trace.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/Topology.cpp:15:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+In file included from node/Node.hpp:37:0,
+                 from node/Peer.hpp:24,
+                 from node/Topology.hpp:30,
+                 from node/Switch.hpp:28,
+                 from node/Trace.cpp:21:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Utils.o node/Utils.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Bond.o node/Bond.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o controller/EmbeddedNetworkController.o controller/EmbeddedNetworkController.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from node/Bond.cpp:14:0:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+node/Bond.cpp: In member function 'void ZeroTier::Bond::forgetFlowsWhenNecessary(uint64_t, bool, int64_t)':
+node/Bond.cpp:591:29: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    if (it->second->age(now) > age) {
+                             ^
+node/Bond.cpp:604:29: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    if (it->second->age(now) > maxAge) {
+                             ^
+node/Bond.cpp: In member function 'void ZeroTier::Bond::pathNegotiationCheck(void*, int64_t)':
+node/Bond.cpp:664:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (_paths[i].packetsIn > maxInCount) {
+                           ^
+node/Bond.cpp:668:28: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (_paths[i].packetsOut > maxOutCount) {
+                            ^
+node/Bond.cpp: In member function 'void ZeroTier::Bond::curateBond(int64_t, bool)':
+node/Bond.cpp:937:24: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      for (int j = 0; j < it->second.size(); j++) {
+                        ^
+node/Bond.cpp:949:24: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      for (int j = 0; j < it->second.size(); j++) {
+                        ^
+node/Bond.cpp:968:24: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      for (int j = 0; j < it->second.size(); j++) {
+                        ^
+node/Bond.cpp:983:25: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+       for (int j = 0; j < it->second.size(); j++) {
+                         ^
+node/Bond.cpp: In member function 'void ZeroTier::Bond::estimatePathQuality(int64_t)':
+node/Bond.cpp:1010:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for (unsigned int i = 0; i < _numBondedPaths; ++i) {
+                              ^
+node/Bond.cpp:1016:30: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for (unsigned int i = 0; i < _numBondedPaths; ++i) {
+                              ^
+node/Bond.cpp:1062:27: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    if ((now - it->second) >= qosRecordTimeout) {
+                           ^
+node/Bond.cpp: In member function 'void ZeroTier::Bond::processActiveBackupTasks(void*, int64_t)':
+node/Bond.cpp:1370:49: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+       int newHandicap = _paths[j].failoverScore > inheritedHandicap ? _paths[j].failoverScore : inheritedHandicap;
+                                                 ^
+node/Bond.cpp:1440:21: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   for (int i = 0; i < _abFailoverQueue.size(); i++) {
+                     ^
+In file included from controller/../node/Node.hpp:37:0,
+                 from controller/EmbeddedNetworkController.cpp:45:
+controller/../node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+controller/../node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+controller/../node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+controller/../node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+controller/EmbeddedNetworkController.cpp: In member function 'void ZeroTier::EmbeddedNetworkController::_request(uint64_t, const ZeroTier::InetAddress&, uint64_t, const ZeroTier::Identity&, const ZeroTier::Dictionary<1024u>&)':
+controller/EmbeddedNetworkController.cpp:1352:32: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if (authenticationExpiryTime < now) {
+                                ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o controller/DBMirrorSet.o controller/DBMirrorSet.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o controller/DB.o controller/DB.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o controller/FileDB.o controller/FileDB.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o controller/LFDB.o controller/LFDB.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o controller/PostgreSQL.o controller/PostgreSQL.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o osdep/EthernetTap.o osdep/EthernetTap.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o osdep/ManagedRoute.o osdep/ManagedRoute.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o osdep/Http.o osdep/Http.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o osdep/OSUtils.o osdep/OSUtils.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o service/SoftwareUpdater.o service/SoftwareUpdater.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from service/../node/Node.hpp:37:0,
+                 from service/SoftwareUpdater.cpp:41:
+service/../node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+service/../node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+service/../node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+service/../node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o service/OneService.o service/OneService.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from service/../node/Node.hpp:37:0,
+                 from service/OneService.cpp:33:
+service/../node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+service/../node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+service/../node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+service/../node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o osdep/LinuxEthernetTap.o osdep/LinuxEthernetTap.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+osdep/LinuxEthernetTap.cpp:15:32: warning: unknown option after '#pragma GCC diagnostic' kind [-Wpragmas]
+ #pragma GCC diagnostic ignored "-Wrestrict"
+                                ^
+service/OneService.cpp: In member function 'void ZeroTier::NetworkState::setConfig(const ZT_VirtualNetworkConfig*)':
+service/OneService.cpp:251:15: warning: unused variable 'nwid' [-Wunused-variable]
+   const char* nwid = Utils::hex(nwc->nwid, nwbuf);
+               ^
+service/OneService.cpp: In member function 'unsigned int ZeroTier::{anonymous}::OneServiceImpl::handleControlPlaneHttpRequest(const ZeroTier::InetAddress&, unsigned int, const string&, const std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&, const string&, std::__cxx11::string&, std::__cxx11::string&)':
+service/OneService.cpp:1533:24: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      for (int i = 0; i < boundAddrs.size(); i++) {
+                        ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o osdep/LinuxNetLink.o osdep/LinuxNetLink.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+osdep/LinuxNetLink.cpp: In member function 'void ZeroTier::LinuxNetLink::_routeAdded(nlmsghdr*)':
+osdep/LinuxNetLink.cpp:294:7: warning: unused variable 'ms' [-Wunused-variable]
+  char ms[24] = {0};
+       ^
+osdep/LinuxNetLink.cpp: In member function 'void ZeroTier::LinuxNetLink::_routeDeleted(nlmsghdr*)':
+osdep/LinuxNetLink.cpp:382:7: warning: unused variable 'ms' [-Wunused-variable]
+  char ms[24] = {0};
+       ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o osdep/PortMapper.o osdep/PortMapper.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/connecthostport.o ext/miniupnpc/connecthostport.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/igd_desc_parse.o ext/miniupnpc/igd_desc_parse.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/minisoap.o ext/miniupnpc/minisoap.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/minissdpc.o ext/miniupnpc/minissdpc.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/miniupnpc.o ext/miniupnpc/miniupnpc.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/miniwget.o ext/miniupnpc/miniwget.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/minixml.o ext/miniupnpc/minixml.c
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/portlistingparse.o ext/miniupnpc/portlistingparse.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/receivedata.o ext/miniupnpc/receivedata.c
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/upnpcommands.o ext/miniupnpc/upnpcommands.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/upnpdev.o ext/miniupnpc/upnpdev.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/upnperrors.o ext/miniupnpc/upnperrors.c
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/upnpreplyparse.o ext/miniupnpc/upnpreplyparse.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/libnatpmp/natpmp.o ext/libnatpmp/natpmp.c
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/libnatpmp/getgateway.o ext/libnatpmp/getgateway.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/http-parser/http_parser.o ext/http-parser/http_parser.c
+mipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o one.o one.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+In file included from one.cpp:87:0:
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':
+node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
+              ^
+node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
+node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
+                                                                                              ^
+one.cpp: In function 'int cli(int, char**)':
+one.cpp:644:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+        for (int i=0; i<p.size(); i++)
+                       ^
+one.cpp:655:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+        for (int i=0; i<p.size(); i++)
+                       ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\"Linux\" -DMINIUPNPC_VERSION_STRING=\"2.0\" -DUPNP_VERSION_STRING=\"UPnP/1.1\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H -pie -Wl,-z,relro,-z,now,--gc-sections,--as-needed -s -flto -static-libstdc++ -o zerotier-one node/AES.o node/AES_aesni.o node/AES_armcrypto.o node/C25519.o node/Capability.o node/CertificateOfMembership.o node/CertificateOfOwnership.o node/Identity.o node/IncomingPacket.o node/InetAddress.o node/Membership.o node/Multicaster.o node/Network.o node/NetworkConfig.o node/Node.o node/OutboundMulticast.o node/Packet.o node/Path.o node/Peer.o node/Poly1305.o node/Revocation.o node/Salsa20.o node/SelfAwareness.o node/SHA512.o node/Switch.o node/Tag.o node/Topology.o node/Trace.o node/Utils.o node/Bond.o controller/EmbeddedNetworkController.o controller/DBMirrorSet.o controller/DB.o controller/FileDB.o controller/LFDB.o controller/PostgreSQL.o osdep/EthernetTap.o osdep/ManagedRoute.o osdep/Http.o osdep/OSUtils.o service/SoftwareUpdater.o service/OneService.o osdep/LinuxEthernetTap.o osdep/LinuxNetLink.o osdep/PortMapper.o ext/miniupnpc/connecthostport.o ext/miniupnpc/igd_desc_parse.o ext/miniupnpc/minisoap.o ext/miniupnpc/minissdpc.o ext/miniupnpc/miniupnpc.o ext/miniupnpc/miniwget.o ext/miniupnpc/minixml.o ext/miniupnpc/portlistingparse.o ext/miniupnpc/receivedata.o ext/miniupnpc/upnpcommands.o ext/miniupnpc/upnpdev.o ext/miniupnpc/upnperrors.o ext/miniupnpc/upnpreplyparse.o ext/libnatpmp/natpmp.o ext/libnatpmp/getgateway.o ext/http-parser/http_parser.o one.o 
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/net/if.h:80:8: warning: type 'union <anon>' violates one definition rule [-Wodr]
+  union {
+        ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/linux/if.h:233:8: note: a different type is defined in another translation unit
+  union {
+        ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/net/if.h:92:9: note: the first difference of corresponding definitions is field 'ifru_data'
+   char *ifru_data;
+         ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/linux/if.h:245:10: note: a field of same name but different type is defined in another translation unit
+   void * ifru_data;
+          ^
+<built-in>: note: type 'char' should match type 'void'
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/net/if.h:76:8: warning: type 'struct ifreq' violates one definition rule [-Wodr]
+ struct ifreq {
+        ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/linux/if.h:226:8: note: a different type is defined in another translation unit
+ struct ifreq {
+        ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/net/if.h:93:4: note: the first difference of corresponding definitions is field 'ifr_ifru'
+  } ifr_ifru;
+    ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/linux/if.h:247:4: note: a field of same name but different type is defined in another translation unit
+  } ifr_ifru;
+    ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/net/if.h:80:8: note: type 'union <anon>' should match type 'union <anon>' that itself violate one definition rule
+  union {
+        ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/include/linux/if.h:233:8: note: the incompatible type is defined here
+  union {
+        ^
+ln -sf zerotier-one zerotier-idtool
+ln -sf zerotier-one zerotier-cli

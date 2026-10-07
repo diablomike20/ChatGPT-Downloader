@@ -1,0 +1,6 @@
+﻿rank,variant,status,binary_size,binary_sha256,needed,extra_external_from_R25,unresolved_needed,interpreter,r26_payload_logical,r26_payload_gzip9,r26_payload_xz9e,saving_vs_R25_logical,saving_vs_R25_gzip9,saving_vs_R25_xz9e
+1,bundled-staticstdcpp-lto,OK,1828368,988ea8fb9da39e4bea65dadd8934ca354a016fb23d05620d6dd843e58e0c9961,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,1828368,696418,489760,312189,83395,76796
+2,noportmapper-staticstdcpp,OK,2168800,978e60b769f533848bbc35a9b2a1b0ac715e4556b68d30d0f83ceec46b3f20cb,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,2168800,769210,534588,-28243,10603,31968
+3,bundled-staticstdcpp,OK,2205916,ad943c366ba77dbac0f1dec6dd9e2012831e1424e0216acd4c14c0dd625d440f,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,2205916,788473,546496,-65359,-8660,20060
+4,bundled-dynamic,OK,1662096,3cee3ed7ebe2f43f48e3484c7a493099705f8cb9087c22435b9cee6ce2a9b663,libstdc++.so.6|libgcc_s.so.1|libc.so,libstdc++.so.6,,/lib/ld-musl-mipsel-sf.so.1,2965963,971496,672108,-825406,-191683,-105552
+5,fullstatic,BUILD_FAIL,,,,,,,,,,,,

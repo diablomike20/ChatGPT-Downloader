@@ -1,0 +1,115 @@
+{
+  "baseline_R25": {
+    "logical": 2140557,
+    "gzip9": 779813,
+    "xz9e": 566556
+  },
+  "results": [
+    {
+      "variant": "bundled-staticstdcpp-lto",
+      "build_rc": 0,
+      "source_commit": "4a2c75a60941e75f36ed1961458a42fbd12ea4ac",
+      "status": "OK",
+      "binary_size": 1828368,
+      "binary_sha256": "988ea8fb9da39e4bea65dadd8934ca354a016fb23d05620d6dd843e58e0c9961",
+      "binary_gzip9": 696351,
+      "binary_xz9e": 489840,
+      "needed": [
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "extra_external_from_R25": [],
+      "unresolved_needed": [],
+      "interpreter": "/lib/ld-musl-mipsel-sf.so.1",
+      "r26_payload_logical": 1828368,
+      "r26_payload_tar": 1832960,
+      "r26_payload_gzip9": 696418,
+      "r26_payload_xz9e": 489760,
+      "saving_vs_R25_logical": 312189,
+      "saving_vs_R25_gzip9": 83395,
+      "saving_vs_R25_xz9e": 76796
+    },
+    {
+      "variant": "noportmapper-staticstdcpp",
+      "build_rc": 0,
+      "source_commit": "4a2c75a60941e75f36ed1961458a42fbd12ea4ac",
+      "status": "OK",
+      "binary_size": 2168800,
+      "binary_sha256": "978e60b769f533848bbc35a9b2a1b0ac715e4556b68d30d0f83ceec46b3f20cb",
+      "binary_gzip9": 769159,
+      "binary_xz9e": 534048,
+      "needed": [
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "extra_external_from_R25": [],
+      "unresolved_needed": [],
+      "interpreter": "/lib/ld-musl-mipsel-sf.so.1",
+      "r26_payload_logical": 2168800,
+      "r26_payload_tar": 2170880,
+      "r26_payload_gzip9": 769210,
+      "r26_payload_xz9e": 534588,
+      "saving_vs_R25_logical": -28243,
+      "saving_vs_R25_gzip9": 10603,
+      "saving_vs_R25_xz9e": 31968
+    },
+    {
+      "variant": "bundled-staticstdcpp",
+      "build_rc": 0,
+      "source_commit": "4a2c75a60941e75f36ed1961458a42fbd12ea4ac",
+      "status": "OK",
+      "binary_size": 2205916,
+      "binary_sha256": "ad943c366ba77dbac0f1dec6dd9e2012831e1424e0216acd4c14c0dd625d440f",
+      "binary_gzip9": 788370,
+      "binary_xz9e": 548804,
+      "needed": [
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "extra_external_from_R25": [],
+      "unresolved_needed": [],
+      "interpreter": "/lib/ld-musl-mipsel-sf.so.1",
+      "r26_payload_logical": 2205916,
+      "r26_payload_tar": 2211840,
+      "r26_payload_gzip9": 788473,
+      "r26_payload_xz9e": 546496,
+      "saving_vs_R25_logical": -65359,
+      "saving_vs_R25_gzip9": -8660,
+      "saving_vs_R25_xz9e": 20060
+    },
+    {
+      "variant": "bundled-dynamic",
+      "build_rc": 0,
+      "source_commit": "4a2c75a60941e75f36ed1961458a42fbd12ea4ac",
+      "status": "OK",
+      "binary_size": 1662096,
+      "binary_sha256": "3cee3ed7ebe2f43f48e3484c7a493099705f8cb9087c22435b9cee6ce2a9b663",
+      "binary_gzip9": 615368,
+      "binary_xz9e": 439924,
+      "needed": [
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "extra_external_from_R25": [
+        "libstdc++.so.6"
+      ],
+      "unresolved_needed": [],
+      "interpreter": "/lib/ld-musl-mipsel-sf.so.1",
+      "r26_payload_logical": 2965963,
+      "r26_payload_tar": 2969600,
+      "r26_payload_gzip9": 971496,
+      "r26_payload_xz9e": 672108,
+      "saving_vs_R25_logical": -825406,
+      "saving_vs_R25_gzip9": -191683,
+      "saving_vs_R25_xz9e": -105552
+    },
+    {
+      "variant": "fullstatic",
+      "build_rc": 2,
+      "source_commit": "4a2c75a60941e75f36ed1961458a42fbd12ea4ac",
+      "status": "BUILD_FAIL",
+      "build_log_tail": "/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\\\"Linux\\\" -DMINIUPNPC_VERSION_STRING=\\\"2.0\\\" -DUPNP_VERSION_STRING=\\\"UPnP/1.1\\\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT=\"\\\"disable\\\"\" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/upnperrors.o ext/miniupnpc/upnperrors.c\nmipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\\\"Linux\\\" -DMINIUPNPC_VERSION_STRING=\\\"2.0\\\" -DUPNP_VERSION_STRING=\\\"UPnP/1.1\\\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT=\"\\\"disable\\\"\" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/miniupnpc/upnpreplyparse.o ext/miniupnpc/upnpreplyparse.c\nmipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\\\"Linux\\\" -DMINIUPNPC_VERSION_STRING=\\\"2.0\\\" -DUPNP_VERSION_STRING=\\\"UPnP/1.1\\\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT=\"\\\"disable\\\"\" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/libnatpmp/natpmp.o ext/libnatpmp/natpmp.c\nmipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\\\"Linux\\\" -DMINIUPNPC_VERSION_STRING=\\\"2.0\\\" -DUPNP_VERSION_STRING=\\\"UPnP/1.1\\\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT=\"\\\"disable\\\"\" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/libnatpmp/getgateway.o ext/libnatpmp/getgateway.c\nmipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-gcc -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -Wall -Wno-deprecated -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\\\"Linux\\\" -DMINIUPNPC_VERSION_STRING=\\\"2.0\\\" -DUPNP_VERSION_STRING=\\\"UPnP/1.1\\\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT=\"\\\"disable\\\"\" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o ext/http-parser/http_parser.o ext/http-parser/http_parser.c\nmipsel-openwrt-linux-musl-gcc: warning: environment variable 'STAGING_DIR' not defined\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\\\"Linux\\\" -DMINIUPNPC_VERSION_STRING=\\\"2.0\\\" -DUPNP_VERSION_STRING=\\\"UPnP/1.1\\\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT=\"\\\"disable\\\"\" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o one.o one.cpp\nmipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined\nIn file included from one.cpp:87:0:\nnode/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, ZeroTier::SharedPtr<ZeroTier::Path>&)':\nnode/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]\n   if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {\n              ^\nnode/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':\nnode/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]\n    return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;\n                                                                                              ^\none.cpp: In function 'int cli(int, char**)':\none.cpp:644:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]\n        for (int i=0; i<p.size(); i++)\n                       ^\none.cpp:655:23: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]\n        for (int i=0; i<p.size(); i++)\n                       ^\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_USE_MINIUPNPC -DMINIUPNP_STATICLIB -DMINIUPNPC_SET_SOCKET_TIMEOUT -DMINIUPNPC_GET_SRC_ADDR -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=600 -DOS_STRING=\\\"Linux\\\" -DMINIUPNPC_VERSION_STRING=\\\"2.0\\\" -DUPNP_VERSION_STRING=\\\"UPnP/1.1\\\" -DENABLE_STRNATPMPERR -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT=\"\\\"disable\\\"\" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H -static -Wl,--gc-sections -s -o zerotier-one node/AES.o node/AES_aesni.o node/AES_armcrypto.o node/C25519.o node/Capability.o node/CertificateOfMembership.o node/CertificateOfOwnership.o node/Identity.o node/IncomingPacket.o node/InetAddress.o node/Membership.o node/Multicaster.o node/Network.o node/NetworkConfig.o node/Node.o node/OutboundMulticast.o node/Packet.o node/Path.o node/Peer.o node/Poly1305.o node/Revocation.o node/Salsa20.o node/SelfAwareness.o node/SHA512.o node/Switch.o node/Tag.o node/Topology.o node/Trace.o node/Utils.o node/Bond.o controller/EmbeddedNetworkController.o controller/DBMirrorSet.o controller/DB.o controller/FileDB.o controller/LFDB.o controller/PostgreSQL.o osdep/EthernetTap.o osdep/ManagedRoute.o osdep/Http.o osdep/OSUtils.o service/SoftwareUpdater.o service/OneService.o osdep/LinuxEthernetTap.o osdep/LinuxNetLink.o osdep/PortMapper.o ext/miniupnpc/connecthostport.o ext/miniupnpc/igd_desc_parse.o ext/miniupnpc/minisoap.o ext/miniupnpc/minissdpc.o ext/miniupnpc/miniupnpc.o ext/miniupnpc/miniwget.o ext/miniupnpc/minixml.o ext/miniupnpc/portlistingparse.o ext/miniupnpc/receivedata.o ext/miniupnpc/upnpcommands.o ext/miniupnpc/upnpdev.o ext/miniupnpc/upnperrors.o ext/miniupnpc/upnpreplyparse.o ext/libnatpmp/natpmp.o ext/libnatpmp/getgateway.o ext/http-parser/http_parser.o one.o \nmipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined\nmipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined\nnode/IncomingPacket.o: In function `ZeroTier::Network::setNotFound(void*)':\nIncomingPacket.cpp:(.text._ZN8ZeroTier7Network11setNotFoundEPv[_ZN8ZeroTier7Network11setNotFoundEPv]+0xa8): undefined reference to `_Unwind_Resume'\nIncomingPacket.cpp:(.text._ZN8ZeroTier7Network11setNotFoundEPv[_ZN8ZeroTier7Network11setNotFoundEPv]+0xb0): undefined reference to `_Unwind_Resume'\nnode/IncomingPacket.o: In function `ZeroTier::Network::setAuthenticationRequired(void*, char const*)':\nIncomingPacket.cpp:(.text._ZN8ZeroTier7Network25setAuthenticationRequiredEPvPKc[_ZN8ZeroTier7Network25setAuthenticationRequiredEPvPKc]+0x100): undefined reference to `_Unwind_Resume'\nIncomingPacket.cpp:(.text._ZN8ZeroTier7Network25setAuthenticationRequiredEPvPKc[_ZN8ZeroTier7Network25setAuthenticationRequiredEPvPKc]+0x108): undefined reference to `_Unwind_Resume'\nnode/IncomingPacket.o: In function `ZeroTier::Peer::hasActivePathTo(long long, ZeroTier::InetAddress const&) const':\nIncomingPacket.cpp:(.text._ZNK8ZeroTier4Peer15hasActivePathToExRKNS_11InetAddressE[_ZNK8ZeroTier4Peer15hasActivePathToExRKNS_11InetAddressE]+0xe4): undefined reference to `_Unwind_Resume'\nnode/IncomingPacket.o:IncomingPacket.cpp:(.text._ZNK8ZeroTier4Peer15hasActivePathToExRKNS_11InetAddressE[_ZNK8ZeroTier4Peer15hasActivePathToExRKNS_11InetAddressE]+0xec): more undefined references to `_Unwind_Resume' follow\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(eh_catch.o): In function `__cxa_end_catch':\neh_catch.cc:(.text.__cxa_end_catch+0xac): undefined reference to `_Unwind_DeleteException'\neh_catch.cc:(.text.__cxa_end_catch+0xb4): undefined reference to `_Unwind_DeleteException'\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(eh_throw.o): In function `__cxa_throw':\neh_throw.cc:(.text.__cxa_throw+0xa0): undefined reference to `_Unwind_RaiseException'\neh_throw.cc:(.text.__cxa_throw+0xa4): undefined reference to `_Unwind_RaiseException'\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(eh_throw.o): In function `__cxa_rethrow':\neh_throw.cc:(.text.__cxa_rethrow+0x8c): undefined reference to `_Unwind_Resume_or_Rethrow'\neh_throw.cc:(.text.__cxa_rethrow+0x94): undefined reference to `_Unwind_Resume_or_Rethrow'\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(eh_personality.o): In function `base_of_encoded_value(unsigned char, _Unwind_Context*)':\neh_personality.cc:(.text._ZL21base_of_encoded_valuehP15_Unwind_Context+0x6c): undefined reference to `_Unwind_GetDataRelBase'\neh_personality.cc:(.text._ZL21base_of_encoded_valuehP15_Unwind_Context+0x78): undefined reference to `_Unwind_GetTextRelBase'\neh_personality.cc:(.text._ZL21base_of_encoded_valuehP15_Unwind_Context+0x7c): undefined reference to `_Unwind_GetRegionStart'\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(eh_personality.o): In function `parse_lsda_header(_Unwind_Context*, unsigned char const*, lsda_header_info*)':\neh_personality.cc:(.text._ZL17parse_lsda_headerP15_Unwind_ContextPKhP16lsda_header_info+0x34): undefined reference to `_Unwind_GetRegionStart'\neh_personality.cc:(.text._ZL17parse_lsda_headerP15_Unwind_ContextPKhP16lsda_header_info+0x38): undefined reference to `_Unwind_GetRegionStart'\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(eh_personality.o): In function `__gxx_personality_v0':\neh_personality.cc:(.text.__gxx_personality_v0+0x84): undefined reference to `_Unwind_GetLanguageSpecificData'\neh_personality.cc:(.text.__gxx_personality_v0+0xa8): undefined reference to `_Unwind_GetLanguageSpecificData'\neh_personality.cc:(.text.__gxx_personality_v0+0xac): undefined reference to `_Unwind_GetLanguageSpecificData'\neh_personality.cc:(.text.__gxx_personality_v0+0x110): undefined reference to `_Unwind_GetIPInfo'\neh_personality.cc:(.text.__gxx_personality_v0+0x114): undefined reference to `_Unwind_GetIPInfo'\neh_personality.cc:(.text.__gxx_personality_v0+0x454): undefined reference to `_Unwind_SetGR'\neh_personality.cc:(.text.__gxx_personality_v0+0x478): undefined reference to `_Unwind_SetGR'\neh_personality.cc:(.text.__gxx_personality_v0+0x4cc): undefined reference to `_Unwind_SetGR'\neh_personality.cc:(.text.__gxx_personality_v0+0x4dc): undefined reference to `_Unwind_SetGR'\neh_personality.cc:(.text.__gxx_personality_v0+0x4f0): undefined reference to `_Unwind_SetGR'\neh_personality.cc:(.text.__gxx_personality_v0+0x500): undefined reference to `_Unwind_SetIP'\neh_personality.cc:(.text.__gxx_personality_v0+0x504): undefined reference to `_Unwind_SetIP'\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(eh_personality.o): In function `__cxa_call_unexpected':\neh_personality.cc:(.text.__cxa_call_unexpected+0x170): undefined reference to `_Unwind_Resume'\neh_personality.cc:(.text.__cxa_call_unexpected+0x174): undefined reference to `_Unwind_Resume'\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(eh_terminate.o): In function `__cxxabiv1::__terminate(void (*)())':\neh_terminate.cc:(.text._ZN10__cxxabiv111__terminateEPFvvE+0x80): undefined reference to `_Unwind_Resume'\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(guard.o): In function `__cxa_guard_abort':\nguard.cc:(.text.__cxa_guard_abort+0x74): undefined reference to `_Unwind_Resume'\nguard.cc:(.text.__cxa_guard_abort+0x78): undefined reference to `_Unwind_Resume'\n/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/../lib/gcc/mipsel-openwrt-linux-musl/5.4.0/../../../../mipsel-openwrt-linux-musl/lib/libstdc++.a(guard.o):guard.cc:(.text.__cxa_guard_release+0x74): more undefined references to `_Unwind_Resume' follow\ncollect2: error: ld returned 1 exit status\nmake: *** [make-linux.mk:336: zerotier-one] Error 1"
+    }
+  ]
+}
