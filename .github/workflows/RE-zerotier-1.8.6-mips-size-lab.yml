@@ -211,7 +211,7 @@ jobs:
 
           rows=[]
           for d in sorted(root.iterdir()):
-              if not d.is_dir():continue
+              if not d.is_dir() or d.name.endswith("-src"):continue
               rc=int((d/"build.rc").read_text().strip()) if (d/"build.rc").exists() else 999
               rec={"variant":d.name,"build_rc":rc,"source_commit":source_commit}
               if rc!=0 or not (d/"zerotier-one").exists():
