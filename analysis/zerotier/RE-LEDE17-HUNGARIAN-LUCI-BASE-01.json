@@ -1,0 +1,19 @@
+{
+  "available": true,
+  "package": "luci-i18n-base-hu",
+  "version": "git-19.271.72080-7b230b0-1",
+  "filename": "luci-i18n-base-hu_git-19.271.72080-7b230b0-1_all.ipk",
+  "url": "https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/luci/luci-i18n-base-hu_git-19.271.72080-7b230b0-1_all.ipk",
+  "ipk_size": 21998,
+  "ipk_sha256": "612b0a464f8904073c3689608079a6fa29de75d9158a74a4e48e172ffa783980",
+  "payload": [
+    {
+      "path": "/etc/uci-defaults/luci-i18n-base-hu",
+      "size": 64
+    },
+    {
+      "path": "/usr/lib/lua/luci/i18n/base.hu.lmo",
+      "size": 42168
+    }
+  ]
+}
