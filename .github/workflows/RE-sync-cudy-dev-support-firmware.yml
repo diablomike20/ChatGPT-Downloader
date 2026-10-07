@@ -126,9 +126,10 @@ jobs:
           shutil.rmtree(fw,ignore_errors=True);shutil.rmtree(pkg,ignore_errors=True)
           fw.mkdir(parents=True);pkg.mkdir(parents=True)
 
-          # Keep C200P first-party package.
+          # Keep C200P first-party package when within normal git file-size limits.
           c200=src/"c200p/C200P-R74-2.5.14-20260618-150931-flash.zip"
-          shutil.copy2(c200,pkg/c200.name)
+          if c200.stat().st_size < 95_000_000:
+              shutil.copy2(c200,pkg/c200.name)
 
           rows=[];bysha={}
           for p in (work/"input").rglob("*"):
@@ -146,8 +147,14 @@ jobs:
               out=fw/name
               if out.exists():
                   out=fw/(p.stem+"-"+h[:8]+p.suffix)
-              shutil.copy2(p,out)
-              rows.append({"filename":out.name,"original_name":p.name,"size":p.stat().st_size,
+              # GitHub rejects individual git blobs above 100 MB.
+              # Inventory every payload, but only commit <95 MB here.
+              if p.stat().st_size < 95_000_000:
+                  shutil.copy2(p,out)
+                  stored=out.name
+              else:
+                  stored=""
+              rows.append({"filename":stored,"original_name":p.name,"size":p.stat().st_size,
                            "sha256":h,"expected_sha256":exp or "",
                            "source_path":str(p.relative_to(work/"input"))})
 
@@ -159,9 +166,13 @@ jobs:
                       data=z.read(i);h=hashlib.sha256(data).hexdigest()
                       if h=="8ba6c51d13d72d2871a1b5e8bbcb4318c2fd4234898f8c1e9e6c30502913e0e8":
                           out=fw/pathlib.Path(i.filename).name
-                          out.write_bytes(data)
+                          if len(data) < 95_000_000:
+                              out.write_bytes(data)
+                              stored=out.name
+                          else:
+                              stored=""
                           if not any(r["sha256"]==h for r in rows):
-                              rows.append({"filename":out.name,"original_name":i.filename,"size":len(data),
+                              rows.append({"filename":stored,"original_name":i.filename,"size":len(data),
                                            "sha256":h,"expected_sha256":h,"source_path":c200.name+" :: "+i.filename})
 
           missing=[n for n,h in expected.items() if not any(r["sha256"]==h for r in rows)]
@@ -174,8 +185,9 @@ jobs:
           with open(root/"RE-CUDY-DEV-SUPPORT-MANIFEST.csv","w",newline="",encoding="utf-8-sig") as f:
               w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
           with open(root/"RE-CUDY-DEV-SUPPORT-SHA256SUMS.txt","w") as f:
-              for r in sorted(rows,key=lambda x:x["filename"].lower()):
-                  f.write(f'{r["sha256"]}  firmware/{r["filename"]}\n')
+              for r in sorted(rows,key=lambda x:x["original_name"].lower()):
+                  loc=("firmware/"+r["filename"]) if r["filename"] else ("RELEASE_REQUIRED/"+r["original_name"])
+                  f.write(f'{r["sha256"]}  {loc}\n')
           (root/"README.md").write_text(
             "# Cudy dev / support-private firmware archive\n\n"
             "Support-delivered, development/internal and unlisted firmware payloads. "
