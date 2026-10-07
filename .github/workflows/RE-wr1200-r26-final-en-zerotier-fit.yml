@@ -1,0 +1,168 @@
+name: RE WR1200 R26 Final EN + LEDE ZeroTier Fit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-final-en-zerotier-fit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils python3 curl tar gzip binutils unzip >/dev/null
+
+      - name: Fetch exact LEDE17 ZeroTier
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/finalen
+          mkdir -p /tmp/finalen/ztpkg /tmp/finalen/ztroot
+          BASE="https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/packages"
+          curl -fL --retry 3 "$BASE/zerotier_1.1.14-4_mipsel_24kc.ipk" -o /tmp/finalen/zerotier.ipk
+          tar xzf /tmp/finalen/zerotier.ipk -C /tmp/finalen/ztpkg
+          tar xzf /tmp/finalen/ztpkg/data.tar.gz -C /tmp/finalen/ztroot
+          test -f /tmp/finalen/ztroot/usr/bin/zerotier-one
+          test "$(stat -c %s /tmp/finalen/ztroot/usr/bin/zerotier-one)" = "666967"
+
+      - name: Prepare exact R26 EN-only tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/finalen/r26/pkg analysis/zerotier
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/finalen/r26/pkg
+          BIN=$(find /tmp/finalen/r26/pkg -type f -name '*.bin' | head -n1)
+          cp "$BIN" /tmp/finalen/r26/original.bin
+
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/finalen/r26/original.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("SquashFS not found")
+          Path("/tmp/finalen/r26/off").write_text(str(off))
+          Path("/tmp/finalen/r26/original.sqfs").write_bytes(b[off:])
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/finalen/r26/root /tmp/finalen/r26/original.sqfs >/dev/null
+          sudo cp -a /tmp/finalen/r26/root /tmp/finalen/r26/root-final
+
+          sudo install -m 0755 /tmp/finalen/ztroot/usr/bin/zerotier-one \
+            /tmp/finalen/r26/root-final/usr/bin/zerotier-one
+
+          # English is LuCI source/default: remove all compiled translation catalogs.
+          sudo find /tmp/finalen/r26/root-final/usr/lib/lua/luci/i18n -maxdepth 1 \
+            -type f -name '*.lmo' -delete
+
+          # Keep only Cudy's English language helper.
+          if [ -d /tmp/finalen/r26/root-final/etc/uci-defaults ]; then
+            sudo find /tmp/finalen/r26/root-final/etc/uci-defaults -maxdepth 1 -type f \
+              -name 'luci-i18n-business-*' ! -name 'luci-i18n-business-en' -delete
+          fi
+
+          echo "=== I18N FILES LEFT ==="
+          find /tmp/finalen/r26/root-final/usr/lib/lua/luci/i18n -maxdepth 1 -type f -name '*.lmo' -print || true
+          echo "=== BUSINESS LANGUAGE HELPERS LEFT ==="
+          find /tmp/finalen/r26/root-final/etc/uci-defaults -maxdepth 1 -type f -name 'luci-i18n-business-*' -printf '%s %p\n' | sort -n || true
+
+      - name: Repack stock 256K geometry and verify fit
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo mksquashfs /tmp/finalen/r26/root-final /tmp/finalen/r26/final-en-256k.sqfs \
+            -comp xz -b 262144 -noappend -no-progress >/tmp/finalen/r26/mksquashfs.log
+
+          python3 - <<'PY'
+          import pathlib,struct,json,hashlib,subprocess,re
+          ROOTFS_DATA=0x780000
+          off=int(pathlib.Path("/tmp/finalen/r26/off").read_text())
+
+          def used(p):
+              b=pathlib.Path(p).read_bytes()[:96]
+              return struct.unpack_from("<Q",b,40)[0]
+
+          orig=used("/tmp/finalen/r26/original.sqfs")
+          final=used("/tmp/finalen/r26/final-en-256k.sqfs")
+          end=off+final
+
+          zt=pathlib.Path("/tmp/finalen/r26/root-final/usr/bin/zerotier-one")
+          dyn=subprocess.run(["readelf","-d",str(zt)],capture_output=True,text=True).stdout
+          needed=re.findall(r"Shared library: \[(.*?)\]",dyn)
+          lmos=list(pathlib.Path("/tmp/finalen/r26/root-final/usr/lib/lua/luci/i18n").glob("*.lmo"))
+
+          helpers=[str(p.relative_to("/tmp/finalen/r26/root-final")) for p in pathlib.Path("/tmp/finalen/r26/root-final/etc/uci-defaults").glob("luci-i18n-business-*")]
+
+          result={
+            "policy":"English only",
+            "zerotier":{
+              "version":"1.1.14-4",
+              "binary_size":zt.stat().st_size,
+              "sha256":hashlib.sha256(zt.read_bytes()).hexdigest(),
+              "needed":needed
+            },
+            "remaining_lmo_files":[str(p) for p in lmos],
+            "remaining_language_helpers":helpers,
+            "stock_squashfs_bytes_used":orig,
+            "final_squashfs_bytes_used":final,
+            "delta_vs_stock":final-orig,
+            "squashfs_offset":off,
+            "rootfs_data_boundary":ROOTFS_DATA,
+            "absolute_end":end,
+            "absolute_end_hex":hex(end),
+            "headroom":ROOTFS_DATA-end,
+            "fits":end<=ROOTFS_DATA,
+            "squashfs_sha256":hashlib.sha256(pathlib.Path("/tmp/finalen/r26/final-en-256k.sqfs").read_bytes()).hexdigest()
+          }
+
+          if lmos:
+              raise SystemExit("English-only build unexpectedly contains LMO files")
+          if helpers != ["etc/uci-defaults/luci-i18n-business-en"]:
+              raise SystemExit("unexpected language helper set: "+repr(helpers))
+          if not result["fits"]:
+              raise SystemExit("EN-only + ZeroTier does not fit")
+
+          pathlib.Path("analysis/zerotier/RE-WR1200V2-R26-FINAL-EN-ZEROTIER-FIT-01.json").write_text(json.dumps(result,indent=2))
+          md=[
+            "# WR1200 V2 / R26 final EN-only + LEDE ZeroTier fit 01","",
+            "- SquashFS: stock-compatible 256 KiB XZ blocks",
+            "- Language policy: English only",
+            "- ZeroTier: LEDE 17.01 1.1.14-4 / mipsel_24kc","",
+            f'- ZeroTier binary: **{zt.stat().st_size:,} B**',
+            f'- ZeroTier NEEDED: {", ".join(needed)}',
+            f'- Stock SquashFS bytes_used: **{orig:,} B**',
+            f'- Final SquashFS bytes_used: **{final:,} B**',
+            f'- Delta vs stock: **{final-orig:+,} B**',
+            f'- End: **{hex(end)}**',
+            f'- rootfs_data boundary: **0x780000**',
+            f'- Headroom: **{ROOTFS_DATA-end:+,} B**',
+            f'- FIT: **{"YES" if result["fits"] else "NO"}**'
+          ]
+          pathlib.Path("analysis/zerotier/RE-WR1200V2-R26-FINAL-EN-ZEROTIER-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-FINAL-EN-ZEROTIER-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: verify final EN-only R26 with LEDE ZeroTier"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
