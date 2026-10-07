@@ -1,0 +1,190 @@
+name: RE Sync Cudy Dev Support Firmware
+
+on:
+  push:
+    branches: [cudy-dev-support]
+    paths:
+      - ".github/workflows/RE-sync-cudy-dev-support-firmware.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-dev-support
+          fetch-depth: 0
+
+      - name: Install helpers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq megatools p7zip-full unzip >/dev/null
+
+      - name: Download P2 support/dev packages and C200P internal build
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/cudy-dev-support
+          mkdir -p /tmp/cudy-dev-support/p2 /tmp/cudy-dev-support/c200p
+
+          python3 - <<'PY'
+          import re,urllib.request,html,json
+          u="https://www.cudyforum.it/d/30-p2-5g-router-wifi-6-ax3000"
+          req=urllib.request.Request(u,headers={"User-Agent":"Mozilla/5.0 OpenCudy-Migration"})
+          body=urllib.request.urlopen(req,timeout=60).read().decode("utf-8","replace")
+          body=html.unescape(body)
+          links=[]
+          for m in re.finditer(r'https://mega\.nz/(?:file|folder)/[A-Za-z0-9_-]+#[A-Za-z0-9_-]+',body):
+              x=m.group(0)
+              if x not in links: links.append(x)
+          if not links:
+              raise SystemExit("No P2 MEGA links recovered")
+          open("/tmp/cudy-dev-support/p2-links.json","w").write(json.dumps(links,indent=2))
+          print(json.dumps(links,indent=2))
+          PY
+
+          python3 - <<'PY' > /tmp/p2-links.txt
+          import json
+          for x in json.load(open("/tmp/cudy-dev-support/p2-links.json")): print(x)
+          PY
+
+          n=0
+          while IFS= read -r url; do
+            n=$((n+1))
+            mkdir -p "/tmp/cudy-dev-support/p2/link-$n"
+            echo "MEGA $n $url"
+            megadl --path="/tmp/cudy-dev-support/p2/link-$n" "$url" || true
+          done < /tmp/p2-links.txt
+
+          python3 - <<'PY'
+          import hashlib,urllib.request,pathlib
+          url="https://www.cudy.com/cdn/shop/files/C200P-R74-2.5.14-20260618-150931-flash.zip"
+          req=urllib.request.Request(url,headers={"User-Agent":"Mozilla/5.0 OpenCudy-Migration","Accept":"*/*"})
+          with urllib.request.urlopen(req,timeout=180) as r:data=r.read()
+          h=hashlib.sha256(data).hexdigest()
+          exp="a4f5f6494bcbdf41bfcd8573a22531fbd2115b5cb2769f5f44da213a900a7e98"
+          if h!=exp: raise SystemExit(f"C200P HASH MISMATCH {h} != {exp}")
+          p=pathlib.Path("/tmp/cudy-dev-support/c200p/C200P-R74-2.5.14-20260618-150931-flash.zip")
+          p.write_bytes(data)
+          print(p,len(data),h)
+          PY
+
+          find /tmp/cudy-dev-support -type f -printf '%p %s bytes\n' | sort
+
+      - name: Extract, deduplicate and verify firmware payloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import csv,hashlib,os,pathlib,re,shutil,subprocess,zipfile
+
+          src=pathlib.Path("/tmp/cudy-dev-support")
+          work=pathlib.Path("/tmp/cudy-dev-support-extracted")
+          shutil.rmtree(work,ignore_errors=True);work.mkdir()
+
+          # Copy source tree then recursively extract archives with 7z.
+          shutil.copytree(src,work/"input",dirs_exist_ok=True)
+          seen_arch=set()
+          for _ in range(6):
+              todo=[]
+              for p in (work/"input").rglob("*"):
+                  if not p.is_file() or str(p) in seen_arch: continue
+                  if p.name.lower().endswith((".zip",".7z",".tar",".tgz",".tar.gz")):
+                      todo.append(p)
+              if not todo: break
+              for p in todo:
+                  seen_arch.add(str(p))
+                  d=p.parent/(p.name+".contents")
+                  d.mkdir(exist_ok=True)
+                  subprocess.run(["7z","x","-y",f"-o{d}",str(p)],
+                                 stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=False)
+
+          expected={
+            "P2-R91-2.4.22-20251204-184925-sysupgrade.bin":
+              "592c494eb5f44beabb427907003801845ea0d47d51db50b1d5b97d40e3166b58",
+            "P2_RG500_A09.bin":
+              "7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b",
+            "R91-2.4.23b-20251208-CellularUpgrade.bin":
+              "9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13",
+            "P2-R91-2.4.29b-20260422-101502-sysupgrade.bin":
+              "3f8dae3d42ad6ba7d1314022eac6bc007d03fac274196b2c802f2835ab21c3f9",
+          }
+
+          def sha(p):
+              h=hashlib.sha256()
+              with open(p,"rb") as f:
+                  for b in iter(lambda:f.read(1024*1024),b""):h.update(b)
+              return h.hexdigest()
+
+          root=pathlib.Path("firmware/cudy/dev-support")
+          fw=root/"firmware";pkg=root/"packages"
+          shutil.rmtree(fw,ignore_errors=True);shutil.rmtree(pkg,ignore_errors=True)
+          fw.mkdir(parents=True);pkg.mkdir(parents=True)
+
+          # Keep C200P first-party package.
+          c200=src/"c200p/C200P-R74-2.5.14-20260618-150931-flash.zip"
+          shutil.copy2(c200,pkg/c200.name)
+
+          rows=[];bysha={}
+          for p in (work/"input").rglob("*"):
+              if not p.is_file():continue
+              low=p.name.lower()
+              if not low.endswith((".bin",".img",".trx",".itb",".ubi",".uimage",".fw",".rom")):continue
+              if p.stat().st_size<131072:continue
+              h=sha(p)
+              if h in bysha:continue
+              bysha[h]=p
+              exp=expected.get(p.name)
+              if exp and h!=exp:
+                  raise SystemExit(f"HASH MISMATCH {p.name}: {h} != {exp}")
+              name=p.name
+              out=fw/name
+              if out.exists():
+                  out=fw/(p.stem+"-"+h[:8]+p.suffix)
+              shutil.copy2(p,out)
+              rows.append({"filename":out.name,"original_name":p.name,"size":p.stat().st_size,
+                           "sha256":h,"expected_sha256":exp or "",
+                           "source_path":str(p.relative_to(work/"input"))})
+
+          # C200P package + extracted inner firmware hash gate.
+          if zipfile.is_zipfile(c200):
+              with zipfile.ZipFile(c200) as z:
+                  bins=[i for i in z.infolist() if not i.is_dir() and i.filename.lower().endswith(".bin")]
+                  for i in bins:
+                      data=z.read(i);h=hashlib.sha256(data).hexdigest()
+                      if h=="8ba6c51d13d72d2871a1b5e8bbcb4318c2fd4234898f8c1e9e6c30502913e0e8":
+                          out=fw/pathlib.Path(i.filename).name
+                          out.write_bytes(data)
+                          if not any(r["sha256"]==h for r in rows):
+                              rows.append({"filename":out.name,"original_name":i.filename,"size":len(data),
+                                           "sha256":h,"expected_sha256":h,"source_path":c200.name+" :: "+i.filename})
+
+          missing=[n for n,h in expected.items() if not any(r["sha256"]==h for r in rows)]
+          if missing:
+              raise SystemExit("Expected historical P2 payloads missing: "+", ".join(missing))
+
+          fields=["filename","original_name","size","sha256","expected_sha256","source_path"]
+          with open(root/"RE-CUDY-DEV-SUPPORT-MANIFEST.csv","w",newline="",encoding="utf-8-sig") as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+          with open(root/"RE-CUDY-DEV-SUPPORT-SHA256SUMS.txt","w") as f:
+              for r in sorted(rows,key=lambda x:x["filename"].lower()):
+                  f.write(f'{r["sha256"]}  firmware/{r["filename"]}\n')
+          (root/"README.md").write_text(
+            "# Cudy dev / support-private firmware archive\n\n"
+            "Support-delivered, development/internal and unlisted firmware payloads. "
+            "Known historical payloads are SHA-256 gated.\n"
+          )
+          print("firmware files",len(rows))
+          PY
+
+          git config user.name "OpenCudy Dev Support Archive Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add firmware/cudy/dev-support
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: sync Cudy dev-support firmware payloads"
+          git push origin HEAD:cudy-dev-support
