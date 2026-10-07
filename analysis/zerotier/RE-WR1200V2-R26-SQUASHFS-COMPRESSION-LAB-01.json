@@ -1,0 +1,69 @@
+{
+  "stock_bytes_used": 5242960,
+  "squashfs_offset": 2583295,
+  "rootfs_data_boundary": 7864320,
+  "xattr_output_nonempty": false,
+  "xattr_output": "",
+  "variants": [
+    {
+      "variant": "client-1m-frag-noexports-noxattrs",
+      "bytes_used": 5456026,
+      "delta_vs_stock": 213066,
+      "absolute_end": 8039321,
+      "absolute_end_hex": "0x7aab99",
+      "headroom_before_rootfs_data": -175001,
+      "fits": false,
+      "sha256": "27e4f25f65ee516d9c9ba57e6e867a50d6dba90df33dd6c754301a7853956e93"
+    },
+    {
+      "variant": "client-1m-noexports-noxattrs",
+      "bytes_used": 5458386,
+      "delta_vs_stock": 215426,
+      "absolute_end": 8041681,
+      "absolute_end_hex": "0x7ab4d1",
+      "headroom_before_rootfs_data": -177361,
+      "fits": false,
+      "sha256": "b80969d14a462e8bbc72593c6394b0ee3c549ad95f8eb7db3d8a9ba9938fc64b"
+    },
+    {
+      "variant": "client-1m-noexports",
+      "bytes_used": 5458386,
+      "delta_vs_stock": 215426,
+      "absolute_end": 8041681,
+      "absolute_end_hex": "0x7ab4d1",
+      "headroom_before_rootfs_data": -177361,
+      "fits": false,
+      "sha256": "f80df4e5707c054e50d9f71fad2e1a01587b92efcde680a3e3e60f4fdd3723c9"
+    },
+    {
+      "variant": "client-1m",
+      "bytes_used": 5460486,
+      "delta_vs_stock": 217526,
+      "absolute_end": 8043781,
+      "absolute_end_hex": "0x7abd05",
+      "headroom_before_rootfs_data": -179461,
+      "fits": false,
+      "sha256": "65aaa25b3b0018c318a7e9b2b156c0b79c9489424f3b4f84754ca08b132e980e"
+    },
+    {
+      "variant": "client-512k",
+      "bytes_used": 5576150,
+      "delta_vs_stock": 333190,
+      "absolute_end": 8159445,
+      "absolute_end_hex": "0x7c80d5",
+      "headroom_before_rootfs_data": -295125,
+      "fits": false,
+      "sha256": "008c31cee4b9c4d0011676e53ccd6097472d1e06d648baaff465cf43df9a7a2f"
+    },
+    {
+      "variant": "client-256k",
+      "bytes_used": 5683570,
+      "delta_vs_stock": 440610,
+      "absolute_end": 8266865,
+      "absolute_end_hex": "0x7e2471",
+      "headroom_before_rootfs_data": -402545,
+      "fits": false,
+      "sha256": "1bcdaa5a35d1b95875b756b3ceb5371692bce2318b93574796d4f20b777fb46b"
+    }
+  ]
+}
