@@ -69,7 +69,7 @@ jobs:
           # Add the best ready-made donor ZeroTier candidate.
           sudo install -m 0755 /tmp/huen/ztroot/usr/bin/zerotier-one             /tmp/huen/r26/root-huen/usr/bin/zerotier-one
 
-          python3 - <<'PY'
+          sudo python3 - <<'PY'
           import pathlib,re,json,os
           root=pathlib.Path("/tmp/huen/r26/root-huen")
           removed=[]
