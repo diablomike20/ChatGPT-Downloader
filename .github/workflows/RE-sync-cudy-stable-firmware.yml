@@ -1,0 +1,144 @@
+name: RE Sync Cudy Stable Firmware Archive
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "firmware/cudy/stable/RE-CUDY-STABLE-SOURCES.tsv"
+      - ".github/workflows/RE-sync-cudy-stable-firmware.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cudy-stable-firmware-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Download public stable Cudy firmware
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import csv, hashlib, html, os, pathlib, urllib.request, zipfile
+
+          root=pathlib.Path("firmware/cudy/stable")
+          manifest=root/"RE-CUDY-STABLE-SOURCES.tsv"
+          root.mkdir(parents=True,exist_ok=True)
+
+          def sha256(path):
+              h=hashlib.sha256()
+              with open(path,"rb") as f:
+                  for b in iter(lambda:f.read(1024*1024),b""):
+                      h.update(b)
+              return h.hexdigest()
+
+          rows=[]
+          with open(manifest,encoding="utf-8",newline="") as f:
+              rows=list(csv.DictReader(f,delimiter="\t"))
+
+          status=[]
+          ua="Mozilla/5.0 OpenCudy-RE Stable Archive"
+          for r in rows:
+              family=r["family"].strip()
+              fn=r["filename"].strip()
+              url=html.unescape(r["url"].strip())
+              d=root/family
+              d.mkdir(parents=True,exist_ok=True)
+              out=d/fn
+              rec=dict(r)
+              rec["path"]=str(out)
+              try:
+                  if out.exists() and out.stat().st_size > 1024:
+                      rec["download"]="EXISTS"
+                  else:
+                      req=urllib.request.Request(url,headers={"User-Agent":ua,"Accept":"*/*"})
+                      with urllib.request.urlopen(req,timeout=180) as resp:
+                          data=resp.read()
+                      low=data[:1024].lstrip().lower()
+                      if len(data)<1024 or low.startswith((b"<html",b"<!doctype")):
+                          raise RuntimeError(f"not firmware payload: {len(data)} bytes")
+                      out.write_bytes(data)
+                      rec["download"]="OK"
+                  rec["size"]=out.stat().st_size
+                  rec["sha256"]=sha256(out)
+                  rec["zip_valid"]="YES" if zipfile.is_zipfile(out) else "NO"
+              except Exception as e:
+                  rec["download"]="FAIL"
+                  rec["error"]=repr(e)
+                  rec["size"]=""
+                  rec["sha256"]=""
+                  rec["zip_valid"]=""
+              status.append(rec)
+
+          with open(root/"RE-CUDY-STABLE-DOWNLOAD-STATUS.tsv","w",encoding="utf-8",newline="") as f:
+              fields=["family","model","board","version","filename","url","path","download","size","sha256","zip_valid","error"]
+              w=csv.DictWriter(f,fieldnames=fields,delimiter="\t",extrasaction="ignore")
+              w.writeheader()
+              for r in status:
+                  if "error" not in r:r["error"]=""
+                  w.writerow(r)
+
+          with open(root/"RE-CUDY-STABLE-SHA256SUMS.txt","w",encoding="utf-8") as f:
+              for r in status:
+                  if r.get("sha256"):
+                      f.write(f'{r["sha256"]}  {r["path"]}\n')
+
+          inner=[]
+          for r in status:
+              p=pathlib.Path(r["path"])
+              if not p.exists() or not zipfile.is_zipfile(p):
+                  continue
+              try:
+                  with zipfile.ZipFile(p) as z:
+                      for info in z.infolist():
+                          if info.is_dir():continue
+                          name=info.filename
+                          if not name.lower().endswith((".bin",".img",".trx",".itb",".fw",".rom")):
+                              continue
+                          h=hashlib.sha256()
+                          size=0
+                          with z.open(info) as q:
+                              for b in iter(lambda:q.read(1024*1024),b""):
+                                  h.update(b);size+=len(b)
+                          inner.append({
+                              "family":r["family"],"outer":r["filename"],"inner":name,
+                              "size":size,"sha256":h.hexdigest()
+                          })
+              except Exception:
+                  pass
+
+          with open(root/"RE-CUDY-STABLE-INNER-MANIFEST.tsv","w",encoding="utf-8",newline="") as f:
+              fields=["family","outer","inner","size","sha256"]
+              w=csv.DictWriter(f,fieldnames=fields,delimiter="\t")
+              w.writeheader();w.writerows(inner)
+
+          ok=sum(1 for r in status if r["download"] in ("OK","EXISTS"))
+          fail=sum(1 for r in status if r["download"]=="FAIL")
+          print(f"STABLE_ARCHIVE_OK={ok}")
+          print(f"STABLE_ARCHIVE_FAIL={fail}")
+          for r in status:
+              if r["download"]=="FAIL":
+                  print("FAIL",r["filename"],r.get("error",""))
+          PY
+
+      - name: Commit stable firmware archive
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy Archive Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add firmware/cudy/stable
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: sync public stable Cudy firmware archive"
+          git push origin HEAD:main
