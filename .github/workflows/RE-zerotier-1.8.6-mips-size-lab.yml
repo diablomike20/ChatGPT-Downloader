@@ -141,6 +141,19 @@ jobs:
           if [[ "$mode" == *"nortti"* ]]; then
             BASE_CXX="$BASE_CXX -fno-rtti"
           fi
+          if [[ "$mode" == *"hidden"* ]]; then
+            BASE_C="$BASE_C -fvisibility=hidden"
+            BASE_CXX="$BASE_CXX -fvisibility=hidden -fvisibility-inlines-hidden"
+            BASE_LD="$BASE_LD -Wl,--exclude-libs,ALL"
+          fi
+          if [[ "$mode" == *"micro"* ]]; then
+            BASE_C="$BASE_C -fno-ident -fomit-frame-pointer -fmerge-all-constants"
+            BASE_CXX="$BASE_CXX -fno-ident -fomit-frame-pointer -fmerge-all-constants"
+            BASE_LD="$BASE_LD -Wl,-O1,--build-id=none"
+          fi
+          if [[ "$mode" == *"nothreadsafe"* ]]; then
+            BASE_CXX="$BASE_CXX -fno-threadsafe-statics"
+          fi
           if [[ "$mode" == *"staticstdcpp"* ]]; then
             BASE_LD="$BASE_LD -static-libstdc++"
           fi
@@ -188,6 +201,9 @@ jobs:
           /tmp/ztlab/build_variant.sh noportmapper-staticstdcpp-lto-nortti noportmapper-staticstdcpp-lto-nortti
           /tmp/ztlab/build_variant.sh clientonly-noportmapper-staticstdcpp-lto clientonly-noportmapper-staticstdcpp-lto
           /tmp/ztlab/build_variant.sh clientonly-noportmapper-staticstdcpp-lto-nortti clientonly-noportmapper-staticstdcpp-lto-nortti
+          /tmp/ztlab/build_variant.sh clientonly-noportmapper-staticstdcpp-lto-hidden clientonly-noportmapper-staticstdcpp-lto-hidden
+          /tmp/ztlab/build_variant.sh clientonly-noportmapper-staticstdcpp-lto-hidden-micro clientonly-noportmapper-staticstdcpp-lto-hidden-micro
+          /tmp/ztlab/build_variant.sh clientonly-noportmapper-staticstdcpp-lto-hidden-micro-nothreadsafe clientonly-noportmapper-staticstdcpp-lto-hidden-micro-nothreadsafe
           /tmp/ztlab/build_variant.sh fullstatic fullstatic
 
       - name: Analyze complete R26 payload sizes
