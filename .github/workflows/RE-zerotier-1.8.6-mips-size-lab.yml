@@ -133,6 +133,9 @@ jobs:
             BASE_CXX="$BASE_CXX -flto"
             BASE_LD="$BASE_LD -flto"
           fi
+          if [[ "$mode" == *"nortti"* ]]; then
+            BASE_CXX="$BASE_CXX -fno-rtti"
+          fi
           if [[ "$mode" == *"staticstdcpp"* ]]; then
             BASE_LD="$BASE_LD -static-libstdc++"
           fi
@@ -176,6 +179,8 @@ jobs:
           /tmp/ztlab/build_variant.sh bundled-staticstdcpp bundled-staticstdcpp
           /tmp/ztlab/build_variant.sh noportmapper-staticstdcpp noportmapper-staticstdcpp
           /tmp/ztlab/build_variant.sh bundled-staticstdcpp-lto bundled-staticstdcpp-lto
+          /tmp/ztlab/build_variant.sh noportmapper-staticstdcpp-lto noportmapper-staticstdcpp-lto
+          /tmp/ztlab/build_variant.sh noportmapper-staticstdcpp-lto-nortti noportmapper-staticstdcpp-lto-nortti
           /tmp/ztlab/build_variant.sh fullstatic fullstatic
 
       - name: Analyze complete R26 payload sizes
