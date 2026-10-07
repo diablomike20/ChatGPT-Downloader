@@ -1,0 +1,163 @@
+name: RE Sync Cudy Cellular Modem Firmware
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-sync-cudy-cellular-modem.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 0
+
+      - name: Install helpers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq megatools p7zip-full >/dev/null
+
+      - name: Recover exact P2 cellular payloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/cudy-cellular
+          mkdir -p /tmp/cudy-cellular/download /tmp/cudy-cellular/extracted
+
+          python3 - <<'PY'
+          import re,urllib.request,html,json
+          u="https://www.cudyforum.it/d/30-p2-5g-router-wifi-6-ax3000"
+          req=urllib.request.Request(u,headers={"User-Agent":"Mozilla/5.0 OpenCudy-Cellular-Migration"})
+          body=urllib.request.urlopen(req,timeout=60).read().decode("utf-8","replace")
+          body=html.unescape(body)
+          links=[]
+          for m in re.finditer(r'https://mega\.nz/(?:file|folder)/[A-Za-z0-9_-]+#[A-Za-z0-9_-]+',body):
+              x=m.group(0)
+              if x not in links: links.append(x)
+          if not links: raise SystemExit("No P2 MEGA links found")
+          open("/tmp/cudy-cellular/links.json","w").write(json.dumps(links,indent=2))
+          print(json.dumps(links,indent=2))
+          PY
+
+          python3 - <<'PY' >/tmp/cellular-links.txt
+          import json
+          for x in json.load(open("/tmp/cudy-cellular/links.json")): print(x)
+          PY
+
+          n=0
+          while IFS= read -r u; do
+            n=$((n+1))
+            mkdir -p "/tmp/cudy-cellular/download/link-$n"
+            megadl --path="/tmp/cudy-cellular/download/link-$n" "$u" || true
+          done </tmp/cellular-links.txt
+
+          cp -a /tmp/cudy-cellular/download/. /tmp/cudy-cellular/extracted/
+          python3 - <<'PY'
+          import pathlib,subprocess
+          root=pathlib.Path("/tmp/cudy-cellular/extracted")
+          seen=set()
+          for _ in range(6):
+              todo=[]
+              for p in root.rglob("*"):
+                  if p.is_file() and str(p) not in seen and p.name.lower().endswith((".zip",".7z",".tar",".tgz",".tar.gz")):
+                      todo.append(p)
+              if not todo: break
+              for p in todo:
+                  seen.add(str(p))
+                  d=p.parent/(p.name+".contents");d.mkdir(exist_ok=True)
+                  subprocess.run(["7z","x","-y",f"-o{d}",str(p)],
+                                 stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=False)
+          PY
+
+      - name: Verify, commit manifest and small payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import csv,hashlib,pathlib,shutil
+
+          root=pathlib.Path("/tmp/cudy-cellular/extracted")
+          expected={
+            "P2_RG500_A09.bin":"7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b",
+            "R91-2.4.23b-20251208-CellularUpgrade.bin":"9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13",
+          }
+          def sha(p):
+              h=hashlib.sha256()
+              with open(p,"rb") as f:
+                  for b in iter(lambda:f.read(1024*1024),b""):h.update(b)
+              return h.hexdigest()
+
+          found={}
+          for p in root.rglob("*"):
+              if not p.is_file():continue
+              h=sha(p)
+              for name,exp in expected.items():
+                  if h==exp: found[name]=p
+
+          missing=[n for n in expected if n not in found]
+          if missing: raise SystemExit("Missing exact cellular payloads: "+", ".join(missing))
+
+          out=pathlib.Path("firmware/cudy/cellular-modem")
+          fw=out/"firmware";fw.mkdir(parents=True,exist_ok=True)
+
+          small=found["R91-2.4.23b-20251208-CellularUpgrade.bin"]
+          shutil.copy2(small,fw/small.name)
+
+          # Large RG500 image stays outside git and is uploaded as a release asset.
+          large=found["P2_RG500_A09.bin"]
+          shutil.copy2(large,pathlib.Path("/tmp/P2_RG500_A09.bin"))
+
+          tag="cudy-cellular-modem-p2-rg500-a09"
+          rows=[
+            {
+              "filename":small.name,"size":small.stat().st_size,"sha256":sha(small),
+              "storage":"git","location":"firmware/cudy/cellular-modem/firmware/"+small.name,
+              "source":"historical FU7 P2/CudyForum MEGA"
+            },
+            {
+              "filename":"P2_RG500_A09.bin","size":large.stat().st_size,"sha256":sha(large),
+              "storage":"github-release","location":"release:"+tag,
+              "source":"historical FU7 P2/CudyForum MEGA"
+            }
+          ]
+          fields=["filename","size","sha256","storage","location","source"]
+          with open(out/"RE-CUDY-CELLULAR-MODEM-MANIFEST.csv","w",newline="",encoding="utf-8-sig") as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+          with open(out/"RE-CUDY-CELLULAR-MODEM-SHA256SUMS.txt","w") as f:
+              for r in rows:f.write(f'{r["sha256"]}  {r["filename"]}\n')
+          (out/"README.md").write_text(
+            "# Cudy cellular / modem firmware archive\n\n"
+            "Router firmware is kept on other branches. This branch stores modem/baseband and CellularUpgrade payloads.\n"
+            "Files larger than GitHub's git-blob limit are stored as GitHub Release assets in this repository.\n"
+          )
+          print(rows)
+          PY
+
+          git config user.name "OpenCudy Cellular Archive Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add firmware/cudy/cellular-modem
+          git diff --cached --quiet || git commit -m "RE: archive Cudy P2 cellular modem payloads"
+          git push origin HEAD:cudy-cellular-modem
+
+      - name: Publish large modem image as release asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          tag="cudy-cellular-modem-p2-rg500-a09"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "release exists: $tag"
+          else
+            gh release create "$tag"               --target cudy-cellular-modem               --title "Cudy P2 RG500 A09 cellular modem firmware"               --notes "Historical FU7-recovered Cudy P2/R91 cellular modem payload. SHA-256 is tracked on the cudy-cellular-modem branch."
+          fi
+          gh release upload "$tag" /tmp/P2_RG500_A09.bin --clobber
+          gh release upload "$tag"             firmware/cudy/cellular-modem/firmware/R91-2.4.23b-20251208-CellularUpgrade.bin             --clobber
