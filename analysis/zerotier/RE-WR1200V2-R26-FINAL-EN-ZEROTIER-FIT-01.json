@@ -1,0 +1,26 @@
+{
+  "policy": "English only",
+  "zerotier": {
+    "version": "1.1.14-4",
+    "binary_size": 666967,
+    "sha256": "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0",
+    "needed": [
+      "libc.so",
+      "libgcc_s.so.1"
+    ]
+  },
+  "remaining_lmo_files": [],
+  "remaining_language_helpers": [
+    "etc/uci-defaults/luci-i18n-business-en"
+  ],
+  "stock_squashfs_bytes_used": 5242960,
+  "final_squashfs_bytes_used": 5206842,
+  "delta_vs_stock": -36118,
+  "squashfs_offset": 2583295,
+  "rootfs_data_boundary": 7864320,
+  "absolute_end": 7790137,
+  "absolute_end_hex": "0x76de39",
+  "headroom": 74183,
+  "fits": true,
+  "squashfs_sha256": "5b06ed5c2d60222b4f73d404f0e7256969ee7e3cdb5d08e078a419fa35ecd6cd"
+}
