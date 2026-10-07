@@ -5,5 +5,5 @@
 
 | Variant | Build | Binary | NEEDED | Repack | Headroom | Fits? |
 |---|---|---:|---|---|---:|---|
-| compact | FAIL | | | | | |
-| compact-noexceptions | FAIL | | | | | |
+| compact | OK | 1,431,732 | libgcc_s.so.1, libc.so | 1m | -158,985 | NO |
+| compact | OK | 1,431,732 | libgcc_s.so.1, libc.so | 1m-tight | -155,645 | NO |
