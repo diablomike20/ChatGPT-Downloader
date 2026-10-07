@@ -1,6 +1,5 @@
 # OpenCudy-Workbench
 
-Repository name: **OpenCudy-Workbench**. The GitHub slug may temporarily remain `ChatGPT-Downloader` until renamed in repository settings.
 
 Dedicated download/archive/analysis repository used by ChatGPT-assisted OpenCudy work.
 
