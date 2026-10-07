@@ -1,0 +1,1479 @@
+{
+  "stable_packages": 33,
+  "rootfs_images_scanned": 33,
+  "zerotier_occurrences": 30,
+  "distinct_zerotier_payloads": 16,
+  "target": {
+    "package": "WR1200V2-R26-2.4.23-20251224-145945-flash.zip",
+    "board": "R26",
+    "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.4.23'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.4.23'; DISTRIB_TAINTS='no-all busybox override' | 2.4.23 | 2.4.23-20251224-145945",
+    "available_soname_count": 633
+  },
+  "known_r25_hash": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+  "baseline": {
+    "family": "M1200",
+    "model": "M1200",
+    "board": "R22",
+    "firmware_version": "2.4.19",
+    "package": "M1200-R22-2.4.19-20250826-164643-flash.zip",
+    "package_sha256": "3afd4946a3f590fd33a160a31ef2c7672bd49fd38721593a5defecc863e4e0a1",
+    "image": "M1200-R22-2.4.19-20250826-164643-flash.bin",
+    "image_sha256": "76ebdb6341ab865781f4aacfe239ca143daf88397617f00734ffc90875e3f913",
+    "squashfs_offset": "0x2a76bc",
+    "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.4.19'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.4.19'; DISTRIB_TAINTS='no-all busybox override' | 2.4.19 | 2.4.19-20250826-164643",
+    "zerotier_path": "usr/bin/zerotier-one",
+    "zerotier_size": 791080,
+    "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+    "elf": {
+      "class": "ELF32",
+      "data": "2's complement, little endian",
+      "machine": "MIPS R3000",
+      "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+      "attributes": "",
+      "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+    },
+    "needed": [
+      "libminiupnpc.so.17",
+      "libnatpmp.so.1",
+      "libstdc++.so.6",
+      "libgcc_s.so.1",
+      "libc.so"
+    ],
+    "dependency_resolution": [
+      {
+        "needed": "libminiupnpc.so.17",
+        "status": "ADD_FROM_DONOR",
+        "donor_path": "usr/lib/libminiupnpc.so.17",
+        "real_name": "libminiupnpc.so.2.2.1",
+        "size": 37279,
+        "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+      },
+      {
+        "needed": "libnatpmp.so.1",
+        "status": "ADD_FROM_DONOR",
+        "donor_path": "usr/lib/libnatpmp.so.1",
+        "real_name": "libnatpmp.so.20150609",
+        "size": 8331,
+        "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+      },
+      {
+        "needed": "libstdc++.so.6",
+        "status": "ADD_FROM_DONOR",
+        "donor_path": "usr/lib/libstdc++.so.6",
+        "real_name": "libstdc++.so.6.0.21",
+        "size": 1303867,
+        "sha256": "534c19fe404208e1065cc6b988b152d0b2a70e29e5865ab6dfa5a6b189cc5481"
+      },
+      {
+        "needed": "libgcc_s.so.1",
+        "status": "R26_PRESENT",
+        "donor_path": "",
+        "real_name": "",
+        "size": 0,
+        "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+      },
+      {
+        "needed": "libc.so",
+        "status": "R26_PRESENT",
+        "donor_path": "",
+        "real_name": "",
+        "size": 0,
+        "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+      }
+    ],
+    "unresolved_needed": [],
+    "r26_direct_elf_compatible": true,
+    "r26_payload_logical": 2140557,
+    "r26_payload_tar": 2150400,
+    "r26_payload_gzip9": 779813,
+    "r26_payload_xz9e": 566556,
+    "is_known_r25_build": true,
+    "provenance": [
+      "M1200/R22 2.4.19 :: M1200-R22-2.4.19-20250826-164643-flash.zip",
+      "M1200/R22 2.4.24 :: M1200-R22-2.4.24-20260105-103138-flash.zip",
+      "TR1200/R46 2.4.15 :: TR1200-R46-2.4.15-20250721-164017-flash.zip",
+      "LT500 V2 / LT500D V2/R25 2.4.16 :: LT500V2-R25-2.4.16-20250804-150319-flash.zip",
+      "LT500 Outdoor/R35 2.4.9 :: LT500Outdoor-R35-2.4.9-20250625-180244-flash.zip",
+      "LT700/R32 2.4.21 :: LT700-R32-2.4.21-20250922-170147-flash.zip"
+    ],
+    "saving_vs_r25_logical": 0,
+    "saving_vs_r25_gzip9": 0,
+    "saving_vs_r25_xz9e": 0
+  },
+  "ranked": [
+    {
+      "family": "WR1300",
+      "model": "WR1300 V1",
+      "board": "R10",
+      "firmware_version": "1.13.6",
+      "package": "WR1300-R10-1.13.6-20220314-112409-flash_1.zip",
+      "package_sha256": "a3a41ef0f0c7548815f3afcc1e3fd230af5af270878812dd4f4474e94763790b",
+      "image": "WR1300-R10-1.13.6-20220314-112409-flash.bin",
+      "image_sha256": "f7238c0c4aa34e3bb1e162467105fa422516ba09e30ce0c90266aee052aa66d2",
+      "squashfs_offset": "0x206fa1",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='1.13.6'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7621'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 1.13.6'; DISTRIB_TAINTS='no-all busybox override' | 1.13.6 | 1.13.6-20220314-112409",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "57c2f0f40039db7f6f91b24232be0120a9b75ce268c8da859ac6f85d48e7f4b2",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "ffe09fd625d21bf74bc5cbc8bd4a6fb9d18a27411264317e90fa1544534c571c"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779682,
+      "r26_payload_xz9e": 566472,
+      "is_known_r25_build": false,
+      "provenance": [
+        "WR1300 V1/R10 1.13.6 :: WR1300-R10-1.13.6-20220314-112409-flash_1.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": 131,
+      "saving_vs_r25_xz9e": 84
+    },
+    {
+      "family": "M1200",
+      "model": "M1200",
+      "board": "R22",
+      "firmware_version": "2.4.19",
+      "package": "M1200-R22-2.4.19-20250826-164643-flash.zip",
+      "package_sha256": "3afd4946a3f590fd33a160a31ef2c7672bd49fd38721593a5defecc863e4e0a1",
+      "image": "M1200-R22-2.4.19-20250826-164643-flash.bin",
+      "image_sha256": "76ebdb6341ab865781f4aacfe239ca143daf88397617f00734ffc90875e3f913",
+      "squashfs_offset": "0x2a76bc",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.4.19'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.4.19'; DISTRIB_TAINTS='no-all busybox override' | 2.4.19 | 2.4.19-20250826-164643",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "534c19fe404208e1065cc6b988b152d0b2a70e29e5865ab6dfa5a6b189cc5481"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779813,
+      "r26_payload_xz9e": 566556,
+      "is_known_r25_build": true,
+      "provenance": [
+        "M1200/R22 2.4.19 :: M1200-R22-2.4.19-20250826-164643-flash.zip",
+        "M1200/R22 2.4.24 :: M1200-R22-2.4.24-20260105-103138-flash.zip",
+        "TR1200/R46 2.4.15 :: TR1200-R46-2.4.15-20250721-164017-flash.zip",
+        "LT500 V2 / LT500D V2/R25 2.4.16 :: LT500V2-R25-2.4.16-20250804-150319-flash.zip",
+        "LT500 Outdoor/R35 2.4.9 :: LT500Outdoor-R35-2.4.9-20250625-180244-flash.zip",
+        "LT700/R32 2.4.21 :: LT700-R32-2.4.21-20250922-170147-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": 0,
+      "saving_vs_r25_xz9e": 0
+    },
+    {
+      "family": "LT500Outdoor",
+      "model": "LT500 Outdoor",
+      "board": "R35",
+      "firmware_version": "2.3.14",
+      "package": "LT500Outdoor-R35-2.3.14-20250307-112700-flash.zip",
+      "package_sha256": "314c7cdf85ab5d6ba288b458727d97bae3464d34f93af6bd5989bb6adc2c99eb",
+      "image": "LT500Outdoor-R35-2.3.14-20250307-112700-flash.bin",
+      "image_sha256": "0dfe2f3c4fe15aff629c932cba938a5c46f4787e2f44772368232021675e8fec",
+      "squashfs_offset": "0x2abded",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.3.14'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.3.14'; DISTRIB_TAINTS='no-all busybox override' | 2.3.14 | 2.3.14-20250307-112700",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "40a1df73cf014c7b90ea40461cb559d3d2277ef624029f2bab28bf5613af0d62"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779813,
+      "r26_payload_xz9e": 566556,
+      "is_known_r25_build": true,
+      "provenance": [
+        "LT500 Outdoor/R35 2.3.14 :: LT500Outdoor-R35-2.3.14-20250307-112700-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": 0,
+      "saving_vs_r25_xz9e": 0
+    },
+    {
+      "family": "M1200",
+      "model": "M1200",
+      "board": "R22",
+      "firmware_version": "2.0.8",
+      "package": "M1200-R22-2.0.8-20240306-170059-flash.zip",
+      "package_sha256": "a67e53a60d3ad69b0e76ef6122cacfc2e564a30d82a53ab586728bca0f9bd720",
+      "image": "M1200-R22-2.0.8-20240306-170059-flash.bin",
+      "image_sha256": "8af3c9305442663448b37512554f030a91b6914de82e861735c9d5a6c975a265",
+      "squashfs_offset": "0x2a75e8",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.0.8'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.0.8'; DISTRIB_TAINTS='no-all busybox override' | 2.0.8 | 2.0.8-20240306-170059",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "d6b946089fa531fce55646dd2ab54ca8b8f5a0340b0ec4cf8c8f8e08ab2bf071"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779817,
+      "r26_payload_xz9e": 566628,
+      "is_known_r25_build": true,
+      "provenance": [
+        "M1200/R22 2.0.8 :: M1200-R22-2.0.8-20240306-170059-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -4,
+      "saving_vs_r25_xz9e": -72
+    },
+    {
+      "family": "LT400Outdoor",
+      "model": "LT400 Outdoor",
+      "board": "R40",
+      "firmware_version": "1.15.34",
+      "package": "LT400Outdoor-R40-1.15.34-20230525-155951-flash.zip",
+      "package_sha256": "f4883e5ac38e80ae2ba61c0f70ec177dd2787e014dd8176f5e7a18f3e96df2d6",
+      "image": "LT400Outdoor-R40-1.15.34-20230525-155951-flash.bin",
+      "image_sha256": "a83b170486e271f0cb4121d67d19bbf62f31e7d9be2f0215e434d6761f35a1ad",
+      "squashfs_offset": "0x189405",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='1.15.34'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 1.15.34'; DISTRIB_TAINTS='no-all busybox override' | 1.15.34 | 1.15.34-20230525-155951",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "cfc7902ddcda5cb6d5de92d05cca737d78cb370d53bc1e70c7342e5f9688fa2e"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779818,
+      "r26_payload_xz9e": 566640,
+      "is_known_r25_build": true,
+      "provenance": [
+        "LT400 Outdoor/R40 1.15.34 :: LT400Outdoor-R40-1.15.34-20230525-155951-flash.zip",
+        "LT400 Outdoor/R40 2.1.9 :: LT400Outdoor-R40-2.1.9-20240522-110221-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -5,
+      "saving_vs_r25_xz9e": -84
+    },
+    {
+      "family": "LT500Outdoor",
+      "model": "LT500 Outdoor",
+      "board": "R35",
+      "firmware_version": "2.1.10",
+      "package": "LT500Outdoor-R35-2.1.10-20240528-163250-flash.zip",
+      "package_sha256": "6fa7ad96894b766dccecae210e5355cdfdaa1c3ac7fd8ecd05c774f8d89f3f16",
+      "image": "LT500Outdoor-R35-2.1.10-20240528-163250-flash.bin",
+      "image_sha256": "513d1981d07430019a10de246d09edc340b08e9cc392af9f8eae0906dc70e327",
+      "squashfs_offset": "0x2abdce",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.1.10'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.1.10'; DISTRIB_TAINTS='no-all busybox override' | 2.1.10 | 2.1.10-20240528-163250",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "8b783558eeb245e5697368fabc2d74c88c911df0757154af807f2cb4868ee65c"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779819,
+      "r26_payload_xz9e": 566644,
+      "is_known_r25_build": true,
+      "provenance": [
+        "LT500 Outdoor/R35 2.1.10 :: LT500Outdoor-R35-2.1.10-20240528-163250-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -6,
+      "saving_vs_r25_xz9e": -88
+    },
+    {
+      "family": "LT700",
+      "model": "LT700",
+      "board": "R32",
+      "firmware_version": "1.15.29",
+      "package": "LT700-R32-1.15.29-20230418-161423-flash.zip",
+      "package_sha256": "e12dc4d6f0578febbf302773428c3cfdae479f693cc83331f58c0f51c877f9aa",
+      "image": "LT700-R32-1.15.29-20230418-161423-flash.bin",
+      "image_sha256": "33dabf8e91cad104db24e6b568077fe7e3fce5747352c92b253d230dafa2af1c",
+      "squashfs_offset": "0x3305cd",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='1.15.29'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7621'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 1.15.29'; DISTRIB_TAINTS='no-all busybox override' | 1.15.29 | 1.15.29-20230418-161423",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "597412319da2bfe6f3ddb9fc221c729427bcd41596e0dabd052c4c4de03840a1"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779817,
+      "r26_payload_xz9e": 566676,
+      "is_known_r25_build": true,
+      "provenance": [
+        "LT700/R32 1.15.29 :: LT700-R32-1.15.29-20230418-161423-flash.zip",
+        "LT700/R32 2.1.3 :: LT700-R32-2.1.3-20240506-110223-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -4,
+      "saving_vs_r25_xz9e": -120
+    },
+    {
+      "family": "WR1300",
+      "model": "WR1300 V2",
+      "board": "R23",
+      "firmware_version": "2.4.4",
+      "package": "WR1300B-R23-2.4.4-20250507-170413-flash.zip",
+      "package_sha256": "a3ebc5a6b72fe12dfe6d8f6a9325eadf5cf004881b1be97b688da869987b9505",
+      "image": "WR1300B-R23-2.4.4-20250507-170413-flash.bin",
+      "image_sha256": "820c7d976c2e59f2ee2f5d6698450f7c67fa91bb44fd7c47ab6ed26676ded29d",
+      "squashfs_offset": "0x331a18",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.4.4'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7621'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.4.4'; DISTRIB_TAINTS='no-all busybox override' | 2.4.4 | 2.4.4-20250507-170413",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "d1a994766bfaf5fa60a6b8ef0515382b73f527fc23df934f5fd71ee590f4ffb7"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779811,
+      "r26_payload_xz9e": 566708,
+      "is_known_r25_build": true,
+      "provenance": [
+        "WR1300 V2/R23 2.4.4 :: WR1300B-R23-2.4.4-20250507-170413-flash.zip",
+        "WR1300 V2/R23 2.5.25 :: WR1300B-R23-2.5.25-20260805-113408-flash.zip",
+        "TR1200/R46 2.5.25 :: TR1200-R46-2.5.25-20260805-112208-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": 2,
+      "saving_vs_r25_xz9e": -152
+    },
+    {
+      "family": "WR1300",
+      "model": "WR1300 V2",
+      "board": "R23",
+      "firmware_version": "2.2.6",
+      "package": "WR1300B-R23-2.2.6-20240815-095128-flash.zip",
+      "package_sha256": "1ac057c78fe6518d9c95805cd23bc2fb48b92c00784e2fd649330288b9af149b",
+      "image": "WR1300B-R23-2.2.6-20240815-095128-flash.bin",
+      "image_sha256": "3d9c688d7ac88784b2c1f9059ad23965ff78849f0c001a12cb65049043f191e8",
+      "squashfs_offset": "0x33192a",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.2.6'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7621'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.2.6'; DISTRIB_TAINTS='no-all busybox override' | 2.2.6 | 2.2.6-20240815-095128",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "64c82a9182dc9ac503989529b74de427b876e366152591ec17ba5748dc0bac38"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779818,
+      "r26_payload_xz9e": 566712,
+      "is_known_r25_build": true,
+      "provenance": [
+        "WR1300 V2/R23 2.2.6 :: WR1300B-R23-2.2.6-20240815-095128-flash.zip",
+        "WR1300 V2/R23 2.3.9 :: WR1300B-R23-2.3.9-20250208-115514-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -5,
+      "saving_vs_r25_xz9e": -156
+    },
+    {
+      "family": "TR1200",
+      "model": "TR1200",
+      "board": "R46",
+      "firmware_version": "2.2.7",
+      "package": "TR1200-R46-2.2.7-20241011-103924-flash.zip",
+      "package_sha256": "d9312ae7af19c1d2a6178e37e50d5c4c30ceeedf556f2cb8a1322c3fe3f85058",
+      "image": "TR1200-R46-2.2.7-20241011-103924-flash.bin",
+      "image_sha256": "5a3010c6f3b87f1b10b8679707d11d6e0a5e8799430f73f3d6f25c154a34a9f9",
+      "squashfs_offset": "0x2abd60",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.2.7'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.2.7'; DISTRIB_TAINTS='no-all busybox override' | 2.2.7 | 2.2.7-20241011-103924",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "1e07bfc026259127cf697a29ef32dcc52be7b34c11426d311048984f58149096"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779817,
+      "r26_payload_xz9e": 566740,
+      "is_known_r25_build": true,
+      "provenance": [
+        "TR1200/R46 2.2.7 :: TR1200-R46-2.2.7-20241011-103924-flash.zip",
+        "TR1200/R46 2.3.7 :: TR1200-R46-2.3.7-20250113-115854-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -4,
+      "saving_vs_r25_xz9e": -184
+    },
+    {
+      "family": "TR1200",
+      "model": "TR1200",
+      "board": "R46",
+      "firmware_version": "1.16.3",
+      "package": "TR1200-R46-1.16.3-20230804-164635-flash.zip",
+      "package_sha256": "56ebab4b3d20877b042efeaf1e2fde7c648dbdfd4e73010c21109fa81a6ecab4",
+      "image": "TR1200-R46-1.16.3-20230804-164635-flash.bin",
+      "image_sha256": "4e071566f6db1c37e07a5b24a106a69a10c98c7af9a1b1675b17fdaf64e19be7",
+      "squashfs_offset": "0x2a1e50",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='1.16.3'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 1.16.3'; DISTRIB_TAINTS='no-all busybox override' | 1.16.3 | 1.16.3-20230804-164635",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "e114d03296e4d5482fbe57f00beeb2c2736f6b0a198279376b723a3d34e2739b"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779818,
+      "r26_payload_xz9e": 566960,
+      "is_known_r25_build": true,
+      "provenance": [
+        "TR1200/R46 1.16.3 :: TR1200-R46-1.16.3-20230804-164635-flash.zip",
+        "TR1200/R46 2.1.3 :: TR1200-R46-2.1.3-20240428-102143-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -5,
+      "saving_vs_r25_xz9e": -404
+    },
+    {
+      "family": "LT500",
+      "model": "LT500 V2 / LT500D V2",
+      "board": "R25",
+      "firmware_version": "1.15.28",
+      "package": "LT500V2-R25-1.15.28-20230410-094349-flash.zip",
+      "package_sha256": "f5e369241e0ebcb5045ae0fa099672731176092d167d25d8d095a647c3f11342",
+      "image": "LT500V2-R25-1.15.28-20230410-094349-flash.bin",
+      "image_sha256": "36c133e7741a14f63efb1de04c43f75600253b95fd7b337d80af03ef36054db4",
+      "squashfs_offset": "0x29f41b",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='1.15.28'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 1.15.28'; DISTRIB_TAINTS='no-all busybox override' | 1.15.28 | 1.15.28-20230410-094349",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "b49ada75f82b646a2e9593594038c0d5c4527b38bdbcd2e59002dfb17af410f3"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779815,
+      "r26_payload_xz9e": 566972,
+      "is_known_r25_build": true,
+      "provenance": [
+        "LT500 V2 / LT500D V2/R25 1.15.28 :: LT500V2-R25-1.15.28-20230410-094349-flash.zip",
+        "LT450/LT500/LT500D V2/R25 2.1.1 :: LT450-LT500-LT500DV2-R25-2.1.1-20240419-090237-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -2,
+      "saving_vs_r25_xz9e": -416
+    },
+    {
+      "family": "WR1300",
+      "model": "WR1300 V2",
+      "board": "R23",
+      "firmware_version": "2.0.4",
+      "package": "WR1300B-R23-2.0.4-20240206-090502-flash_1.zip",
+      "package_sha256": "0e84e7ee13c5e08edee01fed6d162a42163e166dedda9eb23fecf735168c8869",
+      "image": "WR1300B-R23-2.0.4-20240206-090502-flash.bin",
+      "image_sha256": "018d5e3019aee0b75cc543cf33e85c0961423d086751e1daa72345bd4687efb9",
+      "squashfs_offset": "0x331931",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.0.4'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7621'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.0.4'; DISTRIB_TAINTS='no-all busybox override' | 2.0.4 | 2.0.4-20240206-090502",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "6114d831f9cb2f8f88948a21c281a05428a0745d00693eaf1b8d2e095dad8ccf"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779816,
+      "r26_payload_xz9e": 566972,
+      "is_known_r25_build": true,
+      "provenance": [
+        "WR1300 V2/R23 2.0.4 :: WR1300B-R23-2.0.4-20240206-090502-flash_1.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -3,
+      "saving_vs_r25_xz9e": -416
+    },
+    {
+      "family": "LT400",
+      "model": "LT400",
+      "board": "R6",
+      "firmware_version": "1.15.27",
+      "package": "LT400A-R6-1.15.27-20230404-114529-flash.zip",
+      "package_sha256": "60e7f97d0380cf6e3468e364f9fff1c57bcf99d8fb887f4af3b5686718fe0120",
+      "image": "LT400A-R6-1.15.27-20230404-114529-flash.bin",
+      "image_sha256": "7a2baee7672e7eda57a1720b2c89e8b8bbf09fb892e9359f8aaed113dbdd76e7",
+      "squashfs_offset": "0x1893ab",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='1.15.27'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 1.15.27'; DISTRIB_TAINTS='no-all busybox override' | 1.15.27 | 1.15.27-20230404-114529",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "f4bf7ed3e62b68172c747ea0b35ac7d78fb5e89980422b6522b88b294b7ff005"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779818,
+      "r26_payload_xz9e": 566972,
+      "is_known_r25_build": true,
+      "provenance": [
+        "LT400/R6 1.15.27 :: LT400A-R6-1.15.27-20230404-114529-flash.zip",
+        "LT400/R6 2.1.9 :: LT400A-R6-2.1.9-20240522-111245-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -5,
+      "saving_vs_r25_xz9e": -416
+    },
+    {
+      "family": "LT400E",
+      "model": "LT400E",
+      "board": "R61",
+      "firmware_version": "2.1.10",
+      "package": "LT400E-R61-2.1.10-20240527-092607-flash.zip",
+      "package_sha256": "cedf143ec1a44cc09be3e0675bf1edffb986b4f901fea747cff3eb19b24d0bde",
+      "image": "LT400E-R61-2.1.10-20240527-092607-flash.bin",
+      "image_sha256": "3d2ffb4f94154ddcd148f0190dcfb4e21a909bede49e817e0bf9d79b31dc41a4",
+      "squashfs_offset": "0x187f0f",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.1.10'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.1.10'; DISTRIB_TAINTS='no-all busybox override' | 2.1.10 | 2.1.10-20240527-092607",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "93cadfb567c3ec7553d8fc22c8534ed28000c005147b5412f7fd10ae6403eec6"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779818,
+      "r26_payload_xz9e": 566972,
+      "is_known_r25_build": true,
+      "provenance": [
+        "LT400E/R61 2.1.10 :: LT400E-R61-2.1.10-20240527-092607-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -5,
+      "saving_vs_r25_xz9e": -416
+    },
+    {
+      "family": "LT400V",
+      "model": "LT400V",
+      "board": "R75",
+      "firmware_version": "2.2.2",
+      "package": "LT400V-R75-2.2.2-20240729-091345-flash.zip",
+      "package_sha256": "97dba6b4fd18fecf44b183612dbbfd3f01fee4f248d4d72e557940e9b1484bc4",
+      "image": "LT400V-R75-2.2.2-20240729-091345-flash.bin",
+      "image_sha256": "952477187b26f2b71dc5b5b96b78a47af4ee74ecea52d1d6c78948595527b668",
+      "squashfs_offset": "0x187f91",
+      "release": "DISTRIB_ID='LEDE'; DISTRIB_RELEASE='17.01.5'; DISTRIB_REVISION='2.2.2'; DISTRIB_CODENAME='openwrt'; DISTRIB_TARGET='ramips/mt7628'; DISTRIB_ARCH='mipsel_24kc'; DISTRIB_DESCRIPTION='LEDE OpenWrt 17.01.5 2.2.2'; DISTRIB_TAINTS='no-all busybox override' | 2.2.2 | 2.2.2-20240729-091345",
+      "zerotier_path": "usr/bin/zerotier-one",
+      "zerotier_size": 791080,
+      "zerotier_sha256": "c4b43b43ca8baaa5a53d036530c42dc93b4ec5bde68cd0c65c135d9f4d56cf0c",
+      "elf": {
+        "class": "ELF32",
+        "data": "2's complement, little endian",
+        "machine": "MIPS R3000",
+        "flags": "0x74001005, noreorder, cpic, o32, mips16, mips32r2",
+        "attributes": "",
+        "file": "ELF 32-bit LSB executable, MIPS, MIPS32 rel2 version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-mipsel-sf.so.1, no section header"
+      },
+      "needed": [
+        "libminiupnpc.so.17",
+        "libnatpmp.so.1",
+        "libstdc++.so.6",
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "dependency_resolution": [
+        {
+          "needed": "libminiupnpc.so.17",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libminiupnpc.so.17",
+          "real_name": "libminiupnpc.so.2.2.1",
+          "size": 37279,
+          "sha256": "508a149567c14c397195e47943904470d2510c3155f9be88f4c5296d8610d34e"
+        },
+        {
+          "needed": "libnatpmp.so.1",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libnatpmp.so.1",
+          "real_name": "libnatpmp.so.20150609",
+          "size": 8331,
+          "sha256": "7176915a35874f1b7e35f4927c4b3b599ecabe3c1c259fb6e0182f301e8cbefb"
+        },
+        {
+          "needed": "libstdc++.so.6",
+          "status": "ADD_FROM_DONOR",
+          "donor_path": "usr/lib/libstdc++.so.6",
+          "real_name": "libstdc++.so.6.0.21",
+          "size": 1303867,
+          "sha256": "d68eba2b328e22be6385384ee61f6e456183ee4df01c132112d314ab5170eed4"
+        },
+        {
+          "needed": "libgcc_s.so.1",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "5aa27aa0175e69dcd3feba71d91b5d97c1de84ce758282ec94136c6029b0caa2"
+        },
+        {
+          "needed": "libc.so",
+          "status": "R26_PRESENT",
+          "donor_path": "",
+          "real_name": "",
+          "size": 0,
+          "sha256": "8c3c5cbefef736e4aa9e068bdf41a502824a759d1f02027189811d5e63cc76db"
+        }
+      ],
+      "unresolved_needed": [],
+      "r26_direct_elf_compatible": true,
+      "r26_payload_logical": 2140557,
+      "r26_payload_tar": 2150400,
+      "r26_payload_gzip9": 779818,
+      "r26_payload_xz9e": 566972,
+      "is_known_r25_build": true,
+      "provenance": [
+        "LT400V/R75 2.2.2 :: LT400V-R75-2.2.2-20240729-091345-flash.zip"
+      ],
+      "saving_vs_r25_logical": 0,
+      "saving_vs_r25_gzip9": -5,
+      "saving_vs_r25_xz9e": -416
+    }
+  ]
+}
