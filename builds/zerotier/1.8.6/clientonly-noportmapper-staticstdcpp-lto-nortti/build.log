@@ -38,6 +38,7 @@ node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer e
     return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
                                                                                               ^
 /tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -fno-rtti -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Identity.o node/Identity.cpp
+mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
 In file included from node/Node.hpp:37:0,
                  from node/Peer.hpp:24,
                  from node/Topology.hpp:30,
@@ -46,7 +47,6 @@ node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, Zer
 node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
    if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
               ^
-mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
 node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
 node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
     return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
@@ -161,11 +161,11 @@ node/Bond.hpp: In member function 'bool ZeroTier::Bond::rateGateQoS(int64_t, Zer
 node/Bond.hpp:886:14: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
    if ((diff) <= (_qosSendInterval / ZT_MAX_PEER_NETWORK_PATHS)) {
               ^
-/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -fno-rtti -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Poly1305.o node/Poly1305.cpp
 node/Bond.hpp: In member function 'bool ZeroTier::Bond::NominatedPath::needsToSendQoS(int64_t, int)':
 node/Bond.hpp:1289:94: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
     return ((packetsReceivedSinceLastQoS >= ZT_QOS_TABLE_SIZE) || ((now - lastQoSMeasurement) > qosSendInterval)) && packetsReceivedSinceLastQoS;
                                                                                               ^
+/tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -fno-rtti -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Poly1305.o node/Poly1305.cpp
 mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
 /tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -fno-rtti -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o node/Revocation.o node/Revocation.cpp
 mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
@@ -346,13 +346,13 @@ service/../node/Bond.hpp:1289:94: warning: comparison between signed and unsigne
                                                                                               ^
 /tmp/ztlab/sdk/staging_dir/toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16/bin/mipsel-openwrt-linux-musl-g++ -Os -fstack-protector -fPIE -ffunction-sections -fdata-sections -flto -fno-rtti -Wall -Wno-deprecated -std=c++11 -pthread -Izeroidc/target -DNDEBUG -DZT_NO_TYPE_PUNNING -DZT_BUILD_PLATFORM=1 -DZT_BUILD_ARCHITECTURE=5 -DZT_SOFTWARE_UPDATE_DEFAULT="\"disable\"" -D_MT_ALLOCATOR_H -D_POOL_ALLOCATOR_H -D_EXTPTR_ALLOCATOR_H -D_DEBUG_ALLOCATOR_H   -c -o osdep/LinuxEthernetTap.o osdep/LinuxEthernetTap.cpp
 mipsel-openwrt-linux-musl-g++: warning: environment variable 'STAGING_DIR' not defined
-osdep/LinuxEthernetTap.cpp:15:32: warning: unknown option after '#pragma GCC diagnostic' kind [-Wpragmas]
- #pragma GCC diagnostic ignored "-Wrestrict"
-                                ^
 service/OneService.cpp: In member function 'void ZeroTier::NetworkState::setConfig(const ZT_VirtualNetworkConfig*)':
 service/OneService.cpp:251:15: warning: unused variable 'nwid' [-Wunused-variable]
    const char* nwid = Utils::hex(nwc->nwid, nwbuf);
                ^
+osdep/LinuxEthernetTap.cpp:15:32: warning: unknown option after '#pragma GCC diagnostic' kind [-Wpragmas]
+ #pragma GCC diagnostic ignored "-Wrestrict"
+                                ^
 service/OneService.cpp: In member function 'unsigned int ZeroTier::{anonymous}::OneServiceImpl::handleControlPlaneHttpRequest(const ZeroTier::InetAddress&, unsigned int, const string&, const std::map<std::__cxx11::basic_string<char>, std::__cxx11::basic_string<char> >&, const string&, std::__cxx11::string&, std::__cxx11::string&)':
 service/OneService.cpp:1527:24: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
       for (int i = 0; i < boundAddrs.size(); i++) {
