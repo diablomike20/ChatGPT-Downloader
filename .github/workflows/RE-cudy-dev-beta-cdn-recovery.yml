@@ -1,0 +1,65 @@
+name: RE Cudy Dev Beta CDN Recovery
+
+on:
+  push:
+    branches: [cudy-dev-beta]
+    paths:
+      - "scripts/dev-beta/RE_cudy_dev_cdn_archive.py"
+      - ".github/workflows/RE-cudy-dev-beta-cdn-recovery.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-dev-beta
+          fetch-depth: 0
+
+      - name: Recover dev/beta-named Cudy CDN artifacts
+        run: python3 scripts/dev-beta/RE_cudy_dev_cdn_archive.py
+
+      - name: Publish evidence and recovered firmware
+        shell: bash
+        run: |
+          set -e
+          mkdir -p analysis/dev-beta/cdn-archive
+          cp -f fu_7-CUDY-DEV-CDN-ARCHIVE-INDEX.csv analysis/dev-beta/cdn-archive/ 2>/dev/null || true
+          cp -f fu_7-CUDY-DEV-CDN-ARCHIVE-FIRMWARE.csv analysis/dev-beta/cdn-archive/ 2>/dev/null || true
+          cp -f fu_7-CUDY-DEV-CDN-RECOVERED-MANIFEST.csv analysis/dev-beta/cdn-archive/ 2>/dev/null || true
+          cp -f fu_7-CUDY-DEV-CDN-ARCHIVE-SUMMARY.json analysis/dev-beta/cdn-archive/ 2>/dev/null || true
+
+          mkdir -p firmware/cudy/dev-beta/recovered
+          if [ -d fu_7-CUDY-DEV-CDN-RECOVERED ]; then
+            cp -an fu_7-CUDY-DEV-CDN-RECOVERED/. firmware/cudy/dev-beta/recovered/ || true
+          fi
+
+          (
+            cd firmware/cudy/dev-beta/recovered
+            find . -type f -print0 | sort -z | xargs -0 -r sha256sum
+          ) > firmware/cudy/dev-beta/RE-CUDY-DEV-BETA-SHA256SUMS.txt
+
+          git config user.name "OpenCudy Dev-Beta Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/dev-beta/cdn-archive firmware/cudy/dev-beta
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: recover Cudy dev-beta firmware archive"
+          git push origin HEAD:cudy-dev-beta
+
+      - name: Upload recovery artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-CUDY-DEV-BETA-CDN-RECOVERY
+          retention-days: 30
+          compression-level: 0
+          path: |
+            fu_7-CUDY-DEV-CDN-ARCHIVE-*.csv
+            fu_7-CUDY-DEV-CDN-ARCHIVE-SUMMARY.json
+            fu_7-CUDY-DEV-CDN-RECOVERED/**
+            fu_7-CUDY-DEV-CDN-RECOVERED-MANIFEST.csv
