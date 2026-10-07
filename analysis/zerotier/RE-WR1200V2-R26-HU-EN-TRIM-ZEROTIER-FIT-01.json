@@ -1,0 +1,170 @@
+{
+  "policy": "Keep English built-in/default + Hungarian LuCI catalogs only",
+  "zerotier": "LEDE 17.01 ZeroTier 1.1.14-4 mipsel_24kc",
+  "stock_squashfs_bytes_used": 5242960,
+  "squashfs_offset": 2583295,
+  "rootfs_data_boundary": 7864320,
+  "trim": {
+    "all_lmo_before": [
+      [
+        "usr/lib/lua/luci/i18n/base.de.lmo",
+        77292
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.es.lmo",
+        77740
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.fr.lmo",
+        80836
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.he.lmo",
+        90228
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.it.lmo",
+        69784
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.ko.lmo",
+        83008
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.pt.lmo",
+        76000
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.ru.lmo",
+        118360
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.uk.lmo",
+        114360
+      ]
+    ],
+    "kept": [],
+    "removed": [
+      [
+        "usr/lib/lua/luci/i18n/base.de.lmo",
+        77292
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.es.lmo",
+        77740
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.fr.lmo",
+        80836
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.he.lmo",
+        90228
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.it.lmo",
+        69784
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.ko.lmo",
+        83008
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.pt.lmo",
+        76000
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.ru.lmo",
+        118360
+      ],
+      [
+        "usr/lib/lua/luci/i18n/base.uk.lmo",
+        114360
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-de",
+        62
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-en",
+        53
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-es",
+        64
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-fr",
+        64
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-he",
+        71
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-it",
+        64
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-ko",
+        64
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-pt",
+        69
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-ru",
+        70
+      ],
+      [
+        "etc/uci-defaults/luci-i18n-business-uk",
+        78
+      ]
+    ],
+    "removed_logical_bytes": 788267,
+    "removed_file_count": 19
+  },
+  "variants": [
+    {
+      "variant": "256k",
+      "bytes_used": 5206806,
+      "delta_vs_stock": -36154,
+      "end": 7790101,
+      "end_hex": "0x76de15",
+      "headroom": 74219,
+      "fits": true,
+      "sha256": "d5e0a7d5aabef3bd710bd72925f74e07cacf026f910423566ef1eecaa2b947b1"
+    },
+    {
+      "variant": "512k",
+      "bytes_used": 5113746,
+      "delta_vs_stock": -129214,
+      "end": 7697041,
+      "end_hex": "0x757291",
+      "headroom": 167279,
+      "fits": true,
+      "sha256": "0c8aac85c12e0488adb21468a5542969ea40b363db6d3189be11e2fcb9a1bbfe"
+    },
+    {
+      "variant": "1m",
+      "bytes_used": 5033770,
+      "delta_vs_stock": -209190,
+      "end": 7617065,
+      "end_hex": "0x743a29",
+      "headroom": 247255,
+      "fits": true,
+      "sha256": "273787f5b76407cf77a619b62244de414f0646c07923a65b5e7282e84032ab77"
+    },
+    {
+      "variant": "1m-tight",
+      "bytes_used": 5031718,
+      "delta_vs_stock": -211242,
+      "end": 7615013,
+      "end_hex": "0x743225",
+      "headroom": 249307,
+      "fits": true,
+      "sha256": "536bddbeeb8bb5528d8e285dfde0ca15b06577c1a9d0a456043376627244ea53"
+    }
+  ]
+}
