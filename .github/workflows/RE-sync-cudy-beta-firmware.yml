@@ -59,8 +59,8 @@ jobs:
           src=pathlib.Path("/tmp/cudy-beta/packages")
           root=pathlib.Path("firmware/cudy/beta")
           pkg=root/"packages"; fw=root/"firmware"
-          shutil.rmtree(pkg,ignore_errors=True); shutil.rmtree(fw,ignore_errors=True)
-          pkg.mkdir(parents=True); fw.mkdir(parents=True)
+          shutil.rmtree(pkg,ignore_errors=True)
+          pkg.mkdir(parents=True); fw.mkdir(parents=True,exist_ok=True)
 
           def sha(p):
             h=hashlib.sha256()
@@ -96,6 +96,17 @@ jobs:
                   out.write_bytes(data)
                   rows.append({"kind":"firmware","filename":name,"size":len(data),"sha256":ih,
                                "expected_sha256":"","source":p.name+" :: "+info.filename})
+
+          # Preserve the separately classified P2 beta if already present.
+          p2=fw/"P2-R91-2.4.29b-20260422-101502-sysupgrade.bin"
+          p2h="3f8dae3d42ad6ba7d1314022eac6bc007d03fac274196b2c802f2835ab21c3f9"
+          if p2.exists():
+              got=sha(p2)
+              if got!=p2h: raise SystemExit("P2 beta hash mismatch: "+got)
+              if not any(r["sha256"]==p2h for r in rows):
+                  rows.append({"kind":"firmware","filename":p2.name,"size":p2.stat().st_size,
+                               "sha256":p2h,"expected_sha256":p2h,
+                               "source":"classified historical FU7 P2 beta"})
 
           fields=["kind","filename","size","sha256","expected_sha256","source"]
           with open(root/"RE-CUDY-BETA-MANIFEST.csv","w",newline="",encoding="utf-8-sig") as f:
