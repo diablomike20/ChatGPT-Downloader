@@ -1,0 +1,331 @@
+name: RE WR1200 R26 OpenWrt18 ZeroTier 1.2.12 Full Fit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-openwrt18-zerotier-1.2.12-full-fit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils file python3 binutils curl gzip tar >/dev/null
+
+      - name: Fetch exact OpenWrt 18.06 package set
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/zt1812
+          mkdir -p /tmp/zt1812/pkgs /tmp/zt1812/extract
+
+          BASE="https://downloads.openwrt.org/releases/18.06.0/packages/mipsel_24kc"
+          curl -fL --retry 3 "$BASE/packages/zerotier_1.2.12-3_mipsel_24kc.ipk"             -o /tmp/zt1812/pkgs/zerotier.ipk
+
+          # Download package indexes from all common feeds so dependencies are resolved
+          # from the same 18.06.0 release instead of guessed filenames.
+          for feed in base packages routing luci telephony; do
+            if curl -fsSL "$BASE/$feed/Packages.gz" -o "/tmp/zt1812/$feed.Packages.gz"; then
+              gzip -dc "/tmp/zt1812/$feed.Packages.gz" > "/tmp/zt1812/$feed.Packages"
+            fi
+          done
+
+          python3 - <<'PY'
+          import re, pathlib, urllib.request
+
+          base="https://downloads.openwrt.org/releases/18.06.0/packages/mipsel_24kc"
+          feeds=["base","packages","routing","luci","telephony"]
+          indexes={}
+          for feed in feeds:
+              p=pathlib.Path(f"/tmp/zt1812/{feed}.Packages")
+              if not p.exists(): continue
+              paras=p.read_text(errors="ignore").split("\n\n")
+              for para in paras:
+                  d={}
+                  for line in para.splitlines():
+                      if ": " in line:
+                          k,v=line.split(": ",1); d[k]=v
+                  if "Package" in d and "Filename" in d:
+                      indexes.setdefault(d["Package"],[]).append((feed,d))
+
+          # zerotier package metadata
+          import subprocess, os, tarfile
+          work=pathlib.Path("/tmp/zt1812/meta")
+          work.mkdir()
+          # .ipk in this generation is ar archive
+          subprocess.run(["ar","x","/tmp/zt1812/pkgs/zerotier.ipk"],cwd=work,check=True)
+          ctar=next(work.glob("control.tar.*"))
+          mode="r:gz" if ctar.suffix==".gz" else "r:*"
+          with tarfile.open(ctar,mode) as t:
+              c=t.extractfile("./control") or t.extractfile("control")
+              control=c.read().decode()
+          pathlib.Path("/tmp/zt1812/zerotier.control").write_text(control)
+          print(control)
+
+          deps=[]
+          m=re.search(r"^Depends:\s*(.*)$",control,re.M)
+          if m:
+              for x in m.group(1).split(","):
+                  n=x.strip().split()[0]
+                  if n and n not in ("libc","libpthread","kmod-tun","ip"):
+                      deps.append(n)
+
+          print("Dependency packages:",deps)
+          for pkg in deps:
+              cand=indexes.get(pkg,[])
+              if not cand:
+                  raise SystemExit(f"dependency not found in 18.06 indexes: {pkg}")
+              feed,d=cand[0]
+              url=f"{base}/{feed}/{d['Filename']}"
+              out=pathlib.Path("/tmp/zt1812/pkgs")/d["Filename"].split("/")[-1]
+              print("FETCH",pkg,url)
+              urllib.request.urlretrieve(url,out)
+          PY
+
+      - name: Extract exact package payloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import pathlib, subprocess, tarfile, shutil
+
+          root=pathlib.Path("/tmp/zt1812/allroot")
+          root.mkdir(parents=True,exist_ok=True)
+          for ipk in pathlib.Path("/tmp/zt1812/pkgs").glob("*.ipk"):
+              d=pathlib.Path("/tmp/zt1812/extract")/ipk.stem
+              d.mkdir(parents=True,exist_ok=True)
+              # Support both ar-based and legacy tar.gz-based ipk
+              sig=ipk.read_bytes()[:8]
+              if sig==b"!<arch>\n":
+                  subprocess.run(["ar","x",str(ipk)],cwd=d,check=True,stdout=subprocess.DEVNULL)
+                  data=next(d.glob("data.tar.*"))
+                  with tarfile.open(data,"r:*") as t:
+                      t.extractall(root)
+              else:
+                  # legacy tar.gz .ipk
+                  with tarfile.open(ipk,"r:gz") as outer:
+                      outer.extractall(d)
+                  data=next(d.glob("data.tar.*"))
+                  with tarfile.open(data,"r:*") as t:
+                      t.extractall(root)
+
+          for p in sorted(root.rglob("*")):
+              if p.is_file() or p.is_symlink():
+                  print(p.relative_to(root))
+          PY
+
+          test -f /tmp/zt1812/allroot/usr/bin/zerotier-one
+          stat -c '%s %n' /tmp/zt1812/allroot/usr/bin/zerotier-one
+          readelf -d /tmp/zt1812/allroot/usr/bin/zerotier-one | grep NEEDED || true
+          file /tmp/zt1812/allroot/usr/bin/zerotier-one
+
+      - name: Build exact R26 stock baseline and dependency closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/zt1812/r26 analysis/zerotier
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          unzip -q "$ZIP" -d /tmp/zt1812/r26/pkg
+          BIN=$(find /tmp/zt1812/r26/pkg -type f -name '*.bin' | head -n1)
+          cp "$BIN" /tmp/zt1812/r26/original.bin
+
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/zt1812/r26/original.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("SquashFS not found")
+          Path("/tmp/zt1812/r26/off").write_text(str(off))
+          Path("/tmp/zt1812/r26/original.sqfs").write_bytes(b[off:])
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/zt1812/r26/root /tmp/zt1812/r26/original.sqfs >/dev/null
+
+          python3 - <<'PY'
+          import pathlib, subprocess, os, json, re, shutil, hashlib
+
+          stock=pathlib.Path("/tmp/zt1812/r26/root")
+          donor=pathlib.Path("/tmp/zt1812/allroot")
+          out=pathlib.Path("/tmp/zt1812/closure")
+          out.mkdir(parents=True,exist_ok=True)
+
+          def real(p):
+              try:return p.resolve()
+              except:return p
+
+          def read_needed(p):
+              r=subprocess.run(["readelf","-d",str(p)],capture_output=True,text=True)
+              return re.findall(r"Shared library: \[(.*?)\]",r.stdout)
+
+          def find_soname(root,name):
+              # exact path or symlink name first
+              for base in (root/"lib",root/"usr/lib"):
+                  q=base/name
+                  if q.exists() or q.is_symlink(): return q
+              # broader exact filename
+              for q in root.rglob(name):
+                  if q.exists() or q.is_symlink(): return q
+              # SONAME scan over ELF libs
+              for base in (root/"lib",root/"usr/lib"):
+                  if not base.exists(): continue
+                  for q in base.rglob("*.so*"):
+                      if not q.is_file(): continue
+                      rr=subprocess.run(["readelf","-d",str(q)],capture_output=True,text=True)
+                      m=re.search(r"Library soname: \[(.*?)\]",rr.stdout)
+                      if m and m.group(1)==name: return q
+              return None
+
+          stock_names=set()
+          for base in (stock/"lib",stock/"usr/lib"):
+              if base.exists():
+                  for p in base.rglob("*"):
+                      if p.is_file() or p.is_symlink():
+                          stock_names.add(p.name)
+                          rp=real(p)
+                          if rp.is_file():
+                              rr=subprocess.run(["readelf","-d",str(rp)],capture_output=True,text=True)
+                              m=re.search(r"Library soname: \[(.*?)\]",rr.stdout)
+                              if m: stock_names.add(m.group(1))
+
+          zt=donor/"usr/bin/zerotier-one"
+          queue=[zt]
+          seen=set()
+          files=[("usr/bin/zerotier-one",zt)]
+          resolution=[]
+
+          while queue:
+              cur=queue.pop(0)
+              key=str(real(cur))
+              if key in seen: continue
+              seen.add(key)
+              for n in read_needed(cur):
+                  if n in stock_names:
+                      resolution.append({"from":str(cur),"needed":n,"status":"R26_PRESENT"})
+                      continue
+                  q=find_soname(donor,n)
+                  if not q:
+                      resolution.append({"from":str(cur),"needed":n,"status":"UNRESOLVED"})
+                      continue
+                  rp=real(q)
+                  rel="usr/lib/"+rp.name
+                  if all(str(x[1])!=str(rp) for x in files):
+                      files.append((rel,rp))
+                      queue.append(rp)
+                  resolution.append({"from":str(cur),"needed":n,"status":"ADD_18.06","path":str(q)})
+
+          unresolved=[x for x in resolution if x["status"]=="UNRESOLVED"]
+          if unresolved:
+              raise SystemExit("Unresolved deps: "+json.dumps(unresolved,indent=2))
+
+          # materialize closure tree
+          for rel,p in files:
+              dst=out/rel
+              dst.parent.mkdir(parents=True,exist_ok=True)
+              shutil.copy2(real(p),dst)
+
+          result={
+              "files":[{"path":rel,"size":p.stat().st_size,
+                        "sha256":hashlib.sha256(p.read_bytes()).hexdigest()} for rel,p in files],
+              "resolution":resolution,
+              "logical_total":sum(p.stat().st_size for _,p in files),
+          }
+          pathlib.Path("/tmp/zt1812/closure.json").write_text(json.dumps(result,indent=2))
+          print(json.dumps(result,indent=2))
+          PY
+
+      - name: Repack full dependency closure into R26
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo cp -a /tmp/zt1812/r26/root /tmp/zt1812/r26/root-zt1812
+
+          # Add zerotier-one and only closure libs absent from stock R26.
+          sudo install -m 0755 /tmp/zt1812/closure/usr/bin/zerotier-one             /tmp/zt1812/r26/root-zt1812/usr/bin/zerotier-one
+          if [ -d /tmp/zt1812/closure/usr/lib ]; then
+            for f in /tmp/zt1812/closure/usr/lib/*; do
+              [ -f "$f" ] || continue
+              sudo install -m 0644 "$f" /tmp/zt1812/r26/root-zt1812/usr/lib/"$(basename "$f")"
+            done
+          fi
+
+          # Candidate uses larger block size only to reduce image footprint.
+          sudo mksquashfs /tmp/zt1812/r26/root-zt1812 /tmp/zt1812/r26/zt1812-1m.sqfs             -comp xz -b 1048576 -noappend -no-progress >/tmp/zt1812/r26/mksquashfs.log
+
+          # Also try fragments/noexports/noxattrs for maximum no-file-removal compression.
+          sudo mksquashfs /tmp/zt1812/r26/root-zt1812 /tmp/zt1812/r26/zt1812-1m-tight.sqfs             -comp xz -b 1048576 -always-use-fragments -no-exports -no-xattrs             -noappend -no-progress >/tmp/zt1812/r26/mksquashfs-tight.log
+
+          python3 - <<'PY'
+          import json,struct,hashlib
+          from pathlib import Path
+          ROOTFS_DATA=0x780000
+          off=int(Path("/tmp/zt1812/r26/off").read_text())
+          def used(p):
+              b=Path(p).read_bytes()[:96]
+              return struct.unpack_from("<Q",b,40)[0]
+          def sha(p):
+              return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+          orig=used("/tmp/zt1812/r26/original.sqfs")
+          closure=json.loads(Path("/tmp/zt1812/closure.json").read_text())
+          rows=[]
+          for name in ("zt1812-1m","zt1812-1m-tight"):
+              p=f"/tmp/zt1812/r26/{name}.sqfs"
+              u=used(p); end=off+u
+              rows.append({
+                "variant":name,
+                "bytes_used":u,
+                "delta_vs_stock":u-orig,
+                "absolute_end":end,
+                "absolute_end_hex":hex(end),
+                "headroom":ROOTFS_DATA-end,
+                "fits":end<=ROOTFS_DATA,
+                "sha256":sha(p),
+              })
+
+          result={
+            "candidate":"OpenWrt 18.06.0 zerotier 1.2.12-3 mipsel_24kc",
+            "stock_squashfs_bytes_used":orig,
+            "squashfs_offset":off,
+            "rootfs_data_boundary":ROOTFS_DATA,
+            "dependency_closure":closure,
+            "variants":rows
+          }
+          Path("analysis/zerotier/RE-WR1200V2-R26-OPENWRT18-ZEROTIER-1.2.12-FULL-FIT-01.json").write_text(json.dumps(result,indent=2))
+          md=[
+            "# WR1200 V2 / R26 + OpenWrt 18.06 ZeroTier 1.2.12-3 full fit 01","",
+            f'- Closure logical total: **{closure["logical_total"]:,} B**',
+            "- Added files:"
+          ]
+          for f in closure["files"]:
+              md.append(f'  - {f["path"]}: {f["size"]:,} B')
+          md += ["","| Variant | SquashFS bytes_used | Delta vs stock | End | Headroom | Fits? |",
+                 "|---|---:|---:|---|---:|---|"]
+          for r in rows:
+              md.append(f'| {r["variant"]} | {r["bytes_used"]:,} | {r["delta_vs_stock"]:+,} | {r["absolute_end_hex"]} | {r["headroom"]:+,} | {"YES" if r["fits"] else "NO"} |')
+          Path("analysis/zerotier/RE-WR1200V2-R26-OPENWRT18-ZEROTIER-1.2.12-FULL-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-OPENWRT18-ZEROTIER-1.2.12-FULL-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish OpenWrt18 ZeroTier 1.2.12 full R26 fit"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
