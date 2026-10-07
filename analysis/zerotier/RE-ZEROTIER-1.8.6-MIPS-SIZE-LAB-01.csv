@@ -1,8 +1,10 @@
 ﻿rank,variant,status,binary_size,binary_sha256,needed,extra_external_from_R25,unresolved_needed,interpreter,r26_payload_logical,r26_payload_gzip9,r26_payload_xz9e,saving_vs_R25_logical,saving_vs_R25_gzip9,saving_vs_R25_xz9e
-1,noportmapper-staticstdcpp-lto,OK,1799604,c7da86efad7634139e9a3e8b339e879822b93728fd064c419e16038e5c9dd670,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,1799604,681696,478212,340953,98117,88344
-2,noportmapper-staticstdcpp-lto-nortti,OK,1791448,8a3c273c4ec0b4ca71c32a3ca95e09e92474a5472d0495adbcf421a465911eb0,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,1791448,681620,480596,349109,98193,85960
-3,bundled-staticstdcpp-lto,OK,1828368,988ea8fb9da39e4bea65dadd8934ca354a016fb23d05620d6dd843e58e0c9961,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,1828368,696418,489760,312189,83395,76796
-4,noportmapper-staticstdcpp,OK,2168800,978e60b769f533848bbc35a9b2a1b0ac715e4556b68d30d0f83ceec46b3f20cb,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,2168800,769210,534588,-28243,10603,31968
-5,bundled-staticstdcpp,OK,2205916,ad943c366ba77dbac0f1dec6dd9e2012831e1424e0216acd4c14c0dd625d440f,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,2205916,788473,546496,-65359,-8660,20060
-6,bundled-dynamic,OK,1662096,3cee3ed7ebe2f43f48e3484c7a493099705f8cb9087c22435b9cee6ce2a9b663,libstdc++.so.6|libgcc_s.so.1|libc.so,libstdc++.so.6,,/lib/ld-musl-mipsel-sf.so.1,2965963,971496,672108,-825406,-191683,-105552
-7,fullstatic,BUILD_FAIL,,,,,,,,,,,,
+1,clientonly-noportmapper-staticstdcpp-lto-nortti,OK,1485340,c4144edb4e2db2a9d35315e4cfa1cbd89ee70059781aa161bcf64d5a5d953230,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,1485340,558769,394204,655217,221044,172352
+2,clientonly-noportmapper-staticstdcpp-lto,OK,1485336,72158752b91eae72d8b0e02a5600beb7f96dd2441d8cfd886ff20c4e36579dcf,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,1485336,559166,394584,655221,220647,171972
+3,noportmapper-staticstdcpp-lto,OK,1799604,c7da86efad7634139e9a3e8b339e879822b93728fd064c419e16038e5c9dd670,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,1799604,681696,478212,340953,98117,88344
+4,noportmapper-staticstdcpp-lto-nortti,OK,1791448,8a3c273c4ec0b4ca71c32a3ca95e09e92474a5472d0495adbcf421a465911eb0,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,1791448,681620,480596,349109,98193,85960
+5,bundled-staticstdcpp-lto,OK,1828368,988ea8fb9da39e4bea65dadd8934ca354a016fb23d05620d6dd843e58e0c9961,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,1828368,696418,489760,312189,83395,76796
+6,noportmapper-staticstdcpp,OK,2168800,978e60b769f533848bbc35a9b2a1b0ac715e4556b68d30d0f83ceec46b3f20cb,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,2168800,769210,534588,-28243,10603,31968
+7,bundled-staticstdcpp,OK,2205916,ad943c366ba77dbac0f1dec6dd9e2012831e1424e0216acd4c14c0dd625d440f,libgcc_s.so.1|libc.so,,,/lib/ld-musl-mipsel-sf.so.1,2205916,788473,546496,-65359,-8660,20060
+8,bundled-dynamic,OK,1662096,3cee3ed7ebe2f43f48e3484c7a493099705f8cb9087c22435b9cee6ce2a9b663,libstdc++.so.6|libgcc_s.so.1|libc.so,libstdc++.so.6,,/lib/ld-musl-mipsel-sf.so.1,2965963,971496,672108,-825406,-191683,-105552
+9,fullstatic,BUILD_FAIL,,,,,,,,,,,,
