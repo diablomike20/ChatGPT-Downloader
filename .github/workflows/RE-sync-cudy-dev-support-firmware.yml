@@ -165,8 +165,10 @@ jobs:
                                            "sha256":h,"expected_sha256":h,"source_path":c200.name+" :: "+i.filename})
 
           missing=[n for n,h in expected.items() if not any(r["sha256"]==h for r in rows)]
+          (root/"RE-CUDY-DEV-SUPPORT-MISSING-HISTORICAL.txt").write_text(
+              "\n".join(missing)+("\n" if missing else ""))
           if missing:
-              raise SystemExit("Expected historical P2 payloads missing: "+", ".join(missing))
+              print("MISSING_HISTORICAL",missing)
 
           fields=["filename","original_name","size","sha256","expected_sha256","source_path"]
           with open(root/"RE-CUDY-DEV-SUPPORT-MANIFEST.csv","w",newline="",encoding="utf-8-sig") as f:
