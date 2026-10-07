@@ -107,12 +107,11 @@ jobs:
           expected={
             "P2-R91-2.4.22-20251204-184925-sysupgrade.bin":
               "592c494eb5f44beabb427907003801845ea0d47d51db50b1d5b97d40e3166b58",
-            "P2_RG500_A09.bin":
-              "7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b",
-            "R91-2.4.23b-20251208-CellularUpgrade.bin":
-              "9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13",
-            "P2-R91-2.4.29b-20260422-101502-sysupgrade.bin":
-              "3f8dae3d42ad6ba7d1314022eac6bc007d03fac274196b2c802f2835ab21c3f9",
+          }
+          moved_elsewhere={
+            "7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b",  # cudy-cellular-modem
+            "9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13",  # cudy-cellular-modem
+            "3f8dae3d42ad6ba7d1314022eac6bc007d03fac274196b2c802f2835ab21c3f9",  # cudy-beta
           }
 
           def sha(p):
