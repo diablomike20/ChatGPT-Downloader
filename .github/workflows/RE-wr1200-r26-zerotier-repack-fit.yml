@@ -1,0 +1,204 @@
+name: RE WR1200 R26 ZeroTier SquashFS Repack Fit
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-zerotier-repack-fit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wr1200-r26-zerotier-repack-fit
+  cancel-in-progress: false
+
+jobs:
+  repack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install SquashFS tooling
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools xz-utils file python3 >/dev/null
+
+      - name: Repack exact WR1200 V2 R26 stock rootfs
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/r26repack
+          mkdir -p /tmp/r26repack analysis/zerotier
+
+          ZIP="firmware/cudy/stable/WR1200/WR1200V2-R26-2.4.23-20251224-145945-flash.zip"
+          test -f "$ZIP"
+          unzip -q "$ZIP" -d /tmp/r26repack/pkg
+          BIN=$(find /tmp/r26repack/pkg -type f -name '*.bin' | head -n1)
+          test -n "$BIN"
+          cp "$BIN" /tmp/r26repack/original.bin
+
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path("/tmp/r26repack/original.bin").read_bytes()
+          off=b.find(b"hsqs")
+          if off < 0:
+              raise SystemExit("SquashFS magic not found")
+          Path("/tmp/r26repack/rootfs.offset").write_text(str(off))
+          Path("/tmp/r26repack/original.squashfs").write_bytes(b[off:])
+          print("squashfs_offset",hex(off))
+          print("flash_size",len(b))
+          PY
+
+          sudo unsquashfs -no-progress -d /tmp/r26repack/rootfs /tmp/r26repack/original.squashfs >/dev/null
+          unsquashfs -s /tmp/r26repack/original.squashfs | tee /tmp/r26repack/original-superblock.txt
+
+          sudo cp -a /tmp/r26repack/rootfs /tmp/r26repack/rootfs-control
+          sudo cp -a /tmp/r26repack/rootfs /tmp/r26repack/rootfs-client
+          sudo cp -a /tmp/r26repack/rootfs /tmp/r26repack/rootfs-controller
+
+          CLIENT="builds/zerotier/1.8.6/clientonly-noportmapper-staticstdcpp-lto/zerotier-one"
+          CONTROLLER="builds/zerotier/1.8.6/noportmapper-staticstdcpp-lto/zerotier-one"
+          test -f "$CLIENT"
+          test -f "$CONTROLLER"
+
+          sudo install -m 0755 "$CLIENT" /tmp/r26repack/rootfs-client/usr/bin/zerotier-one
+          sudo install -m 0755 "$CONTROLLER" /tmp/r26repack/rootfs-controller/usr/bin/zerotier-one
+
+          for v in control client controller; do
+            sudo mksquashfs "/tmp/r26repack/rootfs-$v" "/tmp/r26repack/$v.squashfs"               -comp xz -b 262144 -noappend -no-progress >/tmp/r26repack/mksquashfs-$v.txt
+            unsquashfs -s "/tmp/r26repack/$v.squashfs" >"/tmp/r26repack/superblock-$v.txt"
+          done
+
+          python3 - <<'PY'
+          import hashlib,json,struct
+          from pathlib import Path
+
+          ROOTFS_DATA=0x780000
+          original_bin=Path("/tmp/r26repack/original.bin").read_bytes()
+          off=int(Path("/tmp/r26repack/rootfs.offset").read_text())
+
+          def sq_bytes_used(path):
+              b=Path(path).read_bytes()[:96]
+              if b[:4] != b"hsqs":
+                  raise ValueError(path)
+              return struct.unpack_from("<Q",b,40)[0]
+
+          def sha(path):
+              h=hashlib.sha256()
+              with open(path,"rb") as f:
+                  for chunk in iter(lambda:f.read(1024*1024),b""):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          variants={}
+          for v in ("control","client","controller"):
+              p=f"/tmp/r26repack/{v}.squashfs"
+              used=sq_bytes_used(p)
+              end=off+used
+              variants[v]={
+                  "squashfs_file_size":Path(p).stat().st_size,
+                  "squashfs_bytes_used":used,
+                  "absolute_end":end,
+                  "absolute_end_hex":hex(end),
+                  "rootfs_data_boundary":ROOTFS_DATA,
+                  "rootfs_data_boundary_hex":hex(ROOTFS_DATA),
+                  "headroom_before_rootfs_data":ROOTFS_DATA-end,
+                  "fits_before_rootfs_data":end<=ROOTFS_DATA,
+                  "sha256":sha(p),
+              }
+
+          orig_used=sq_bytes_used("/tmp/r26repack/original.squashfs")
+          orig_end=off+orig_used
+          original={
+              "firmware_size":len(original_bin),
+              "firmware_sha256":hashlib.sha256(original_bin).hexdigest(),
+              "squashfs_offset":off,
+              "squashfs_offset_hex":hex(off),
+              "squashfs_bytes_used":orig_used,
+              "absolute_end":orig_end,
+              "absolute_end_hex":hex(orig_end),
+              "headroom_before_rootfs_data":ROOTFS_DATA-orig_end,
+          }
+
+          for v,x in variants.items():
+              x["delta_vs_original_bytes_used"]=x["squashfs_bytes_used"]-orig_used
+              x["delta_vs_control_bytes_used"]=x["squashfs_bytes_used"]-variants["control"]["squashfs_bytes_used"]
+
+          result={"original":original,"variants":variants}
+
+          for v in ("client","controller"):
+              x=variants[v]
+              if not x["fits_before_rootfs_data"]:
+                  continue
+              sq=Path(f"/tmp/r26repack/{v}.squashfs").read_bytes()
+              out=bytearray(original_bin)
+              region=ROOTFS_DATA-off
+              if len(sq)>region:
+                  raise SystemExit("unexpected fit mismatch")
+              out[off:ROOTFS_DATA]=b"\xff"*region
+              out[off:off+len(sq)]=sq
+              op=Path(f"/tmp/r26repack/RE-WR1200V2-R26-ZT-{v.upper()}-REPACK-ANALYSIS.bin")
+              op.write_bytes(out)
+              x["analysis_firmware_sha256"]=hashlib.sha256(out).hexdigest()
+              x["analysis_firmware_size"]=len(out)
+
+          Path("analysis/zerotier/RE-WR1200V2-R26-ZEROTIER-REPACK-FIT-01.json").write_text(json.dumps(result,indent=2))
+
+          md=[
+            "# WR1200 V2 / R26 ZeroTier SquashFS repack fit 01","",
+            "Analysis-only repack. This does not claim Cudy image acceptance or target boot verification.","",
+            f'- Stock firmware SHA-256: {original["firmware_sha256"]}',
+            f'- SquashFS start: {original["squashfs_offset_hex"]}',
+            f'- Stock SquashFS bytes_used: {original["squashfs_bytes_used"]:,} B',
+            f'- Stock end: {original["absolute_end_hex"]}',
+            '- rootfs_data boundary: 0x780000',
+            f'- Stock headroom: {original["headroom_before_rootfs_data"]:,} B',"",
+            "| Variant | SquashFS bytes_used | delta vs stock | delta vs control | End | Headroom | Fits? |",
+            "|---|---:|---:|---:|---|---:|---|"
+          ]
+          for v in ("control","client","controller"):
+              x=variants[v]
+              md.append(
+                  f'| {v} | {x["squashfs_bytes_used"]:,} | {x["delta_vs_original_bytes_used"]:+,} | '
+                  f'{x["delta_vs_control_bytes_used"]:+,} | {x["absolute_end_hex"]} | '
+                  f'{x["headroom_before_rootfs_data"]:+,} | {"YES" if x["fits_before_rootfs_data"] else "NO"} |'
+              )
+
+          md += ["","## Interpretation","",
+                 "- control quantifies mksquashfs reproducibility/tool-version delta.",
+                 "- client adds only the upstream client-only/no-PortMapper/static-libstdc++/LTO ZeroTier binary.",
+                 "- controller keeps the local controller but removes PortMapper and statically links libstdc++.",
+                 "- Existing target overlay integration is intentionally not duplicated into ROM in this fit test."]
+          Path("analysis/zerotier/RE-WR1200V2-R26-ZEROTIER-REPACK-FIT-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit fit report
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-WR1200V2-R26-ZEROTIER-REPACK-FIT-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish WR1200 R26 ZeroTier SquashFS fit analysis"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-WR1200V2-R26-ZEROTIER-REPACK-FIT-01
+          retention-days: 30
+          compression-level: 0
+          path: |
+            analysis/zerotier/RE-WR1200V2-R26-ZEROTIER-REPACK-FIT-01.*
+            /tmp/r26repack/*superblock*.txt
+            /tmp/r26repack/mksquashfs-*.txt
+            /tmp/r26repack/RE-WR1200V2-R26-ZT-*-REPACK-ANALYSIS.bin
