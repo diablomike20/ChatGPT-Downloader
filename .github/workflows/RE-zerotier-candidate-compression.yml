@@ -1,0 +1,74 @@
+name: RE ZeroTier Candidate Compression Check
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-zerotier-candidate-compression.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Measure router-native compression options
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq bzip2 xz-utils >/dev/null
+          mkdir -p analysis/zerotier
+          python3 - <<'PY'
+          import bz2,gzip,lzma,hashlib,pathlib,json
+          variants=[
+            "clientonly-noportmapper-staticstdcpp-lto",
+            "clientonly-noportmapper-staticstdcpp-lto-nortti",
+            "noportmapper-staticstdcpp-lto",
+            "bundled-staticstdcpp-lto",
+          ]
+          rows=[]
+          for v in variants:
+              p=pathlib.Path("builds/zerotier/1.8.6")/v/"zerotier-one"
+              b=p.read_bytes()
+              rows.append({
+                "variant":v,
+                "raw":len(b),
+                "gzip9":len(gzip.compress(b,9,mtime=0)),
+                "bzip2_9":len(bz2.compress(b,9)),
+                "xz9e":len(lzma.compress(b,format=lzma.FORMAT_XZ,preset=9|lzma.PRESET_EXTREME)),
+                "sha256":hashlib.sha256(b).hexdigest(),
+                "fits_448KiB_raw_region_bzip2":len(bz2.compress(b,9)) <= 448*1024,
+                "headroom_448KiB_bzip2":448*1024-len(bz2.compress(b,9)),
+              })
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.8.6-COMPRESSION-01.json").write_text(json.dumps(rows,indent=2))
+          md=["# ZeroTier 1.8.6 candidate compression","",
+              "WR1200 V2 stock inventory exposes BusyBox gzip/gunzip and bunzip2/bzcat, but no xz/unxz symlink.",
+              "",
+              "| Variant | Raw | gzip-9 | bzip2-9 | xz-9e | fits 448 KiB bzip2 | bzip2 headroom |",
+              "|---|---:|---:|---:|---:|---|---:|"]
+          for r in rows:
+              md.append(f'| {r["variant"]} | {r["raw"]} | {r["gzip9"]} | {r["bzip2_9"]} | {r["xz9e"]} | {"YES" if r["fits_448KiB_raw_region_bzip2"] else "NO"} | {r["headroom_448KiB_bzip2"]} |')
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.8.6-COMPRESSION-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-ZEROTIER-1.8.6-COMPRESSION-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish ZeroTier candidate compression comparison"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
