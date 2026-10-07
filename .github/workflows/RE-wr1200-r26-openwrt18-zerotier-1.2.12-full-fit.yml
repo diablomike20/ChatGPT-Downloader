@@ -62,16 +62,25 @@ jobs:
                   if "Package" in d and "Filename" in d:
                       indexes.setdefault(d["Package"],[]).append((feed,d))
 
-          # zerotier package metadata
+          # zerotier package metadata; support both legacy tar.gz ipk and ar ipk
           import subprocess, os, tarfile
           work=pathlib.Path("/tmp/zt1812/meta")
           work.mkdir()
-          # .ipk in this generation is ar archive
-          subprocess.run(["ar","x","/tmp/zt1812/pkgs/zerotier.ipk"],cwd=work,check=True)
+          ipk=pathlib.Path("/tmp/zt1812/pkgs/zerotier.ipk")
+          sig=ipk.read_bytes()[:8]
+          if sig==b"!<arch>\\n":
+              subprocess.run(["ar","x",str(ipk)],cwd=work,check=True)
+          else:
+              with tarfile.open(ipk,"r:gz") as outer:
+                  outer.extractall(work)
           ctar=next(work.glob("control.tar.*"))
-          mode="r:gz" if ctar.suffix==".gz" else "r:*"
-          with tarfile.open(ctar,mode) as t:
-              c=t.extractfile("./control") or t.extractfile("control")
+          with tarfile.open(ctar,"r:*") as t:
+              try:
+                  c=t.extractfile("./control")
+              except KeyError:
+                  c=None
+              if c is None:
+                  c=t.extractfile("control")
               control=c.read().decode()
           pathlib.Path("/tmp/zt1812/zerotier.control").write_text(control)
           print(control)
