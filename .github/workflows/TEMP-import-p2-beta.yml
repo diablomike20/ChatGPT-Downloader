@@ -1,0 +1,57 @@
+name: TEMP Import P2 Beta From Dev Support
+
+on:
+  push:
+    branches: [cudy-beta]
+    paths:
+      - ".github/workflows/TEMP-import-p2-beta.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-beta
+          fetch-depth: 0
+      - shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin cudy-dev-support
+          mkdir -p firmware/cudy/beta/firmware
+          git show origin/cudy-dev-support:firmware/cudy/dev-support/firmware/P2-R91-2.4.29b-20260422-101502-sysupgrade.bin             > firmware/cudy/beta/firmware/P2-R91-2.4.29b-20260422-101502-sysupgrade.bin
+
+          got=$(sha256sum firmware/cudy/beta/firmware/P2-R91-2.4.29b-20260422-101502-sysupgrade.bin | awk '{print $1}')
+          exp=3f8dae3d42ad6ba7d1314022eac6bc007d03fac274196b2c802f2835ab21c3f9
+          test "$got" = "$exp"
+
+          python3 - <<'PY'
+          import csv,pathlib
+          p=pathlib.Path("firmware/cudy/beta/RE-CUDY-BETA-MANIFEST.csv")
+          rows=[]
+          if p.exists():
+              with open(p,encoding="utf-8-sig",newline="") as f: rows=list(csv.DictReader(f))
+          h="3f8dae3d42ad6ba7d1314022eac6bc007d03fac274196b2c802f2835ab21c3f9"
+          name="P2-R91-2.4.29b-20260422-101502-sysupgrade.bin"
+          if not any(r.get("sha256")==h for r in rows):
+              rows.append({
+                  "kind":"firmware","filename":name,"size":"20188702","sha256":h,
+                  "expected_sha256":h,"source":"migrated from cudy-dev-support / historical FU7 P2 source"
+              })
+          fields=["kind","filename","size","sha256","expected_sha256","source"]
+          with open(p,"w",encoding="utf-8-sig",newline="") as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+          with open("firmware/cudy/beta/RE-CUDY-BETA-SHA256SUMS.txt","w") as f:
+              for r in rows:
+                  f.write(f'{r["sha256"]}  {r["kind"]}/{r["filename"]}\n')
+          PY
+
+          git config user.name "OpenCudy Classification Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add firmware/cudy/beta
+          git commit -m "RE: classify P2 2.4.29b as beta firmware"
+          git push origin HEAD:cudy-beta
