@@ -89,7 +89,7 @@ jobs:
 
           set +e
           make -j2 one \
-            CC="${CROSS}gcc" CXX="${CROSS}g++" AR="${CROSS}ar" RANLIB="${CROSS}ranlib" \
+            CC="${CROSS}gcc" CXX="${CROSS}g++" AR="${CROSS}ar" RANLIB="${CROSS}ranlib" STRIP="${CROSS}strip" \
             CFLAGS="$C" CXXFLAGS="$CXX" LDFLAGS="$LD" \
             >"$out/build.log" 2>&1
           rc=$?
@@ -110,7 +110,6 @@ jobs:
           chmod +x /tmp/zt1212/build-one.sh
 
           /tmp/zt1212/build-one.sh compact ""
-          /tmp/zt1212/build-one.sh compact-noexceptions "-fno-exceptions"
 
       - name: Prepare exact R26 stock rootfs
         shell: bash
@@ -135,7 +134,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for v in compact compact-noexceptions; do
+          for v in compact; do
             [ -f "/tmp/zt1212/builds/$v/zerotier-one" ] || continue
             sudo cp -a /tmp/zt1212/r26/root "/tmp/zt1212/r26/root-$v"
             sudo install -m 0755 "/tmp/zt1212/builds/$v/zerotier-one" "/tmp/zt1212/r26/root-$v/usr/bin/zerotier-one"
@@ -154,7 +153,7 @@ jobs:
               return struct.unpack_from("<Q",b,40)[0]
           orig=used("/tmp/zt1212/r26/original.sqfs")
           rows=[]
-          for v in ("compact","compact-noexceptions"):
+          for v in ("compact",):
               bd=pathlib.Path("/tmp/zt1212/builds")/v
               rc=int((bd/"build.rc").read_text()) if (bd/"build.rc").exists() else 999
               rec={"variant":v,"build_rc":rc}
@@ -214,7 +213,7 @@ jobs:
         run: |
           set -e
           mkdir -p builds/zerotier/1.2.12-lede17
-          for v in compact compact-noexceptions; do
+          for v in compact; do
             if [ -f "/tmp/zt1212/builds/$v/zerotier-one" ]; then
               mkdir -p "builds/zerotier/1.2.12-lede17/$v"
               cp "/tmp/zt1212/builds/$v/zerotier-one" "builds/zerotier/1.2.12-lede17/$v/"
