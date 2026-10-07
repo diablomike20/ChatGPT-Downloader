@@ -1,0 +1,184 @@
+{
+  "erase_size": 65536,
+  "rootfs_partition_end": 8323072,
+  "stock_squashfs_bytes_used": 5242960,
+  "current_target_overlay_used_bytes": 249856,
+  "tr069_removed": [
+    {
+      "path": "usr/lib/lua/luci/model/cbi/cwmp.lua",
+      "type": "file_or_link",
+      "raw_size": 4330
+    },
+    {
+      "path": "usr/lib/lua/luci/controller/cwmp.lua",
+      "type": "file_or_link",
+      "raw_size": 295
+    },
+    {
+      "path": "etc/hotplug.d/iface/96-cwmp_hotplug",
+      "type": "file_or_link",
+      "raw_size": 547
+    },
+    {
+      "path": "usr/share/cwmp/firewall.include",
+      "type": "file_or_link",
+      "raw_size": 910
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-portfwd",
+      "type": "file_or_link",
+      "raw_size": 819
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-upgrd",
+      "type": "file_or_link",
+      "raw_size": 1296
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-nat",
+      "type": "file_or_link",
+      "raw_size": 39
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-restore",
+      "type": "file_or_link",
+      "raw_size": 465
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-ppp",
+      "type": "file_or_link",
+      "raw_size": 194
+    },
+    {
+      "path": "usr/bin/tr069/gen_hosts",
+      "type": "file_or_link",
+      "raw_size": 2368
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-qos",
+      "type": "file_or_link",
+      "raw_size": 1431
+    },
+    {
+      "path": "usr/bin/tr069/cwmp_external_func",
+      "type": "file_or_link",
+      "raw_size": 1212
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-ddns",
+      "type": "file_or_link",
+      "raw_size": 448
+    },
+    {
+      "path": "usr/bin/tr069/gen_meshlist",
+      "type": "file_or_link",
+      "raw_size": 942
+    },
+    {
+      "path": "usr/bin/tr069/verify_pms",
+      "type": "file_or_link",
+      "raw_size": 27924
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-user",
+      "type": "file_or_link",
+      "raw_size": 392
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-ntp",
+      "type": "file_or_link",
+      "raw_size": 3101
+    },
+    {
+      "path": "usr/bin/tr069/gen_ethernet_port_info",
+      "type": "file_or_link",
+      "raw_size": 3684
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-route",
+      "type": "file_or_link",
+      "raw_size": 723
+    },
+    {
+      "path": "usr/bin/tr069/diagnose",
+      "type": "file_or_link",
+      "raw_size": 22692
+    },
+    {
+      "path": "usr/bin/tr069/cwmp-bkup",
+      "type": "file_or_link",
+      "raw_size": 769
+    },
+    {
+      "path": "etc/config/cwmp",
+      "type": "file_or_link",
+      "raw_size": 495
+    },
+    {
+      "path": "etc/rc.d/S99cwmp",
+      "type": "file_or_link",
+      "raw_size": 0
+    },
+    {
+      "path": "etc/init.d/cwmp",
+      "type": "file_or_link",
+      "raw_size": 8648
+    },
+    {
+      "path": "etc/uci-defaults/98-cwmp",
+      "type": "file_or_link",
+      "raw_size": 406
+    },
+    {
+      "path": "usr/share/cwmp",
+      "type": "dir"
+    },
+    {
+      "path": "usr/lib/libcwmp.so",
+      "type": "file_or_link",
+      "raw_size": 185735
+    },
+    {
+      "path": "usr/bin/tr069",
+      "type": "dir"
+    },
+    {
+      "path": "usr/bin/cwmp_cli",
+      "type": "file_or_link",
+      "raw_size": 8216
+    },
+    {
+      "path": "usr/bin/cwmp",
+      "type": "file_or_link",
+      "raw_size": 120552
+    }
+  ],
+  "variants": [
+    {
+      "variant": "client",
+      "squashfs_bytes_used": 5456026,
+      "delta_vs_stock": 213066,
+      "squashfs_end": 8039321,
+      "squashfs_end_hex": "0x7aab99",
+      "dynamic_rootfs_data_start": 8060928,
+      "dynamic_rootfs_data_start_hex": "0x7b0000",
+      "dynamic_rootfs_data_size": 262144,
+      "dynamic_rootfs_data_kib": 256,
+      "headroom_vs_current_overlay_used": 12288,
+      "sha256": "3e3f09689769c2683cbc65fabdab8130987fc1f4dcce36e437fdabadca7671ac"
+    },
+    {
+      "variant": "final",
+      "squashfs_bytes_used": 5356530,
+      "delta_vs_stock": 113570,
+      "squashfs_end": 7939825,
+      "squashfs_end_hex": "0x7926f1",
+      "dynamic_rootfs_data_start": 7995392,
+      "dynamic_rootfs_data_start_hex": "0x7a0000",
+      "dynamic_rootfs_data_size": 327680,
+      "dynamic_rootfs_data_kib": 320,
+      "headroom_vs_current_overlay_used": 77824,
+      "sha256": "a71dc65e2a70e4c7dd2c23abfa94586423fa0c8f180018f0fc18a063ad259137"
+    }
+  ]
+}
