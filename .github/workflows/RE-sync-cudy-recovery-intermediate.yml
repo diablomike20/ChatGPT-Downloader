@@ -38,7 +38,7 @@ jobs:
 
           echo "=== Primary: original public Cudy Google Drive ==="
           set +e
-          gdown --folder --remaining-ok \
+          gdown --folder \
             "https://drive.google.com/drive/folders/1BKVarlwlNxf7uJUtRhuMGUqeCa5KpMnj" \
             -O /tmp/cudy-intermediary
           rc=$?
@@ -169,6 +169,7 @@ jobs:
           git add firmware/cudy/recovery-intermediate
           git diff --cached --quiet && exit 0
           git commit -m "RE: sync Cudy recovery-intermediate firmware payloads"
+          git pull --rebase origin cudy-recovery-intermediate
           git push origin HEAD:cudy-recovery-intermediate
 
           if find /tmp/cudy-recovery-large -maxdepth 1 -type f | grep -q .; then
