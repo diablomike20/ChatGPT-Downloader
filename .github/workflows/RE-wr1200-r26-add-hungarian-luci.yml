@@ -1,0 +1,118 @@
+name: RE WR1200 R26 Add Hungarian LuCI to HU EN ZeroTier
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-wr1200-r26-add-hungarian-luci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  hu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 1
+
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq curl gzip tar python3 unzip squashfs-tools >/dev/null
+
+      - name: Find exact LEDE 17.01 Hungarian LuCI packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/hucheck
+          mkdir -p /tmp/hucheck analysis/zerotier
+          BASE="https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/luci"
+          curl -fsSL "$BASE/Packages.gz" -o /tmp/hucheck/Packages.gz
+          gzip -dc /tmp/hucheck/Packages.gz > /tmp/hucheck/Packages
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,re
+          text=Path("/tmp/hucheck/Packages").read_text(errors="ignore")
+          rows=[]
+          for para in text.split("\n\n"):
+              d={}
+              for line in para.splitlines():
+                  if ": " in line:
+                      k,v=line.split(": ",1); d[k]=v
+              if d.get("Package","").startswith("luci-i18n-") and (
+                  d["Package"].endswith("-hu") or d.get("Filename","").endswith("_hu.ipk")
+              ):
+                  rows.append(d)
+          Path("analysis/zerotier/RE-LEDE17-HUNGARIAN-LUCI-PACKAGES-01.json").write_text(json.dumps(rows,indent=2))
+          print(json.dumps(rows,indent=2))
+          for d in rows:
+              print("HU_PACKAGE",d.get("Package"),d.get("Version"),d.get("Filename"))
+          PY
+
+      - name: Download base Hungarian package if available and inspect payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import json,urllib.request,subprocess,tarfile,hashlib,os
+          rows=json.loads(Path("analysis/zerotier/RE-LEDE17-HUNGARIAN-LUCI-PACKAGES-01.json").read_text())
+          base=[x for x in rows if x.get("Package")=="luci-i18n-base-hu"]
+          result={"available":bool(base)}
+          if base:
+              d=base[0]
+              url="https://downloads.openwrt.org/releases/packages-17.01/mipsel_24kc/luci/"+d["Filename"]
+              out=Path("/tmp/hucheck/base-hu.ipk")
+              urllib.request.urlretrieve(url,out)
+              result.update({
+                  "package":d["Package"],"version":d.get("Version"),
+                  "filename":d["Filename"],"url":url,
+                  "ipk_size":out.stat().st_size,
+                  "ipk_sha256":hashlib.sha256(out.read_bytes()).hexdigest()
+              })
+              ex=Path("/tmp/hucheck/ex"); ex.mkdir()
+              sig=out.read_bytes()[:8]
+              if sig==b"!<arch>\n":
+                  subprocess.run(["ar","x",str(out)],cwd=ex,check=True)
+              else:
+                  with tarfile.open(out,"r:gz") as t:t.extractall(ex)
+              data=next(ex.glob("data.tar.*"))
+              root=Path("/tmp/hucheck/root"); root.mkdir()
+              with tarfile.open(data,"r:*") as t:t.extractall(root)
+              files=[]
+              for p in root.rglob("*"):
+                  if p.is_file() or p.is_symlink():
+                      files.append({"path":"/"+str(p.relative_to(root)),
+                                    "size":p.stat().st_size if p.is_file() else 0})
+              result["payload"]=files
+          Path("analysis/zerotier/RE-LEDE17-HUNGARIAN-LUCI-BASE-01.json").write_text(json.dumps(result,indent=2))
+          md=["# LEDE 17.01 Hungarian LuCI base package 01","",
+              f'- Available: {result["available"]}']
+          if result["available"]:
+              md += [f'- Package: {result["package"]}',
+                     f'- Version: {result["version"]}',
+                     f'- IPK size: {result["ipk_size"]} B',
+                     f'- SHA-256: {result["ipk_sha256"]}',"",
+                     "## Payload",""]
+              md += [f'- {x["path"]}: {x["size"]} B' for x in result["payload"]]
+          Path("analysis/zerotier/RE-LEDE17-HUNGARIAN-LUCI-BASE-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit report
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-LEDE17-HUNGARIAN-LUCI-PACKAGES-01.json                   analysis/zerotier/RE-LEDE17-HUNGARIAN-LUCI-BASE-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: inventory exact LEDE17 Hungarian LuCI package"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
