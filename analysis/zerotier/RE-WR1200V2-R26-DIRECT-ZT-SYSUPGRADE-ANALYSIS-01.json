@@ -1,0 +1,15 @@
+{
+  "status": "ANALYSIS_ONLY",
+  "full_image_size": 7930011,
+  "full_image_sha256": "195c738040459dca3c70d42ae3fb037b880407e82f2ec3b698a29c20e891f2f5",
+  "direct_sysupgrade_size": 7602331,
+  "direct_sysupgrade_sha256": "9e67796bbeb3e59af0d1bbd743fef75b1d846802ba31228779b7a4f23127aa00",
+  "direct_starts_uimage": true,
+  "uimage_header_crc_pass": true,
+  "uimage_data_crc_pass": true,
+  "candidate_squashfs_logical_end_hex": "0x785539",
+  "dynamic_rootfs_data_start_hex": "0x790000",
+  "new_rootfs_data_size": 393216,
+  "new_rootfs_data_size_kib": 384,
+  "bootloader_prefix_removed_bytes": 327680
+}
