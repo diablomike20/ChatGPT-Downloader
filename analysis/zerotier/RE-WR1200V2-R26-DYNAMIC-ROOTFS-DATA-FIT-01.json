@@ -1,0 +1,59 @@
+{
+  "status": "ANALYSIS_ONLY_NOT_FLASH_VERIFIED",
+  "stock": {
+    "firmware_file_size": 7930011,
+    "firmware_file_size_hex": "0x79009b",
+    "firmware_sha256": "b9842ca6d6b54d4d2b8bb4d13457ee674ba2d13540443af1cf1ce82708ea02cd",
+    "rootfs_offset": 2583295,
+    "rootfs_offset_hex": "0x276aff",
+    "current_rootfs_data_start": 7864320,
+    "current_rootfs_data_start_hex": "0x780000",
+    "rootfs_partition_end": 8323072,
+    "rootfs_partition_end_hex": "0x7f0000",
+    "eraseblock": 65536,
+    "current_rootfs_data_size": 458752
+  },
+  "candidate": {
+    "zerotier_version": "1.1.14-4",
+    "zerotier_sha256": "815303c7ae79d1c5296ad16b4498b993e7e9fe4d2d2914d852f66a6d0086aaf0",
+    "squashfs_file_size": 5304320,
+    "squashfs_bytes_used": 5302842,
+    "squashfs_logical_end": 7886137,
+    "squashfs_logical_end_hex": "0x785539",
+    "squashfs_padded_end": 7887615,
+    "squashfs_padded_end_hex": "0x785aff",
+    "dynamic_rootfs_data_start": 7929856,
+    "dynamic_rootfs_data_start_hex": "0x790000",
+    "new_rootfs_data_size": 393216,
+    "new_rootfs_data_size_kib": 384,
+    "rootfs_data_loss_bytes": 65536,
+    "rootfs_data_loss_kib": 64,
+    "padding_before_new_split": 42241,
+    "analysis_image_size": 7930011,
+    "analysis_image_sha256": "0d4d71ac45583f70340507add010ee8818d33ec33deaa61f4572e0e48149c3f8"
+  },
+  "consumed_stock_region": {
+    "start_hex": "0x780000",
+    "end_hex": "0x790000",
+    "bytes_present_in_stock_file": 65536,
+    "ff_bytes": 65532,
+    "zero_bytes": 0,
+    "other_bytes": 4,
+    "sha256": "adddc42b1e1f21ea35e817fba1973e7655ad99e2e4fe6b46d936c81783d8d916"
+  },
+  "preservation": {
+    "prefix_before_rootfs_sha256": "4166cd6da677aca01ce053207fe1053c3f3bcb3aaf4dc4e9149a4a235b5ec1ae",
+    "trailer_start_hex": "0x790000",
+    "trailer_size": 155,
+    "trailer_sha256": "530c57b8fabd92b185b312f398fabe6cec96a98d55b636b40ac6397f0078d149",
+    "prefix_preserved": true,
+    "trailer_preserved": true
+  },
+  "overlay_capacity_model": {
+    "current_total_kib": 448,
+    "current_used_kib": 244,
+    "current_available_kib": 204,
+    "new_partition_kib": 384,
+    "modeled_available_if_same_usage_kib": 140
+  }
+}
