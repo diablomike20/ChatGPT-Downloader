@@ -6,6 +6,78 @@
   },
   "results": [
     {
+      "variant": "clientonly-noportmapper-staticstdcpp-lto-hidden-micro-nothreadsafe",
+      "build_rc": 0,
+      "source_commit": "4a2c75a60941e75f36ed1961458a42fbd12ea4ac",
+      "status": "OK",
+      "binary_size": 1428000,
+      "binary_sha256": "92ed323869afa7f820d3d96f7d403f42ef68b6c65151efa002e0c4d38822dd35",
+      "binary_gzip9": 547370,
+      "binary_xz9e": 387224,
+      "needed": [
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "extra_external_from_R25": [],
+      "unresolved_needed": [],
+      "interpreter": "/lib/ld-musl-mipsel-sf.so.1",
+      "r26_payload_logical": 1428000,
+      "r26_payload_tar": 1433600,
+      "r26_payload_gzip9": 547452,
+      "r26_payload_xz9e": 385064,
+      "saving_vs_R25_logical": 712557,
+      "saving_vs_R25_gzip9": 232361,
+      "saving_vs_R25_xz9e": 181492
+    },
+    {
+      "variant": "clientonly-noportmapper-staticstdcpp-lto-hidden",
+      "build_rc": 0,
+      "source_commit": "4a2c75a60941e75f36ed1961458a42fbd12ea4ac",
+      "status": "OK",
+      "binary_size": 1427992,
+      "binary_sha256": "c55545fda7ddd45bb041dcd58e32a316c4f913c00bb3aa4c1d124d92ef202b43",
+      "binary_gzip9": 547433,
+      "binary_xz9e": 384860,
+      "needed": [
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "extra_external_from_R25": [],
+      "unresolved_needed": [],
+      "interpreter": "/lib/ld-musl-mipsel-sf.so.1",
+      "r26_payload_logical": 1427992,
+      "r26_payload_tar": 1433600,
+      "r26_payload_gzip9": 547513,
+      "r26_payload_xz9e": 385068,
+      "saving_vs_R25_logical": 712565,
+      "saving_vs_R25_gzip9": 232300,
+      "saving_vs_R25_xz9e": 181488
+    },
+    {
+      "variant": "clientonly-noportmapper-staticstdcpp-lto-hidden-micro",
+      "build_rc": 0,
+      "source_commit": "4a2c75a60941e75f36ed1961458a42fbd12ea4ac",
+      "status": "OK",
+      "binary_size": 1428000,
+      "binary_sha256": "1a49e080c7780a4d93bdd7f9c1fa609db94259b96d7018a528d31501a078f8ee",
+      "binary_gzip9": 547394,
+      "binary_xz9e": 388012,
+      "needed": [
+        "libgcc_s.so.1",
+        "libc.so"
+      ],
+      "extra_external_from_R25": [],
+      "unresolved_needed": [],
+      "interpreter": "/lib/ld-musl-mipsel-sf.so.1",
+      "r26_payload_logical": 1428000,
+      "r26_payload_tar": 1433600,
+      "r26_payload_gzip9": 547481,
+      "r26_payload_xz9e": 387844,
+      "saving_vs_R25_logical": 712557,
+      "saving_vs_R25_gzip9": 232332,
+      "saving_vs_R25_xz9e": 178712
+    },
+    {
       "variant": "clientonly-noportmapper-staticstdcpp-lto-nortti",
       "build_rc": 0,
       "source_commit": "4a2c75a60941e75f36ed1961458a42fbd12ea4ac",
