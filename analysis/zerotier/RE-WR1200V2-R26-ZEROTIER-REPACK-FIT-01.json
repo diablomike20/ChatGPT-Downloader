@@ -1,0 +1,53 @@
+{
+  "original": {
+    "firmware_size": 7930011,
+    "firmware_sha256": "b9842ca6d6b54d4d2b8bb4d13457ee674ba2d13540443af1cf1ce82708ea02cd",
+    "squashfs_offset": 2583295,
+    "squashfs_offset_hex": "0x276aff",
+    "squashfs_bytes_used": 5242960,
+    "absolute_end": 7826255,
+    "absolute_end_hex": "0x776b4f",
+    "headroom_before_rootfs_data": 38065
+  },
+  "variants": {
+    "control": {
+      "squashfs_file_size": 5263360,
+      "squashfs_bytes_used": 5263134,
+      "absolute_end": 7846429,
+      "absolute_end_hex": "0x77ba1d",
+      "rootfs_data_boundary": 7864320,
+      "rootfs_data_boundary_hex": "0x780000",
+      "headroom_before_rootfs_data": 17891,
+      "fits_before_rootfs_data": true,
+      "sha256": "dab61dd57413b284fbc9b9d0f92b55a879feda108708f29c837b4ffe259acf5a",
+      "delta_vs_original_bytes_used": 20174,
+      "delta_vs_control_bytes_used": 0
+    },
+    "client": {
+      "squashfs_file_size": 5685248,
+      "squashfs_bytes_used": 5683570,
+      "absolute_end": 8266865,
+      "absolute_end_hex": "0x7e2471",
+      "rootfs_data_boundary": 7864320,
+      "rootfs_data_boundary_hex": "0x780000",
+      "headroom_before_rootfs_data": -402545,
+      "fits_before_rootfs_data": false,
+      "sha256": "34f46b0d67739206402268ae16f9c9de66efbff604d403dd8a51c4644cad68ad",
+      "delta_vs_original_bytes_used": 440610,
+      "delta_vs_control_bytes_used": 420436
+    },
+    "controller": {
+      "squashfs_file_size": 5783552,
+      "squashfs_bytes_used": 5779642,
+      "absolute_end": 8362937,
+      "absolute_end_hex": "0x7f9bb9",
+      "rootfs_data_boundary": 7864320,
+      "rootfs_data_boundary_hex": "0x780000",
+      "headroom_before_rootfs_data": -498617,
+      "fits_before_rootfs_data": false,
+      "sha256": "0829301ef149a9b6f67c1639b38a0270e1a30f93589cb74b7ca534c1c0e9237b",
+      "delta_vs_original_bytes_used": 536682,
+      "delta_vs_control_bytes_used": 516508
+    }
+  }
+}
