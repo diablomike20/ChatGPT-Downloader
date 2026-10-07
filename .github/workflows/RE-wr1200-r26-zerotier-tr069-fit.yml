@@ -89,7 +89,7 @@ jobs:
 
           # Project policy: TR-069 is permanently excluded.
           # Remove only explicit CWMP/TR069-named files; do not touch cmagent or unrelated Cudy cloud components.
-          python3 - <<'PY'
+          sudo python3 - <<'PY'
           from pathlib import Path
           import shutil,re,json
           root=Path("/tmp/r26tr/root-final")
