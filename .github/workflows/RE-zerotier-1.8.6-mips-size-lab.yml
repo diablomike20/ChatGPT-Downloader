@@ -1,0 +1,311 @@
+name: RE ZeroTier 1.8.6 MIPS Size Lab
+
+on:
+  push:
+    branches: [zerotier-build-lab]
+    paths:
+      - ".github/workflows/RE-zerotier-1.8.6-mips-size-lab.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: zerotier-1.8.6-mips-size-lab
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      SDK_URL: https://archive.openwrt.org/releases/17.01.5/targets/ramips/mt7628/lede-sdk-17.01.5-ramips-mt7628_gcc-5.4.0_musl-1.1.16.Linux-x86_64.tar.xz
+      SDK_SHA256: faee0635a0b92c53ca4395198c9a07d37b034e220c54a7a526e5f82fb44c5cfe
+      ZT_TAG: 1.8.6
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: zerotier-build-lab
+          fetch-depth: 0
+
+      - name: Install host tooling
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq build-essential git xz-utils file binutils squashfs-tools unzip python3 >/dev/null
+
+      - name: Fetch and verify LEDE 17.01.5 mt7628 SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ztlab
+          curl -fL --retry 3 "$SDK_URL" -o /tmp/ztlab/sdk.tar.xz
+          echo "$SDK_SHA256  /tmp/ztlab/sdk.tar.xz" | sha256sum -c -
+          mkdir -p /tmp/ztlab/sdk
+          tar -xJf /tmp/ztlab/sdk.tar.xz -C /tmp/ztlab/sdk --strip-components=1
+
+          TOOLCHAIN=$(find /tmp/ztlab/sdk/staging_dir -maxdepth 1 -type d -name 'toolchain-mipsel_24kc_gcc-5.4.0_musl-1.1.16*' | head -n1)
+          test -n "$TOOLCHAIN"
+          echo "TOOLCHAIN=$TOOLCHAIN" >> "$GITHUB_ENV"
+          echo "CROSS=$TOOLCHAIN/bin/mipsel-openwrt-linux-musl-" >> "$GITHUB_ENV"
+
+          "$TOOLCHAIN/bin/mipsel-openwrt-linux-musl-gcc" -dumpmachine
+          "$TOOLCHAIN/bin/mipsel-openwrt-linux-musl-g++" --version | head -n1
+
+      - name: Fetch exact upstream ZeroTier 1.8.6
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 --branch "$ZT_TAG" https://github.com/zerotier/ZeroTierOne.git /tmp/ztlab/ZeroTierOne
+          cd /tmp/ztlab/ZeroTierOne
+          git rev-parse HEAD | tee /tmp/ztlab/ZEROTIER_SOURCE_COMMIT.txt
+          grep -E 'ZEROTIER_ONE_VERSION_(MAJOR|MINOR|REVISION)' version.h
+
+      - name: Extract known R25 dependency files for fair payload comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          R25ZIP="firmware/cudy/stable/LT500/LT500V2-R25-2.4.16-20250804-150319-flash.zip"
+          test -f "$R25ZIP"
+          mkdir -p /tmp/ztlab/r25zip /tmp/ztlab/r25root
+          unzip -q "$R25ZIP" -d /tmp/ztlab/r25zip
+          R25BIN=$(find /tmp/ztlab/r25zip -type f -name '*.bin' | head -n1)
+          test -n "$R25BIN"
+
+          python3 - "$R25BIN" <<'PY'
+          import sys,pathlib
+          p=pathlib.Path(sys.argv[1])
+          b=p.read_bytes()
+          off=b.find(b"hsqs")
+          if off<0: raise SystemExit("R25 squashfs not found")
+          pathlib.Path("/tmp/ztlab/r25.squashfs").write_bytes(b[off:])
+          print(hex(off))
+          PY
+
+          unsquashfs -no-progress -d /tmp/ztlab/r25root /tmp/ztlab/r25.squashfs >/dev/null
+          ls -l /tmp/ztlab/r25root/usr/lib/libstdc++.so.6.0.21
+          ls -l /tmp/ztlab/r25root/usr/lib/libminiupnpc.so.2.2.1
+          ls -l /tmp/ztlab/r25root/usr/lib/libnatpmp.so.20150609
+
+      - name: Build size variants
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ztlab/builds
+          mkdir -p /tmp/ztlab/builds
+
+          cat > /tmp/ztlab/build_variant.sh <<'SH'
+          #!/usr/bin/env bash
+          set -u
+          name="$1"
+          mode="$2"
+          src="/tmp/ztlab/builds/$name-src"
+          out="/tmp/ztlab/builds/$name"
+          rm -rf "$src" "$out"
+          cp -a /tmp/ztlab/ZeroTierOne "$src"
+          mkdir -p "$out"
+          cd "$src"
+
+          if [[ "$mode" == *"noportmapper"* ]]; then
+            python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path("make-linux.mk")
+          s=p.read_text()
+          pat=r'# Auto-detect miniupnpc and nat-pmp as well and use system libs if present,\n# otherwise build into binary as done on Mac and Windows\.\n.*?(?=# Use bundled http-parser)'
+          ns,n=re.subn(pat,'# PortMapper intentionally disabled for WR1200 size experiment.\n',s,flags=re.S)
+          if n!=1: raise SystemExit(f"PortMapper block patch count={n}")
+          p.write_text(ns)
+          PY
+          fi
+
+          BASE_C="-Os -fstack-protector -fPIE -ffunction-sections -fdata-sections"
+          BASE_CXX="-Os -fstack-protector -fPIE -ffunction-sections -fdata-sections"
+          BASE_LD="-pie -Wl,-z,relro,-z,now,--gc-sections,--as-needed -s"
+
+          if [[ "$mode" == *"lto"* ]]; then
+            BASE_C="$BASE_C -flto"
+            BASE_CXX="$BASE_CXX -flto"
+            BASE_LD="$BASE_LD -flto"
+          fi
+          if [[ "$mode" == *"staticstdcpp"* ]]; then
+            BASE_LD="$BASE_LD -static-libstdc++"
+          fi
+          if [[ "$mode" == "fullstatic" ]]; then
+            BASE_LD="-static -Wl,--gc-sections -s"
+          fi
+
+          echo "=== $name / $mode ===" | tee "$out/build.log"
+          set +e
+          make -j2 one \
+            CC="${CROSS}gcc" \
+            CXX="${CROSS}g++" \
+            AR="${CROSS}ar" \
+            RANLIB="${CROSS}ranlib" \
+            CFLAGS="$BASE_C" \
+            CXXFLAGS="$BASE_CXX" \
+            LDFLAGS="$BASE_LD" \
+            >>"$out/build.log" 2>&1
+          rc=$?
+          set -e
+          echo "$rc" > "$out/build.rc"
+          if [ "$rc" -ne 0 ]; then
+            tail -n 100 "$out/build.log"
+            exit 0
+          fi
+
+          cp zerotier-one "$out/zerotier-one.unstripped"
+          "${CROSS}strip" --strip-unneeded zerotier-one || true
+          cp zerotier-one "$out/zerotier-one"
+          file zerotier-one > "$out/file.txt"
+          "${CROSS}readelf" -h zerotier-one > "$out/readelf-h.txt"
+          "${CROSS}readelf" -d zerotier-one > "$out/readelf-d.txt" || true
+          "${CROSS}readelf" -l zerotier-one > "$out/readelf-l.txt" || true
+          sha256sum zerotier-one > "$out/SHA256SUMS.txt"
+          gzip -9 -c zerotier-one > "$out/zerotier-one.gz"
+          xz -9e -c zerotier-one > "$out/zerotier-one.xz"
+          SH
+          chmod +x /tmp/ztlab/build_variant.sh
+
+          /tmp/ztlab/build_variant.sh bundled-dynamic bundled
+          /tmp/ztlab/build_variant.sh bundled-staticstdcpp bundled-staticstdcpp
+          /tmp/ztlab/build_variant.sh noportmapper-staticstdcpp noportmapper-staticstdcpp
+          /tmp/ztlab/build_variant.sh bundled-staticstdcpp-lto bundled-staticstdcpp-lto
+          /tmp/ztlab/build_variant.sh fullstatic fullstatic
+
+      - name: Analyze complete R26 payload sizes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p builds/zerotier/1.8.6 analysis/zerotier
+          python3 - <<'PY'
+          import csv,gzip,hashlib,io,json,lzma,os,pathlib,re,shutil,tarfile
+
+          root=pathlib.Path("/tmp/ztlab/builds")
+          out=pathlib.Path("builds/zerotier/1.8.6")
+          out.mkdir(parents=True,exist_ok=True)
+          source_commit=pathlib.Path("/tmp/ztlab/ZEROTIER_SOURCE_COMMIT.txt").read_text().strip()
+
+          r25=pathlib.Path("/tmp/ztlab/r25root/usr/lib")
+          donor={
+            "libstdc++.so.6":r25/"libstdc++.so.6.0.21",
+            "libminiupnpc.so.17":r25/"libminiupnpc.so.2.2.1",
+            "libnatpmp.so.1":r25/"libnatpmp.so.20150609",
+          }
+          target_present={"libgcc_s.so.1","libc.so","libpthread.so.0","librt.so.0","libdl.so.2","libm.so.0"}
+
+          def sha(b):return hashlib.sha256(b).hexdigest()
+          def payload_compress(files):
+              bio=io.BytesIO()
+              with tarfile.open(fileobj=bio,mode="w") as tf:
+                  for name,data in files:
+                      ti=tarfile.TarInfo(name);ti.size=len(data);ti.mtime=0;ti.uid=0;ti.gid=0;ti.mode=0o755 if name.endswith("zerotier-one") else 0o644
+                      tf.addfile(ti,io.BytesIO(data))
+              tar=bio.getvalue()
+              return len(tar),len(gzip.compress(tar,9,mtime=0)),len(lzma.compress(tar,format=lzma.FORMAT_XZ,preset=9|lzma.PRESET_EXTREME))
+
+          rows=[]
+          for d in sorted(root.iterdir()):
+              if not d.is_dir():continue
+              rc=int((d/"build.rc").read_text().strip()) if (d/"build.rc").exists() else 999
+              rec={"variant":d.name,"build_rc":rc,"source_commit":source_commit}
+              if rc!=0 or not (d/"zerotier-one").exists():
+                  rec["status"]="BUILD_FAIL"
+                  rec["build_log_tail"]="\n".join((d/"build.log").read_text(errors="ignore").splitlines()[-80:])
+                  rows.append(rec);continue
+
+              z=(d/"zerotier-one").read_bytes()
+              dyn=(d/"readelf-d.txt").read_text(errors="ignore")
+              needed=re.findall(r"Shared library: \[(.*?)\]",dyn)
+              payload=[("usr/bin/zerotier-one",z)]
+              missing=[]
+              unresolved=[]
+              for n in needed:
+                  if n in target_present:continue
+                  p=donor.get(n)
+                  if p and p.exists():
+                      payload.append(("usr/lib/"+p.name,p.read_bytes()))
+                      missing.append(n)
+                  else:
+                      unresolved.append(n)
+              tar,gz,xz=payload_compress(payload)
+
+              interp=""
+              lp=(d/"readelf-l.txt").read_text(errors="ignore")
+              m=re.search(r"Requesting program interpreter: ([^\]]+)",lp)
+              if m:interp=m.group(1)
+
+              rec.update({
+                "status":"OK","binary_size":len(z),"binary_sha256":sha(z),
+                "binary_gzip9":len(gzip.compress(z,9,mtime=0)),
+                "binary_xz9e":len(lzma.compress(z,format=lzma.FORMAT_XZ,preset=9|lzma.PRESET_EXTREME)),
+                "needed":needed,"extra_external_from_R25":missing,"unresolved_needed":unresolved,
+                "interpreter":interp,"r26_payload_logical":sum(len(b) for _,b in payload),
+                "r26_payload_tar":tar,"r26_payload_gzip9":gz,"r26_payload_xz9e":xz,
+              })
+              rows.append(rec)
+
+              dest=out/d.name
+              dest.mkdir(parents=True,exist_ok=True)
+              for n in ("zerotier-one","file.txt","readelf-h.txt","readelf-d.txt","readelf-l.txt","SHA256SUMS.txt","build.log"):
+                  p=d/n
+                  if p.exists():shutil.copy2(p,dest/n)
+
+          baseline={"logical":2140557,"gzip9":779813,"xz9e":566556}
+          for r in rows:
+              if r.get("status")=="OK":
+                  r["saving_vs_R25_logical"]=baseline["logical"]-r["r26_payload_logical"]
+                  r["saving_vs_R25_gzip9"]=baseline["gzip9"]-r["r26_payload_gzip9"]
+                  r["saving_vs_R25_xz9e"]=baseline["xz9e"]-r["r26_payload_xz9e"]
+
+          rows.sort(key=lambda r:(r.get("status")!="OK",r.get("r26_payload_xz9e",10**12),r.get("r26_payload_gzip9",10**12)))
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.8.6-MIPS-SIZE-LAB-01.json").write_text(json.dumps({"baseline_R25":baseline,"results":rows},indent=2))
+
+          fields=["rank","variant","status","binary_size","binary_sha256","needed","extra_external_from_R25","unresolved_needed","interpreter","r26_payload_logical","r26_payload_gzip9","r26_payload_xz9e","saving_vs_R25_logical","saving_vs_R25_gzip9","saving_vs_R25_xz9e"]
+          with open("analysis/zerotier/RE-ZEROTIER-1.8.6-MIPS-SIZE-LAB-01.csv","w",newline="",encoding="utf-8-sig") as f:
+              w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
+              for i,r in enumerate(rows,1):
+                  w.writerow({
+                    "rank":i,"variant":r["variant"],"status":r["status"],
+                    "binary_size":r.get("binary_size",""),"binary_sha256":r.get("binary_sha256",""),
+                    "needed":"|".join(r.get("needed",[])),"extra_external_from_R25":"|".join(r.get("extra_external_from_R25",[])),
+                    "unresolved_needed":"|".join(r.get("unresolved_needed",[])),"interpreter":r.get("interpreter",""),
+                    "r26_payload_logical":r.get("r26_payload_logical",""),"r26_payload_gzip9":r.get("r26_payload_gzip9",""),"r26_payload_xz9e":r.get("r26_payload_xz9e",""),
+                    "saving_vs_R25_logical":r.get("saving_vs_R25_logical",""),"saving_vs_R25_gzip9":r.get("saving_vs_R25_gzip9",""),"saving_vs_R25_xz9e":r.get("saving_vs_R25_xz9e","")
+                  })
+
+          md=["# ZeroTier 1.8.6 MIPS size lab 01","",
+              f"Upstream source commit: `{source_commit}`",
+              "Target toolchain: LEDE 17.01.5 ramips/mt7628, GCC 5.4.0, musl 1.1.16.",
+              "R26 baseline payload: 2,140,557 B logical / 779,813 B gzip-9 / 566,556 B XZ-9e.","",
+              "| Rank | Variant | Binary | NEEDED | R26 payload | gzip-9 | XZ-9e | Δ gzip vs R25 | Δ XZ vs R25 |",
+              "|---:|---|---:|---|---:|---:|---:|---:|---:|"]
+          for i,r in enumerate(rows,1):
+              if r["status"]!="OK":
+                  md.append(f'| {i} | {r["variant"]} | BUILD FAIL | | | | | | |')
+              else:
+                  md.append(f'| {i} | {r["variant"]} | {r["binary_size"]} | {", ".join(r["needed"]) or "(static)"} | {r["r26_payload_logical"]} | {r["r26_payload_gzip9"]} | {r["r26_payload_xz9e"]} | {r["saving_vs_R25_gzip9"]} | {r["saving_vs_R25_xz9e"]} |')
+          pathlib.Path("analysis/zerotier/RE-ZEROTIER-1.8.6-MIPS-SIZE-LAB-01.md").write_text("\n".join(md)+"\n")
+          print("\n".join(md))
+          PY
+
+      - name: Commit build lab results and candidate binaries
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier Build Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-ZEROTIER-1.8.6-MIPS-SIZE-LAB-01.* builds/zerotier/1.8.6
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish ZeroTier 1.8.6 MIPS size-lab builds"
+          git pull --rebase origin zerotier-build-lab
+          git push origin HEAD:zerotier-build-lab
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-ZEROTIER-1.8.6-MIPS-SIZE-LAB-01
+          retention-days: 30
+          compression-level: 0
+          path: |
+            analysis/zerotier/RE-ZEROTIER-1.8.6-MIPS-SIZE-LAB-01.*
+            builds/zerotier/1.8.6/**
