@@ -1,0 +1,56 @@
+name: RE Stable Cudy ZeroTier Corpus Scan
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/RE_cudy_stable_zerotier_corpus.py"
+      - ".github/workflows/RE-cudy-stable-zerotier-corpus.yml"
+      - "firmware/cudy/stable/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stable-zerotier-corpus
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Install firmware RE tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools binutils file xz-utils >/dev/null
+
+      - name: Scan committed stable firmware corpus
+        run: python3 scripts/RE_cudy_stable_zerotier_corpus.py
+
+      - name: Show ranking
+        run: cat analysis/zerotier/RE-CUDY-STABLE-ZEROTIER-CORPUS-01.md
+
+      - name: Commit corpus result
+        shell: bash
+        run: |
+          set -e
+          git config user.name "OpenCudy ZeroTier RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/zerotier/RE-CUDY-STABLE-ZEROTIER-CORPUS-01.*
+          git diff --cached --quiet && exit 0
+          git commit -m "RE: publish stable Cudy ZeroTier corpus ranking"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-CUDY-STABLE-ZEROTIER-CORPUS-01
+          retention-days: 30
+          path: analysis/zerotier/RE-CUDY-STABLE-ZEROTIER-CORPUS-01.*
