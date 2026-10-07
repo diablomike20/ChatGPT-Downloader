@@ -1,1 +1,1 @@
-sync-v5-verified-mirror
+sync-v6-large-safe
