@@ -5,6 +5,7 @@ on:
     branches: [zerotier-build-lab]
     paths:
       - ".github/workflows/RE-zerotier-1.8.6-mips-size-lab.yml"
+      - "scripts/RE_patch_zerotier_1.8.6_clientonly.py"
   workflow_dispatch:
 
 permissions:
@@ -125,93 +126,7 @@ jobs:
           fi
 
           if [[ "$mode" == *"clientonly"* ]]; then
-            python3 - <<'PY'
-          from pathlib import Path
-
-          # Remove embedded local controller/database objects. This WR1200 build
-          # is a ZeroTier network client, not a local network controller.
-          p=Path("objects.mk")
-          lines=p.read_text().splitlines()
-          controller_objs={
-              "controller/EmbeddedNetworkController.o",
-              "controller/DBMirrorSet.o",
-              "controller/DB.o",
-              "controller/FileDB.o",
-              "controller/LFDB.o",
-              "controller/PostgreSQL.o",
-          }
-          removed=[]
-          kept=[]
-          for line in lines:
-              key=line.strip().rstrip("\\").strip()
-              if key in controller_objs:
-                  removed.append(key)
-              else:
-                  kept.append(line)
-          if set(removed) != controller_objs:
-              raise SystemExit(f"controller objects mismatch: {removed}")
-          p.write_text("\n".join(kept)+"\n")
-
-          p=Path("service/OneService.cpp")
-          s=p.read_text()
-
-          patches=[
-            (
-              """\t\tdelete _controller;
-\t\tdelete _rc;""",
-              """\t\t// Embedded network controller omitted in client-only build."""
-            ),
-            (
-              """\t\t\t// Network controller is now enabled by default for desktop and server
-\t\t\t_controller = new EmbeddedNetworkController(_node,_homePath.c_str(),_controllerDbPath.c_str(),_ports[0], _rc);
-\t\t\tif (!_ssoRedirectURL.empty()) {
-\t\t\t\t_controller->setSSORedirectURL(_ssoRedirectURL);
-\t\t\t}
-\t\t\t_node->setNetconfMaster((void *)_controller);""",
-              """\t\t\t// Embedded local network controller omitted: client-only router build."""
-            ),
-            (
-              """\t\t\t\t} else {
-\t\t\t\t\tif (_controller) {
-\t\t\t\t\t\tscode = _controller->handleControlPlaneHttpGET(std::vector<std::string>(ps.begin()+1,ps.end()),urlArgs,headers,body,responseBody,responseContentType);
-\t\t\t\t\t} else scode = 404;
-\t\t\t\t}""",
-              """\t\t\t\t} else {
-\t\t\t\t\tscode = 404;
-\t\t\t\t}"""
-            ),
-            (
-              """\t\t\t\t} else {
-\t\t\t\t\tif (_controller)
-\t\t\t\t\t\tscode = _controller->handleControlPlaneHttpPOST(std::vector<std::string>(ps.begin()+1,ps.end()),urlArgs,headers,body,responseBody,responseContentType);
-\t\t\t\t\telse scode = 404;
-\t\t\t\t}""",
-              """\t\t\t\t} else {
-\t\t\t\t\tscode = 404;
-\t\t\t\t}"""
-            ),
-            (
-              """\t\t\t\t} else {
-\t\t\t\t\tif (_controller)
-\t\t\t\t\t\tscode = _controller->handleControlPlaneHttpDELETE(std::vector<std::string>(ps.begin()+1,ps.end()),urlArgs,headers,body,responseBody,responseContentType);
-\t\t\t\t\telse scode = 404;
-\t\t\t\t}""",
-              """\t\t\t\t} else {
-\t\t\t\t\tscode = 404;
-\t\t\t\t}"""
-            ),
-            (
-              """\t\t\t\tif ((rt)&&(rt->len > 0)&&(rt->len <= ZT_MAX_REMOTE_TRACE_SIZE)&&(rt->data))
-\t\t\t\t\t_controller->handleRemoteTrace(*rt);""",
-              """\t\t\t\t(void)rt;"""
-            ),
-          ]
-          for old,new in patches:
-              if old not in s:
-                  raise SystemExit("client-only source patch target not found: "+old[:80])
-              s=s.replace(old,new,1)
-          p.write_text(s)
-          PY
+            python3 "$GITHUB_WORKSPACE/scripts/RE_patch_zerotier_1.8.6_clientonly.py" .
           fi
 
           BASE_C="-Os -fstack-protector -fPIE -ffunction-sections -fdata-sections"
