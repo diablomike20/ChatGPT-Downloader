@@ -48,7 +48,7 @@ jobs:
             if head -c4 "$f" | grep -q 'hsqs'; then
               echo "SquashFS volume: $f"
               unsquashfs -s "$f"
-              unsquashfs -d /tmp/r91/rootfs "$f"
+              unsquashfs -d /tmp/r91/rootfs "$f" || true
               found=1
               break
             fi
