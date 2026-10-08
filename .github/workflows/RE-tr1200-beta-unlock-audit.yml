@@ -114,20 +114,20 @@ jobs:
 
             # Hash-by-relative-path comparison for changed common files.
             python3 - <<'PY'
-from pathlib import Path
-import hashlib
-b=Path('/tmp/tr1200/work/beta/rootfs'); s=Path('/tmp/tr1200/work/stock/rootfs')
-def inv(root):
-    d={}
-    for p in root.rglob('*'):
-        if p.is_file() and not p.is_symlink():
-            try:d[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()
-            except:pass
-    return d
-bi,si=inv(b),inv(s)
-out=Path('RE-TR1200-R46-BETA-UNLOCK-AUDIT-01/RE-ROOTFS-CHANGED-COMMON.txt')
-out.write_text('\n'.join(sorted(k for k in bi.keys()&si.keys() if bi[k]!=si[k]))+'\n')
-PY
+            from pathlib import Path
+            import hashlib
+            b=Path('/tmp/tr1200/work/beta/rootfs'); s=Path('/tmp/tr1200/work/stock/rootfs')
+            def inv(root):
+                d={}
+                for p in root.rglob('*'):
+                    if p.is_file() and not p.is_symlink():
+                        try:d[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()
+                        except:pass
+                return d
+            bi,si=inv(b),inv(s)
+            out=Path('RE-TR1200-R46-BETA-UNLOCK-AUDIT-01/RE-ROOTFS-CHANGED-COMMON.txt')
+            out.write_text('\n'.join(sorted(k for k in bi.keys()&si.keys() if bi[k]!=si[k]))+'\n')
+            PY
           fi
 
           cp /tmp/tr1200/work/beta/u-boot.bin "$OUT/RE-TR1200-BETA-UBOOT.bin"
