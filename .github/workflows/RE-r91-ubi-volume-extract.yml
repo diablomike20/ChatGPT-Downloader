@@ -1,0 +1,100 @@
+name: RE R91 UBI Volume Extract
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-r91-ubi-volume-extract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      R91_SHA: 9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 1
+
+      - name: Install helpers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq python3-pip squashfs-tools file binutils >/dev/null
+          python3 -m pip install --quiet ubi-reader
+
+      - name: Extract UBI volumes and rootfs
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=firmware/cudy/cellular-modem/firmware/R91-2.4.23b-20251208-CellularUpgrade.bin
+          test "$(sha256sum "$SRC" | awk '{print $1}')" = "$R91_SHA"
+          mkdir -p /tmp/r91/volumes /tmp/r91/rootfs
+          dd if="$SRC" of=/tmp/r91/r91.ubi bs=1 skip=$((0x2008a0)) count=$((0xee0000)) status=none
+
+          ubireader_display_info /tmp/r91/r91.ubi > /tmp/r91/ubi-info.txt 2>&1 || true
+          ubireader_extract_images -o /tmp/r91/volumes /tmp/r91/r91.ubi > /tmp/r91/ubi-extract.txt 2>&1 || true
+
+          echo "=== volumes ==="
+          find /tmp/r91/volumes -type f -print -exec file -k {} \;
+
+          found=0
+          while IFS= read -r -d '' f; do
+            if head -c4 "$f" | grep -q 'hsqs'; then
+              echo "SquashFS volume: $f"
+              unsquashfs -s "$f"
+              unsquashfs -d /tmp/r91/rootfs "$f"
+              found=1
+              break
+            fi
+          done < <(find /tmp/r91/volumes -type f -print0)
+          test "$found" -eq 1
+
+      - name: Analyze loader rootfs
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-R91-CELLULARUPGRADE-UBI"
+          mkdir -p "$OUT/selected"
+          cp /tmp/r91/ubi-info.txt "$OUT/RE-R91-UBI-INFO.txt"
+          cp /tmp/r91/ubi-extract.txt "$OUT/RE-R91-UBI-EXTRACT.txt"
+          find /tmp/r91/volumes -type f -printf '%s\t%p\n' | sort -n > "$OUT/RE-R91-VOLUMES.txt"
+          find /tmp/r91/rootfs -type f -printf '%s\t%p\n' | sort -n > "$OUT/RE-R91-ROOTFS-TREE.txt"
+
+          grep -RInaE --binary-files=without-match             'RG500|RG500U|Quectel|quectel|P2_RG500|A09|CellularUpgrade|cellular|modem|firmware|upgrade|flash|download|dloader|QDLoader|FDL2?|BSL|ttyUSB|ttyACM|AT\+|gcom|pcie|usb|tftp|wget|curl|factory|debug|research'             /tmp/r91/rootfs 2>/dev/null | head -n 100000 > "$OUT/RE-R91-TEXT-HITS.txt" || true
+
+          find /tmp/r91/rootfs -type f | grep -Ei             'rg500|quectel|modem|cell|upgrade|flash|download|dloader|qdl|fdl|bsl|usb|pcie|gcom|fota|at'             | sort > "$OUT/RE-R91-CANDIDATE-FILES.txt" || true
+
+          while IFS= read -r f; do
+            [ -f "$f" ] || continue
+            sz=$(stat -c %s "$f")
+            [ "$sz" -le 1048576 ] || continue
+            typ=$(file -b "$f")
+            case "$typ" in
+              *text*|*script*|*JSON*|*XML*|*ASCII*)
+                rel="${f#/tmp/r91/rootfs/}"
+                cp "$f" "$OUT/selected/$(echo "$rel" | tr '/' '_')"
+                ;;
+            esac
+          done < "$OUT/RE-R91-CANDIDATE-FILES.txt"
+
+          {
+            find /tmp/r91/rootfs -type f -print0 | while IFS= read -r -d '' f; do
+              if file -b "$f" | grep -q ELF; then
+                strings -a -t x -n 4 "$f" 2>/dev/null | grep -iE                   'RG500|Quectel|upgrade|download|QDLoader|FDL|BSL|ttyUSB|AT\+|firmware|modem|cellular'                   | head -n 5000 | sed "s#^#$f: #" || true
+              fi
+            done
+          } > "$OUT/RE-R91-ELF-HITS.txt"
+
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-R91-CELLULARUPGRADE-UBI
+          path: RE-R91-CELLULARUPGRADE-UBI/
+          if-no-files-found: error
+          retention-days: 14
