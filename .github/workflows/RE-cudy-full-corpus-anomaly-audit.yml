@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq squashfs-tools unzip binutils file python3-pip lzop >/dev/null
+          sudo apt-get install -y -qq squashfs-tools unzip binutils file python3-pip lzop lua5.1 >/dev/null
           python3 -m pip install --quiet ubi-reader
 
       - name: Assemble full corpus
@@ -74,6 +74,61 @@ jobs:
         run: |
           set -euo pipefail
           python3 scripts/RE_cudy_full_corpus_anomaly_audit.py             /tmp/full-corpus/input             "$GITHUB_WORKSPACE/RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02"
+
+      - name: Disassemble C200P Lua 5.1 control plane
+        shell: bash
+        run: |
+          set -euo pipefail
+          CROOT=$(find /tmp/full-corpus/roots -maxdepth 1 -mindepth 1 -type d -name 'SUPPORT__C200P-*' | head -n1)
+          OUT=/tmp/RE-CUDY-C200P-LUA-DISASSEMBLY-01
+          mkdir -p "$OUT"
+          [ -n "$CROOT" ] || { echo "C200P root missing"; exit 1; }
+          for rel in \
+            usr/lib/lua/luci/controller/ssh.lua \
+            usr/lib/lua/luci/model/cbi/ssh/ssh.lua \
+            usr/lib/lua/luci/model/cbi/mesh/ssh.lua \
+            usr/lib/lua/cmagent/router/ssh.lua \
+            usr/lib/lua/cmagent/router/batchcmd.lua \
+            usr/lib/lua/cmagent/router/sysreport.lua \
+            usr/lib/lua/cmagent/router/tcpdump.lua \
+            usr/lib/lua/cmagent/router/diag.lua \
+            usr/lib/lua/luci/model/cbi/apcontroller/client_view.lua \
+            usr/lib/lua/luci/model/cbi/apcontroller/client_view_debug.lua \
+            usr/lib/lua/luci/model/cbi/apcontroller/client_view_tcpdump.lua \
+            usr/lib/lua/luci/model/cbi/diag/mesh.lua \
+            usr/lib/lua/luci/controller/autoupgrade.lua \
+            usr/lib/lua/luci/model/cbi/autoupgrade/localupdate.lua \
+            usr/lib/lua/luci/model/cbi/autoupgrade/autoupgrade.lua \
+            usr/lib/lua/cmagent.lua \
+            usr/lib/lua/acmanager.lua
+          do
+            p="$CROOT/$rel"
+            [ -f "$p" ] || continue
+            n=$(echo "$rel" | tr '/' '_')
+            {
+              echo "PATH=$rel"
+              sha256sum "$p"
+              file "$p"
+              echo
+              luac5.1 -l -l "$p"
+            } > "$OUT/RE-DISASM-$n.txt" 2>&1 || true
+          done
+          (
+            cd "$OUT"
+            sha256sum RE-DISASM-*.txt | sort
+          ) > "$OUT/RE-SHA256SUMS.txt"
+          tar -C /tmp -czf /tmp/RE-CUDY-C200P-LUA-DISASSEMBLY-01.tar.gz RE-CUDY-C200P-LUA-DISASSEMBLY-01
+          sha256sum /tmp/RE-CUDY-C200P-LUA-DISASSEMBLY-01.tar.gz > /tmp/RE-CUDY-C200P-LUA-DISASSEMBLY-01.tar.gz.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-CUDY-C200P-LUA-DISASSEMBLY-01
+          path: |
+            /tmp/RE-CUDY-C200P-LUA-DISASSEMBLY-01.tar.gz
+            /tmp/RE-CUDY-C200P-LUA-DISASSEMBLY-01.tar.gz.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
 
       - name: Package C200P and beta deep roots
         shell: bash
