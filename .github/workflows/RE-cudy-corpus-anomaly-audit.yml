@@ -70,10 +70,16 @@ jobs:
             "$GITHUB_WORKSPACE/RE-CUDY-CORPUS-ANOMALY-AUDIT-01"
           sudo chown -R "$(id -u):$(id -g)" RE-CUDY-CORPUS-ANOMALY-AUDIT-01
           chmod -R a+rX RE-CUDY-CORPUS-ANOMALY-AUDIT-01
+          sudo bsdtar --format zip -cf /tmp/RE-CUDY-CORPUS-ANOMALY-AUDIT-01.zip -C "$GITHUB_WORKSPACE" RE-CUDY-CORPUS-ANOMALY-AUDIT-01
+          sudo chown "$(id -u):$(id -g)" /tmp/RE-CUDY-CORPUS-ANOMALY-AUDIT-01.zip
+          sha256sum /tmp/RE-CUDY-CORPUS-ANOMALY-AUDIT-01.zip > /tmp/RE-CUDY-CORPUS-ANOMALY-AUDIT-01.zip.sha256
 
       - uses: actions/upload-artifact@v4
         with:
           name: RE-CUDY-CORPUS-ANOMALY-AUDIT-01
-          path: RE-CUDY-CORPUS-ANOMALY-AUDIT-01/
+          path: |
+            /tmp/RE-CUDY-CORPUS-ANOMALY-AUDIT-01.zip
+            /tmp/RE-CUDY-CORPUS-ANOMALY-AUDIT-01.zip.sha256
           if-no-files-found: error
+          compression-level: 0
           retention-days: 14
