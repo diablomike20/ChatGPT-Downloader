@@ -1,0 +1,246 @@
+name: RE RG500 A09 Static Forensics
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-rg500-a09-static-forensics.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  forensic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 0
+
+      - name: Install static-analysis helpers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq binwalk p7zip-full squashfs-tools binutils file xxd >/dev/null
+
+      - name: Fetch exact RG500 A09 release asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/rg500
+          gh release download cudy-cellular-modem-p2-rg500-a09 \
+            --pattern P2_RG500_A09.bin \
+            --dir /tmp/rg500
+          cp firmware/cudy/cellular-modem/firmware/R91-2.4.23b-20251208-CellularUpgrade.bin /tmp/rg500/
+          echo "7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b  /tmp/rg500/P2_RG500_A09.bin" | sha256sum -c -
+          echo "9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13  /tmp/rg500/R91-2.4.23b-20251208-CellularUpgrade.bin" | sha256sum -c -
+
+      - name: Static layout and magic scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="analysis/rg500-a09"
+          mkdir -p "$OUT"
+
+          {
+            echo "=== FILE / SIZE / SHA256 ==="
+            for f in /tmp/rg500/*.bin; do
+              echo "--- $f ---"
+              stat -c 'bytes=%s' "$f"
+              sha256sum "$f"
+              file "$f"
+              echo "HEAD:"
+              xxd -g1 -l 256 "$f"
+              echo "TAIL:"
+              tail -c 256 "$f" | xxd -g1
+            done
+          } > "$OUT/RE-RG500-A09-IDENTITY-01.txt"
+
+          {
+            echo "=== A09 BINWALK ==="
+            binwalk /tmp/rg500/P2_RG500_A09.bin || true
+            echo
+            echo "=== R91 CELLULARUPGRADE BINWALK ==="
+            binwalk /tmp/rg500/R91-2.4.23b-20251208-CellularUpgrade.bin || true
+          } > "$OUT/RE-RG500-A09-BINWALK-01.txt" 2>&1
+
+          {
+            echo "=== A09 7Z LIST ==="
+            7z l /tmp/rg500/P2_RG500_A09.bin || true
+            echo
+            echo "=== R91 7Z LIST ==="
+            7z l /tmp/rg500/R91-2.4.23b-20251208-CellularUpgrade.bin || true
+          } > "$OUT/RE-RG500-A09-7Z-LIST-01.txt" 2>&1
+
+          python3 - <<'PY' > "$OUT/RE-RG500-A09-MAGIC-OFFSETS-01.txt"
+          from pathlib import Path
+          files=[
+              Path("/tmp/rg500/P2_RG500_A09.bin"),
+              Path("/tmp/rg500/R91-2.4.23b-20251208-CellularUpgrade.bin"),
+          ]
+          sigs={
+              "ELF":b"\x7fELF",
+              "SQUASHFS_LE":b"hsqs",
+              "SQUASHFS_BE":b"sqsh",
+              "GZIP":b"\x1f\x8b\x08",
+              "XZ":b"\xfd7zXZ\x00",
+              "ZIP":b"PK\x03\x04",
+              "UIMAGE":b"\x27\x05\x19\x56",
+              "DTB/FDT":b"\xd0\x0d\xfe\xed",
+              "UBI":b"UBI#",
+              "ANDROID_BOOT":b"ANDROID!",
+              "ANDROID_SPARSE":b"\x3a\xff\x26\xed",
+              "AVB0":b"AVB0",
+          }
+          for p in files:
+              data=p.read_bytes()
+              print(f"=== {p.name} size={len(data)} ===")
+              for name,s in sigs.items():
+                  hits=[]
+                  start=0
+                  while True:
+                      i=data.find(s,start)
+                      if i<0: break
+                      hits.append(i)
+                      start=i+1
+                      if len(hits)>=2000: break
+                  print(f"{name}: count={len(hits)}")
+                  if hits: print(" offsets="+" ".join(f"0x{x:x}" for x in hits[:200]))
+              print()
+          PY
+
+      - name: Exact engineering string offsets
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="analysis/rg500-a09"
+          python3 - <<'PY' > "$OUT/RE-RG500-A09-ENGINEERING-STRING-OFFSETS-01.txt"
+          from pathlib import Path
+          pats=[
+            b"DEBUG MODE",b"debug_mode",b"PINTEST",b"FASTBOOT",b"RECOVERY",b"factorytest",
+            b"UART",b"console",b"research",b"factory",b"download",b"engmode",b"engineering",
+            b"adb",b"diag",b"shell",b"root",b"secure",b"verifiedboot",b"verity",
+            b"fastboot",b"FDL",b"FDL2",b"BSL",b"QDloader",b"SPRD",b"sprd",b"Unisoc",b"unisoc",
+            b"udx710",b"Quectel",b"quectel",b"RG500",b"AT+",b"ttyUSB",b"/dev/tty",
+            b"recovery",b"pintest",b"debug",b"testmode",b"production",b"manufactur"
+          ]
+          for p in [Path("/tmp/rg500/P2_RG500_A09.bin"),Path("/tmp/rg500/R91-2.4.23b-20251208-CellularUpgrade.bin")]:
+              data=p.read_bytes()
+              low=data.lower()
+              print(f"\n================ {p.name} ================")
+              for pat in pats:
+                  target=pat.lower()
+                  hits=[]
+                  s=0
+                  while True:
+                      i=low.find(target,s)
+                      if i<0:break
+                      hits.append(i);s=i+1
+                      if len(hits)>=500:break
+                  if not hits: continue
+                  print(f"\n[{pat.decode('ascii','replace')}] count={len(hits)}")
+                  for i in hits[:80]:
+                      a=max(0,i-96);b=min(len(data),i+len(pat)+160)
+                      c=data[a:b]
+                      c=''.join(chr(x) if 32<=x<127 else '.' for x in c)
+                      print(f"0x{i:08x}  {c}")
+          PY
+
+          for f in /tmp/rg500/*.bin; do
+            base="$(basename "$f")"
+            strings -a -td -n 4 "$f" | \
+              grep -iE 'DEBUG MODE|debug_mode|PINTEST|FASTBOOT|RECOVERY|factorytest|UART|console|research|factory|engmode|engineering|QDloader|FDL2?|BSL|sprd|unisoc|udx710|quectel|RG500|AT\+|ttyUSB|testmode|production|manufactur' \
+              | head -n 10000 > "$OUT/RE-${base}.TARGETED-STRINGS.txt" || true
+          done
+
+      - name: Recursive signature extraction
+        shell: bash
+        run: |
+          set +e
+          OUT="$GITHUB_WORKSPACE/analysis/rg500-a09"
+          mkdir -p /tmp/extract-a09 /tmp/extract-r91
+          cd /tmp/extract-a09
+          timeout 900 binwalk -Me --run-as=root /tmp/rg500/P2_RG500_A09.bin > "$OUT/RE-RG500-A09-EXTRACT-LOG-01.txt" 2>&1
+          echo "A09_BINWALK_EXTRACT_RC=$?" >> "$OUT/RE-RG500-A09-EXTRACT-LOG-01.txt"
+          cd /tmp/extract-r91
+          timeout 600 binwalk -Me --run-as=root /tmp/rg500/R91-2.4.23b-20251208-CellularUpgrade.bin > "$OUT/RE-R91-CELLULARUPGRADE-EXTRACT-LOG-01.txt" 2>&1
+          echo "R91_BINWALK_EXTRACT_RC=$?" >> "$OUT/RE-R91-CELLULARUPGRADE-EXTRACT-LOG-01.txt"
+
+          {
+            echo "=== A09 EXTRACTED TREE ==="
+            find /tmp/extract-a09 -type f -printf '%s\t%p\n' | sort -n | head -n 30000
+            echo
+            echo "=== R91 EXTRACTED TREE ==="
+            find /tmp/extract-r91 -type f -printf '%s\t%p\n' | sort -n | head -n 30000
+          } > "$OUT/RE-RG500-A09-EXTRACTED-TREE-01.txt"
+
+          python3 - <<'PY' > "$OUT/RE-RG500-A09-EXTRACTED-KEYWORD-HITS-01.txt"
+          from pathlib import Path
+          roots=[Path("/tmp/extract-a09"),Path("/tmp/extract-r91")]
+          pats=[
+            b"debug_mode",b"DEBUG MODE",b"PINTEST",b"FASTBOOT",b"RECOVERY",b"factorytest",
+            b"research",b"engmode",b"QDloader",b"FDL",b"BSL",b"UART",b"console",
+            b"factory",b"download",b"udx710",b"sprd",b"unisoc",b"quectel",b"RG500"
+          ]
+          for root in roots:
+              print(f"\n================ {root} ================")
+              for p in root.rglob("*"):
+                  if not p.is_file(): continue
+                  try:
+                      if p.stat().st_size>256*1024*1024: continue
+                      data=p.read_bytes()
+                  except Exception: continue
+                  low=data.lower()
+                  found=[]
+                  for pat in pats:
+                      i=low.find(pat.lower())
+                      if i>=0: found.append((pat.decode('ascii','replace'),i))
+                  if found:
+                      print(f"{p} size={len(data)}")
+                      for k,i in found:
+                          a=max(0,i-80);b=min(len(data),i+200)
+                          c=''.join(chr(x) if 32<=x<127 else '.' for x in data[a:b])
+                          print(f"  {k} @0x{i:x}: {c}")
+          PY
+
+      - name: Build summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="analysis/rg500-a09"
+          cat > "$OUT/RE-RG500-A09-STATIC-FORENSICS-01.md" <<'EOF'
+          # RE-RG500-A09 Static Forensics 01
+
+          Scope: static-only analysis of exact historical FU7 payloads:
+          - P2_RG500_A09.bin
+          - R91-2.4.23b-20251208-CellularUpgrade.bin
+
+          No firmware code was executed and no target was modified.
+
+          ## Evidence files
+          - RE-RG500-A09-IDENTITY-01.txt
+          - RE-RG500-A09-BINWALK-01.txt
+          - RE-RG500-A09-7Z-LIST-01.txt
+          - RE-RG500-A09-MAGIC-OFFSETS-01.txt
+          - RE-RG500-A09-ENGINEERING-STRING-OFFSETS-01.txt
+          - targeted strings files
+          - extraction logs/tree/keyword hits
+
+          ## Expected exact hashes
+          A09: 7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b
+          R91: 9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13
+          EOF
+
+      - name: Commit forensic reports
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "OpenCudy RE Bot"
+          git config user.email "73985391+diablomike20@users.noreply.github.com"
+          git add analysis/rg500-a09
+          git diff --cached --quiet || git commit -m "RE: static forensic analysis of P2 RG500 A09"
+          git push origin HEAD:cudy-cellular-modem
