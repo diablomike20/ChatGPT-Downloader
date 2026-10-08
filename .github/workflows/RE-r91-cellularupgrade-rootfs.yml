@@ -1,0 +1,82 @@
+name: RE R91 CellularUpgrade Rootfs
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-r91-cellularupgrade-rootfs.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      R91_SHA: 9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 1
+
+      - name: Install helpers
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq squashfs-tools file binutils >/dev/null
+
+      - name: Extract exact rootfs
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=firmware/cudy/cellular-modem/firmware/R91-2.4.23b-20251208-CellularUpgrade.bin
+          test "$(sha256sum "$SRC" | awk '{print $1}')" = "$R91_SHA"
+          mkdir -p /tmp/r91
+          dd if="$SRC" of=/tmp/r91/rootfs.squashfs bs=1 skip=$((0x5818a0)) status=none
+          unsquashfs -s /tmp/r91/rootfs.squashfs
+          unsquashfs -d /tmp/r91/rootfs /tmp/r91/rootfs.squashfs
+
+      - name: Hunt cellular updater internals
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-R91-CELLULARUPGRADE-ROOTFS"
+          mkdir -p "$OUT/selected"
+          find /tmp/r91/rootfs -type f -printf '%s\t%p\n' | sort -n > "$OUT/RE-R91-ROOTFS-TREE.txt"
+
+          grep -RInaE --binary-files=without-match             'RG500|RG500U|Quectel|quectel|CellularUpgrade|cellular|modem|firmware|upgrade|flash|download|dloader|QDLoader|FDL2?|BSL|ttyUSB|ttyACM|AT\+|gcom|usbmode|pcie|reboot|factory|debug|research'             /tmp/r91/rootfs 2>/dev/null | head -n 100000 > "$OUT/RE-R91-ROOTFS-HITS.txt" || true
+
+          find /tmp/r91/rootfs -type f | grep -Ei             'rg500|quectel|modem|cell|upgrade|flash|download|dloader|qdl|fdl|bsl|usb|pcie|gcom|atcmd|at-command|fota'             | sort > "$OUT/RE-R91-CANDIDATE-FILES.txt" || true
+
+          while IFS= read -r f; do
+            [ -f "$f" ] || continue
+            sz=$(stat -c %s "$f")
+            [ "$sz" -le 1048576 ] || continue
+            case "$(file -b "$f")" in
+              *text*|*script*|*JSON*|*XML*|*ASCII*)
+                rel="${f#/tmp/r91/rootfs/}"
+                dst="$OUT/selected/$(echo "$rel" | tr '/' '_')"
+                cp "$f" "$dst"
+                ;;
+            esac
+          done < "$OUT/RE-R91-CANDIDATE-FILES.txt"
+
+          {
+            for f in $(find /tmp/r91/rootfs -type f); do
+              case "$(file -b "$f")" in
+                *ELF*)
+                  strings -a -t x -n 4 "$f" 2>/dev/null | grep -iE                     'RG500|Quectel|upgrade|download|QDLoader|FDL|BSL|ttyUSB|AT\+|firmware|modem|cellular'                     | head -n 5000 | sed "s#^#$f: #" || true
+                  ;;
+              esac
+            done
+          } > "$OUT/RE-R91-ELF-HIGHVALUE-STRINGS.txt"
+
+          sha256sum /tmp/r91/rootfs.squashfs > "$OUT/RE-R91-ROOTFS-SQUASHFS-SHA256.txt"
+
+      - name: Upload evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-R91-CELLULARUPGRADE-ROOTFS
+          path: RE-R91-CELLULARUPGRADE-ROOTFS/
+          if-no-files-found: error
+          retention-days: 14
