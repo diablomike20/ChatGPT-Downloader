@@ -142,6 +142,8 @@ jobs:
             'STATIC_VERIFIED only. No firmware code was executed and no target was modified.' \
             > "$FULL/RE-README-FIRST.txt"
 
+          sudo chmod -R a+rX "$FULL"
+
       - uses: actions/upload-artifact@v4
         with:
           name: RE-RG500-A09-FULL-UNPACKED-01
