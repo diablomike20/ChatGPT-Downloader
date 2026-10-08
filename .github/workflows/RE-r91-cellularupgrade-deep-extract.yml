@@ -87,7 +87,15 @@ jobs:
             done < <(find /tmp/r91/ubi-images -type f | sort)
           } > "$OUT/RE-R91-UBI-IMAGE-INVENTORY.txt" 2>&1
 
-          # Try filesystem extraction from each UBI volume image and from the raw UBI.
+          # Extract the OpenWrt rootfs volume: the UBI volume itself is SquashFS, not UBIFS.
+          ROOTVOL="$(find /tmp/r91/ubi-images -type f -name '*vol-rootfs.ubifs' | head -n1)"
+          if [ -n "$ROOTVOL" ] && [ -f "$ROOTVOL" ]; then
+            rm -rf /tmp/r91/rootfs-squashfs
+            mkdir -p /tmp/r91/rootfs-squashfs
+            unsquashfs -f -d /tmp/r91/rootfs-squashfs "$ROOTVOL" > "$OUT/RE-R91-UNSQUASHFS.log" 2>&1 || true
+          fi
+
+          # Try UBIFS extraction too for completeness; this is expected to reject the SquashFS rootfs volume.
           for f in /tmp/r91/R91.ubi $(find /tmp/r91/ubi-images -type f | sort); do
             [ -f "$f" ] || continue
             safe="$(basename "$f" | tr -c 'A-Za-z0-9._-' '_')"
@@ -103,7 +111,7 @@ jobs:
 
           {
             echo "=== HIGH VALUE TEXT HITS ==="
-            grep -RInaE --binary-files=without-match               'RG500|RG500U|Quectel|quectel|CellularUpgrade|cellular|modem|upgrade|flash|download|dloader|QDLoader|FDL2?|BSL|ttyUSB|ttyACM|usb5g|pcie|AT\+|gcom|4g|5g|tftp|wget|curl|factory|debug|research|recovery'               /tmp/r91/fs 2>/dev/null | head -n 100000 || true
+            grep -RInaE --binary-files=without-match               'RG500|RG500U|Quectel|quectel|CellularUpgrade|cellular|modem|upgrade|flash|download|dloader|QDLoader|FDL2?|BSL|ttyUSB|ttyACM|usb5g|pcie|AT\+|gcom|4g|5g|tftp|wget|curl|factory|debug|research|recovery'               /tmp/r91/fs /tmp/r91/rootfs-squashfs 2>/dev/null | head -n 100000 || true
           } > "$OUT/RE-R91-FS-HIGHVALUE-HITS.txt"
 
           {
@@ -123,11 +131,14 @@ jobs:
           } > "$OUT/RE-R91-BINWALK-TREE.txt"
 
           # Make export readable without modifying source bytes.
-          sudo chmod -R a+rX /tmp/r91/fs /tmp/r91/ubi-images || true
+          sudo chmod -R a+rX /tmp/r91/fs /tmp/r91/ubi-images /tmp/r91/rootfs-squashfs || true
 
           # Export extracted trees and UBI volume images for local inspection.
           cp -a /tmp/r91/ubi-images "$OUT/ubi-images"
-          cp -a /tmp/r91/fs "$OUT/filesystems"
+          cp -a /tmp/r91/fs "$OUT/filesystems-ubireader"
+          if [ -d /tmp/r91/rootfs-squashfs ]; then
+            cp -a /tmp/r91/rootfs-squashfs "$OUT/rootfs"
+          fi
           sudo chmod -R a+rX "$OUT"
 
       - name: Upload evidence
