@@ -62,17 +62,19 @@ jobs:
           dd if="$BETA" of=/tmp/tr1200/work/beta/u-boot.bin bs=1 count=$((0x30000)) status=none
           dd if="$STOCK" of=/tmp/tr1200/work/stock/u-boot.bin bs=1 count=$((0x30000)) status=none
 
+          binwalk "$BETA" > /tmp/tr1200/beta.binwalk 2>&1 || true
+          binwalk "$STOCK" > /tmp/tr1200/stock.binwalk 2>&1 || true
           {
             echo "=== BETA BINWALK ==="
-            binwalk "$BETA" || true
+            cat /tmp/tr1200/beta.binwalk
             echo
             echo "=== STOCK BINWALK ==="
-            binwalk "$STOCK" || true
+            cat /tmp/tr1200/stock.binwalk
           } > "$OUT/RE-BINWALK.txt"
 
-          # Find squashfs offsets and extract.
-          BETA_SQ="$(binwalk "$BETA" | awk '/Squashfs filesystem/{print $1; exit}')"
-          STOCK_SQ="$(binwalk "$STOCK" | awk '/Squashfs filesystem/{print $1; exit}')"
+          # Parse saved binwalk reports so early awk exit cannot SIGPIPE binwalk under pipefail.
+          BETA_SQ="$(awk '/Squashfs filesystem/{print $1; exit}' /tmp/tr1200/beta.binwalk)"
+          STOCK_SQ="$(awk '/Squashfs filesystem/{print $1; exit}' /tmp/tr1200/stock.binwalk)"
           echo "beta_squashfs_offset=$BETA_SQ" >> "$OUT/RE-IDENTITY.txt"
           echo "stock_squashfs_offset=$STOCK_SQ" >> "$OUT/RE-IDENTITY.txt"
 
