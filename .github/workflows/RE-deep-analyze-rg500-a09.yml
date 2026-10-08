@@ -1,0 +1,232 @@
+name: RE Deep Analyze RG500 A09 and CellularUpgrade
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-deep-analyze-rg500-a09.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RG_SHA: 7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b
+      CU_SHA: 9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 1
+
+      - name: Install deep forensic helpers
+        shell: bash
+        run: |
+          set -e
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq binwalk p7zip-full squashfs-tools e2fsprogs libarchive-tools xz-utils gzip bzip2 lz4 zstd file device-tree-compiler >/dev/null || true
+          python3 -m pip install --quiet ubi-reader || true
+
+      - name: Acquire exact pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/redeep
+          gh release download cudy-cellular-modem-p2-rg500-a09 --repo "${GITHUB_REPOSITORY}" --pattern "P2_RG500_A09.bin" --dir /tmp/redeep
+          cp firmware/cudy/cellular-modem/firmware/R91-2.4.23b-20251208-CellularUpgrade.bin /tmp/redeep/
+          test "$(sha256sum /tmp/redeep/P2_RG500_A09.bin | awk '{print $1}')" = "$RG_SHA"
+          test "$(sha256sum /tmp/redeep/R91-2.4.23b-20251208-CellularUpgrade.bin | awk '{print $1}')" = "$CU_SHA"
+
+      - name: Deep parse RG500 package
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=/tmp/redeep/P2_RG500_A09.bin
+          OUT="${GITHUB_WORKSPACE}/RE-RG500-A09-DEEP"
+          mkdir -p "$OUT" /tmp/redeep/carves /tmp/redeep/fs
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re,xml.etree.ElementTree as ET,csv,struct
+          src=Path('/tmp/redeep/P2_RG500_A09.bin')
+          out=Path.cwd()/'RE-RG500-A09-DEEP'
+          b=src.read_bytes()
+
+          # Basic header interpretation
+          def u16z(off,nbytes):
+              raw=b[off:off+nbytes]
+              try:return raw.decode('utf-16le','replace').split('\x00')[0]
+              except:return ''
+          with open(out/'RE-RG500-A09-HEADER-DECODE.txt','w') as f:
+              f.write(f'file_size={len(b)} ({len(b):#x})\n')
+              f.write(f'header_name_0x0={u16z(0,0x30)!r}\n')
+              f.write(f'le32_0x30={struct.unpack_from("<I",b,0x30)[0]} ({struct.unpack_from("<I",b,0x30)[0]:#x})\n')
+              f.write(f'header_platform_0x34={u16z(0x34,0x80)!r}\n')
+              f.write(f'file_size_matches_le32_0x30={struct.unpack_from("<I",b,0x30)[0]==len(b)}\n')
+
+          # Extract appended XML/BMAConfig exactly.
+          s=b.find(b'<BMAConfig')
+          e=b.rfind(b'</BMAConfig>')
+          with open(out/'RE-RG500-A09-BMACONFIG-LOCATION.txt','w') as f:
+              f.write(f'start={s} hex={s:#x}\nend_tag={e} hex={e:#x}\n')
+          if s>=0 and e>=0:
+              xml=b[s:e+len(b'</BMAConfig>')]
+              (out/'RE-RG500-A09-BMAConfig.xml').write_bytes(xml)
+              try:
+                  root=ET.fromstring(xml)
+                  rows=[]
+                  for fe in root.iter('File'):
+                      d={}
+                      for ch in list(fe):
+                          if ch.tag=='Block':
+                              d['block_id']=ch.attrib.get('id','')
+                              for z in list(ch): d['block_'+z.tag]=(z.text or '').strip()
+                          else:
+                              d[ch.tag]=(ch.text or '').strip()
+                      rows.append(d)
+                  keys=sorted({k for r in rows for k in r})
+                  with open(out/'RE-RG500-A09-BMACONFIG-FILES.csv','w',newline='') as f:
+                      w=csv.DictWriter(f,fieldnames=keys);w.writeheader();w.writerows(rows)
+              except Exception as ex:
+                  (out/'RE-RG500-A09-BMACONFIG-PARSE-ERROR.txt').write_text(repr(ex))
+
+          # UTF-16LE strings, useful because package header/table uses wide strings.
+          wide=[]
+          pat=re.compile(rb'(?:[\x20-\x7e]\x00){4,}')
+          for m in pat.finditer(b):
+              try:sx=m.group().decode('utf-16le')
+              except:continue
+              wide.append((m.start(),sx))
+          with open(out/'RE-RG500-A09-UTF16-STRINGS.txt','w') as f:
+              for off,sx in wide:
+                  f.write(f'{off:10d} {off:#010x} {sx}\n')
+
+          # Focus on table-ish / engineering wide strings.
+          rx=re.compile(r'boot|uboot|spl|modem|nv|system|vendor|userdata|misc|trust|debug|factory|recovery|fastboot|diag|calib|download|loader|pac|xml|config|rg500|udx710',re.I)
+          with open(out/'RE-RG500-A09-UTF16-HITS.txt','w') as f:
+              for off,sx in wide:
+                  if rx.search(sx): f.write(f'{off:10d} {off:#010x} {sx}\n')
+
+          # Carve common valid-looking structures for independent validators.
+          sigs=[
+             ('bootimg',b'ANDROID!'),
+             ('ubifs',b'\x31\x18\x10\x06'),
+             ('squashfs',b'hsqs'),
+             ('dtb',b'\xd0\x0d\xfe\xed'),
+             ('elf',b'\x7fELF'),
+          ]
+          rows=[]
+          for name,sig in sigs:
+              pos=0;n=0
+              while True:
+                  i=b.find(sig,pos)
+                  if i<0:break
+                  rows.append((name,i,hex(i)))
+                  n+=1
+                  if n>=1000:break
+                  pos=i+1
+          with open(out/'RE-RG500-A09-CARVE-CANDIDATES.csv','w',newline='') as f:
+              w=csv.writer(f);w.writerow(['type','offset_dec','offset_hex']);w.writerows(sorted(rows,key=lambda x:x[1]))
+          PY
+
+          strings -el -t x "$SRC" > "$OUT/RE-RG500-A09-STRINGS-UTF16LE.txt" || true
+
+          {
+            echo "=== sudo binwalk recursive extract ==="
+            cd /tmp/redeep
+            sudo binwalk -Me --run-as=root "$SRC" || true
+          } > "$OUT/RE-RG500-A09-BINWALK-DEEP-EXTRACT.txt" 2>&1
+
+          {
+            echo "=== BINWALK EXTRACTED FILE INVENTORY ==="
+            find /tmp/redeep -maxdepth 8 -type f ! -path '/tmp/redeep/P2_RG500_A09.bin' ! -path '/tmp/redeep/R91-*' -printf '%s %p\n' | sort -n
+          } > "$OUT/RE-RG500-A09-BINWALK-TREE.txt"
+
+          # Test exact SquashFS magic hits with unsquashfs, rather than trusting magic-only scan.
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path('/tmp/redeep/P2_RG500_A09.bin').read_bytes()
+          out=Path('/tmp/redeep/carves')
+          for idx,off in enumerate([i for i in range(len(b)) if False]): pass
+          pos=0;n=0
+          while True:
+              i=b.find(b'hsqs',pos)
+              if i<0: break
+              n+=1
+              (out/f'squash-{n:02d}-{i:08x}.bin').write_bytes(b[i:])
+              pos=i+1
+          PY
+          for f in /tmp/redeep/carves/squash-*.bin; do
+            [ -e "$f" ] || continue
+            echo "=== $f ===" >> "$OUT/RE-RG500-A09-SQUASH-VALIDATION.txt"
+            unsquashfs -s "$f" >> "$OUT/RE-RG500-A09-SQUASH-VALIDATION.txt" 2>&1 || true
+          done
+
+          # UBI Reader capability/help and direct-offset attempts for the three binwalk-validated UBIFS roots.
+          {
+            command -v ubireader_display_info || true
+            ubireader_display_info -h || true
+            command -v ubireader_extract_files || true
+            ubireader_extract_files -h || true
+          } > "$OUT/RE-RG500-A09-UBIREADER-HELP.txt" 2>&1
+
+          for off in 40265198 56827622 100154858; do
+            hex=$(printf '%x' "$off")
+            dd if="$SRC" of="/tmp/redeep/carves/ubifs-${hex}.bin" bs=1 skip="$off" status=none || true
+            mkdir -p "/tmp/redeep/fs/ubifs-${hex}"
+            ubireader_extract_files -o "/tmp/redeep/fs/ubifs-${hex}" "/tmp/redeep/carves/ubifs-${hex}.bin"               >> "$OUT/RE-RG500-A09-UBIFS-EXTRACT.txt" 2>&1 || true
+          done
+
+          {
+            echo "=== UBIFS EXTRACT TREE ==="
+            find /tmp/redeep/fs -type f -printf '%s %p\n' | sort -n
+          } > "$OUT/RE-RG500-A09-UBIFS-TREE.txt"
+
+          {
+            echo "=== HIGH VALUE HITS IN EXTRACTED FS ==="
+            grep -RInaE --binary-files=text               'debug_mode|DEBUG MODE|PINTEST|FASTBOOT|RECOVERY|factorytest|factory|research|engineering|UART|console|adb|telnet|ssh|diag|download|FDL2?|quec_|Quectel'               /tmp/redeep/fs /tmp/redeep/_P2_RG500_A09.bin.extracted 2>/dev/null | head -n 50000 || true
+          } > "$OUT/RE-RG500-A09-FS-HIGHVALUE-HITS.txt"
+
+          {
+            echo "=== extracted candidate file types ==="
+            find /tmp/redeep/fs /tmp/redeep/_P2_RG500_A09.bin.extracted -type f -print0 2>/dev/null |
+              xargs -0 -r file -k | head -n 30000
+          } > "$OUT/RE-RG500-A09-FS-FILETYPES.txt" 2>&1 || true
+
+      - name: Analyze R91 CellularUpgrade pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=/tmp/redeep/R91-2.4.23b-20251208-CellularUpgrade.bin
+          OUT="${GITHUB_WORKSPACE}/RE-R91-CELLULARUPGRADE-DEEP"
+          mkdir -p "$OUT" /tmp/redeep/r91extract
+          {
+            stat -c 'size=%s' "$SRC"
+            sha256sum "$SRC"
+            file -k "$SRC" || true
+            xxd -g1 -l 512 "$SRC"
+          } > "$OUT/RE-R91-CELLULARUPGRADE-BASIC.txt"
+          binwalk "$SRC" > "$OUT/RE-R91-CELLULARUPGRADE-BINWALK.txt" 2>&1 || true
+          strings -a -t x -n 4 "$SRC" > /tmp/redeep/r91strings.txt
+          grep -iE             'rg500|quectel|upgrade|flash|download|dloader|qdloader|fdl|bsl|adb|fastboot|recovery|factory|debug|uart|usb|tty|pcie|at\+|firmware|module|cellular'             /tmp/redeep/r91strings.txt > "$OUT/RE-R91-CELLULARUPGRADE-HITS.txt" || true
+          (
+            cd /tmp/redeep/r91extract
+            sudo binwalk -Me --run-as=root "$SRC" || true
+          ) > "$OUT/RE-R91-CELLULARUPGRADE-EXTRACT.txt" 2>&1
+          find /tmp/redeep/r91extract -type f -printf '%s %p\n' | sort -n > "$OUT/RE-R91-CELLULARUPGRADE-TREE.txt"
+          grep -RInaE --binary-files=text             'RG500|Quectel|upgrade|flash|download|dloader|FDL|BSL|fastboot|recovery|factory|debug|UART|tty|usb|pcie'             /tmp/redeep/r91extract 2>/dev/null | head -n 50000 > "$OUT/RE-R91-CELLULARUPGRADE-EXTRACTED-HITS.txt" || true
+
+      - name: Upload deep reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-A09-DEEP-FORENSICS
+          path: |
+            RE-RG500-A09-DEEP/
+            RE-R91-CELLULARUPGRADE-DEEP/
+          if-no-files-found: error
+          retention-days: 14
