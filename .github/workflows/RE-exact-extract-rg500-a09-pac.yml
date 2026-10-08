@@ -132,17 +132,17 @@ jobs:
 
           sudo chmod -R a+rX "$FULL"
 
-          sudo rm -f /tmp/RE-RG500-A09-FULL-UNPACKED-03.zip
-          sudo 7z a -tzip -mx=5 /tmp/RE-RG500-A09-FULL-UNPACKED-03.zip "$FULL" >/tmp/RE-RG500-A09-FULL-UNPACKED-03-7Z.log
-          sudo chown "$(id -u):$(id -g)" /tmp/RE-RG500-A09-FULL-UNPACKED-03.zip
-          sha256sum /tmp/RE-RG500-A09-FULL-UNPACKED-03.zip > /tmp/RE-RG500-A09-FULL-UNPACKED-03.zip.sha256
+          sudo rm -f /tmp/RE-RG500-A09-FULL-UNPACKED-04.zip
+          sudo 7z a -tzip -mx=0 /tmp/RE-RG500-A09-FULL-UNPACKED-04.zip "$FULL" >/tmp/RE-RG500-A09-FULL-UNPACKED-04-7Z.log
+          sudo chown "$(id -u):$(id -g)" /tmp/RE-RG500-A09-FULL-UNPACKED-04.zip
+          sha256sum /tmp/RE-RG500-A09-FULL-UNPACKED-04.zip > /tmp/RE-RG500-A09-FULL-UNPACKED-04.zip.sha256
 
       - uses: actions/upload-artifact@v4
         with:
-          name: RE-RG500-A09-FULL-UNPACKED-03
+          name: RE-RG500-A09-FULL-UNPACKED-04
           path: |
-            /tmp/RE-RG500-A09-FULL-UNPACKED-03.zip
-            /tmp/RE-RG500-A09-FULL-UNPACKED-03.zip.sha256
+            /tmp/RE-RG500-A09-FULL-UNPACKED-04.zip
+            /tmp/RE-RG500-A09-FULL-UNPACKED-04.zip.sha256
           if-no-files-found: error
           compression-level: 0
           retention-days: 14
