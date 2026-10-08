@@ -34,6 +34,7 @@ for fw in sorted(inp.glob("*.bin")):
         if dst.exists(): shutil.rmtree(dst,ignore_errors=True)
         p=run(["sudo","unsquashfs","-no-progress","-no-exit-code","-d",str(dst),str(sq)],timeout=120)
         if p.returncode==0 and dst.exists():
+            run(["sudo","chmod","-R","a+rX",str(dst)],timeout=60)
             method="squashfs";off=o;ok=True;break
         shutil.rmtree(dst,ignore_errors=True)
     # UBI fallback — reproduce the FU7 P2 extractor: split volumes first,
@@ -78,6 +79,7 @@ for fw in sorted(inp.glob("*.bin")):
                     shutil.rmtree(vd,ignore_errors=True)
                     pr=run(["sudo","unsquashfs","-no-progress","-no-exit-code","-d",str(vd),str(vol)],timeout=120)
                     if vd.exists():
+                        run(["sudo","chmod","-R","a+rX",str(vd)],timeout=60)
                         candidates.append((6,sum(1 for z in vd.rglob("*") if z.is_file() or z.is_symlink()),vd))
                 else:
                     vd=work/f"{name}-vol-{vol.name}-files"
@@ -95,9 +97,14 @@ for fw in sorted(inp.glob("*.bin")):
             if candidates:
                 candidates.sort(key=lambda x:(x[0],x[1]),reverse=True)
                 src=candidates[0][2]
-                if dst.exists(): shutil.rmtree(dst,ignore_errors=True)
-                shutil.copytree(src,dst,symlinks=True,dirs_exist_ok=True)
-                method="ubi";off=u;ok=True;note=" | ".join(notes)
+                if dst.exists(): run(["sudo","rm","-rf",str(dst)],timeout=60)
+                run(["sudo","mkdir","-p",str(dst)],timeout=30)
+                cp=run(["sudo","cp","-a",str(src)+"/.",str(dst)+"/"],timeout=180)
+                run(["sudo","chmod","-R","a+rX",str(dst)],timeout=60)
+                if cp.returncode==0:
+                    method="ubi";off=u;ok=True;note=" | ".join(notes)
+                else:
+                    note=("COPY_FAIL "+cp.stdout+" | "+" | ".join(notes))[:1800]
             else:
                 shutil.rmtree(dst,ignore_errors=True)
                 note=" | ".join(notes)[:1800]
