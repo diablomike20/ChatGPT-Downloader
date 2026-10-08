@@ -97,8 +97,10 @@ jobs:
           for f in /tmp/pac/out/rootfs.ubifs /tmp/pac/out/recoveryfs.ubifs /tmp/pac/out/userdata_b128k_p2k.img; do
             [ -f "$f" ] || continue
             n="$(basename "$f")"
-            mkdir -p "$FULL/filesystems/$n"
-            ubireader_extract_files -o "$FULL/filesystems/$n" "$f"               > "$FULL/filesystems/$n/RE-UBIREADER.log" 2>&1 || true
+            dst="$FULL/filesystems/$n"
+            log="$FULL/filesystems/RE-$n-UBIREADER.log"
+            rm -rf "$dst"
+            ubireader_extract_files -o "$dst" "$f" > "$log" 2>&1 || true
           done
 
           for f in /tmp/pac/out/*; do
