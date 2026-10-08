@@ -49,13 +49,13 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           jobs=[
-            ('/tmp/re-target/P2_RG500_A09.bin',0x3631ee6,'/tmp/re-target/carves/a09-system.ubifs'),
-            ('/tmp/re-target/P2_RG500_A09.bin',0x26665ee,'/tmp/re-target/carves/a09-recovery.ubifs'),
-            ('/tmp/re-target/R91-2.4.23b-20251208-CellularUpgrade.bin',0x2008a0,'/tmp/re-target/carves/r91.ubi'),
+            ('/tmp/re-target/P2_RG500_A09.bin',56827622,39108608,'/tmp/re-target/carves/a09-system.ubifs'),
+            ('/tmp/re-target/P2_RG500_A09.bin',40265198,10919936,'/tmp/re-target/carves/a09-recovery.ubifs'),
+            ('/tmp/re-target/R91-2.4.23b-20251208-CellularUpgrade.bin',0x2008a0,0xee0000,'/tmp/re-target/carves/r91.ubi'),
           ]
-          for src,off,dst in jobs:
+          for src,off,length,dst in jobs:
               b=Path(src).read_bytes()
-              Path(dst).write_bytes(b[off:])
+              Path(dst).write_bytes(b[off:off+length])
           PY
           ubireader_extract_files -o /tmp/re-target/a09-system /tmp/re-target/carves/a09-system.ubifs || true
           ubireader_extract_files -o /tmp/re-target/a09-recovery /tmp/re-target/carves/a09-recovery.ubifs || true
