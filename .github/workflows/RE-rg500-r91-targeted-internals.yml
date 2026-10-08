@@ -1,0 +1,137 @@
+name: RE RG500 R91 Targeted Internals
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-rg500-r91-targeted-internals.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  internals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RG_SHA: 7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b
+      R91_SHA: 9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 1
+
+      - name: Install extractors
+        run: |
+          set -e
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq python3-pip file binutils >/dev/null
+          python3 -m pip install --quiet ubi-reader
+
+      - name: Acquire exact pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/re-target
+          gh release download cudy-cellular-modem-p2-rg500-a09 --repo "${GITHUB_REPOSITORY}" --pattern P2_RG500_A09.bin --dir /tmp/re-target
+          cp firmware/cudy/cellular-modem/firmware/R91-2.4.23b-20251208-CellularUpgrade.bin /tmp/re-target/
+          test "$(sha256sum /tmp/re-target/P2_RG500_A09.bin | awk '{print $1}')" = "$RG_SHA"
+          test "$(sha256sum /tmp/re-target/R91-2.4.23b-20251208-CellularUpgrade.bin | awk '{print $1}')" = "$R91_SHA"
+
+      - name: Extract proven filesystems
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/re-target/a09-system /tmp/re-target/a09-recovery /tmp/re-target/r91 /tmp/re-target/carves
+          python3 - <<'PY'
+          from pathlib import Path
+          jobs=[
+            ('/tmp/re-target/P2_RG500_A09.bin',0x3631ee6,'/tmp/re-target/carves/a09-system.ubifs'),
+            ('/tmp/re-target/P2_RG500_A09.bin',0x26665ee,'/tmp/re-target/carves/a09-recovery.ubifs'),
+            ('/tmp/re-target/R91-2.4.23b-20251208-CellularUpgrade.bin',0x2008a0,'/tmp/re-target/carves/r91.ubi'),
+          ]
+          for src,off,dst in jobs:
+              b=Path(src).read_bytes()
+              Path(dst).write_bytes(b[off:])
+          PY
+          ubireader_extract_files -o /tmp/re-target/a09-system /tmp/re-target/carves/a09-system.ubifs || true
+          ubireader_extract_files -o /tmp/re-target/a09-recovery /tmp/re-target/carves/a09-recovery.ubifs || true
+          ubireader_extract_files -o /tmp/re-target/r91 /tmp/re-target/carves/r91.ubi || true
+
+      - name: Build targeted evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-RG500-R91-TARGETED-INTERNALS"
+          mkdir -p "$OUT/selected-a09"
+
+          {
+            echo "=== A09 SYSTEM TREE ==="
+            find /tmp/re-target/a09-system -type f -printf '%s\t%p\n' | sort -n
+            echo
+            echo "=== A09 RECOVERY TREE ==="
+            find /tmp/re-target/a09-recovery -type f -printf '%s\t%p\n' | sort -n
+            echo
+            echo "=== R91 ROOTFS TREE ==="
+            find /tmp/re-target/r91 -type f -printf '%s\t%p\n' | sort -n
+          } > "$OUT/RE-TARGETED-TREES.txt"
+
+          {
+            echo "=== A09 DEBUG/ENGINEERING TEXT HITS ==="
+            grep -RInaE --binary-files=without-match               'debug_mode|fw_printenv|fw_setenv|factorytest|autotest|linuxboot\.mode|androidboot\.mode|engpc|sshenable|OpenSSH|adbd|recovery_service|sysdump|slogmodem|production|PCBA|BBAT|calibration|DIAG|COM_CP_DIAG|AT\+SP|AUTODLOADER'               /tmp/re-target/a09-system /tmp/re-target/a09-recovery 2>/dev/null | head -n 50000 || true
+          } > "$OUT/RE-A09-TEXT-HITS.txt"
+
+          {
+            echo "=== R91 CELLULAR UPGRADE TEXT HITS ==="
+            grep -RInaE --binary-files=without-match               'RG500|RG500U|P2_RG500|A09|CellularUpgrade|cellular|Quectel|quectel|modem|upgrade|flash|download|dloader|QDLoader|FDL2?|BSL|ttyUSB|ttyACM|usb5g|pcie|tftp|wget|curl|scp|ftp'               /tmp/re-target/r91 2>/dev/null | head -n 50000 || true
+          } > "$OUT/RE-R91-ROOTFS-TEXT-HITS.txt"
+
+          {
+            echo "=== R91 CANDIDATE EXECUTABLE/SCRIPT NAMES ==="
+            find /tmp/re-target/r91 -type f | grep -Ei 'rg500|quectel|modem|cell|upgrade|flash|download|5g|qdl|fdl|bsl|usb|pcie|gcom|at' | sort || true
+            echo
+            echo "=== A09 ENGINEERING EXECUTABLE/SCRIPT NAMES ==="
+            find /tmp/re-target/a09-system /tmp/re-target/a09-recovery -type f | grep -Ei 'eng|factory|prod|test|diag|adb|ssh|recovery|debug|sysdump|slog|modem|atrouter|quec' | sort || true
+          } > "$OUT/RE-CANDIDATE-FILES.txt"
+
+          # Preserve a safe set of non-secret A09 text configs verbatim.
+          python3 - <<'PY'
+          from pathlib import Path
+          roots=[Path('/tmp/re-target/a09-system'),Path('/tmp/re-target/a09-recovery')]
+          wanted=[
+            'etc/syslog-startup.conf','etc/init.d/engpc-init','etc/init.d/sshd',
+            'etc/init.d/start_recovery_service','etc/init.d/sysdump_switch_enable.sh',
+            'etc/init.d/slogmodem-init','etc/init.d/modem_control-init',
+            'etc/engpc/engpc.ini','etc/engpc/BBAT.conf','etc/engpc/PCBA.conf',
+            'usr/bin/changemode.sh','etc/quectel/quec_misc.ini'
+          ]
+          out=Path('RE-RG500-R91-TARGETED-INTERNALS/selected-a09')
+          for root in roots:
+            for rel in wanted:
+              for p in root.rglob(rel):
+                if p.is_file() and p.stat().st_size < 1024*1024:
+                  dst=out/(root.name+'__'+rel.replace('/','__'))
+                  try:
+                    raw=p.read_bytes()
+                    # never export obvious secret/key material
+                    low=rel.lower()
+                    if any(x in low for x in ['shadow','passwd','key','psk']): continue
+                    dst.write_bytes(raw)
+                  except Exception: pass
+          PY
+
+          {
+            echo "=== SELECTED A09 CONFIG SHA256 ==="
+            find "$OUT/selected-a09" -type f -print0 | sort -z | xargs -0 -r sha256sum
+          } > "$OUT/RE-SELECTED-A09-SHA256.txt"
+
+      - name: Upload targeted evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-R91-TARGETED-INTERNALS
+          path: RE-RG500-R91-TARGETED-INTERNALS/
+          if-no-files-found: error
+          retention-days: 14
