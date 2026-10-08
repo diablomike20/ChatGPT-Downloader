@@ -1,0 +1,110 @@
+name: RE RG500 A09 Targeted Engineering Extract
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-rg500-a09-targeted-engineering-extract.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RG_SHA: 7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b
+      CU_SHA: 9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 1
+
+      - name: Install helpers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq binutils file >/dev/null
+          python3 -m pip install --quiet ubi-reader
+
+      - name: Acquire exact pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/retarget
+          gh release download cudy-cellular-modem-p2-rg500-a09 --repo "${GITHUB_REPOSITORY}" --pattern "P2_RG500_A09.bin" --dir /tmp/retarget
+          cp firmware/cudy/cellular-modem/firmware/R91-2.4.23b-20251208-CellularUpgrade.bin /tmp/retarget/
+          test "$(sha256sum /tmp/retarget/P2_RG500_A09.bin | awk '{print $1}')" = "$RG_SHA"
+          test "$(sha256sum /tmp/retarget/R91-2.4.23b-20251208-CellularUpgrade.bin | awk '{print $1}')" = "$CU_SHA"
+
+      - name: Extract known UBIFS roots
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/retarget/rgfs /tmp/retarget/r91fs
+          dd if=/tmp/retarget/P2_RG500_A09.bin of=/tmp/retarget/rg-system.ubifs bs=1 skip=56827622 status=none
+          ubireader_extract_files -o /tmp/retarget/rgfs /tmp/retarget/rg-system.ubifs
+
+          dd if=/tmp/retarget/R91-2.4.23b-20251208-CellularUpgrade.bin of=/tmp/retarget/r91.ubi bs=1 skip=2099360 status=none
+          ubireader_extract_files -o /tmp/retarget/r91fs /tmp/retarget/r91.ubi || true
+
+      - name: Collect engineering evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-RG500-A09-TARGETED-ENGINEERING-01"
+          mkdir -p "$OUT/RG500-text" "$OUT/RG500-strings" "$OUT/R91-text" "$OUT/R91-strings"
+
+          RGROOT="$(find /tmp/retarget/rgfs -type f -path '*/usr/bin/atrouter' -printf '%h\n' | sed 's#/usr/bin##' | head -n1)"
+          echo "RGROOT=$RGROOT" > "$OUT/RE-ROOTS.txt"
+
+          for rel in             etc/syslog-startup.conf             etc/init.d/rcS             etc/init.d/sshd             etc/init.d/adbd-init             etc/init.d/engpc-init             etc/init.d/atrouter-init             usr/bin/usbenum.sh             etc/quectel_sdk_version             etc/version             etc/baseline             var/lib/opkg/info/packagegroup-unisoc-base-engpc.control             var/lib/opkg/info/packagegroup-unisoc-base-production.control             var/lib/opkg/info/packagegroup-unisoc-base-ql-api-test.control             var/lib/opkg/info/packagegroup-unisoc-base-quec-security.control             var/lib/opkg/info/engpc-srv.control             var/lib/opkg/info/engpc-srv-engpc.control             var/lib/opkg/info/engpc-ctl.control             var/lib/opkg/info/engpc-adapt.control             var/lib/opkg/info/atrouter.control             var/lib/opkg/info/adbd.control             var/lib/opkg/info/openssh-sshd.control             var/lib/opkg/info/quec-security.control
+          do
+            if [ -f "$RGROOT/$rel" ]; then
+              mkdir -p "$OUT/RG500-text/$(dirname "$rel")"
+              cp "$RGROOT/$rel" "$OUT/RG500-text/$rel"
+            fi
+          done
+
+          for rel in usr/bin/atrouter usr/bin/engpc usr/bin/engpc-ctl usr/bin/unisoc-reboot usr/bin/adbd usr/sbin/sshd; do
+            f="$RGROOT/$rel"
+            [ -f "$f" ] || continue
+            base="$(echo "$rel" | tr '/' '_')"
+            strings -a -t x -n 4 "$f" | grep -iE               'QTEST|QSECCFG|QFASTBOOT|debug_mode|DEBUG MODE|PINTEST|factory|production|engpc|engineering|ADB|SSH|UART|console|recovery|fastboot|autodloader|download|secureboot|secboot|dump_ctl|dm_log_ctl|dbg_pwd|usbconfig|diag|SPTESTMODE|SPATASSERT'               > "$OUT/RG500-strings/RE-$base-engineering-strings.txt" || true
+          done
+
+          {
+            echo "=== RG500 ENGINEERING FILE INVENTORY ==="
+            find "$RGROOT" -type f | grep -Ei               'engpc|factory|production|debug|test|adb|ssh|diag|console|uart|download|recovery|restore|security|atrouter' | sort
+          } > "$OUT/RE-RG500-ENGINEERING-FILE-INVENTORY.txt"
+
+          # R91: locate extracted root(s) and collect only upgrade/modem related text and strings.
+          find /tmp/retarget/r91fs -type f -maxdepth 12 2>/dev/null | sort > "$OUT/RE-R91-EXTRACTED-FILE-INVENTORY.txt" || true
+          while IFS= read -r f; do
+            case "$f" in
+              *.sh|*/etc/init.d/*|*/etc/hotplug.d/*|*/usr/lib/4g/*|*/usr/bin/*|*/usr/sbin/*)
+                if file "$f" | grep -qiE 'text|script'; then
+                  if grep -aEqi 'RG500|Quectel|upgrade|flash|download|dloader|FDL|BSL|fastboot|recovery|factory|debug|tty|usb|pcie|AT\+' "$f"; then
+                    rel="$(echo "$f" | sed 's#^/tmp/retarget/r91fs/##' | tr '/' '_')"
+                    cp "$f" "$OUT/R91-text/RE-$rel.txt" 2>/dev/null || true
+                  fi
+                else
+                  base="$(basename "$f")"
+                  strings -a -t x -n 4 "$f" 2>/dev/null | grep -iE                     'RG500|Quectel|upgrade|flash|download|dloader|QDloader|FDL2?|BSL|fastboot|recovery|factory|debug|UART|tty|usb|pcie|AT\+'                     > "$OUT/R91-strings/RE-$base-strings.txt" || true
+                fi
+              ;;
+            esac
+          done < "$OUT/RE-R91-EXTRACTED-FILE-INVENTORY.txt"
+
+          grep -RInaE --binary-files=without-match             'debug_mode|QTEST|QSECCFG|QFASTBOOT|PINTEST|factory|production|engpc|ADB|SSH|recovery|autodloader|dump_ctl|dm_log_ctl|dbg_pwd|SPTESTMODE|SPATASSERT'             "$OUT/RG500-text" > "$OUT/RE-RG500-TEXT-XREF.txt" || true
+
+      - name: Upload targeted evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-A09-TARGETED-ENGINEERING-01
+          path: RE-RG500-A09-TARGETED-ENGINEERING-01/
+          if-no-files-found: error
+          retention-days: 14
