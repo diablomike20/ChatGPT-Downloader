@@ -1,0 +1,113 @@
+name: RE RG500 A09 Package Map Fast
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-rg500-package-map-fast.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  map:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 1
+      - name: Acquire pair
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/map
+          gh release download cudy-cellular-modem-p2-rg500-a09 --repo "${GITHUB_REPOSITORY}" --pattern P2_RG500_A09.bin --dir /tmp/map
+          cp firmware/cudy/cellular-modem/firmware/R91-2.4.23b-20251208-CellularUpgrade.bin /tmp/map/
+      - name: Parse package and loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p RE-RG500-A09-PACKAGE-MAP
+          python3 - <<'PY'
+          from pathlib import Path
+          import re,xml.etree.ElementTree as ET,csv,struct,hashlib
+          src=Path('/tmp/map/P2_RG500_A09.bin')
+          b=src.read_bytes()
+          out=Path('RE-RG500-A09-PACKAGE-MAP')
+          def sha(p):
+              h=hashlib.sha256();h.update(p.read_bytes());return h.hexdigest()
+          def u16z(off,n):
+              return b[off:off+n].decode('utf-16le','replace').split('\x00')[0]
+          with open(out/'RE-RG500-A09-PACKAGE-HEADER.txt','w') as f:
+              f.write(f'size={len(b)} hex={len(b):#x}\nsha256={sha(src)}\n')
+              f.write(f'name={u16z(0,0x30)!r}\n')
+              sz=struct.unpack_from('<I',b,0x30)[0]
+              f.write(f'header_size_field={sz} hex={sz:#x} matches={sz==len(b)}\n')
+              f.write(f'platform={u16z(0x34,0x80)!r}\n')
+          s=b.find(b'<BMAConfig')
+          e=b.rfind(b'</BMAConfig>')
+          with open(out/'RE-RG500-A09-BMACONFIG-LOCATION.txt','w') as f:
+              f.write(f'start={s} {s:#x}\nend={e} {e:#x}\n')
+          if s>=0 and e>=0:
+              xml=b[s:e+len(b'</BMAConfig>')]
+              (out/'RE-RG500-A09-BMAConfig.xml').write_bytes(xml)
+              root=ET.fromstring(xml)
+              rows=[]
+              for idx,fe in enumerate(root.iter('File')):
+                  d={'index':idx}
+                  for ch in list(fe):
+                      if ch.tag=='Block':
+                          d['Block.id']=ch.attrib.get('id','')
+                          for z in list(ch):
+                              d['Block.'+z.tag]=(z.text or '').strip()
+                      else:
+                          d[ch.tag]=(ch.text or '').strip()
+                  rows.append(d)
+              keys=['index']+sorted({k for r in rows for k in r if k!='index'})
+              with open(out/'RE-RG500-A09-BMACONFIG-FILES.csv','w',newline='') as f:
+                  w=csv.DictWriter(f,fieldnames=keys);w.writeheader();w.writerows(rows)
+              with open(out/'RE-RG500-A09-BMACONFIG-FILES.txt','w') as f:
+                  for r in rows:
+                      f.write(' | '.join(f'{k}={r.get(k,"")}' for k in keys)+'\n')
+          wide=[]
+          for m in re.finditer(rb'(?:[\x20-\x7e]\x00){4,}',b):
+              try: wide.append((m.start(),m.group().decode('utf-16le')))
+              except: pass
+          with open(out/'RE-RG500-A09-UTF16-PACKAGE-HITS.txt','w') as f:
+              rx=re.compile(r'boot|spl|uboot|modem|nv|system|vendor|userdata|misc|trust|debug|factory|recovery|fastboot|diag|calib|download|loader|pac|config|rg500|udx710',re.I)
+              for off,sx in wide:
+                  if rx.search(sx): f.write(f'{off:#010x} {sx}\n')
+          # ASCII exact engineering hits with compact neighborhood
+          keys=[b'DEBUG MODE',b'debug_mode=1',b'PINTEST',b'FASTBOOT',b'RECOVERY',b'factorytest',b'quec_instruction_mode',b'quec_pin_test_mode',b'dl_cmd_set_debuginfo',b'pctool_mode_detect_uart',b'download mode',b'factory or research purpose']
+          low=b.lower()
+          with open(out/'RE-RG500-A09-ENGINEERING-NEIGHBORHOODS.txt','w') as f:
+              for k in keys:
+                  f.write(f'===== {k.decode()} =====\n')
+                  p=0;n=0
+                  while True:
+                      i=low.find(k.lower(),p)
+                      if i<0:break
+                      f.write(f'offset={i:#x} dec={i}\n')
+                      c=b[max(0,i-300):min(len(b),i+len(k)+600)]
+                      f.write(''.join(chr(x) if 32<=x<127 else '.' for x in c)+'\n\n')
+                      n+=1
+                      if n>=20:break
+                      p=i+1
+                  if not n:f.write('NOT_FOUND\n')
+          PY
+          strings -a -t x -n 4 /tmp/map/R91-2.4.23b-20251208-CellularUpgrade.bin |
+            grep -iE 'RG500|Quectel|upgrade|flash|download|dloader|FDL|BSL|fastboot|recovery|factory|debug|UART|tty|usb|pcie|module|firmware|AT\+'             > RE-RG500-A09-PACKAGE-MAP/RE-R91-CELLULARUPGRADE-KEYSTRINGS.txt || true
+          {
+            sha256sum /tmp/map/R91-2.4.23b-20251208-CellularUpgrade.bin
+            stat -c 'size=%s' /tmp/map/R91-2.4.23b-20251208-CellularUpgrade.bin
+            file -k /tmp/map/R91-2.4.23b-20251208-CellularUpgrade.bin
+          } > RE-RG500-A09-PACKAGE-MAP/RE-R91-CELLULARUPGRADE-BASIC.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-A09-PACKAGE-MAP
+          path: RE-RG500-A09-PACKAGE-MAP/
+          retention-days: 14
