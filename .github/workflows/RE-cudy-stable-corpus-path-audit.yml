@@ -1,0 +1,42 @@
+name: RE Cudy Stable Corpus Path Audit
+
+on:
+  push:
+    branches: [cudy-beta]
+    paths:
+      - ".github/workflows/RE-cudy-stable-corpus-path-audit.yml"
+      - "scripts/RE_cudy_stable_corpus_path_audit.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-beta
+          fetch-depth: 1
+      - name: Install tools
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools unzip file binutils libarchive-tools >/dev/null
+      - name: Scan all stable Cudy firmware
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/RE_cudy_stable_corpus_path_audit.py firmware/cudy/stable RE-CUDY-STABLE-CORPUS-AUDIT-02
+          bsdtar --format zip -cf /tmp/RE-CUDY-STABLE-CORPUS-AUDIT-02.zip RE-CUDY-STABLE-CORPUS-AUDIT-02
+          sha256sum /tmp/RE-CUDY-STABLE-CORPUS-AUDIT-02.zip > /tmp/RE-CUDY-STABLE-CORPUS-AUDIT-02.zip.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-CUDY-STABLE-CORPUS-AUDIT-02
+          path: |
+            /tmp/RE-CUDY-STABLE-CORPUS-AUDIT-02.zip
+            /tmp/RE-CUDY-STABLE-CORPUS-AUDIT-02.zip.sha256
+          compression-level: 0
+          retention-days: 14
