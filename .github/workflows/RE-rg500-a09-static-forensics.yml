@@ -235,6 +235,14 @@ jobs:
           R91: 9d27fb4535dff565cd8bb632933dc8a583f514bfcb2a027c740ddee0bc4f5f13
           EOF
 
+      - name: Upload forensic reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-A09-STATIC-FORENSICS-01
+          path: analysis/rg500-a09/
+          if-no-files-found: error
+          retention-days: 14
+
       - name: Commit forensic reports
         shell: bash
         run: |
@@ -243,4 +251,6 @@ jobs:
           git config user.email "73985391+diablomike20@users.noreply.github.com"
           git add analysis/rg500-a09
           git diff --cached --quiet || git commit -m "RE: static forensic analysis of P2 RG500 A09"
+          git fetch origin cudy-cellular-modem
+          git rebase origin/cudy-cellular-modem
           git push origin HEAD:cudy-cellular-modem
