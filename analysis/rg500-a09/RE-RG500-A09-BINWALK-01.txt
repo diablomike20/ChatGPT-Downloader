@@ -1,0 +1,1149 @@
+=== A09 BINWALK ===
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+104468        0x19814         SHA256 hash constants, little endian
+277016        0x43A18         SHA256 hash constants, little endian
+527376        0x80C10         CRC32 polynomial table, little endian
+528400        0x81010         CRC32 polynomial table, little endian
+540545        0x83F81         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/dloader/packet.c
+541505        0x84341         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/dwc3/ep0.c
+544573        0x84F3D         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/mtdcore.c
+546157        0x8556D         Android bootimg, kernel size: 1684103680 bytes, kernel addr: 0x6F6F6220, ramdisk size: 1835606132 bytes, ramdisk addr: 0x20656761, product name: ""
+546661        0x85765         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/mtdpart.c
+546907        0x8585B         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/ubi/attach.c
+550599        0x866C7         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/gadget/composite.c
+555255        0x878F7         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/cmd_nvedit.c
+562399        0x894DF         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/gadget/f_fastboot.c
+572224        0x8BB40         LZO compressed data
+579461        0x8D785         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/misc/adi.c
+579779        0x8D8C3         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/env_common.c
+580043        0x8D9CB         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/lib/crypto/sprd/sprdsha256.c
+581489        0x8DF71         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/misc/pmic_efuse.c
+598515        0x921F3         Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/ubi/vtbl.c
+659088        0xA0E90         Flattened device tree, size: 1425 bytes, version: 17
+661724        0xA18DC         Android bootimg, kernel size: 13475848 bytes, kernel addr: 0x8000, ramdisk size: 52 bytes, ramdisk addr: 0x1000000, product name: ""
+663772        0xA20DC         Linux kernel ARM64 image, load offset: 0x80000, image size: 13922304 bytes, little endian, 4k page size,
+771004        0xBC3BC         SHA256 hash constants, little endian
+797212        0xC2A1C         AES S-Box
+797468        0xC2B1C         AES Inverse S-Box
+804060        0xC44DC         SHA256 hash constants, little endian
+807772        0xC535C         AES Inverse S-Box
+9736412       0x9490DC        ELF, 64-bit LSB shared object, version 1 (SYSV)
+9876300       0x96B34C        DES SP2, little endian
+9876812       0x96B54C        DES SP1, little endian
+9906332       0x97289C        CRC32 polynomial table, little endian
+10465758      0x9FB1DE        LZMA compressed data, properties: 0x76, dictionary size: 0 bytes, uncompressed size: 512 bytes
+10583652      0xA17E64        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/kernel/params.c
+10623244      0xA2190C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/mm/pgtable-generic.c
+10643140      0xA266C4        Unix path: /dev/vc/0
+10728828      0xA3B57C        Ubiquiti partition header, header size: 56 bytes, name: "PARTNAME=%s", base address: 0x74790A00, data size: 23295090 bytes
+10835708      0xA556FC        Unix path: /lib/firmware/updates/4.14.98
+10872524      0xA5E6CC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/mtd/nand/sprd_nand/nfc_base.c
+10877075      0xA5F893        Unix path: /usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+10877612      0xA5FAAC        Unix path: /usr/bin/quec_cont_vol
+10897668      0xA64904        Unix path: /sys/class/net/<iface>/rtk_adv/testmode.
+10898196      0xA64B14        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/net/ethernet/realtek/r8168/r8168_n.c
+10899467      0xA6500B        Copyright string: "Copyright (C) 2024 Realtek NIC software team <nicfae@realtek.com> "
+10901836      0xA6594C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/net/ethernet/realtek/r8125/r8125_n.c
+10902643      0xA65C73        Copyright string: "Copyright (C) 2020  Realtek NIC software team <nicfae@realtek.com> "
+10927769      0xA6BE99        PARity archive data - Index file
+10967476      0xA759B4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/i2c/i2c-dev.c
+11004388      0xA7E9E4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/hid-core.c
+11006644      0xA7F2B4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/hid-input.c
+11018892      0xA8228C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/usbhid/hid-core.c
+11020140      0xA8276C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/usbhid/hid-quirks.c
+11020988      0xA82ABC        Unix path: /sys/firmware/devicetree/base
+11021869      0xA82E2D        Unix path: /sys/firmware/fdt': CRC check failed
+11054556      0xA8ADDC        Unix path: /sys/kernel/debug/local_ipa
+11060604      0xA8C57C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/devfreq/devfreq.c
+11120332      0xA9AECC        Unix path: /etc/audio/audio_param/
+11132004      0xA9DC64        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/dev.c
+11133932      0xA9E3EC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/include/net/udp_tunnel.h
+11134348      0xA9E58C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/ethtool.c
+11135196      0xA9E8DC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/neighbour.c
+11135317      0xA9E955        Neighborly text, "neighbor table overflow!ate is %x"
+11135932      0xA9EBBC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/rtnetlink.c
+11138452      0xA9F594        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/fib_rules.c
+11138596      0xA9F624        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/include/net/sch_generic.h
+11138964      0xA9F794        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/sch_api.c
+11139172      0xA9F864        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/cls_api.c
+11139356      0xA9F91C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/act_api.c
+11157388      0xAA3F8C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/devinet.c
+11159252      0xAA46D4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/igmp.c
+11160244      0xAA4AB4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/fib_notifier.c
+11160396      0xAA4B4C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/ip_tunnel.c
+11173676      0xAA7F2C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/anycast.c
+11177644      0xAA8EAC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/mcast.c
+11179804      0xAA971C        Neighborly text, "NeighborSolicits"
+11179828      0xAA9734        Neighborly text, "NeighborAdvertisementsErrors"
+11182476      0xAAA18C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/sit.c
+11184116      0xAAA7F4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_fdb.c
+11184916      0xAAAB14        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_if.c
+11185532      0xAAAD7C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_stp_if.c
+11185814      0xAAAE96        Neighborly text, "neighbor %.2x%.2x.%pM lostroadcast_flood"
+11186692      0xAAB204        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/8021q/vlan_core.c
+11186868      0xAAB2B4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/8021q/vlan.c
+11187908      0xAAB6C4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/feat.c
+11189196      0xAABBCC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/minisocks.c
+11189460      0xAABCD4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/options.c
+11189924      0xAABEA4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/output.c
+11190180      0xAABFA4        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/proto.c
+11190716      0xAAC1BC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/ccid2.c
+11190932      0xAAC294        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ackvec.c
+11191292      0xAAC3FC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/tfrc.h
+11191468      0xAAC4AC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/ccid3.c
+11191700      0xAAC594        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/tfrc_equation.c
+11192068      0xAAC704        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/packet_history.c
+11192372      0xAAC834        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/loss_interval.c
+11199876      0xAAE584        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/core.c
+11200340      0xAAE754        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/util.c
+11201116      0xAAEA5C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/scan.c
+11202316      0xAAEF0C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/wext-sme.c
+11207948      0xAB050C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/iface.c
+11208324      0xAB0684        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/rate.c
+11210540      0xAB0F2C        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/key.c
+11210756      0xAB1004        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/util.c
+11218604      0xAB2EAC        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/tdls.c
+13945531      0xD4CABB        Intel x86 or x64 microcode, pf_mask 0x8000, 2000-01-20, size 18882560
+14141660      0xD7C8DC        gzip compressed data, has original file name: "ramdisk.img", from Unix, last modified: 2025-10-27 12:20:18
+14145756      0xD7D8DC        Flattened device tree, size: 101513 bytes, version: 17
+14408208      0xDBDA10        SHA256 hash constants, little endian
+14658568      0xDFAC08        CRC32 polynomial table, little endian
+14659592      0xDFB008        CRC32 polynomial table, little endian
+14671737      0xDFDF79        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/dloader/packet.c
+14672697      0xDFE339        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/dwc3/ep0.c
+14675765      0xDFEF35        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/mtdcore.c
+14677349      0xDFF565        Android bootimg, kernel size: 1684103680 bytes, kernel addr: 0x6F6F6220, ramdisk size: 1835606132 bytes, ramdisk addr: 0x20656761, product name: ""
+14677853      0xDFF75D        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/mtdpart.c
+14678099      0xDFF853        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/ubi/attach.c
+14681791      0xE006BF        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/gadget/composite.c
+14686447      0xE018EF        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/cmd_nvedit.c
+14693591      0xE034D7        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/gadget/f_fastboot.c
+14703416      0xE05B38        LZO compressed data
+14710653      0xE0777D        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/misc/adi.c
+14710971      0xE078BB        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/env_common.c
+14711235      0xE079C3        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/lib/crypto/sprd/sprdsha256.c
+14712681      0xE07F69        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/misc/pmic_efuse.c
+14729707      0xE0C1EB        Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/ubi/vtbl.c
+14790280      0xE1AE88        Flattened device tree, size: 1425 bytes, version: 17
+14793448      0xE1BAE8        7-zip archive data, version 0.4
+24338015      0x1735E5F       LZMA compressed data, properties: 0x92, dictionary size: 0 bytes, uncompressed size: 4096 bytes
+29397842      0x1C09352       Neighborly text, "neighbor_meas_result, meas_object_id =%de_meas_object_to_remove_list "
+33526492      0x1FF92DC       SHA256 hash constants, little endian
+34721132      0x211CD6C       Cisco IOS microcode, for "X"
+36023384      0x225AC58       SHA256 hash constants, little endian
+37496353      0x23C2621       GIF image data
+38137785      0x245EFB9       Intel x86 or x64 microcode, sig 0x2f001f00, pf_mask 0x2012f02, 1F02-02-01, rev 0x32000000, size 1
+38138585      0x245F2D9       Intel x86 or x64 microcode, sig 0x2f001f00, pf_mask 0x2012f02, 1F02-02-01, rev 0x32000000, size 1
+38367072      0x2496F60       Copyright string: "Copyright (C) Spreadtrum Communications Co. Ltd"
+38367552      0x2497140       Copyright string: "Copyright (C) Spreadtrum Communications Co. Ltd"
+38367756      0x249720C       Copyright string: "Copyright (C) 2005 Spreatrum, Incoporated."
+38396446      0x249E21E       XML document, version: "1.0"
+38409832      0x24A1668       SHA256 hash constants, little endian
+38445716      0x24AA294       Base64 standard index table
+38446109      0x24AA41D       PARity archive data - file number 19779
+38448757      0x24AAE75       XML document, version: "1.0"
+38449669      0x24AB205       XML document, version: "1.0"
+38454700      0x24AC5AC       PARity archive data - file number 17232
+38455189      0x24AC795       Neighborly text, "neighbor"
+38461428      0x24ADFF4       SHA256 hash constants, little endian
+38466124      0x24AF24C       DES PC1 table
+38466180      0x24AF284       DES PC2 table
+38466244      0x24AF2C4       DES SP1, little endian
+38466500      0x24AF3C4       DES SP2, little endian
+38468308      0x24AFAD4       Base64 standard index table
+38469064      0x24AFDC8       Base64 standard index table
+38474916      0x24B14A4       SHA256 hash constants, little endian
+38480096      0x24B28E0       AES Inverse S-Box
+38529089      0x24BE841       PARity archive data - file number 17220
+38575176      0x24C9C48       Neighborly text, "neighbor cell list whether in SIB message or in measurement contron messagetron message"
+38580580      0x24CB164       Neighborly text, "neighbor cell reselect priority rat type:%d, priority:%dC: Get NR neighbor cell info,pci:%d,arfcn;%d,ssb rsrp:%d,ssb_rssi:%d,s_rxlev:%d."
+38580653      0x24CB1AD       Neighborly text, "neighbor cell info,pci:%d,arfcn;%d,ssb rsrp:%d,ssb_rssi:%d,s_rxlev:%d.lev:%d."
+38580738      0x24CB202       Neighborly text, "neighbor cell info,pci:%d,arfcn;%d,ssb rsrp:%d,s_rxlev:%d,rssi:%d,sinr:%d%d,sinr:%d"
+38580920      0x24CB2B8       Neighborly text, "neighbor cell info,freq_index+1:%d,arfcn:%d,band:%dR network configurate nr neigbour cell info in conn state,var_meas_config->measObjectList_exist = %d."
+38581125      0x24CB385       Neighborly text, "neighbor cell info,freq_index:%d,arfcn:%d,band:%d network configurate lte neigbour cell info in conn state."
+38792877      0x24FEEAD       Neighborly text, "neighbor_meas_result, meas_object_id =%durrent_nr_meas_object: ENDC servCellIndex = %d in nrrc_connect_config_g,refServCellIndex = %d in csi_rs_ResourceConfigMobility"
+38823708      0x250671C       XML document, version: "1.0"
+38828088      0x2507838       XML document, version: "1.0"
+38837348      0x2509C64       HTML document header
+38837435      0x2509CBB       HTML document footer
+38837444      0x2509CC4       HTML document header
+38837541      0x2509D25       HTML document footer
+38837552      0x2509D30       HTML document header
+38837635      0x2509D83       HTML document footer
+38837644      0x2509D8C       HTML document header
+38837727      0x2509DDF       HTML document footer
+38837736      0x2509DE8       HTML document header
+38837837      0x2509E4D       HTML document footer
+38837848      0x2509E58       HTML document header
+38837941      0x2509EB5       HTML document footer
+38837952      0x2509EC0       HTML document header
+38838047      0x2509F1F       HTML document footer
+38838056      0x2509F28       HTML document header
+38838137      0x2509F79       HTML document footer
+38838148      0x2509F84       HTML document header
+38838221      0x2509FCD       HTML document footer
+38838232      0x2509FD8       HTML document header
+38838327      0x250A037       HTML document footer
+38838336      0x250A040       HTML document header
+38838439      0x250A0A7       HTML document footer
+38838448      0x250A0B0       HTML document header
+38838561      0x250A121       HTML document footer
+38838572      0x250A12C       HTML document header
+38838677      0x250A195       HTML document footer
+38838688      0x250A1A0       HTML document header
+38838797      0x250A20D       HTML document footer
+38838808      0x250A218       HTML document header
+38838935      0x250A297       HTML document footer
+38838944      0x250A2A0       HTML document header
+38839045      0x250A305       HTML document footer
+38839056      0x250A310       HTML document header
+38839163      0x250A37B       HTML document footer
+38839172      0x250A384       HTML document header
+38839267      0x250A3E3       HTML document footer
+38839276      0x250A3EC       HTML document header
+38839363      0x250A443       HTML document footer
+38839372      0x250A44C       HTML document header
+38839475      0x250A4B3       HTML document footer
+38839484      0x250A4BC       HTML document header
+38839579      0x250A51B       HTML document footer
+38839588      0x250A524       HTML document header
+38839705      0x250A599       HTML document footer
+38840736      0x250A9A0       HTML document header
+38840843      0x250AA0B       HTML document footer
+38842124      0x250AF0C       Copyright string: "Copyright 1996-2011 by InterNiche Technologies. All rights reserved. "
+38869480      0x25119E8       XML document, version: "1.0"
+38882520      0x2514CD8       HTML document header
+38882607      0x2514D2F       HTML document footer
+38882616      0x2514D38       HTML document header
+38882713      0x2514D99       HTML document footer
+38882724      0x2514DA4       HTML document header
+38882807      0x2514DF7       HTML document footer
+38882816      0x2514E00       HTML document header
+38882899      0x2514E53       HTML document footer
+38882908      0x2514E5C       HTML document header
+38883009      0x2514EC1       HTML document footer
+38883020      0x2514ECC       HTML document header
+38883113      0x2514F29       HTML document footer
+38883124      0x2514F34       HTML document header
+38883219      0x2514F93       HTML document footer
+38883228      0x2514F9C       HTML document header
+38883309      0x2514FED       HTML document footer
+38883320      0x2514FF8       HTML document header
+38883393      0x2515041       HTML document footer
+38883404      0x251504C       HTML document header
+38883499      0x25150AB       HTML document footer
+38883508      0x25150B4       HTML document header
+38883611      0x251511B       HTML document footer
+38883620      0x2515124       HTML document header
+38883733      0x2515195       HTML document footer
+38883744      0x25151A0       HTML document header
+38883849      0x2515209       HTML document footer
+38883860      0x2515214       HTML document header
+38883969      0x2515281       HTML document footer
+38883980      0x251528C       HTML document header
+38884107      0x251530B       HTML document footer
+38884116      0x2515314       HTML document header
+38884217      0x2515379       HTML document footer
+38884228      0x2515384       HTML document header
+38884335      0x25153EF       HTML document footer
+38884344      0x25153F8       HTML document header
+38884439      0x2515457       HTML document footer
+38884448      0x2515460       HTML document header
+38884535      0x25154B7       HTML document footer
+38884544      0x25154C0       HTML document header
+38884647      0x2515527       HTML document footer
+38884656      0x2515530       HTML document header
+38884751      0x251558F       HTML document footer
+38884760      0x2515598       HTML document header
+38884877      0x251560D       HTML document footer
+38903861      0x251A035       Neighborly text, "Neighbor discovery cachehe"
+38903902      0x251A05E       Neighborly text, "Neighbor discovery cache"
+38980268      0x252CAAC       SHA256 hash constants, little endian
+38986983      0x252E4E7       AES S-Box
+40265198      0x26665EE       UBIFS filesystem superblock node, CRC: 0x2B325CA3, flags: 0x4, min I/O unit size: 4096, erase block size: 253952, erase block count: 43, max erase blocks: 516, format version: 4, compression type: lzo
+40519150      0x26A45EE       UBIFS filesystem master node, CRC: 0x7DADEE73, highest inode: 736, commit number: 0
+40773102      0x26E25EE       UBIFS filesystem master node, CRC: 0x38B88DC8, highest inode: 736, commit number: 0
+42810446      0x28D3C4E       Executable script, shebang: "/bin/sh"
+42848487      0x28DD0E7       Executable script, shebang: "/bin/sh"
+42848526      0x28DD10E       Unix path: /sys/class/udc/`
+42848559      0x28DD12F       Unix path: /sys/kernel/config/usb_gadget/g1/UDC
+43134947      0x2922FE3       Copyright string: "Copyright (C) 2003 Thomas Gleixn\"
+43280368      0x29467F0       Executable script, shebang: "/bin/sh"
+43323807      0x295119F       Executable script, shebang: "/bin/sh"
+43359030      0x2959B36       Unix path: /sys/class/ubi/%s
+43361503      0x295A4DF       ELF, 64-bit LSB processor-specific, (GNU/Linux)
+43513205      0x297F575       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 4bit
+43649170      0x29A0892       Intel x86 or x64 microcode, sig 0xbc7bfdd5, pf_mask 0x403f4a9, 1F14-03-20, rev 0xe9459, size 1832874
+43682962      0x29A8C92       Intel x86 or x64 microcode, sig 0x000841d5, pf_mask 0x6040f9, 1F17-03-20, rev 0x-acb, size 16875
+43943874      0x29E87C2       Intel x86 or x64 microcode, sig 0x400400d5, pf_mask 0x218b, 1F97-03-20, rev 0x-2b633bd, size 17387
+44337654      0x2A489F6       mcrypt 2.5 encrypted data, algorithm: "LZn", keysize: 3105 bytes, mode: "\",
+44348314      0x2A4B39A       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x3fd90, 1FD6-03-20, rev 0x5f03c051, size 259065
+45086914      0x2AFF8C2       Intel x86 or x64 microcode, sig 0x09c3ffd5, pf_mask 0x3fda9, 1FD6-03-20, rev 0x5f03c04c, size 39581097
+45103522      0x2B039A2       Intel x86 or x64 microcode, sig 0xbb7bfdd5, pf_mask 0x153f391, 1F17-03-20, rev 0x-18d5, size 52887552
+45533765      0x2B6CA45       SHA256 hash constants, little endian
+45583562      0x2B78CCA       Intel x86 or x64 microcode, sig 0x0383ffd5, pf_mask 0x253f391, 1FD6-03-20, rev 0x5f03c04e, size 17036458
+45665498      0x2B8CCDA       Intel x86 or x64 microcode, sig 0xba7bfdd5, pf_mask 0x303f4a9, 1F17-03-20, rev 0x-11ae, size 17036713
+45700798      0x2B956BE       AES Inverse S-Box
+45722506      0x2B9AB8A       mcrypt 2.5 encrypted data, algorithm: ")}", keysize: 10500 bytes, mode: "}",
+46204760      0x2C10758       SHA256 hash constants, little endian
+46328415      0x2C2EA5F       Executable script, shebang: "/bin/sh"
+46331039      0x2C2F49F       Executable script, shebang: "/bin/sh"
+46331052      0x2C2F4AC       Copyright string: "Copyright (C) 2001-R"
+46332447      0x2C2FA1F       Executable script, shebang: "/bin/sh"
+46334039      0x2C30057       Executable script, shebang: "/bin/sh"
+46334194      0x2C300F2       Copyright string: "Copyright (C) 1998, 2001-Q"
+46338143      0x2C3105F       Executable script, shebang: "/bin/sh"
+46338342      0x2C31126       Copyright string: "Copyright (C) 2002,u"
+46339694      0x2C3166E       Executable script, shebang: "/bin/sh"
+46339998      0x2C3179E       Executable script, shebang: "/bin/sh"
+46340303      0x2C318CF       Executable script, shebang: "/bin/sh"
+46343167      0x2C323FF       Executable script, shebang: "/bin/sh"
+46360095      0x2C3661F       Executable script, shebang: "/bin/sh"
+46367337      0x2C38269       Unix path: /sys/kernel/config/usb_gadget/g1/functions/gser.gs5
+46369322      0x2C38A2A       Unix path: /sys/kernel/config/usb_gadget/g1/functions/gser.gs5
+46370320      0x2C38E10       Unix path: /sys/kernel/config/usb_gadget/g1/functions/gser.gs5
+46373603      0x2C39AE3       Unix path: /sys/kernel/config/usb_gadget/g1/functions/ncm.gs1/host_addr
+46376747      0x2C3A72B       Unix path: /sys/devices/platform/socl
+46446727      0x2C4B887       Copyright string: "Copyright 2003-R"
+46464519      0x2C4FE07       Executable script, shebang: "/bin/sh"
+46464541      0x2C4FE1D       Copyright string: "CopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd."
+46505870      0x2C59F8E       SHA256 hash constants, little endian
+46566759      0x2C68D67       Executable script, shebang: "/bin/sh"
+46569134      0x2C696AE       Executable script, shebang: "/bin/sh"
+46588895      0x2C6E3DF       Executable script, shebang: "/bin/sh"
+46612319      0x2C73F5F       Executable script, shebang: "/bin/sh"
+46614279      0x2C74707       Executable script, shebang: "/bin/sh"
+46617359      0x2C7530F       ELF, 64-bit LSB processor-specific, (GNU/Linux)
+46637306      0x2C7A0FA       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x634a9, 1FD6-03-20, rev 0x5f03c049, size 258961
+46818034      0x2CA62F2       Intel x86 or x64 microcode, sig 0xba7bfdd5, pf_mask 0x403f3a9, 1FD6-03-20, rev 0x5f03c06e, size 1308114
+46820858      0x2CA6DFA       Intel x86 or x64 microcode, sig 0xb97bfdd5, pf_mask 0x37e2a9, 1F17-03-20, rev 0x-28a6, size 22279092
+47020706      0x2CD7AA2       SHA256 hash constants, little endian
+47217614      0x2D07BCE       Executable script, shebang: "/bin/sh"
+47231806      0x2D0B33E       gzip compressed data, from Unix, last modified: 2025-10-27 12:40:51
+47284801      0x2D18241       Unix path: /var/spool/mail
+47290002      0x2D19692       Base64 standard index table
+47290687      0x2D1993F       Certificate in DER format (x509 v3), header length: 4, sequence length: 767
+47306604      0x2D1D76C       Unix path: /var/log/last\
+47354690      0x2D29342       Intel x86 or x64 microcode, sig 0x000240d5, pf_mask 0x4d01e1aa, 1F17-03-20, rev 0x-40d9, size 23713
+47371806      0x2D2D61E       CRC32 polynomial table, big endian
+47380490      0x2D2F80A       Copyright string: "Copyright 1995-2017 Mark Adl"
+47877089      0x2DA8BE1       Unix path: /var/yp/p
+48514122      0x2E4444A       Intel x86 or x64 microcode, sig 0xbc7bfdd5, pf_mask 0x1d6a9, 1F17-03-20, rev 0x-bc679a, size 17037225
+48619791      0x2E5E10F       ELF, 64-bit LSB processor-specific, (GNU/Linux)
+48694538      0x2E7050A       Intel x86 or x64 microcode, sig 0x4012a0d5, pf_mask 0x400340f9, 1FB4-03-20, rev 0x3bc3f, size 2023659
+49220794      0x2EF0CBA       Intel x86 or x64 microcode, sig 0xb67bfdd5, pf_mask 0x503f6a9, 1FD6-03-20, rev 0x5f03c07a, size 17037481
+49239202      0x2EF54A2       Intel x86 or x64 microcode, sig 0x400294d5, pf_mask 0x4057a0f9, 1F54-03-20, rev 0x-df7c2, size 32651
+49385909      0x2F191B5       Unix path: /sys/vm/overcommit_memory|
+49576706      0x2F47B02       Intel x86 or x64 microcode, sig 0xae7bfdd5, pf_mask 0x3fd12, 1F17-03-20, rev 0x-fa4, size 119801
+49739162      0x2F6F59A       Intel x86 or x64 microcode, sig 0x403fa1d5, pf_mask 0x80002094, 1F9A-03-20, rev 0x-3ef7fc72, size 6841
+49788039      0x2F7B487       Executable script, shebang: "/bin/sh"
+49819231      0x2F82E5F       Executable script, shebang: "/bin/sh"
+49820345      0x2F832B9       Unix path: /etc/security/namespace.conf
+49821665      0x2F837E1       Unix path: /etc/security/limits.conf
+49861379      0x2F8D303       Unix path: /etc/pam.d/common-sessi]
+49864067      0x2F8DD83       Unix path: /etc/pam.d/common-auth - x
+49870127      0x2F8F52F       Executable script, shebang: "/bin/sh"
+49870180      0x2F8F564       Unix path: /etc/default/mdev ] && .0b
+49871151      0x2F8F92F       Executable script, shebang: "/bin/sh"
+49871870      0x2F8FBFE       Unix path: /var/log/dmesg {
+49880575      0x2F91DFF       Executable script, shebang: "/bin/sh"
+49881351      0x2F92107       Executable script, shebang: "/bin/sh"
+49882463      0x2F9255F       Executable script, shebang: "/bin/sh"
+49883239      0x2F92867       Executable script, shebang: "/bin/sh"
+49884039      0x2F92B87       Executable script, shebang: "/bin/sh"
+49884078      0x2F92BAE       Unix path: /sys/class/udc/`
+49884111      0x2F92BCF       Unix path: /sys/kernel/config/usb_gadget/g1/UDC
+49884423      0x2F92D07       Executable script, shebang: "/bin/sh"
+49885174      0x2F92FF6       Executable script, shebang: "/bin/sh"
+49885831      0x2F93287       Executable script, shebang: "/bin/sh"
+49888759      0x2F93DF7       Executable script, shebang: "/bin/sh"
+49889439      0x2F9409F       Executable script, shebang: "/bin/sh"
+49890031      0x2F942EF       Executable script, shebang: "/bin/sh"
+49890645      0x2F94555       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+49890671      0x2F9456F       Executable script, shebang: "/bin/sh"
+49890909      0x2F9465D       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+49891085      0x2F9470D       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+49891159      0x2F94757       Executable script, shebang: "/bin/sh"
+49891172      0x2F94764       Unix path: /etc/default/rcS
+49892258      0x2F94BA2       Copyright string: "CopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd."
+49893658      0x2F9511A       Copyright string: "CopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd."
+49896711      0x2F95D07       Executable script, shebang: "/bin/sh"
+49897343      0x2F95F7F       Executable script, shebang: "/bin/sh"
+49901015      0x2F96DD7       Executable script, shebang: "/bin/sh"
+49902127      0x2F9722F       Executable script, shebang: "/bin/sh"
+49903015      0x2F975A7       Executable script, shebang: "/bin/sh"
+49903479      0x2F97777       Executable script, shebang: "/bin/sh"
+49904287      0x2F97A9F       Executable script, shebang: "/bin/sh"
+49904887      0x2F97CF7       Executable script, shebang: "/bin/sh"
+49905575      0x2F97FA7       Executable script, shebang: "/bin/sh"
+49906991      0x2F9852F       Executable script, shebang: "/bin/sh"
+49909119      0x2F98D7F       Executable script, shebang: "/bin/sh"
+49909639      0x2F98F87       Executable script, shebang: "/bin/sh"
+49910287      0x2F9920F       Executable script, shebang: "/bin/sh"
+49912551      0x2F99AE7       Executable script, shebang: "/bin/sh"
+49914055      0x2F9A0C7       Executable script, shebang: "/bin/sh"
+49915423      0x2F9A61F       Executable script, shebang: "/bin/sh"
+49915992      0x2F9A858       Executable script, shebang: "/bin/sh"
+49922551      0x2F9C1F7       Unix path: /var/run/sepermit none
+49922863      0x2F9C32F       Unix path: /var/log/boot none
+49926182      0x2F9D026       Unix path: /usr/bin/passwd
+49926198      0x2F9D036       Unix path: /usr/bin/traceroute
+49926218      0x2F9D04A       Unix path: /usr/bin/vlock
+49929895      0x2F9DEA7       Executable script, shebang: "/bin/sh"
+49929948      0x2F9DEDC       Copyright string: "Copyright (C) 2007,W"
+49934447      0x2F9F06F       Executable script, shebang: "/bin/sh"
+49988794      0x2FAC4BA       Intel x86 or x64 microcode, sig 0x7b7a42d5, pf_mask 0x800021b9, 1FD2-03-20, rev 0x-7fb885c6, size 490425
+50458864      0x301F0F0       AES Inverse S-Box
+50459120      0x301F1F0       AES S-Box
+50483081      0x3024F89       SHA256 hash constants, little endian
+50500327      0x30292E7       Executable script, shebang: "/bin/sh"
+50500391      0x3029327       Copyright string: "Copyright (C) 2007,W"
+51035961      0x30ABF39       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+51035981      0x30ABF4D       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+51773873      0x31601B1       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+56827622      0x3631EE6       UBIFS filesystem superblock node, CRC: 0x1DF10233, flags: 0x4, min I/O unit size: 4096, erase block size: 253952, erase block count: 154, max erase blocks: 2000, format version: 4, compression type: lzo
+57081574      0x366FEE6       UBIFS filesystem master node, CRC: 0x4F2E650F, highest inode: 3687, commit number: 0
+57335526      0x36ADEE6       UBIFS filesystem master node, CRC: 0xA3B06B4, highest inode: 3687, commit number: 0
+59399230      0x38A5C3E       Executable script, shebang: "/bin/sh"
+59399275      0x38A5C6B       Unix path: /etc/init.d/watchdog" ]; then
+59399306      0x38A5C8A       Unix path: /etc/init.d/watchdog stop || :
+59399623      0x38A5DC7       Executable script, shebang: "/bin/sh"
+59400055      0x38A5F77       Executable script, shebang: "/bin/sh"
+59403430      0x38A6CA6       Executable script, shebang: "/bin/sh"
+59403790      0x38A6E0E       Executable script, shebang: "/bin/sh"
+59405934      0x38A766E       Executable script, shebang: "/bin/sh"
+59406318      0x38A77EE       Executable script, shebang: "/bin/sh"
+59407702      0x38A7D56       Executable script, shebang: "/bin/sh"
+59407747      0x38A7D83       Unix path: /etc/init.d/usbenumfirst" ]; then
+59407782      0x38A7DA6       Unix path: /etc/init.d/usbenumfirst stop || :
+59408111      0x38A7EEF       Executable script, shebang: "/bin/sh"
+59408551      0x38A80A7       Executable script, shebang: "/bin/sh"
+59410782      0x38A895E       Executable script, shebang: "/bin/sh"
+59429661      0x38AD31D       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 4bit
+59432942      0x38ADFEE       Executable script, shebang: "/bin/sh"
+59432987      0x38AE01B       Unix path: /etc/init.d/thermald-init.sh" ]; then
+59433026      0x38AE042       Unix path: /etc/init.d/thermald-init.sh stop || :
+59433351      0x38AE187       Executable script, shebang: "/bin/sh"
+59433791      0x38AE33F       Executable script, shebang: "/bin/sh"
+59436167      0x38AEC87       Executable script, shebang: "/bin/sh"
+59436687      0x38AEE8F       Executable script, shebang: "/bin/sh"
+59438678      0x38AF656       Executable script, shebang: "/bin/sh"
+59439046      0x38AF7C6       Executable script, shebang: "/bin/sh"
+59442543      0x38B056F       Unix path: /etc/init.d/populate-voX
+59446206      0x38B13BE       Executable script, shebang: "/bin/sh"
+59446251      0x38B13EB       Unix path: /etc/init.d/sprdrild-init" ]; then
+59446287      0x38B140F       Unix path: /etc/init.d/sprdrild-init stop || :
+59446607      0x38B154F       Executable script, shebang: "/bin/sh"
+59447039      0x38B16FF       Executable script, shebang: "/bin/sh"
+59449382      0x38B2026       Executable script, shebang: "/bin/sh"
+59449427      0x38B2053       Unix path: /etc/init.d/slogmodem-init" ]; then
+59449464      0x38B2078       Unix path: /etc/init.d/slogmodem-init stop || :
+59449791      0x38B21BF       Executable script, shebang: "/bin/sh"
+59450239      0x38B237F       Executable script, shebang: "/bin/sh"
+59451702      0x38B2936       Executable script, shebang: "/bin/sh"
+59451747      0x38B2963       Unix path: /etc/init.d/slic_daemon.sh" ]; then
+59451784      0x38B2988       Unix path: /etc/init.d/slic_daemon.sh stop || :
+59452111      0x38B2ACF       Executable script, shebang: "/bin/sh"
+59452543      0x38B2C7F       Executable script, shebang: "/bin/sh"
+59455663      0x38B38AF       Executable script, shebang: "/bin/sh"
+59456071      0x38B3A47       Executable script, shebang: "/bin/sh"
+59462214      0x38B5246       Executable script, shebang: "/bin/sh"
+59462259      0x38B5273       Unix path: /etc/init.d/refnotify-init" ]; then
+59462296      0x38B5298       Unix path: /etc/init.d/refnotify-init stop || :
+59462623      0x38B53DF       Executable script, shebang: "/bin/sh"
+59463063      0x38B5597       Executable script, shebang: "/bin/sh"
+59464470      0x38B5B16       Executable script, shebang: "/bin/sh"
+59464515      0x38B5B43       Unix path: /etc/init.d/ram-init" ]; then
+59464546      0x38B5B62       Unix path: /etc/init.d/ram-init stop || :
+59464863      0x38B5C9F       Executable script, shebang: "/bin/sh"
+59465295      0x38B5E4F       Executable script, shebang: "/bin/sh"
+59466631      0x38B6387       Executable script, shebang: "/bin/sh"
+59468972      0x38B6CAC       Unix path: /etc/init.d/populate-volatile.sh ]; then
+59469021      0x38B6CDD       Unix path: /etc/init.d/populate-volatile.sh update
+59471334      0x38B75E6       Executable script, shebang: "/bin/sh"
+59471379      0x38B7613       Unix path: /etc/init.d/quec-voice-init" ]; then
+59471417      0x38B7639       Unix path: /etc/init.d/quec-voice-init stop || :
+59471751      0x38B7787       Executable script, shebang: "/bin/sh"
+59472199      0x38B7947       Executable script, shebang: "/bin/sh"
+59473663      0x38B7EFF       Executable script, shebang: "/bin/sh"
+59473708      0x38B7F2C       Unix path: /etc/init.d/start_quec_tts_service" ]; then
+59474063      0x38B808F       Executable script, shebang: "/bin/sh"
+59474511      0x38B824F       Executable script, shebang: "/bin/sh"
+59477719      0x38B8ED7       Executable script, shebang: "/bin/sh"
+59477764      0x38B8F04       Unix path: /etc/init.d/start_quec_nic_service" ]; then
+59478119      0x38B9067       Executable script, shebang: "/bin/sh"
+59478567      0x38B9227       Executable script, shebang: "/bin/sh"
+59480014      0x38B97CE       Executable script, shebang: "/bin/sh"
+59480059      0x38B97FB       Unix path: /etc/init.d/quec_lan.sh" ]; then
+59480093      0x38B981D       Unix path: /etc/init.d/quec_lan.sh stop || :
+59480415      0x38B995F       Executable script, shebang: "/bin/sh"
+59480847      0x38B9B0F       Executable script, shebang: "/bin/sh"
+59482167      0x38BA037       Executable script, shebang: "/bin/sh"
+59482212      0x38BA064       Unix path: /etc/init.d/start_quec_gadget_service" ]; then
+59482575      0x38BA1CF       Executable script, shebang: "/bin/sh"
+59483031      0x38BA397       Executable script, shebang: "/bin/sh"
+59484455      0x38BA927       Executable script, shebang: "/bin/sh"
+59484863      0x38BAABF       Executable script, shebang: "/bin/sh"
+59485319      0x38BAC87       Executable script, shebang: "/bin/sh"
+59489846      0x38BBE36       Unix path: /etc/ppp/pap-secrets
+59489867      0x38BBE4B       Unix path: /etc/ppp/chap-secrets
+59489889      0x38BBE61       Unix path: /etc/ppp/options
+59491079      0x38BC307       Executable script, shebang: "/bin/sh"
+59491479      0x38BC497       Executable script, shebang: "/bin/sh"
+59491927      0x38BC657       Executable script, shebang: "/bin/sh"
+59509622      0x38C0B76       Executable script, shebang: "/bin/sh"
+59544420      0x38C9364       Unix path: /usr/lib/os-release
+59546366      0x38C9AFE       Unix path: /etc/opkg/opkg.conf
+59547598      0x38C9FCE       Unix path: /etc/opkg/arch.conf
+59549838      0x38CA88E       Unix path: /etc/ssl/openssl.cnf
+59552158      0x38CB19E       Executable script, shebang: "/bin/sh"
+59552203      0x38CB1CB       Unix path: /etc/init.d/sshd" ]; then
+59552230      0x38CB1E6       Unix path: /etc/init.d/sshd stop || :
+59552551      0x38CB327       Executable script, shebang: "/bin/sh"
+59554887      0x38CBC47       Executable script, shebang: "/bin/sh"
+59555319      0x38CBDF7       Executable script, shebang: "/bin/sh"
+59557158      0x38CC526       Unix path: /etc/ssh/sshd_config
+59557470      0x38CC65E       Executable script, shebang: "/bin/sh"
+59557522      0x38CC692       Unix path: /usr/bin/ssh.openssh
+59557838      0x38CC7CE       Executable script, shebang: "/bin/sh"
+59557886      0x38CC7FE       Unix path: /usr/bin/ssh ssh /usr/bin/ssh.openssh 90
+59559454      0x38CCE1E       Unix path: /etc/ssh/ssh_config
+59559766      0x38CCF56       Executable script, shebang: "/bin/sh"
+59559818      0x38CCF8A       Unix path: /usr/bin/scp.openssh
+59560134      0x38CD0C6       Executable script, shebang: "/bin/sh"
+59560182      0x38CD0F6       Unix path: /usr/bin/scp scp /usr/bin/scp.openssh 90
+59562822      0x38CDB46       Executable script, shebang: "/bin/sh"
+59562867      0x38CDB73       Unix path: /etc/init.d/ofono" ]; then
+59562895      0x38CDB8F       Unix path: /etc/init.d/ofono stop || :
+59563207      0x38CDCC7       Executable script, shebang: "/bin/sh"
+59563631      0x38CDE6F       Executable script, shebang: "/bin/sh"
+59565271      0x38CE4D7       Executable script, shebang: "/bin/sh"
+59565663      0x38CE65F       Executable script, shebang: "/bin/sh"
+59566103      0x38CE817       Executable script, shebang: "/bin/sh"
+59569150      0x38CF3FE       Unix path: /etc/default/ntpdate
+59569463      0x38CF537       Executable script, shebang: "/bin/sh"
+59569887      0x38CF6DF       Executable script, shebang: "/bin/sh"
+59572215      0x38CFFF7       Executable script, shebang: "/bin/sh"
+59572639      0x38D019F       Executable script, shebang: "/bin/sh"
+59575726      0x38D0DAE       Executable script, shebang: "/bin/sh"
+59578199      0x38D1757       Executable script, shebang: "/bin/sh"
+59578767      0x38D198F       Executable script, shebang: "/bin/sh"
+59581846      0x38D2596       Executable script, shebang: "/bin/sh"
+59581891      0x38D25C3       Unix path: /etc/init.d/modutils.sh" ]; then
+59581925      0x38D25E5       Unix path: /etc/init.d/modutils.sh stop || :
+59582263      0x38D2737       Executable script, shebang: "/bin/sh"
+59585935      0x38D358F       Executable script, shebang: "/bin/sh"
+59586335      0x38D371F       Executable script, shebang: "/bin/sh"
+59586783      0x38D38DF       Executable script, shebang: "/bin/sh"
+59589318      0x38D42C6       Executable script, shebang: "/bin/sh"
+59589363      0x38D42F3       Unix path: /etc/init.d/sprdzmbim-init" ]; then
+59589400      0x38D4318       Unix path: /etc/init.d/sprdzmbim-init stop || :
+59589735      0x38D4467       Executable script, shebang: "/bin/sh"
+59590183      0x38D4627       Executable script, shebang: "/bin/sh"
+59593486      0x38D530E       Executable script, shebang: "/bin/sh"
+59595846      0x38D5C46       Executable script, shebang: "/bin/sh"
+59597462      0x38D6296       Executable script, shebang: "/bin/sh"
+59599718      0x38D6B66       Executable script, shebang: "/bin/sh"
+59601558      0x38D7296       Executable script, shebang: "/bin/sh"
+59603030      0x38D7856       Executable script, shebang: "/bin/sh"
+59604430      0x38D7DCE       Executable script, shebang: "/bin/sh"
+59607654      0x38D8A66       Executable script, shebang: "/bin/sh"
+59609958      0x38D9366       Executable script, shebang: "/bin/sh"
+59611534      0x38D998E       Executable script, shebang: "/bin/sh"
+59612870      0x38D9EC6       Executable script, shebang: "/bin/sh"
+59614454      0x38DA4F6       Executable script, shebang: "/bin/sh"
+59618494      0x38DB4BE       Executable script, shebang: "/bin/sh"
+59622630      0x38DC4E6       Executable script, shebang: "/bin/sh"
+59624198      0x38DCB06       Executable script, shebang: "/bin/sh"
+59625734      0x38DD106       Executable script, shebang: "/bin/sh"
+59627206      0x38DD6C6       Executable script, shebang: "/bin/sh"
+59629847      0x38DE117       Unix path: /etc/pam.d/common-session
+59632038      0x38DE9A6       Executable script, shebang: "/bin/sh"
+59633478      0x38DEF46       Executable script, shebang: "/bin/sh"
+59634782      0x38DF45E       Executable script, shebang: "/bin/sh"
+59636462      0x38DFAEE       Executable script, shebang: "/bin/sh"
+59638094      0x38E014E       Executable script, shebang: "/bin/sh"
+59639686      0x38E0786       Executable script, shebang: "/bin/sh"
+59641214      0x38E0D7E       Executable script, shebang: "/bin/sh"
+59642726      0x38E1366       Executable script, shebang: "/bin/sh"
+59644270      0x38E196E       Executable script, shebang: "/bin/sh"
+59646702      0x38E22EE       Executable script, shebang: "/bin/sh"
+59648998      0x38E2BE6       Executable script, shebang: "/bin/sh"
+59651382      0x38E3536       Executable script, shebang: "/bin/sh"
+59652814      0x38E3ACE       Executable script, shebang: "/bin/sh"
+59655206      0x38E4426       Executable script, shebang: "/bin/sh"
+59656782      0x38E4A4E       Executable script, shebang: "/bin/sh"
+59658246      0x38E5006       Executable script, shebang: "/bin/sh"
+59660598      0x38E5936       Executable script, shebang: "/bin/sh"
+59662093      0x38E5F0D       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+59662118      0x38E5F26       Executable script, shebang: "/bin/sh"
+59662245      0x38E5FA5       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+59662421      0x38E6055       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+59663630      0x38E650E       Executable script, shebang: "/bin/sh"
+59665071      0x38E6AAF       Executable script, shebang: "/bin/sh"
+59665591      0x38E6CB7       Executable script, shebang: "/bin/sh"
+59668294      0x38E7746       Executable script, shebang: "/bin/sh"
+59669846      0x38E7D56       Executable script, shebang: "/bin/sh"
+59672214      0x38E8696       Executable script, shebang: "/bin/sh"
+59674814      0x38E90BE       Executable script, shebang: "/bin/sh"
+59676326      0x38E96A6       Executable script, shebang: "/bin/sh"
+59678686      0x38E9FDE       Executable script, shebang: "/bin/sh"
+59680214      0x38EA5D6       Executable script, shebang: "/bin/sh"
+59682574      0x38EAF0E       Executable script, shebang: "/bin/sh"
+59685030      0x38EB8A6       Executable script, shebang: "/bin/sh"
+59686678      0x38EBF16       Executable script, shebang: "/bin/sh"
+59688038      0x38EC466       Executable script, shebang: "/bin/sh"
+59690342      0x38ECD66       Executable script, shebang: "/bin/sh"
+59692670      0x38ED67E       Executable script, shebang: "/bin/sh"
+59696750      0x38EE66E       Executable script, shebang: "/bin/sh"
+59698286      0x38EEC6E       Executable script, shebang: "/bin/sh"
+59699910      0x38EF2C6       Executable script, shebang: "/bin/sh"
+59701494      0x38EF8F6       Executable script, shebang: "/bin/sh"
+59702854      0x38EFE46       Executable script, shebang: "/bin/sh"
+59705230      0x38F078E       Executable script, shebang: "/bin/sh"
+59709430      0x38F17F6       Executable script, shebang: "/bin/sh"
+59710887      0x38F1DA7       Executable script, shebang: "/bin/sh"
+59711311      0x38F1F4F       Executable script, shebang: "/bin/sh"
+59712999      0x38F25E7       Executable script, shebang: "/bin/sh"
+59713399      0x38F2777       Executable script, shebang: "/bin/sh"
+59713847      0x38F2937       Executable script, shebang: "/bin/sh"
+59716038      0x38F31C6       Executable script, shebang: "/bin/sh"
+59716447      0x38F335F       Executable script, shebang: "/bin/sh"
+59717966      0x38F394E       Unix path: /etc/modules-load.d/yt6801.conf
+59718302      0x38F3A9E       Executable script, shebang: "/bin/sh"
+59718711      0x38F3C37       Executable script, shebang: "/bin/sh"
+59721781      0x38F4835       Unix path: /lib/modules/4.14.98" ]; then
+59729846      0x38F67B6       Executable script, shebang: "/bin/sh"
+59730206      0x38F691E       Executable script, shebang: "/bin/sh"
+59734662      0x38F7A86       Executable script, shebang: "/bin/sh"
+59829302      0x390EC36       Executable script, shebang: "/bin/sh"
+59829654      0x390ED96       Executable script, shebang: "/bin/sh"
+59832534      0x390F8D6       Executable script, shebang: "/bin/sh"
+59837670      0x3910CE6       Unix path: /etc/init.d/checkroot.sh
+59839134      0x391129E       Executable script, shebang: "/bin/sh"
+59839179      0x39112CB       Unix path: /etc/init.d/networking" ]; then
+59839212      0x39112EC       Unix path: /etc/init.d/networking stop || :
+59839543      0x3911437       Executable script, shebang: "/bin/sh"
+59839983      0x39115EF       Executable script, shebang: "/bin/sh"
+59841502      0x3911BDE       Unix path: /etc/network/interfaces
+59842703      0x391208F       Executable script, shebang: "/bin/sh"
+59843119      0x391222F       Executable script, shebang: "/bin/sh"
+59844870      0x3912906       Executable script, shebang: "/bin/sh"
+59844915      0x3912933       Unix path: /etc/init.d/haveged" ]; then
+59844945      0x3912951       Unix path: /etc/init.d/haveged stop || :
+59845263      0x3912A8F       Executable script, shebang: "/bin/sh"
+59845695      0x3912C3F       Executable script, shebang: "/bin/sh"
+59850518      0x3913F16       Executable script, shebang: "/bin/sh"
+59850563      0x3913F43       Unix path: /etc/init.d/engpc-init" ]; then
+59850596      0x3913F64       Unix path: /etc/init.d/engpc-init stop || :
+59850927      0x39140AF       Executable script, shebang: "/bin/sh"
+59851367      0x3914267       Executable script, shebang: "/bin/sh"
+59854438      0x3914E66       Executable script, shebang: "/bin/sh"
+59854483      0x3914E93       Unix path: /etc/init.d/ebtables" ]; then
+59854514      0x3914EB2       Unix path: /etc/init.d/ebtables stop || :
+59854831      0x3914FEF       Executable script, shebang: "/bin/sh"
+59855263      0x391519F       Executable script, shebang: "/bin/sh"
+59857022      0x391587E       Unix path: /etc/default/ebtables
+59857335      0x39159B7       Executable script, shebang: "/bin/sh"
+59857719      0x3915B37       Executable script, shebang: "/bin/sh"
+59860150      0x39164B6       Executable script, shebang: "/bin/sh"
+59860195      0x39164E3       Unix path: /etc/init.d/dbus-1" ]; then
+59860224      0x3916500       Unix path: /etc/init.d/dbus-1 stop || :
+59860543      0x391663F       Executable script, shebang: "/bin/sh"
+59862879      0x3916F5F       Executable script, shebang: "/bin/sh"
+59865542      0x39179C6       Unix path: /etc/dbus-1/system.conf
+59865566      0x39179DE       Unix path: /etc/dbus-1/session.conf
+59869006      0x391874E       Executable script, shebang: "/bin/sh"
+59869051      0x391877B       Unix path: /etc/init.d/connman" ]; then
+59869081      0x3918799       Unix path: /etc/init.d/connman stop || :
+59869399      0x39188D7       Executable script, shebang: "/bin/sh"
+59869831      0x3918A87       Executable script, shebang: "/bin/sh"
+59873176      0x3919798       Unix path: /usr/sbin/update-ca-certificates
+59887727      0x391D06F       Executable script, shebang: "/bin/sh"
+59888159      0x391D21F       Executable script, shebang: "/bin/sh"
+59890270      0x391DA5E       Executable script, shebang: "/bin/sh"
+59890315      0x391DA8B       Unix path: /etc/init.d/mdev" ]; then
+59890342      0x391DAA6       Unix path: /etc/init.d/mdev stop || :
+59890663      0x391DBE7       Executable script, shebang: "/bin/sh"
+59891095      0x391DD97       Executable script, shebang: "/bin/sh"
+59893150      0x391E59E       Executable script, shebang: "/bin/sh"
+59893195      0x391E5CB       Unix path: /etc/init.d/hwclock.sh" ]; then
+59893228      0x391E5EC       Unix path: /etc/init.d/hwclock.sh stop || :
+59893559      0x391E737       Executable script, shebang: "/bin/sh"
+59893999      0x391E8EF       Executable script, shebang: "/bin/sh"
+59895702      0x391EF96       Executable script, shebang: "/bin/sh"
+59895756      0x391EFCC       Unix path: /usr/sbin/brctl.bridge-utils
+59896078      0x391F10E       Executable script, shebang: "/bin/sh"
+59896126      0x391F13E       Unix path: /usr/sbin/brctl brctl /usr/sbin/brctl.bridge-utils 100
+59897510      0x391F6A6       Executable script, shebang: "/bin/sh"
+59904039      0x3921027       Executable script, shebang: "/bin/sh"
+59904084      0x3921054       Unix path: /etc/init.d/audiohaldeamon.sh" ]; then
+59904431      0x39211AF       Executable script, shebang: "/bin/sh"
+59904871      0x3921367       Executable script, shebang: "/bin/sh"
+59906494      0x39219BE       Executable script, shebang: "/bin/sh"
+59906539      0x39219EB       Unix path: /etc/init.d/atrouter-init " ]; then
+59906576      0x3921A10       Unix path: /etc/init.d/atrouter-init  stop || :
+59906903      0x3921B57       Executable script, shebang: "/bin/sh"
+59907335      0x3921D07       Executable script, shebang: "/bin/sh"
+59992197      0x3936885       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 4bit
+59992613      0x3936A25       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+60081013      0x394C375       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 4bit
+60086461      0x394D8BD       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 4bit
+60086877      0x394DA5D       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+60255605      0x3976D75       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 4bit
+60316974      0x3985D2E       Executable script, shebang: "/bin/sh"
+60317535      0x3985F5F       Executable script, shebang: "/bin/sh"
+60317959      0x3986107       Executable script, shebang: "/bin/sh"
+60318375      0x39862A7       Executable script, shebang: "/bin/sh"
+60319303      0x3986647       XML document, version: "1.0"
+60418983      0x399EBA7       XML document, version: "1.0"
+60566752      0x39C2CE0       Broadcom header, number of sections: 1230121828,
+60794655      0x39FA71F       Executable script, shebang: "/bin/sh -e"
+60834535      0x3A042E7       Executable script, shebang: "/bin/sh"
+60834574      0x3A0430E       Unix path: /sys/class/udc/`
+60834607      0x3A0432F       Unix path: /sys/kernel/config/usb_gadget/g1/UDC
+61360074      0x3A847CA       Intel x86 or x64 microcode, sig 0x01a4bcd5, pf_mask 0x3fda9, 1FD6-03-20, rev 0x5f03c01d, size 254359
+61696842      0x3AD6B4A       Unix path: /etc/ssh/moduli
+61740496      0x3AE15D0       Base64 standard index table
+61902898      0x3B09032       Intel x86 or x64 microcode, sig 0x7cec008b, pf_mask 0x4334, 20B9-01-04, rev 0x-7ffffecf, size 312121
+62282330      0x3B65A5A       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x48e80091, 1F17-03-20, rev 0x-2abe, size 17036281
+62293970      0x3B687D2       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x3f4a9, 1F14-03-20, rev 0x1c21232, size 16961450
+62426146      0x3B88C22       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x3f4a9, 1F17-03-20, rev 0x-1bce, size 639380
+62469498      0x3B9357A       mcrypt 2.5 encrypted data, algorithm: "", keysize: 24323 bytes, mode: "_",
+62662146      0x3BC2602       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x153f3f9, 1FD6-03-20, rev 0x5f03c036, size 41130
+63717978      0x3CC425A       Intel x86 or x64 microcode, sig 0xbc7bfdd5, pf_mask 0x153f391, 1F17-03-20, rev 0x-2db2, size 33813929
+63725888      0x3CC6140       Executable script, shebang: "/bin/sh"
+63952767      0x3CFD77F       Executable script, shebang: "/bin/sh"
+64448994      0x3D769E2       Intel x86 or x64 microcode, sig 0x400003d5, pf_mask 0x40184471, 1FD6-03-20, rev 0x5f03c03d, size 287060
+64870191      0x3DDD72F       Executable script, shebang: "/bin/sh"
+64870203      0x3DDD73B       Unix path: /usr/libexec/saI
+64871335      0x3DDDBA7       Executable script, shebang: "/bin/sh"
+64871347      0x3DDDBB3       Unix path: /usr/libexec/saI
+64872535      0x3DDE057       Executable script, shebang: "/bin/sh"
+65379100      0x3E59B1C       Unix path: /sys/devices/platform/socl
+65400607      0x3E5EF1F       Unix path: /sys/class/udc/2910`
+65404726      0x3E5FF36       Unix path: /sys/bus/nvmem/devices/
+65477703      0x3E71C47       Unix path: /sys/class/power_supply/battery/stop_charge
+65488210      0x3E74552       Unix path: /etc/engpc/BBAT.conf'\
+65697522      0x3EA76F2       Intel x86 or x64 microcode, sig 0x400422d5, pf_mask 0xc04412, 1F54-03-20, rev 0x2c832, size 1869137
+65810442      0x3EC300A       Intel x86 or x64 microcode, sig 0xbb7bfdd5, pf_mask 0x3f3a9, 1F17-03-20, rev 0x-10ba, size 56883129
+65823730      0x3EC63F2       Intel x86 or x64 microcode, sig 0x0003e2d5, pf_mask 0x40ac41b4, 1F17-03-20, rev 0x-6d6, size 17695778
+67009364      0x3FE7B54       Broadcom header, number of sections: 408769807,
+67154963      0x400B413       Base64 standard index table
+67167406      0x400E4AE       Unix path: /sys/class/ubi/%s
+67222719      0x401BCBF       ELF, 64-bit LSB processor-specific, (GNU/Linux)
+67377421      0x404190D       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 4bit
+67511994      0x40626BA       Intel x86 or x64 microcode, sig 0xbc7bfdd5, pf_mask 0x403f4a9, 1F14-03-20, rev 0xe9459, size 1832874
+67545786      0x406AABA       Intel x86 or x64 microcode, sig 0x000841d5, pf_mask 0x6040f9, 1F17-03-20, rev 0x-acb, size 16875
+67806626      0x40AA5A2       Intel x86 or x64 microcode, sig 0x400400d5, pf_mask 0x218b, 1F97-03-20, rev 0x-2b633bd, size 17387
+68197470      0x4109C5E       mcrypt 2.5 encrypted data, algorithm: "LZn", keysize: 3105 bytes, mode: "\",
+68208130      0x410C602       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x3fd90, 1FD6-03-20, rev 0x5f03c051, size 259065
+68699546      0x418459A       Intel x86 or x64 microcode, sig 0x402400d5, pf_mask 0x7be0b9, 1FF9-03-20, rev 0x4000402a, size 21838904
+69042095      0x41D7FAF       SQLite 3.x database,, user version 894917685
+69325368      0x421D238       PARity archive data - file number 353
+69610666      0x4262CAA       Intel x86 or x64 microcode, sig 0x400403d5, pf_mask 0xc47fb9, 1FD6-03-20, rev 0x5f03c037, size 68692
+69684506      0x4274D1A       SHA256 hash constants, little endian
+70143362      0x42E4D82       Intel x86 or x64 microcode, sig 0xf80520d5, pf_mask 0x153f391, 1F17-03-20, rev 0x-67cbc2, size 1308080
+70324101      0x4310F85       Base64 standard index table
+70325392      0x4311490       SHA256 hash constants, little endian
+70686182      0x43695E6       Unix path: /sys/class/net
+70986538      0x43B2B2A       Intel x86 or x64 microcode, sig 0x000141d5, pf_mask 0x400021b4, 1FD6-03-20, rev 0x5f03c02a, size 16845832
+71230389      0x43EE3B5       GPG key trust database version 45
+71506114      0x44318C2       Intel x86 or x64 microcode, sig 0x0103e6d5, pf_mask 0x203e454, 1FD6-03-20, rev 0x5f03c04e, size 254448
+71530850      0x4437962       Intel x86 or x64 microcode, sig 0xbd7bfdd5, pf_mask 0x3f4a9, 1FD6-03-20, rev 0x5f03c076, size 39581098
+71576775      0x4442CC7       AES Inverse S-Box
+71580763      0x4443C5B       AES S-Box
+71609464      0x444AC78       SHA256 hash constants, little endian
+71632938      0x445082A       Intel x86 or x64 microcode, sig 0x401003d5, pf_mask 0x10041cb, 1F17-03-20, rev 0x-80bcb, size 3146233
+71715608      0x4464B18       Unix path: /sys/power/wake_EBk2^
+71844538      0x44842BA       Intel x86 or x64 microcode, sig 0x0b021fd5, pf_mask 0x201051, 1F2A-03-20, rev 0x403f045, size 2097259
+71889598      0x448F2BE       SHA256 hash constants, little endian
+71926786      0x4498402       Intel x86 or x64 microcode, sig 0x0003e6d5, pf_mask 0x70000a9, 1FD6-03-20, rev 0x5f03c042, size 76779
+71973066      0x44A38CA       Intel x86 or x64 microcode, sig 0xba7bfdd5, pf_mask 0x103f3a9, 1F17-03-20, rev 0x-52fbd2, size 6086826
+72677114      0x454F6FA       Intel x86 or x64 microcode, sig 0xbd7bfdd5, pf_mask 0x153f391, 1F17-03-20, rev 0x-1c93, size 17036793
+72882522      0x458195A       Intel x86 or x64 microcode, sig 0xba7bfdd5, pf_mask 0x153f3f9, 1FD6-03-20, rev 0x5f03c092, size 631289
+72893234      0x4584332       Intel x86 or x64 microcode, sig 0x481c03d5, pf_mask 0x303e091, 1FD6-03-20, rev 0x5f03c02d, size 17001721
+73200498      0x45CF372       Intel x86 or x64 microcode, sig 0xbd7bfdd5, pf_mask 0x3fd12, 1F17-03-20, rev 0x-25aa, size 33054713
+73345353      0x45F2949       SHA256 hash constants, little endian
+73497270      0x4617AB6       Unix path: /lib/x509/spki.c
+73561233      0x4627491       Unix path: /lib/nettle/eccl
+73597046      0x4630076       Unix path: /lib/nettle/eccl
+73944578      0x4684E02       Intel x86 or x64 microcode, sig 0xffff42d5, pf_mask 0x14ca0d1, 1FB5-03-20, rev 0xc026, size 2149120
+74105418      0x46AC24A       Intel x86 or x64 microcode, sig 0x800003d5, pf_mask 0xbc7bfd33, 1F17-03-20, rev 0x-527e2, size 22279057
+74174010      0x46BCE3A       Intel x86 or x64 microcode, sig 0xb27bfdd5, pf_mask 0x153f3b4, 1F17-03-20, rev 0x-67b2, size 450986
+74243282      0x46CDCD2       Intel x86 or x64 microcode, sig 0xbd7bfdd5, pf_mask 0x6f3a9, 1F17-03-20, rev 0x-cb3, size 39581073
+74314026      0x46DF12A       Intel x86 or x64 microcode, sig 0xbc7bfdd5, pf_mask 0x3f3a9, 1FD6-03-20, rev 0x5f03c05a, size 246708
+74425054      0x46FA2DE       Base64 standard index table
+74813946      0x47591FA       Intel x86 or x64 microcode, sig 0xbd7bfdd5, pf_mask 0x153f3b4, 1FD6-03-20, rev 0x5f03c03a, size 1308074
+75025066      0x478CAAA       Intel x86 or x64 microcode, sig 0xbc7bfdd5, pf_mask 0x153f3b4, 1F17-03-20, rev 0x-2236fb6, size 17036458
+75090522      0x479CA5A       Intel x86 or x64 microcode, sig 0xbc7bfdd5, pf_mask 0xfe80cba9, 1FD6-03-20, rev 0x5f03c03a, size 286890
+75615978      0x481CEEA       Intel x86 or x64 microcode, sig 0xbed0f000, pf_mask 0x2007dd08, 2000-02-03, rev 0x14d1f015, size 31270914
+75803786      0x484AC8A       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x3fdd2, 1F17-03-20, rev 0x-1a7c2, size 22279057
+75851672      0x4856798       SHA256 hash constants, little endian
+75927820      0x486910C       SHA256 hash constants, little endian
+76000030      0x487AB1E       CRC32 polynomial table, little endian
+76096602      0x489245A       AES Inverse S-Box
+76488370      0x48F1EB2       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x3fdd2, 1F17-03-20, rev 0x-21ba, size 22279161
+76503316      0x48F5914       mcrypt 2.5 encrypted data, algorithm: "1m", keysize: 23846 bytes, mode: "#",
+76658738      0x491B832       Base64 standard index table
+77159170      0x4995B02       Intel x86 or x64 microcode, sig 0x09c3ffd5, pf_mask 0x3fda9, 1FD6-03-20, rev 0x5f03c04c, size 39581097
+77604877      0x4A0280D       SHA256 hash constants, little endian
+77656514      0x4A0F1C2       Intel x86 or x64 microcode, sig 0x0383ffd5, pf_mask 0x253f391, 1FD6-03-20, rev 0x5f03c04e, size 17036458
+77736594      0x4A22A92       Intel x86 or x64 microcode, sig 0xba7bfdd5, pf_mask 0x303f4a9, 1F17-03-20, rev 0x-11ae, size 17036713
+77771894      0x4A2B476       AES Inverse S-Box
+77793602      0x4A30942       mcrypt 2.5 encrypted data, algorithm: ")}", keysize: 10500 bytes, mode: "}",
+78275776      0x4AA64C0       SHA256 hash constants, little endian
+78318842      0x4AB0CFA       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x153f391, 1FD6-03-20, rev 0x5f03c045, size 54442
+79017719      0x4B5B6F7       LZO compressed data
+79025239      0x4B5D457       Base64 standard index table
+79040414      0x4B60F9E       Base64 standard index table
+79040948      0x4B611B4       LZO compressed data
+79218555      0x4B8C77B       Unix path: /usr/bin/unisoc-red
+79220181      0x4B8CDD5       Unix path: /sys/devices/virtual/misc/sprd_mbim/p
+79263914      0x4B978AA       Copyright string: "Copyright (C) 2005,V"
+79281911      0x4B9BEF7       Executable script, shebang: "/bin/sh"
+79289153      0x4B9DB41       Unix path: /sys/kernel/config/usb_gadget/g1/functions/gser.gs5
+79291138      0x4B9E302       Unix path: /sys/kernel/config/usb_gadget/g1/functions/gser.gs5
+79292136      0x4B9E6E8       Unix path: /sys/kernel/config/usb_gadget/g1/functions/gser.gs5
+79295419      0x4B9F3BB       Unix path: /sys/kernel/config/usb_gadget/g1/functions/ncm.gs1/host_addr
+79298563      0x4BA0003       Unix path: /sys/devices/platform/socl
+79416562      0x4BBCCF2       Unix path: /sys/class/scsi_tape/st%iR
+79421863      0x4BBE1A7       Executable script, shebang: "/bin/sh"
+79421885      0x4BBE1BD       Copyright string: "CopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd."
+79423615      0x4BBE87F       Executable script, shebang: "/bin/sh"
+79423773      0x4BBE91D       Copyright string: "Copyright (c) 2012-Q"
+80058250      0x4C5978A       Intel x86 or x64 microcode, sig 0xbd7bfdd5, pf_mask 0x3f4a9, 1FD6-03-20, rev 0x5f03c04a, size 17036713
+80177299      0x4C76893       Unix path: /etc/ssh/moduli
+80219274      0x4C80C8A       Base64 standard index table
+80637455      0x4CE6E0F       Executable script, shebang: "/usr/bin/python"
+80637457      0x4CE6E11       Unix path: /usr/bin/python
+80978122      0x4D3A0CA       Unix path: /usr/libexec/saJ
+81412150      0x4DA4036       CRC32 polynomial table, big endian
+81464735      0x4DB0D9F       Executable script, shebang: "/bin/sh"
+81659370      0x4DE05EA       Intel x86 or x64 microcode, sig 0x800000d5, pf_mask 0xbd7bfdd6, 1F97-03-20, rev 0x-1daffb5, size 2089105
+81980778      0x4E2ED6A       Intel x86 or x64 microcode, sig 0xbc7bfdd5, pf_mask 0x3fd71, 1FD6-03-20, rev 0x5f03c0c1, size 258985
+82140199      0x4E55C27       Executable script, shebang: "/bin/sh"
+82181639      0x4E5FE07       Executable script, shebang: "/bin/sh"
+82381151      0x4E9095F       Executable script, shebang: "/bin/sh"
+82382550      0x4E90ED6       Executable script, shebang: "/bin/sh"
+82382598      0x4E90F06       Unix path: /var/run/ppp-quick
+82382631      0x4E90F27       Unix path: /usr/sbin/pppd call ${1:-provider}
+82382943      0x4E9105F       Executable script, shebang: "/bin/sh"
+82531303      0x4EB53E7       Executable script, shebang: "/bin/sh"
+82852815      0x4F03BCF       Private key in DER format (PKCS header length: 4, sequence length: 314
+82861950      0x4F05F7E       Private key in DER format (PKCS header length: 4, sequence length: 4361
+82866366      0x4F070BE       Private key in DER format (PKCS header length: 4, sequence length: 2345
+82868766      0x4F07A1E       Private key in DER format (PKCS header length: 4, sequence length: 1763
+82870534      0x4F08106       Private key in DER format (PKCS header length: 4, sequence length: 1187
+82871777      0x4F085E1       Private key in DER format (PKCS header length: 4, sequence length: 604
+82874687      0x4F0913F       Executable script, shebang: "/bin/sh"
+82939701      0x4F18F35       Copyright string: "Copyright (C) 1997, 2013  Werner Koch"
+83022233      0x4F2D199       Unix path: /sys/kernel/debug
+83251924      0x4F652D4       Copyright string: "Copyright (C) 2006 Red Hat, Inc."
+83273568      0x4F6A760       Copyright string: "Copyright (C) 2003-S"
+83292031      0x4F6EF7F       Copyright string: "Copyright (C) 2003 RULH"
+83522258      0x4FA72D2       Unix path: /sys/class/ubil
+83571202      0x4FB3202       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x3fd52, 1FD6-03-20, rev 0x5f03c04a, size 7595306
+83647623      0x4FC5C87       Executable script, shebang: "/usr/bin/env perl"
+83647625      0x4FC5C89       Unix path: /usr/bin/env perl
+83666210      0x4FCA522       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x3fd91, 1FD6-03-20, rev 0x5f03c04a, size 258985
+83708438      0x4FD4A16       lzop compressed data,d01,
+83905744      0x5004CD0       Unix path: /sys/kernel/headset/state
+84149833      0x5040649       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: OFB, keymode: MD5 hash
+84151650      0x5040D62       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: OFB, keymode: MD5 hash
+84204501      0x504DBD5       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: MD5 hash
+84557681      0x50A3F71       Unix path: /usr/lib/atT
+84597639      0x50ADB87       Unix path: /sys/class/net/vpcie%d/statistics/tx_errors
+84622880      0x50B3E20       Unix path: /sys/class/ubin
+84623955      0x50B4253       Unix path: /sys/kernel/debug/sipa_eth'
+84639311      0x50B7E4F       Base64 standard index table
+84808047      0x50E116F       ELF, 64-bit LSB processor-specific, (GNU/Linux)
+84827994      0x50E5F5A       Intel x86 or x64 microcode, sig 0xbe7bfdd5, pf_mask 0x634a9, 1FD6-03-20, rev 0x5f03c049, size 258961
+85008722      0x5112152       Intel x86 or x64 microcode, sig 0xba7bfdd5, pf_mask 0x403f3a9, 1FD6-03-20, rev 0x5f03c06e, size 1308114
+85011546      0x5112C5A       Intel x86 or x64 microcode, sig 0xb97bfdd5, pf_mask 0x37e2a9, 1F17-03-20, rev 0x-28a6, size 22279092
+85211042      0x51437A2       SHA256 hash constants, little endian
+85312633      0x515C479       Copyright string: "Copyright (c) 2012,t"
+85314455      0x515CB97       Executable script, shebang: "/bin/sh"
+85317031      0x515D5A7       Executable script, shebang: "/usr/bin/env bash"
+85317033      0x515D5A9       Unix path: /usr/bin/env bash
+85317272      0x515D698       Copyright string: "Copyright (c) 2002-2020 Bert Hubx"
+85575243      0x519C64B       Unix path: /sys/fs/bpf
+85629070      0x51A988E       Executable script, shebang: "/bin/sh"
+85666831      0x51B2C0F       Executable script, shebang: "/bin/sh"
+85668135      0x51B3127       Executable script, shebang: "/bin/sh"
+85737930      0x51C41CA       Intel x86 or x64 microcode, sig 0xad7bfdd5, pf_mask 0x3f3a9, 1F17-03-20, rev 0x-4ffb1, size 17036969
+86101863      0x521CF67       Unix path: /sys/fs/bpf
+86159239      0x522AF87       Executable script, shebang: "/bin/sh"
+86170214      0x522DA66       Executable script, shebang: "/bin/sh"
+86174463      0x522EAFF       Executable script, shebang: "/bin/bash"
+86266238      0x524517E       gzip compressed data, from Unix, last modified: 2025-10-27 12:37:38
+86321593      0x52529B9       Unix path: /var/spool/mail
+86330066      0x5254AD2       Base64 standard index table
+86330751      0x5254D7F       Certificate in DER format (x509 v3), header length: 4, sequence length: 767
+86346668      0x5258BAC       Unix path: /var/log/last\
+86374570      0x525F8AA       Intel x86 or x64 microcode, sig 0x82120cd5, pf_mask 0x7bfd91, 1F17-03-20, rev 0x-9a6, size 22279057
+86531010      0x5285BC2       Intel x86 or x64 microcode, sig 0x000240d5, pf_mask 0x4d01e1aa, 1F17-03-20, rev 0x-40d9, size 23713
+86548262      0x5289F26       CRC32 polynomial table, big endian
+86555026      0x528B992       Copyright string: "Copyright 1995-2017 Mark Adl"
+87011217      0x52FAF91       Unix path: /var/yp/p
+87863650      0x53CB162       Intel x86 or x64 microcode, sig 0x0203e0d5, pf_mask 0x5f03c0b5, 1FB4-03-20, rev 0x18242, size 33587193
+87987054      0x53E936E       LZ4 compressed data
+87995263      0x53EB37F       ELF, 64-bit LSB processor-specific, (GNU/Linux)
+88069658      0x53FD61A       Intel x86 or x64 microcode, sig 0x4012a0d5, pf_mask 0x400340f9, 1FB4-03-20, rev 0x3bc3f, size 2023659
+88593826      0x547D5A2       Intel x86 or x64 microcode, sig 0xb67bfdd5, pf_mask 0x503f6a9, 1FD6-03-20, rev 0x5f03c07a, size 17037481
+88612234      0x5481D8A       Intel x86 or x64 microcode, sig 0x400294d5, pf_mask 0x4057a0f9, 1F54-03-20, rev 0x-df7c2, size 32651
+88758941      0x54A5A9D       Unix path: /sys/vm/overcommit_memory|
+88947618      0x54D3BA2       Intel x86 or x64 microcode, sig 0xae7bfdd5, pf_mask 0x3fd12, 1F17-03-20, rev 0x-fa4, size 119801
+89111658      0x54FBC6A       Intel x86 or x64 microcode, sig 0x403fa1d5, pf_mask 0x80002094, 1F9A-03-20, rev 0x-3ef7fc72, size 6841
+89265818      0x552169A       Unix path: /etc/depmod.d/depmod.conf
+89269189      0x55223C5       Unix path: /var/log/messages
+89270119      0x5522767       XML document, version: "1.0"
+89274047      0x55236BF       Executable script, shebang: "/bin/sh"
+89276487      0x5524047       XML document, version: "1.0"
+89293906      0x5528452       Copyright string: "CopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd."
+89426474      0x5548A2A       Broadcom header, number of sections: 1230121828,
+89777399      0x559E4F7       Executable script, shebang: "/bin/sh"
+89778513      0x559E951       Unix path: /etc/security/namespace.conf
+89779833      0x559EE79       Unix path: /etc/security/limits.conf
+89863551      0x55B357F       XML document, version: "1.0"
+89875485      0x55B641D       mcrypt 2.5 encrypted data, algorithm: "em,", keysize: 401 bytes, mode: "n",
+89879937      0x55B7581       Executable script, shebang: "/bin/sh"
+89882503      0x55B7F87       Executable script, shebang: "/bin/sh"
+89882524      0x55B7F9C       Unix path: /var/run/resolv.conf
+89883183      0x55B822F       Executable script, shebang: "/bin/sh"
+89884366      0x55B86CE       Executable script, shebang: "/bin/sh"
+89884387      0x55B86E3       Unix path: /var/run/resolv.conf
+89884999      0x55B8947       Executable script, shebang: "/bin/sh"
+89891987      0x55BA493       Unix path: /etc/pam.d/common-sessi]
+89894675      0x55BAF13       Unix path: /etc/pam.d/common-auth - x
+89899583      0x55BC23F       XML document, version: "1.0"
+89927623      0x55C2FC7       Executable script, shebang: "/bin/sh"
+89933511      0x55C46C7       Executable script, shebang: "/bin/sh"
+89933564      0x55C46FC       Unix path: /etc/default/mdev ] && .0b
+89934535      0x55C4AC7       Executable script, shebang: "/bin/sh"
+89935254      0x55C4D96       Unix path: /var/log/dmesg {
+89954983      0x55C9AA7       Executable script, shebang: "/bin/sh"
+89956423      0x55CA047       Executable script, shebang: "/bin/sh"
+89957199      0x55CA34F       Executable script, shebang: "/bin/sh"
+89958311      0x55CA7A7       Executable script, shebang: "/bin/sh"
+89959087      0x55CAAAF       Executable script, shebang: "/bin/sh"
+89959887      0x55CADCF       Executable script, shebang: "/bin/sh"
+89959926      0x55CADF6       Unix path: /sys/class/udc/`
+89959959      0x55CAE17       Unix path: /sys/kernel/config/usb_gadget/g1/UDC
+89960271      0x55CAF4F       Executable script, shebang: "/bin/sh"
+89960823      0x55CB177       Executable script, shebang: "/bin/sh"
+89962151      0x55CB6A7       Executable script, shebang: "/bin/sh"
+89962902      0x55CB996       Executable script, shebang: "/bin/sh"
+89963559      0x55CBC27       Executable script, shebang: "/bin/sh"
+89964223      0x55CBEBF       Executable script, shebang: "/bin/sh"
+89964863      0x55CC13F       Executable script, shebang: "/bin/sh"
+89965415      0x55CC367       Executable script, shebang: "/bin/sh"
+89965959      0x55CC587       Executable script, shebang: "/bin/sh"
+89967703      0x55CCC57       Executable script, shebang: "/bin/sh"
+89968495      0x55CCF6F       Executable script, shebang: "/bin/sh"
+89969463      0x55CD337       Executable script, shebang: "/bin/sh"
+89970087      0x55CD5A7       Executable script, shebang: "/bin/sh"
+89970823      0x55CD887       Executable script, shebang: "/bin/sh"
+89971503      0x55CDB2F       Executable script, shebang: "/bin/sh"
+89972095      0x55CDD7F       Executable script, shebang: "/bin/sh"
+89972735      0x55CDFFF       Executable script, shebang: "/bin/sh"
+89973319      0x55CE247       Executable script, shebang: "/bin/sh"
+89973807      0x55CE42F       Executable script, shebang: "/bin/sh"
+89973820      0x55CE43C       Unix path: /etc/default/rcS
+89974906      0x55CE87A       Copyright string: "CopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd."
+89976306      0x55CEDF2       Copyright string: "CopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd."
+89979359      0x55CF9DF       Executable script, shebang: "/bin/sh"
+89980039      0x55CFC87       Executable script, shebang: "/bin/sh"
+89981791      0x55D035F       Executable script, shebang: "/bin/sh"
+89982271      0x55D053F       Executable script, shebang: "/bin/sh"
+89984479      0x55D0DDF       Executable script, shebang: "/bin/sh"
+89985111      0x55D1057       Executable script, shebang: "/bin/sh"
+89985767      0x55D12E7       Executable script, shebang: "/bin/sh"
+89986639      0x55D164F       Executable script, shebang: "/bin/sh"
+89990311      0x55D24A7       Executable script, shebang: "/bin/sh"
+89990975      0x55D273F       Executable script, shebang: "/bin/sh"
+89991855      0x55D2AAF       Executable script, shebang: "/bin/sh"
+89993239      0x55D3017       Executable script, shebang: "/bin/sh"
+89993807      0x55D324F       Executable script, shebang: "/bin/sh -e"
+89995007      0x55D36FF       Executable script, shebang: "/bin/sh"
+89996119      0x55D3B57       Executable script, shebang: "/bin/sh"
+89997007      0x55D3ECF       Executable script, shebang: "/bin/sh"
+89997471      0x55D409F       Executable script, shebang: "/bin/sh"
+89998279      0x55D43C7       Executable script, shebang: "/bin/sh"
+89999263      0x55D479F       Executable script, shebang: "/bin/sh"
+90000031      0x55D4A9F       Executable script, shebang: "/bin/sh"
+90000631      0x55D4CF7       Executable script, shebang: "/bin/sh"
+90002063      0x55D528F       Executable script, shebang: "/bin/sh"
+90002751      0x55D553F       Executable script, shebang: "/bin/sh"
+90004167      0x55D5AC7       Executable script, shebang: "/bin/sh"
+90006295      0x55D6317       Executable script, shebang: "/bin/sh"
+90006839      0x55D6537       Executable script, shebang: "/bin/sh"
+90007663      0x55D686F       Executable script, shebang: "/bin/sh"
+90008183      0x55D6A77       Executable script, shebang: "/bin/sh"
+90008831      0x55D6CFF       Executable script, shebang: "/bin/sh"
+90010655      0x55D741F       Executable script, shebang: "/bin/sh"
+90011223      0x55D7657       Executable script, shebang: "/bin/sh"
+90012455      0x55D7B27       Executable script, shebang: "/bin/sh"
+90014719      0x55D83FF       Executable script, shebang: "/bin/sh"
+90016223      0x55D89DF       Executable script, shebang: "/bin/sh"
+90017583      0x55D8F2F       Executable script, shebang: "/bin/sh"
+90018151      0x55D9167       Executable script, shebang: "/bin/sh"
+90018799      0x55D93EF       Executable script, shebang: "/bin/sh"
+90019352      0x55D9618       Executable script, shebang: "/bin/sh"
+90024695      0x55DAAF7       Executable script, shebang: "/bin/sh"
+90024714      0x55DAB0A       Unix path: /etc/formfactor/machconfig ]; then
+90042775      0x55DF197       Unix path: /var/log/sa none
+90043095      0x55DF2D7       Unix path: /var/run/sshd none
+90043131      0x55DF2FB       Unix path: /var/log/lastlog none
+90043447      0x55DF437       Unix path: /var/run/sepermit none
+90043771      0x55DF57B       Unix path: /var/run/dbus none
+90044132      0x55DF6E4       Unix path: /var/run/radvd none
+90044455      0x55DF827       Unix path: /var/log/boot none
+90046207      0x55DFEFF       Unix path: /etc/ssh/sshd_config_readonly'
+90052357      0x55E1705       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 4bit
+90057526      0x55E2B36       Unix path: /usr/bin/passwd
+90057542      0x55E2B46       Unix path: /usr/bin/traceroute
+90057562      0x55E2B5A       Unix path: /usr/bin/vlock
+92536191      0x583FD7F       MySQL MISAM index file Version 7
+92784791      0x587C897       XML document, version: "1.0"
+92785711      0x587CC2F       XML document, version: "1.0"
+92795359      0x587F1DF       XML document, version: "1.0"
+92865583      0x589042F       XML document, version: "1.0"
+92913325      0x589BEAD       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 4bit
+93050503      0x58BD687       XML document, version: "1.0"
+93051271      0x58BD987       XML document, version: "1.0"
+93053735      0x58BE327       XML document, version: "1.0"
+93053779      0x58BE353       Copyright string: "Copyright (C) 2008 The Android Open Source Project"
+93190135      0x58DF7F7       XML document, version: "1.0"
+93190615      0x58DF9D7       XML document, version: "1.0"
+93191511      0x58DFD57       XML document, version: "1.0"
+93192247      0x58E0037       XML document, version: "1.0"
+93192871      0x58E02A7       XML document, version: "1.0"
+93193551      0x58E054F       XML document, version: "1.0"
+93194223      0x58E07EF       XML document, version: "1.0"
+93195015      0x58E0B07       XML document, version: "1.0"
+93195511      0x58E0CF7       XML document, version: "1.0"
+93196407      0x58E1077       XML document, version: "1.0"
+93197143      0x58E1357       XML document, version: "1.0"
+93197975      0x58E1697       XML document, version: "1.0"
+93213193      0x58E5209       Unix path: /sys/net/ipv4R
+93233943      0x58EA317       Executable script, shebang: "/bin/sh"
+93889856      0x598A540       AES Inverse S-Box
+93890112      0x598A640       AES S-Box
+93914161      0x5990431       SHA256 hash constants, little endian
+94243346      0x59E0A12       Intel x86 or x64 microcode, sig 0xba7bfdd5, pf_mask 0x3f3a9, 1FD6-03-20, rev 0x5f03c02e, size 6086954
+94338338      0x59F7D22       Intel x86 or x64 microcode, sig 0xbc7bfdd5, pf_mask 0x103f3a9, 1F17-03-20, rev 0x-1e4d796, size 259497
+94363370      0x59FDEEA       Intel x86 or x64 microcode, sig 0xbd7bfdd5, pf_mask 0x153f391, 1F17-03-20, rev 0x-20ca, size 17036176
+94467743      0x5A1769F       Unix path: /usr/local/bin:)9
+94508132      0x5A21464       mcrypt 2.5 encrypted data, algorithm: "N", keysize: 107 bytes, mode: "(",
+95226201      0x5AD0959       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+95226253      0x5AD098D       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+95773061      0x5B56185       mcrypt 2.2 encrypted data, algorithm: blowfish-448, mode: CBC, keymode: 8bit
+99248850      0x5EA6AD2       Copyright string: "Copyright (C) Spreadtrum Communications Co. Ltd"
+99249054      0x5EA6B9E       Copyright string: "Copyright (C) 2005 Spreatrum, Incoporated."
+99686434      0x5F11822       Nagra Constant_KEY IDEA_Key: 10192431 40516479 90A9C4E1
+100154858     0x5F83DEA       UBIFS filesystem superblock node, CRC: 0xFB13B9AD, flags: 0x4, min I/O unit size: 4096, erase block size: 253952, erase block count: 13, max erase blocks: 2000, format version: 4, compression type: lzo
+100408810     0x5FC1DEA       UBIFS filesystem master node, CRC: 0x89F4C824, highest inode: 71, commit number: 0
+100662762     0x5FFFDEA       UBIFS filesystem master node, CRC: 0xAD660377, highest inode: 71, commit number: 0
+109211490     0x6826F62       Copyright string: "Copyright (C) Spreadtrum Communications Co. Ltd"
+109211694     0x682702E       Copyright string: "Copyright (C) 2005 Spreatrum, Incoporated."
+110119842     0x6904BA2       Android bootimg, kernel size: 13475848 bytes, kernel addr: 0x8000, ramdisk size: 52 bytes, ramdisk addr: 0x1000000, product name: ""
+110121890     0x69053A2       Linux kernel ARM64 image, load offset: 0x80000, image size: 13922304 bytes, little endian, 4k page size,
+110229122     0x691F682       SHA256 hash constants, little endian
+110255330     0x6925CE2       AES S-Box
+110255586     0x6925DE2       AES Inverse S-Box
+110262178     0x69277A2       SHA256 hash constants, little endian
+110265890     0x6928622       AES Inverse S-Box
+119194530     0x71AC3A2       ELF, 64-bit LSB shared object, version 1 (SYSV)
+119334418     0x71CE612       DES SP2, little endian
+119334930     0x71CE812       DES SP1, little endian
+119364450     0x71D5B62       CRC32 polynomial table, little endian
+119923876     0x725E4A4       LZMA compressed data, properties: 0x76, dictionary size: 0 bytes, uncompressed size: 512 bytes
+120041770     0x727B12A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/kernel/params.c
+120081362     0x7284BD2       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/mm/pgtable-generic.c
+120101258     0x728998A       Unix path: /dev/vc/0
+120293826     0x72B89C2       Unix path: /lib/firmware/updates/4.14.98
+120330642     0x72C1992       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/mtd/nand/sprd_nand/nfc_base.c
+120335193     0x72C2B59       Unix path: /usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+120335730     0x72C2D72       Unix path: /usr/bin/quec_cont_vol
+120355786     0x72C7BCA       Unix path: /sys/class/net/<iface>/rtk_adv/testmode.
+120356314     0x72C7DDA       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/net/ethernet/realtek/r8168/r8168_n.c
+120357585     0x72C82D1       Copyright string: "Copyright (C) 2024 Realtek NIC software team <nicfae@realtek.com> "
+120359954     0x72C8C12       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/net/ethernet/realtek/r8125/r8125_n.c
+120360761     0x72C8F39       Copyright string: "Copyright (C) 2020  Realtek NIC software team <nicfae@realtek.com> "
+120385887     0x72CF15F       PARity archive data - Index file
+120425594     0x72D8C7A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/i2c/i2c-dev.c
+120462506     0x72E1CAA       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/hid-core.c
+120464762     0x72E257A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/hid-input.c
+120477010     0x72E5552       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/usbhid/hid-core.c
+120478258     0x72E5A32       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/usbhid/hid-quirks.c
+120479106     0x72E5D82       Unix path: /sys/firmware/devicetree/base
+120479987     0x72E60F3       Unix path: /sys/firmware/fdt': CRC check failed
+120512674     0x72EE0A2       Unix path: /sys/kernel/debug/local_ipa
+120518722     0x72EF842       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/devfreq/devfreq.c
+120578450     0x72FE192       Unix path: /etc/audio/audio_param/
+120590122     0x7300F2A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/dev.c
+120592050     0x73016B2       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/include/net/udp_tunnel.h
+120592466     0x7301852       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/ethtool.c
+120593314     0x7301BA2       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/neighbour.c
+120593435     0x7301C1B       Neighborly text, "neighbor table overflow!ate is %x"
+120594050     0x7301E82       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/rtnetlink.c
+120596570     0x730285A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/fib_rules.c
+120596714     0x73028EA       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/include/net/sch_generic.h
+120597082     0x7302A5A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/sch_api.c
+120597290     0x7302B2A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/cls_api.c
+120597474     0x7302BE2       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/act_api.c
+120615506     0x7307252       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/devinet.c
+120617370     0x730799A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/igmp.c
+120618362     0x7307D7A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/fib_notifier.c
+120618514     0x7307E12       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/ip_tunnel.c
+120631794     0x730B1F2       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/anycast.c
+120635762     0x730C172       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/mcast.c
+120637922     0x730C9E2       Neighborly text, "NeighborSolicits"
+120637946     0x730C9FA       Neighborly text, "NeighborAdvertisementsErrors"
+120640594     0x730D452       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/sit.c
+120642234     0x730DABA       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_fdb.c
+120643034     0x730DDDA       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_if.c
+120643650     0x730E042       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_stp_if.c
+120643932     0x730E15C       Neighborly text, "neighbor %.2x%.2x.%pM lostroadcast_flood"
+120644810     0x730E4CA       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/8021q/vlan_core.c
+120644986     0x730E57A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/8021q/vlan.c
+120646026     0x730E98A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/feat.c
+120647314     0x730EE92       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/minisocks.c
+120647578     0x730EF9A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/options.c
+120648042     0x730F16A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/output.c
+120648298     0x730F26A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/proto.c
+120648834     0x730F482       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/ccid2.c
+120649050     0x730F55A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ackvec.c
+120649410     0x730F6C2       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/tfrc.h
+120649586     0x730F772       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/ccid3.c
+120649818     0x730F85A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/tfrc_equation.c
+120650186     0x730F9CA       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/packet_history.c
+120650490     0x730FAFA       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/loss_interval.c
+120657994     0x731184A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/core.c
+120658458     0x7311A1A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/util.c
+120659234     0x7311D22       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/scan.c
+120660434     0x73121D2       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/wext-sme.c
+120666066     0x73137D2       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/iface.c
+120666442     0x731394A       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/rate.c
+120668658     0x73141F2       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/key.c
+120668874     0x73142CA       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/util.c
+120676722     0x7316172       Unix path: /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/tdls.c
+123599778     0x75DFBA2       gzip compressed data, has original file name: "ramdisk.img", from Unix, last modified: 2025-10-27 12:20:18
+123603874     0x75E0BA2       Flattened device tree, size: 101513 bytes, version: 17
+123741910     0x76026D6       SHA256 hash constants, little endian
+123757706     0x760648A       XML document, version: "1.0"
+
+
+=== R91 CELLULARUPGRADE BINWALK ===
+
+DECIMAL       HEXADECIMAL     DESCRIPTION
+--------------------------------------------------------------------------------
+511981        0x7CFED         CRC32 polynomial table, little endian
+560724        0x88E54         LZO compressed data
+605177        0x93BF9         Flattened device tree, size: 7544 bytes, version: 17
+2099200       0x200800        Flattened device tree, size: 15598892 bytes, version: 17
+2099360       0x2008A0        UBI erase count header, version: 1, EC: 0x0, VID header offset: 0x800, data offset: 0x1000
+

@@ -1,0 +1,4695 @@
+ 540545 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/dloader/packet.c
+ 540701 sprd,memory-region-auto
+ 540816 SPRD4:AutoD
+ 540943 FDL_PacketDoIdle
+ 541079 fdl_ubi_dev_init
+ 541505 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/dwc3/ep0.c
+ 541708 pctool_mode_detect_uart
+ 542375 fdt_quec_recovery_test
+ 542627 sprd_rsa_verify
+ 542872 sprd_i2c_init
+ 542925 sprd_anti_rollback
+ 542960 sprd_verify_cert
+ 542977 boot_sprdisk
+ 543005 sprd_get_sechdr_addr
+ 543026 sprd_verify_img
+ 543054 sprd_secure_check
+ 543072 sprd_dl_check
+ 543150 sprd_mmc_exit
+ 543335 __SprdCheckNancParam
+ 543356 SprdGetNandParam
+ 543448 fastboot_bind
+ 543462 usb_fastboot_init
+ 543480 set_fastboot_buf_base_size
+ 543546 sprd_mtd_part_erase
+ 544540 sprd nand ecc mode not support!
+ 544573 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/mtdcore.c
+ 544690 switch to recovery kernel
+ 544780 %s, sprdisk mode failure!
+ 545399 sprd nand cmd %s fail
+ 546038 sprd nand read ecc sts %d
+ 546065 sprd nand ioaddr = 0x%x ,freq = %d
+ 546661 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/mtdpart.c
+ 546907 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/ubi/attach.c
+ 547397 [eic keys] volumeup : sprd_eic_get return ERROR!
+ 547447 [eic keys] volumedown : sprd_eic_get return ERROR!
+ 549640 sprd_nand:retry %d
+ 549660 sprd nand ops mode error!
+ 550599 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/gadget/composite.c
+ 550718 ubi0:recoveryfs
+ 550970 bootargs=mem=512M loglevel=7 console=ttyS0,115200n8 init=/init mtdparts=sprd-nand:256k(splloader),1280k(uboot),768k(sml),1024k(trustos),1280k(ubootbak),768k(smlbak),1024k(trustosbak),1280k(rawdata),1280k(custinfo),-(ubipac)
+ 551256 mtdparts=mtdparts=sprd-nand:256k(splloader),1280k(uboot),768k(sml),1024k(trustos),1280k(ubootbak),768k(smlbak),1024k(trustosbak),1280k(rawdata),1280k(custinfo),-(ubipac)
+ 552037 orca fdl2 verify img:%s
+ 552343 fdl2_download_start:part:%s,size:0x%x
+ 552382 fdl2_download_start(): the part should be checked. %s
+ 553291 quectel: the fw is not match with the hw(%s)
+ 555255 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/cmd_nvedit.c
+ 559140 sprd,name
+ 559150 sprd,iram-dsize
+ 559208 sprd,iram-data
+ 559264 sprd,mini-dump
+ 561144 aarch64-unisoc-linux-gcc (GCC) 9.3.0
+ 561643 failed to put link in Recovery
+ 562387 factorytest
+ 562399 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/gadget/f_fastboot.c
+ 564009 console=null
+ 564022 console=ttyS1
+ 564120 sprd,%s
+ 564194 sprd,cpdbg-size
+ 564385 sprd,iq-mem
+ 565020 update_recovery=1
+ 565693 Ctrl+C enter DEBUG MODE
+ 565718 debug_mode
+ 565729 debug_mode=1
+ 565840 recovery_nu=1
+ 565854 recovery_nu=0
+ 565868 sprd,decoup
+ 567745 Cannot find console
+ 568260 fastboot
+ 568276 sprdisk
+ 568284 update_recovery
+ 568300 boot-recovery
+ 568341 mtdparts=sprd-nand:256k(splloader),1280k(uboot),768k(sml),1024k(trustos),1280k(ubootbak),768k(smlbak),1024k(trustosbak),1280k(rawdata),1280k(custinfo),-(ubipac)
+ 570724 /sprd-sysdump
+ 571449 partition <misc> read error, can not get recovery message
+ 571986 .sprdtest
+ 573132 nand0=sprd-nand
+ 575452 .callbacks:callbacks,.flags:flags,baudrate:baudrate,loadaddr:loadaddr,stdin:console,stdout:console,stderr:console,
+ 575653 fdl1
+ 575658 fdl2
+ 576263 uart calibrate detecting
+ 577561 Quectel: enter recovery mode
+ 577591 Quectel: get pcie ep wait rc=%s
+ 577624 Quectel: get pcie mode=%s
+ 577660 Quectel: Set simdet to AP
+ 577687 Quectel: get usb mode=%s
+ 577713 Quectel: get usb speed=%s
+ 577772 PINTEST OR FASTBOOT OR RECOVERY OR DEBUG
+ 577817 PINTEST: test gpio(s) connectivity.
+ 577854 PINTEST
+ 577878 RECOVERY
+ 577887 RECOVERY MODE
+ 577909 DEBUG MODE
+ 577922 FASTBOOT
+ 577931 FASTBOOT MODE
+ 578804 sprd dump memory %d: 0x%08lx-0x%08lx
+ 579461 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/misc/adi.c
+ 579779 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/env_common.c
+ 579879 set fastboot buffer error
+ 580043 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/lib/crypto/sprd/sprdsha256.c
+ 580719 	 sprd_dl_check err
+ 581468 sprd_nand_write_spl
+ 581489 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/misc/pmic_efuse.c
+ 581865 	 sprd_secure_check err
+ 583369 it is used for downloading firmwares to storage in factory or research purpose
+ 583479 recovery, fastboot, dloader, charge, normal, vlx, caliberation.
+ 584043 print console devices and information
+ 584081 echo args to console
+ 584111     - echo args to console; \c suppresses newline
+ 588809 manufacturer part number
+ 588834 manufacturer rev. number
+ 593708 factory test
+ 593752 sprd disk
+ 593879 sprd_r8p0_i2c5
+ 593894 sprd_r8p0_i2c4
+ 593909 sprd_r8p0_i2c3
+ 593924 sprd_r8p0_i2c2
+ 593939 sprd_r8p0_i2c1
+ 593954 sprd_r8p0_i2c0
+ 595198 fastboot Data
+ 595212 fastboot Ethernet
+ 595230 fastboot Communications Control
+ 597433 sprd_dump
+ 598515 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/ubi/vtbl.c
+ 602664 ap_uart0
+ 602684 cm4_uart
+ 602704 ps_cp_uart0
+ 602724 v3_ps_uart0
+ 602744 v3_phy_uart0
+ 602784 auddsp_uart0
+ 602804 nr_cp_uart0
+ 602824 nr_cp_uart1
+ 602844 nr_cp_uart2
+ 602976 ap_uart0
+ 602996 cm4_uart
+ 603016 ps_cp_uart0
+ 603036 v3_ps_uart0
+ 603056 v3_phy_uart0
+ 603096 auddsp_uart0
+ 603116 nr_cp_uart0
+ 603136 nr_cp_uart1
+ 603156 nr_cp_uart2
+ 603288 ap_uart0
+ 603308 cm4_uart
+ 603328 ps_cp_uart0
+ 603348 v3_ps_uart0
+ 603368 v3_phy_uart0
+ 603408 auddsp_uart0
+ 603428 nr_cp_uart0
+ 603448 nr_cp_uart1
+ 603468 nr_cp_uart2
+ 603600 ap_uart0
+ 603620 cm4_uart
+ 603640 ps_cp_uart0
+ 603660 v3_ps_uart0
+ 603680 v3_phy_uart0
+ 603720 auddsp_uart0
+ 603740 nr_cp_uart0
+ 603760 nr_cp_uart1
+ 603780 nr_cp_uart2
+ 603912 ap_uart0
+ 603932 cm4_uart
+ 603952 ps_cp_uart0
+ 603972 v3_ps_uart0
+ 603992 v3_phy_uart0
+ 604032 auddsp_uart0
+ 604052 nr_cp_uart0
+ 604072 nr_cp_uart1
+ 604092 nr_cp_uart2
+ 604224 ap_uart0
+ 604244 cm4_uart
+ 604264 ps_cp_uart0
+ 604284 v3_ps_uart0
+ 604304 v3_phy_uart0
+ 604344 auddsp_uart0
+ 604364 nr_cp_uart0
+ 604384 nr_cp_uart1
+ 604404 nr_cp_uart2
+ 604536 ap_uart0
+ 604556 cm4_uart
+ 617504 sprd_serial
+ 618586 fastboot Gadget
+ 659164 Spreadtrum udx710_4h10_nse Board
+ 659212 sprd,udx710_4h10_nse
+ 659328 fastbootbuffer@82000000
+ 659876 sprd,ion
+ 659959 Pcarveout_fastboot
+ 660425 sprd,sc-id
+9707756 %s version %s (quectel@eb3f655982c8) (gcc version 9.3.0 (GCC)) %s
+9707828 Linux version 4.14.98 (quectel@eb3f655982c8) (gcc version 9.3.0 (GCC)) #1 SMP PREEMPT Mon Oct 27 12:16:54 UTC 2025
+9748132 printk.console_suspend
+9847292 ql_recovery_vol
+9926308 sprd,orca-pinctrl
+9929636 sprd,sc9860-eic-debounce
+9929836 sprd,sc9860-eic-latch
+9930036 sprd,sc9860-eic-async
+9930236 sprd,sc9860-eic-sync
+9930436 sprd,sharkl5-eic-debounce
+9930636 sprd,sharkl5-eic-latch
+9930836 sprd,sharkl5-eic-async
+9931036 sprd,sharkl5-eic-sync
+9931236 sprd,roc1-eic-debounce
+9931436 sprd,roc1-eic-latch
+9931636 sprd,roc1-eic-async
+9931836 sprd,roc1-eic-sync
+9932036 sprd,sharkl3-eic-debounce
+9932236 sprd,sharkl3-eic-latch
+9932436 sprd,sharkl3-eic-async
+9932636 sprd,sharkl3-eic-sync
+9933164 sprd,sc27xx-eic
+9933564 sprd,sc9860-gpio
+9933764 sprd,sharkl5-gpio
+9933964 sprd,roc1-gpio
+9934820 sprd,sharkl5-pwm
+9939164 pci_epf_sprd_init
+9939428 sprd_epf_get_smem
+9939452 pci_epf_sprd
+9939684 sprd_pcie_configure_device
+9939716 sprd_pcie_unconfigure_device
+9940172 sprd,pcie
+9940508 sprd_pcie_establish_link
+9940652 sprd,pcie-ep
+9946148 sprd_clk_regmap_init
+9948108 sprd,orca-apahb-gate
+9948308 sprd,orca-ap-clk
+9948508 sprd,orca-apapb-gate
+9948708 sprd,orca-ipa-gate
+9948908 sprd,orca-audcpapb-gate
+9949108 sprd,orca-audcpahb-gate
+9949308 sprd,orca-aon-clk
+9949508 sprd,orca-g3-pll
+9949708 sprd,orca-apcpu-clk
+9949908 sprd,orca-pmu-gate
+9950108 sprd,orca-aon-gate
+9950308 sprd,orca-spahb-gate
+9952548 sprd,sc9860-dma
+9952748 sprd,sharkl5-dma
+9952948 sprd,roc1-dma
+9953148 sprd,sharkl3-dma
+9953348 sprd,pike2-dma
+9953548 sprd,orca-dma
+9953988 sprd,sc2720-7sreset
+9954188 sprd,sc2721-7sreset
+9954388 sprd,sc2730-7sreset
+9954588 sprd,sc2731-7sreset
+9954924 sprd_pm_parse_node
+9954948 sprd_pm_parse_regmap
+9954972 sprd_pm_parse_intc_info
+9954996 sprd_pm_parse_pdm_info
+9955020 sprd_pm_debug_init
+9955044 sprd_pm_print_intc_state
+9955076 sprd_pm_print_wakeup_source
+9955412 sprd,time-sync
+9955812 sprd,sc27xx-syscon
+9956268 sprd,sipc
+9959300 sprd,sbuf_bridge
+9959700 sprd,sblock_bridge
+9960100 sprd,slog_bridge
+9960788 sprd,spipe
+9961460 sprd,spool
+9961860 sprd,scproc
+9962060 sprd,scproc_pubcp
+9962196 sprd_cproc_parse_dt
+9962220 sprd_cproc_probe
+9962980 sprd_cproc_init
+9963036 sprd_crypto_probe
+9963124 sprd,crypto_modem_verify
+9963460 sprd_crypt_hash
+9964308 sprd,orca-verify
+9965052 sprd,roc1-modem-ctrl
+9965252 sprd,orca-modem-ctrl
+9965700 sprd_sysdump_write
+9965964 sprd_sysdump_enable_prepare
+9965996 sprd_debug_check_crash_key
+9966028 sprd_debug_save_context
+9967540 sprd,sharkl3-dmc
+9967740 sprd,sharkl5-dmc
+9967940 sprd,roc1-dmc
+9968140 sprd,orca-dmc
+9981524 consoleblank
+9981900 uart_set_info
+9982444 sprd,sc9836-uart
+9983212 sprd,sc9836-uart-ex
+9995932 sprd,sc2731
+9996132 sprd,sc2730
+9996332 sprd,sc2721
+9997180 sprd,agdsp-access
+9997916 sprd,audio_dsp_log
+9998116 sprd,audio_dsp_pcm
+9998316 sprd,audio_dsp_mem
+9999004 sprd,sharkl3-audio-mem
+9999204 sprd,audio-mem-whale2
+9999404 sprd,audio-mem-sharkl5
+9999604 sprd,audio-mem-roc1
+9999804 sprd,audio-mem-orca
+10000932 sprd,audio_sipc
+10001836 sprd,audio_pipe_voice
+10002036 sprd,audio_pipe_effect
+10002236 sprd,audio_pipe_recordproc
+10002436 sprd,audio_pipe_bthal
+10004412 sprd,sharkl5-mcdt
+10004612 sprd,roc1-mcdt
+10009084 sprd_create_bbt_init
+10009412 sprd,orca-nandc
+10013812 sprd,sc9860-spi
+10014012 sprd,sc9863-spi
+10014596 sprd,sc9860-adi
+10014796 sprd,sharkl5-adi
+10014996 sprd,sharkl3-adi
+10057164 S:  Manufacturer=%.100s
+10058044 sprd_ssphy_init
+10058124 sprd,orca1-ssphy1
+10058564 sprd,orca1-ssphy0
+10067428 sprd,sc9860-dwc3
+10067828 sprd,roc1-dwc3
+10068028 sprd,orca-dwc3
+10071876 sprd_pamu3_set_suspend
+10071980 sprd,roc1-pamu3
+10072180 sprd,orca-pamu3
+10078492 sprd,sc2730-typec
+10078692 sprd,sc2721-typec
+10085548 sprd,sc2731-rtc
+10085748 sprd,sc2730-rtc
+10085948 sprd,sc2721-rtc
+10086916 sprd,sc9860-i2c
+10087116 sprd,sharkl5-i2c
+10087316 sprd,roc1-i2c
+10087516 sprd,sharkl3-i2c
+10087716 sprd,orca-i2c
+10088324 sprd,sharkl5-hw-i2c
+10088524 sprd,roc1-hw-i2c
+10088724 sprd,sharkl3-hw-i2c
+10088924 sprd,orca-hw-i2c
+10089508 sprd,sc2721-poweroff
+10089708 sprd,sc2730-poweroff
+10089908 sprd,sc2731-poweroff
+10092804 sprd,sharkl5-thermal
+10093004 sprd,roc1-thermal
+10093204 sprd,orca-thermal
+10093612 sprd,cluster0-thermal
+10094052 sprd,soc-thermal
+10094844 sprd,sp9860-wdt
+10095044 sprd,sharkl5-wdt
+10095244 sprd,sharkl3-wdt
+10095444 sprd,roc1-wdt
+10095644 sprd,orca-wdt
+10096668 sprd,orca-cpufreq
+10097036 sprd_hotplug_init
+10097076 sprd_add_sysfs_files
+10100364 mmc_blk_cmd_recovery
+10102636 sprd_sdhc_hs400_enhanced_strobe
+10102668 sprd_sdhc_prepare_hs400_tuning
+10102700 sprd_sdhc_execute_tuning
+10102732 sprd_sdhc_set_vqmmc
+10102756 sprd_sdhc_timeout
+10102924 sprd_set_mmc_struct
+10102948 sprd_sdhc_irq
+10102980 sprd_signal_voltage_on_off
+10103012 sprd_sdhc_set_ios
+10103052 sprd_sdhc_enable_dpll
+10103140 sprd,sdhc-r11p1
+10104404 sprd,sc2731-bltc
+10104604 sprd,sc2730-bltc
+10104804 sprd,sc2721-bltc
+10135748 sprd,sipa_eth
+10137212 sprd,sipa_usb
+10138364 sprd,sipa_mbim
+10142268 sprd,dbg-log-orca
+10142908 sprd,hwspinlock-r3p0
+10143108 sprd,sharkl5-hwspinlock
+10143308 sprd,roc1-hwspinlock
+10143508 sprd,orca-hwspinlock
+10144244 sprd,dfs
+10144580 devfreq_sprd_gov_start
+10144844 devfreq_sprd_gov_exit
+10147644 sprd,sc2731-adc
+10147844 sprd,sc2730-adc
+10148044 sprd,sc2721-adc
+10156060 sprd,sharkl5-efuse
+10156260 sprd,roc1-efuse
+10156460 sprd,sharkl3-efuse
+10156660 sprd,orca-efuse
+10157124 sprd,sc2731-efuse
+10157324 sprd,sc2730-efuse
+10157524 sprd,sc2721-efuse
+10159500 quectel-power
+10159900 quectel_w_disable
+10160484 quectel,virtual-uart
+10161068 quectel-simdet
+10265028 snd_pcm_sprd_debug_write
+10265060 asoc_sprd_card_sub_parse_of
+10265116 asoc_sprd_card_dai_link_of
+10265148 asoc_sprd_card_dummy_codec_sel
+10265180 asoc_sprd_card_dai_link_of_misc
+10265212 asoc_sprd_card_probe
+10265236 asoc_sprd_card_parse_of
+10270628 sprd_asoc_card_parse_hook_spk
+10270660 sprd_pcm_trigger
+10270684 sprd_pcm_hw_free
+10270708 sprd_pcm_hw_params
+10270732 sprd_pcm_request_dma_channel
+10270764 sprd_pcm_config_dma
+10270788 sprd_pcm_close
+10270964 sprd_pcm_open
+10270980 sprd_pcm_preallocate_dma_ddr32_buffer
+10271020 sprd_pcm_pm_notifier
+10271140 sprd,sharkl5-pcm-platform
+10271340 sprd,roc1-pcm-platform
+10271740 sprd,pcm-routing
+10327700 sprd_compr_dma_buf_done
+10327724 sprd_platform_compr_probe
+10327756 sprd_platform_compr_copy
+10327788 sprd_platform_compr_pointer
+10327836 sprd_platform_compr_suspend
+10327868 sprd_platform_compr_get_codec_caps
+10327908 sprd_platform_compr_ack
+10327932 sprd_platform_compr_resume
+10327964 sprd_platform_compr_get_caps
+10327996 sprd_compr_drain_work
+10328020 sprd_platform_compr_remove
+10328068 sprd_compr_probe
+10328108 sprd_platform_compr_update_params
+10328148 sprd_platform_compr_set_metadata
+10328188 sprd_platform_compr_open
+10328220 sprd_compr_populate_codec_list
+10328252 sprd_compr_config_dma_channel
+10328348 sprd_platform_compr_trigger
+10328404 sprd_platform_compr_free
+10328460 sprd_platform_compr_set_params
+10328492 sprd_compr_config_sprd_rtd
+10328740 sprd,sharkl5-compress-platform
+10328940 sprd,roc1-compress-platform
+10334644 sprd_dai_vbc_probe
+10335388 sprd_vbc_codec_probe
+10335972 sprd,sharkl5-vbc
+10336172 sprd,roc1-vbc
+10358316 __sprd_get_codec_dp_base
+10358348 __sprd_codec_virt_mclk_mixer_put
+10359804 sprd_fe_dai_driver_init
+10360236 sprd_dma_config
+10360340 sprd,fe-dai
+10360572 sprd,vbc-r3p0-codec-sc2731
+10360772 sprd,vbc-r1p0v3-codec-sc2721
+10360972 sprd,vbc-r1p0v3-codec-sc2731
+10361172 sprd,vbc-r2p0-codec-sc2723
+10361372 sprd,vbc-v4-codec-sc2730
+10493108 testmode
+10555956 console
+10556540 /dev/console
+10556557 3Warning: unable to open an initial console.
+10583652 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/kernel/params.c
+10590244 ===debug_mode : %s ===
+10590413 6debug: skip boot console de-registration.
+10590772 Suspending console(s) (use no_console_suspend to debug)
+10590877 6%sconsole [%s%d] disabled
+10590909 4bootconsole [%s%d] uses init memory and must be disabled even before the real one is ready
+10591036 console '%s%d' already registered
+10591077 6Too late to register bootconsole %s%d
+10591125 6printk: continuation disabled due to ext consoles, expect more fragments in /dev/kmsg
+10591221 6%sconsole [%s%d] enabled
+10623244 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/mm/pgtable-generic.c
+10638444 OFDLCK
+10642924 :console
+10643092 system:console
+10643244 consoles
+10666284 INFO: recovery required on readonly filesystem
+10666380 write access will be enabled during recovery
+10666900 required journal recovery suppressed and not mounted read-only
+10668148 recovery complete
+10668628 norecovery
+10672573 3JBD2: Out of memory during recovery.
+10672613 3JBD2: recovery pass %d ended at transaction %u, expected %u
+10674597 4JBD2: %s recovery information on journal
+10674917 4JBD2: recovery failed
+10682772 completing deferred recovery
+10682836 deferred recovery completed
+10683916 recovery needed
+10683932 recovery deferred
+10683956 recovery completed
+10702580 tst_recovery
+10709636 syslog_console
+10745685 6sprd_pull_set gpio:%d, pullsel:%d
+10745725 6sprd_pull_set gpio:%d
+10745757 6sprd_sleep_direction_get gpio:%d
+10745797 6sprd_sleep_direction_set gpio:%d
+10745837 6sprd_sleep_pull_set gpio:%d, pullsel:%d
+10745885 6sprd_sleep_pull_get gpio:%d
+10746084 sprd,control
+10746100 sprd,sleep-mode
+10747828 sprd-pinctrl
+10747844 ORCA_UART_INF6_SYS_SEL
+10747868 ORCA_UART_INF5_SYS_SEL
+10747892 ORCA_UART_INF4_SYS_SEL
+10747916 ORCA_UART_INF3_SYS_SEL
+10747940 ORCA_UART_INF2_INF3_LOOP
+10747972 ORCA_UART_INF2_INF4_LOOP
+10748004 ORCA_UART_INF2_SYS_SEL
+10748028 ORCA_UART_INF1_INF4_LOOP
+10748060 ORCA_UART_INF1_INF3_LOOP
+10748092 ORCA_UART_INF1_SYS_SEL
+10748116 ORCA_UART_INF0_SYS_SEL
+10748956 ORCA_UART_USB_PHY_SEL
+10758716 sprd-eic
+10758972 sprd-pmic-eic
+10759052 sprd-gpio
+10759812 sprd-pwm
+10775261 6quectel, sprd_epf_bind quec_no_msi = %d 
+10775516 pci_epf_sprd
+10775573 3%s: failed to init SPRD PCI epf debugfs, ret=%d
+10775629 3%s: failed to register SPRD PCIe epf driver, ret=%d
+10776053 6quectel,quec_no_msi=%d .
+10776101 3%s: sprd_epf_get_smem: retries=%llu
+10776140 g_epf_sprd: read base_reg, size_reg success, base_reg=%#x, size_reg=%#x
+10777549 3sprd_pcie: cannot find RC for pci endpoint device.
+10777605 6sprd_pcie: event is registered for RC
+10777653 6sprd_pcie:event is deregistered for RC
+10777740 sprd,pcie-resume-syscons
+10777868 sprd,pcie-aspml1p2-syscons
+10777932 sprd,pcie-suspend-syscons
+10778940 sprd,pcie-shutdown-syscons
+10779180 sprd,pcie-startup-syscons
+10779324 sprd-pcie-msi
+10779524 &ctrl->sprd_pcie_mutex
+10779652 sprd-pcie
+10779684 sprd pcie add action:%d
+10779844 sprd pcie wait for link timeout
+10780468 &ep->sprd_pcie_mutex
+10780492 sprd_pcie_ep
+10780660 sprd,pcie-inta-assert-syscons
+10780756 sprd-pcie-ep
+10783580 sprd,syscon
+10783596 sprd,sec-clk
+10783780 sp-uart0-eb
+10784052 audcp-uart-eb
+10787036 aon-uart0-clk
+10787484 ap-uart0-eb
+10787780 ap-uart0-clk
+10789292 sprd_dma
+10789532 sprd-dma
+10789812 sprd,cm4-uart
+10789828 sprd,sys-ap-intc
+10789876 sprd,pdm-name
+10789924 sprd,ap-ahb-reg-tbl
+10789948 sprd,ap-apb-reg-tbl
+10789972 sprd,pmu-apb-reg-tbl
+10789996 sprd,aon-apb-reg-tbl
+10790020 sprd,aon-sec-reg-tbl
+10790092 sprd,sys-ap-ahb
+10790148 sprd,sys-ap-apb
+10790204 sprd,sys-pmu-apb
+10790268 sprd,sys-aon-apb
+10790332 sprd,sys-aon-sec
+10790436 sprd,ap-intc
+10790508 sprd,int-names
+10790557 3%s,Failed find sprd_pwr_status[%d]
+10790628 sprd,bit-width
+10790645 3%s, Failed to find sprd,bit-width
+10790684 sprd,bit-index
+10790700 sprd,pdm-names
+10790717 3%s, Failed to find sprd,pdm-names
+10790908 sprd_pm_thread
+10791436 start parse sprd_time_sync
+10791468 sprd_time_sync
+10791484 Failed to parse sprd_time_sync device tree, ret=%d
+10791540 Failed to alloc sprd_time_sync chrdev
+10791580 Failed to add sprd_time_sync cdev
+10791644 success parse sprd_time_sync
+10792068 sprd-pmic-glb
+10792124 sprd,name
+10792140 sprd,type
+10792172 sprd,client
+10792188 sprd,dst
+10792204 sprd,core
+10792220 sprd,core_sensor
+10792276 sprd,ep-fun
+10792364 sprd,smem-type
+10792380 sprd,smem-info
+10792436 sprd,high-offset
+10799116 sprd,channel_a
+10799156 sprd,channel_b
+10799196 sprd,mask
+10799228 sprd,priority
+10799644 sprd,tx_is_usb
+10799684 sprd,tx_dst
+10799716 sprd,rx_dst
+10800228 sprd,channel
+10800244 sprd,ringnr
+10800260 sprd,size-rxbuf
+10800276 sprd,size-txbuf
+10800596 sprd,preconfigured
+10800620 sprd,tx-blksize
+10800636 sprd,tx-blknum
+10800652 sprd,rx-blksize
+10800668 sprd,rx-blknum
+10800684 sprd,nodev
+10801668 sprd,iram-dsize
+10801684 sprd,iram-data
+10802828 sprd_cproc
+10802981 3%s: alloc sprd_crypto failed: %d
+10803020 sprd_crypto
+10803037 3%s: alloc sprd_crypto_alg failed: %d
+10803308 sprd-crypto
+10804628 sprd-verify
+10805108 sprd,roc1-modem-ctrl
+10806620 ubi0:recoveryfs
+10806637 3Quectel: current mode is recovery mode, no panic!
+10807924 sprd-sysdump
+10807941 0Not find sprd-sysdump node from dts,use SPRD_SYSDUMP_MAGIC
+10808021 0Not find magic-addr property from sprd-sysdump node
+10808293 0sprd_sysdump_write: start!!!
+10808325 0sprd_sysdump_write: enable user version sysdump!!!
+10808381 0sprd_sysdump_write: disable user version sysdump!!!
+10808485 0sprd_sysdump_write: end!!!
+10808517 0sprd_sysdump_write: copy_from_user failed!!!
+10808676 sprd_sysdump
+10808692 SPRD_SYSDUMP_119
+10808733 0reason: %s, sprd_sysdump_info->crash_key: %d
+10808813 0get sprd_sysdump_info_paddr failed.
+10808956 sprd,sc27xx-syscon
+10809020 sprd,sc2721
+10809373 0get sprd_sysdump_info_paddr failed2.
+10809413 0sprd_sysdump_info_paddr failed...
+10810404 sprd_dmc
+10810452 sprd_pub_monitor
+10810508 sprd-dmc
+10810908 sprd,autotest
+10810964 sprd,pinctrl
+10811340 sprd,sc2730
+10819908 Couldn't register /dev/console driver
+10823924 vtconsole
+10823941 4Unable to create vt console class; errno = %ld
+10824085 6Console: %s %s %dx%d
+10824109 6Console: switching 
+10824133 cconsoles %d-%d 
+10824324 Couldn't allocate console driver
+10824364 Couldn't register console driver
+10824820 %d: uart:%s %s%08llX irq:%d
+10825228 uartclk
+10825620 uart
+10825628 uart%d can't get uart clock
+10825660 uart%d can't get source clock
+10825692 uart%d can't get enable clock
+10825757 3Failed to register SPRD-UART driver
+10825796 sprd_serial%d
+10825988 sprd_serial
+10826004 uart%d set rs485 on
+10826060 Failed to register SPRD-UART driver
+10826173 3cm4 uart init failed
+10826204 failed to create cm4 uart task
+10826236 sprd-serial-ex
+10839844 sprd,sc27xx-wdt
+10839876 sprd,sc27xx-rtc
+10839908 sprd,sc27xx-charger
+10839956 sprd,sc27xx-chg-timer
+10839996 sprd,sc27xx-fast-chg
+10840036 sprd,sc27xx-chg-wdt
+10840076 sprd,sc27xx-typec
+10840116 sprd,sc27xx-flash
+10840156 sprd,sc27xx-eic
+10840188 sprd,sc27xx-efuse
+10840228 sprd,sc27xx-thermal
+10840268 sprd,sc27xx-adc
+10840308 sprd,sc27xx-audio-codec
+10840332 sprd,sc27xx-regulator
+10840372 sprd,sc27xx-vibrator
+10840420 sprd,sc27xx-keypad-led
+10840460 sprd,sc27xx-bltc
+10840500 sprd,sc27xx-fgu
+10840516 sprd,sc27xx-7sreset
+10840556 sprd,sc27xx-poweroff
+10840612 sprd,sc27xx-tsensor
+10840652 sprd,sc27xx-pd
+10842060 sprd,mailbox-core
+10842220 sprd,ddr-addr-offset
+10842245 3[Audio:AGDSP_ACCESS] %s, parse 'sprd,ddr-addr-offset' failed!
+10842316 sprd,auto_agcp_access
+10842396 sprd,syscon-agcp-ahb
+10842420 sprd,syscon-pmu-apb
+10847652 sprd_audio_dsp_dump
+10847900 sprd-usemem-type
+10847925 6[Audio:DSPDUMP] %s no sprd-usemem-type
+10847972 sprd-dst
+10847989 6[Audio:DSPDUMP] %s no sprd-dst
+10848028 sprd-channel
+10848045 6[Audio:DSPDUMP] %s no sprd-channel
+10848084 sprd-usemem-bytes
+10848109 6[Audio:DSPDUMP] sprd-usemem-bytes %d
+10848148 sprd,dspdumpmem
+10848253 6[Audio:DSPDUMP] %s, no sprd-txblocknum
+10848300 sprd-txblocksize
+10848324 sprd-rxblocknum
+10848340 sprd-rxblocksize
+10849244 sprd-txblocknum
+10849676 sprd,ddr32-dma
+10849693 3[Audio:MEM] read 'sprd,ddr32-dma' failed!(%d)
+10849749 4[Audio:MEM] the size(%#x) of 'sprd,ddr32-dma' is greater than the total size(%#x)
+10849836 sprd,ddr32-dspmemdump
+10849861 3[Audio:MEM] read 'sprd,ddr32-dspmemdump' failed!(%d)
+10850004 sprd,iram-ap-base
+10850068 sprd,iram-dsp-base
+10850188 sprd,cmdaddr
+10850205 3[Audio:MEM] %s, ERR:Must give me the sprd,dsp_base!
+10850260 sprd,smsg-addr
+10850332 sprd,shmaddr-aud-str
+10850468 sprd,shmaddr-dsp-vbc
+10850492 sprd,shmaddr-nxp
+10850628 sprd,cm4-shmem
+10850716 sprd,shmaddr-reg-dump
+10850796 sprd,offload-addr
+10850876 sprd,dsplog
+10850892 sprd,normal-captue-linklilst-node1
+10850933 3[Audio:MEM] %s, ERR:Must give me the iram sprd,normal-captue-linklilst-node1 addr!
+10851020 sprd,normal-captue-linklilst-node2
+10851061 3[Audio:MEM] %s, ERR:Must give me the iram sprd,normal-captue-linklilst-node2 addr!
+10851148 sprd,normal-captue-data
+10851244 sprd,dma-offset
+10851468 sprd,iram_phy_addr
+10851492 sprd,iram_normal
+10851517 3[Audio:MEM] %s, ERR:Must give me the sprd,iram-phy-addr!
+10851580 sprd,iram_deepbuf
+10851605 3[Audio:MEM] %s, ERR:Must give me the sprd,iram_normal!
+10851668 sprd,iram_4arm7
+10851685 3[Audio:MEM] %s, sprd,iram_deepbuf!
+10851725 3[Audio:MEM] %s, ERR:Must give me the sprd,iram_4arm7!
+10851860 sprd,shmaddr-dsp-smartpa
+10852316 sprd,audcp-aon-iram
+10859252 sprd,writesync
+10859269 3[Audio:PIPE] %s  sprd,writesync, failed
+10859316 sprd,maxuserwritebufsize
+10859349 3[Audio:PIPE] %s  sprd,maxwritebufsize, failed
+10859405 3[Audio:PIPE] %s  sprd,channel,core failed
+10860276 sprd_audio_pipe
+10860740 sprd,ap-addr-offset
+10860932 sprd_mcdt_ap
+10861228 mcdt_sprd
+10865429 6nand: device found, Manufacturer ID: 0x%02x, Chip ID: 0x%02x
+10870413 3sprd nand cmd %s fail
+10870437 3nand:sprd nand ops mode error!
+10870477 3sprd nand read ecc sts %d
+10870548 nand:sprd nand ops mode error!
+10870581 3sprd_nand:retry %d
+10871180 sprd,random-mode
+10871204 sprd,multi-cs
+10871260 nand_drv_probe  flash0 sprd_nand_readid fail
+10871332 flash%d sprd_nand_readid fail
+10871364 nand:sprd nand ecc mode not support!
+10871884 sprd_nand get basic resource fail
+10871924 sprd-nand
+10872524 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/mtd/nand/sprd_nand/nfc_base.c
+10877572 Quectel update ubi vol_name = %s
+10889092 sprd-spi
+10889340 recovery
+10889436 sprdisk
+10889444 factorytest
+10889620 sprd,hw-channels
+10889756 sprd-adi
+10897653 Please turn on /sys/class/net/<iface>/rtk_adv/testmode.
+10898196 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/net/ethernet/realtek/r8168/r8168_n.c
+10901020 testmode
+10901836 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/net/ethernet/realtek/r8125/r8125_n.c
+10908804 Manufacturer
+10916500 manufacturer
+10919724 sprd,syscon-ipa-ahb
+10919796 sprd,syscon-aon-apb
+10919868 sprd,syscon-anag4
+10919940 sprd,vdd-voltage
+10920116 sprd,eye-pattern-modify-value
+10920148 sprd-ssphy
+10920308 sprd,syscon-ap-ahb
+10920332 sprd-ssphy0
+10922492 failed to put link in Recovery
+10924876 Recovery
+10931068 dwc3-sprd
+10931788 Dwc3 sprd suspend failed!
+10932540 Attempting compliance mode recovery
+10933692 %s: compliance mode recovery timer deleted
+10934348 Compliance Mode Recovery Timer deleted!
+10934388 Compliance mode recovery timer initialized
+10944620 Compliance Mode Recovery Timer Deleted.
+10945556 sprd-pamu3
+10957204 sprd_mbim
+10965244 sprd-rtc
+10965260 SCL is stuck low, exit recovery
+10966700 Not using recovery: %s
+10967476 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/i2c/i2c-dev.c
+10967692 sprd-i2c
+10968428 sprd-i2c-hw
+10968644 sprd-i2c-r9p0
+10968996 factory-internal-resistance-micro-ohms
+10975765 6sprd_cpu_cooling: cpu%u update max_freq to %u
+10975821 4sprd_cpu_cooling: %s: table has duplicate entries
+10975909 6sprd_cpu_cooling: cpu%u allow max_freq to %u
+10975957 3sprd_cpu_cooling: %s: cpu:%d not part of any cooling device
+10976173 6sprd_cpu_cooling: cpu%u temp:%u target_freq:%u online:%u qos_cpu:%u power:%u
+10976277 3sprd_cpu_cooling: hotplug: topology core cpumask error!
+10976341 3sprd_cpu_cooling: get invaild cpu core number
+10976397 6sprd_cpu_cooling: hotplug: test cpu:%u, cpu num in cluster: %u
+10976469 3sprd_cpu_device: get thermal zone failed
+10976517 3sprd_cpu_device: get thermal %s temp failed
+10976581 3sprd_cpu_device: unable to find thermal zones
+10976637 3sprd_cpu_device: fail to get cooling devices id
+10976693 4sprd_cpu_device: cluster_id id: %d > %d
+10976741 4sprd_cpu_device: %s cpu offline unnormal
+10976788 sprd,efuse-block15
+10976813 3sprd_cpu_device: fail to get cooling devices efuse_block
+10976876 sprd,efuse-switch
+10976901 3sprd_cpu_device: fail to get cooling devices efuse_switch
+10976964 sprd,core-base
+10976981 3sprd_cpu_device: fail to get default cooling devices leak-core-base
+10977052 sprd,cluster-base
+10977077 3sprd_cpu_device: fail to get default cooling devices leak-cluster-base
+10977156 sprd,core-temp-scale
+10977181 3sprd_cpu_device: fail to get cooling devices core-temp-scale
+10977244 sprd,core-voltage-scale
+10977269 3sprd_cpu_device: fail to get cooling devices core-voltage-scale
+10977340 sprd,cluster-temp-scale
+10977365 3sprd_cpu_device: fail to get cooling devices cluster-temp-scale
+10977436 sprd,cluster-voltage-scale
+10977469 3sprd_cpu_device: fail to get cooling devices cluster_voltage-scale
+10977540 sprd,dynamic-core
+10977565 3sprd_cpu_device: fail to get cooling devices dynamic-core-coeff
+10977636 sprd,dynamic-cluster
+10977661 3sprd_cpu_device: fail to get cooling devices dynamic-cluster-coeff
+10977732 sprd,hotplug-period
+10977756 sprd,min-cpufreq
+10977781 3sprd_cpu_device: fail to get cooling devices min_cpufreq
+10977844 sprd,min-cpunum
+10977861 3sprd_cpu_device: fail to get cooling devices min_cpunum
+10977924 sprd,resistance-ja
+10977949 3sprd_cpu_device: fail to get cooling devices resistance-ja
+10978012 sprd,sensor-names
+10978037 3sprd_cpu_device: sensor names not found
+10978085 3sprd_cpu_device: fail to get sensor-names
+10978133 3sprd_cpu_device: get thermal zone %s failed
+10978180 sprd,cii-per-core-tp
+10978205 3sprd_cpu_device: fail to get cooling devices per-core-tp
+10978268 sprd,cii-max-tp-core
+10978293 3sprd_cpu_device: fail to get cooling devices max-tp-core
+10978357 3sprd_cpu_device: fail to get power model coeff !
+10978413 3sprd_cpu_device: Error registering cooling device %d
+10978469 3sprd_cpu_device: No cpu device for cpu %d
+10978517 3sprd_cpu_device: No cpufreq devices!
+10978557 4sprd_cpu_device: Thermal: Can not register suspend notifier, return %d
+10979236 sprd-thermal
+10979757 6sprd cluster0 sensor id %d
+10980061 6sprd soc sensor id %d
+10981116 sprd-wdt
+10985340 sprd-cpufreq
+10986428 sprd-hotplug
+10986445 4DT: not find sprd-hotplug
+10986556 sprdhotplug
+10997668 sprd_sdhc get basic resource fail
+10998172 can not read the property of sprd name
+10998212 sprd,sdio-adma
+10998348 sprd,legacy-dly
+10998364 sprd,mmchs-dly
+10998380 sprd,sdhs-dly
+10998396 sprd,sdr50-dly
+10998412 sprd,sdr104-dly
+10998428 sprd,ddr50-dly
+10998444 sprd,ddr52-dly
+10998460 sprd,hs200-dly
+10998476 sprd,hs400-dly
+10998492 sprd,hs400es-dly
+10999381 6sprd_sdhc %s CMD%d int 0x%x
+11000397 6+++++++++ sprd sdhc dpll locked faile +++++++++!
+11000453 6sprd sdhc dpll register DLL_STS0 : 0x%x
+11000501 6sprd sdhc dpll register DLL_CFG : 0x%x
+11000549 6sprd sdhc dpll register DLL_DLY : 0x%x
+11000597 6sprd sdhc dpll register DLL_STS1 : 0x%x
+11000708 sprd_sdhcr11
+11001420 sprd-bltc
+11002349 5sprd_sip: SPRD SIP SVC PERF:v%d.%d detected in firmware.
+11002413 5sprd_sip: SPRD SIP SVC DVFS:v%d.%d detected in firmware.
+11002804 sprd_suspend_timer
+11002828 sprd_timer
+11004388 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/hid-core.c
+11006644 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/hid-input.c
+11018300 iManufacturer
+11018716 ManufacturerDate
+11018892 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/usbhid/hid-core.c
+11020140 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/usbhid/hid-quirks.c
+11021828 console=ttyAMA0
+11025036 sprd,mailbox
+11025156 sprd,sensor
+11025172 sprd,core-cnt
+11025188 sprd,version
+11026708 sprd-mailbox_source
+11026732 sprd-mailbox_target
+11026756 sprd-sensorbox_target
+11037388 sprd,sipa-bypass-mode
+11037476 sprd,to-pcie-no-mac
+11037500 sprd,from-pcie-no-mac
+11037524 sprd,need-through-pcie
+11037548 sprd,wiap-ul-dma
+11037572 sprd,pcie-dl-dma
+11037596 sprd,tft-mode
+11038252 sprd,usb-ul-tx
+11038268 sprd,usb-ul-rx
+11038284 sprd,sdio-ul-tx
+11038300 sprd,sdio-ul-rx
+11038316 sprd,ap-ip-ul-tx
+11038340 sprd,ap-ip-ul-rx
+11038364 sprd,pcie-ul-tx
+11038380 sprd,pcie-ul-rx
+11038396 sprd,remote-pcie0-ul-tx
+11038420 sprd,remote-pcie0-ul-rx
+11038444 sprd,remote-pcie1-ul-tx
+11038468 sprd,remote-pcie1-ul-rx
+11038492 sprd,remote-pcie2-ul-tx
+11038516 sprd,remote-pcie2-ul-rx
+11038540 sprd,remote-pcie3-ul-tx
+11038564 sprd,remote-pcie3-ul-rx
+11038588 sprd,ap-eth-dl-tx
+11038612 sprd,ap-eth-dl-rx
+11038636 sprd,local-pcie0-dl-tx
+11038660 sprd,local-pcie0-dl-rx
+11038684 sprd,local-pcie1-dl-tx
+11038708 sprd,local-pcie1-dl-rx
+11038732 sprd,local-pcie2-dl-tx
+11038756 sprd,local-pcie2-dl-rx
+11038780 sprd,local-pcie3-dl-tx
+11038804 sprd,local-pcie3-dl-rx
+11038828 sprd,wifi-ul-tx
+11038844 sprd,wifi-ul-rx
+11038860 sprd,cp-dl-tx
+11038876 sprd,cp-dl-rx
+11038892 sprd,usb-dl-tx
+11038908 sprd,usb-dl-rx
+11038924 sprd,sdio-dl-tx
+11038940 sprd,sdio-dl-rx
+11038956 sprd,ap-ip-dl-tx
+11038980 sprd,ap-ip-dl-rx
+11039004 sprd,pcie-dl-tx
+11039020 sprd,pcie-dl-rx
+11039036 sprd,remote-pcie0-dl-tx
+11039060 sprd,remote-pcie0-dl-rx
+11039084 sprd,remote-pcie1-dl-tx
+11039108 sprd,remote-pcie1-dl-rx
+11039132 sprd,remote-pcie2-dl-tx
+11039156 sprd,remote-pcie2-dl-rx
+11039180 sprd,remote-pcie3-dl-tx
+11039204 sprd,remote-pcie3-dl-rx
+11039228 sprd,ap-eth-ul-tx
+11039252 sprd,ap-eth-ul-rx
+11039276 sprd,local-pcie0-ul-tx
+11039300 sprd,local-pcie0-ul-rx
+11039324 sprd,local-pcie1-ul-tx
+11039348 sprd,local-pcie1-ul-rx
+11039372 sprd,local-pcie2-ul-tx
+11039396 sprd,local-pcie2-ul-rx
+11039420 sprd,local-pcie3-ul-tx
+11039444 sprd,local-pcie3-ul-rx
+11039468 sprd,wifi-dl-tx
+11039484 sprd,wifi-dl-rx
+11039500 sprd,cp-ul-tx
+11039516 sprd,cp-ul-rx
+11039532 sprd,ap-eth-ul-mtu-standard
+11039564 sprd,ap-eth-ul-mtu-inter
+11039596 sprd,ap-eth-ul-mtu-jumbo
+11042572 sprd,sipa
+11049012 sprd,netid
+11049029 3sipa_eth: read sprd,netid ret %d
+11049068 sprd,term-type
+11049085 3sipa_eth: read sprd,term-type ret %d
+11049124 sprd,mac-header
+11051029 3sipa_usb: read sprd,netid ret %d
+11051069 3sipa_usb: read sprd,term-type ret %d
+11052004 sprd,sid
+11052021 3sipa_mbim: read sprd,index ret %d
+11056468 sprd,ul-fifo-depth
+11056532 sprd,dl-fifo-depth
+11057596 sprd-log-tp
+11058956 sprd,syscon-dsi-apb
+11059148 sprd,dcfix
+11059204 sprd,ch-name
+11059260 sprd,ch-index
+11060444 sprd_hwspinlock
+11060604 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/devfreq/devfreq.c
+11061756 sprd-scene
+11061812 sprd-freq
+11061844 sprd_governor
+11062468 sprd_dfs_auto
+11070764 sprd-efuse
+11070812 sprd,sharkl3-efuse
+11070836 sprd,orca-efuse
+11071404 quectel-power
+11071612 quectel_w_disable
+11071644 Failed to register quec-UART driver
+11071717 3tx work uart init failed
+11071748 failed to create uart task
+11072060 Quectel Simdet Event
+11072412 quectel-simdet
+11093964 asoc-sprd-debug
+11094284 sprd-audio-card,
+11094484 sprd-dummy-playback-dai
+11094508 sprd-dummy-playback
+11095676 sprd-audio-card,dai-link
+11095708 sprd-audio-card,name
+11095732 sprd-audio-card,widgets
+11095756 sprd-audio-card,routing
+11095780 sprd-audio-card,mclk-fs
+11095804 sprd-audio-card,fm-hw-rate
+11095836 sprd-audio-card,codec-replace-adc-rate
+11095876 sprd-audio-card,fm-open-src
+11095908 sprd-audio-card,codec-type
+11096572 sprd,smartamp-boost-names
+11096652 sprd,smartamp-boost-gpios
+11097700 sprd,spk-ext-pa-info
+11097996 sprd,spk-ext-pa-names
+11098076 sprd,spk-ext-pa-gpio
+11098644 sprd-dmaengine
+11101541 6[ASoC: PCM ] runtime->hw.periods_max*(sizeof(struct sprd_dma_cfg)=%zd,
+11101621 6[ASoC: PCM ] sizeof(struct sprd_dma_cfg) = %zd, size_inout=%u
+11101853 6[ASoC: PCM ] %s, sprd_pcm_preallocate_dma_buffer buf->area(virt)=%#lx, buf->addr(phy)=%#x, size=%zu
+11102196 sprd-pcm-audio
+11102212 sprd-pcm-routing
+11108516 sprd-compress
+11109373 3[ASoC:COMPR] sprd_compr_config_dma_channel error
+11111261 6[ASoC:COMPR] sprd_compr_config_sprd_rtd error %d
+11111428 sprd-compr-platform
+11120468 sprd,need-aud-top-clk
+11121460 sprd,vbc-phy-offset
+11127493 3[ASoC: FE.VBC ] %s sprd fe dai driver failed
+11129244 sprd-dai-fe
+11129261 3[ASoC:BOARD] ERR: %s, asoc_sprd_card_probe failed!
+11132004 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/dev.c
+11133932 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/include/net/udp_tunnel.h
+11134348 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/ethtool.c
+11134452 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/dev_addr_lists.c
+11135196 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/neighbour.c
+11135932 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/rtnetlink.c
+11138452 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/fib_rules.c
+11138596 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/include/net/sch_generic.h
+11138964 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/sch_api.c
+11139172 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/cls_api.c
+11139356 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/act_api.c
+11157388 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/devinet.c
+11159252 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/igmp.c
+11160244 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/fib_notifier.c
+11160396 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/ip_tunnel.c
+11161956 tcp_recovery
+11163764 TCPRenoRecovery
+11163780 TCPSackRecovery
+11164084 TCPLossProbeRecovery
+11164108 TCPRenoRecoveryFail
+11164132 TCPSackRecoveryFail
+11173676 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/anycast.c
+11173796 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/addrconf.c
+11177644 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/mcast.c
+11182476 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/sit.c
+11184116 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_fdb.c
+11184916 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_if.c
+11185532 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_stp_if.c
+11186692 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/8021q/vlan_core.c
+11186868 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/8021q/vlan.c
+11187908 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/feat.c
+11189196 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/minisocks.c
+11189460 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/options.c
+11189924 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/output.c
+11190180 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/proto.c
+11190716 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/ccid2.c
+11190932 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ackvec.c
+11191292 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/tfrc.h
+11191468 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/ccid3.c
+11191700 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/tfrc_equation.c
+11192068 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/packet_history.c
+11192372 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/loss_interval.c
+11199876 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/core.c
+11200340 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/util.c
+11200444 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/reg.c
+11201116 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/scan.c
+11201500 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/nl80211.c
+11201684 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/mlme.c
+11201788 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/ibss.c
+11201892 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/sme.c
+11201996 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/chan.c
+11202100 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/core.h
+11202316 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/wext-sme.c
+11202420 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/wext-core.c
+11207948 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/iface.c
+11208324 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/rate.c
+11210540 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/key.c
+11210756 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/util.c
+11218604 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/tdls.c
+11400139 unregister_console
+11400158 register_console
+11400175 console_start
+11400189 console_stop
+11400202 console_conditional_schedule
+11400231 console_unlock
+11400246 console_trylock
+11400262 console_lock
+11400275 console_suspend_enabled
+11400355 console_set_on_cmdline
+11400378 console_drivers
+11400411 console_printk
+11404943 sprd_time_sync_register_notifier
+11456416 sprd_pci_epf_unmap_memory
+11456442 sprd_epf_ipa_unmap
+11456461 sprd_epf_ipa_map
+11456478 sprd_pci_epf_map_memory
+11456502 sprd_pci_epf_raise_irq
+11456525 sprd_pci_epf_set_irq_number
+11456553 sprd_pci_epf_unregister_irq_handler
+11456589 sprd_pci_epf_set_write_addr
+11456617 sprd_pci_epf_register_irq_handler
+11456651 sprd_pci_epf_unregister_notify
+11456682 sprd_pci_epf_register_notify
+11456711 sprd_pcie_dump_rc_regs
+11456734 sprd_pcie_teardown_msi_irq
+11456761 sprd_pcie_unconfigure_device
+11456790 sprd_pcie_configure_device
+11456817 sprd_pcie_deregister_event
+11456844 sprd_pcie_register_event
+11459723 sprd_clk_probe
+11459738 sprd_clk_regmap_init
+11459759 sprd_pll_sc_gate_ops
+11459780 sprd_sc_gate_ops
+11459797 sprd_gate_ops
+11459811 sprd_mux_ops_sec
+11459828 sprd_mux_helper_set_parent_sec
+11459859 sprd_mux_helper_get_parent_sec
+11459890 sprd_mux_ops
+11459903 sprd_mux_helper_set_parent
+11459930 sprd_mux_helper_get_parent
+11459957 sprd_div_ops_sec
+11459974 sprd_div_helper_set_rate_sec
+11460003 sprd_div_helper_recalc_rate_sec
+11460035 sprd_div_ops
+11460048 sprd_div_helper_set_rate
+11460073 sprd_div_helper_recalc_rate
+11460101 sprd_div_helper_round_rate
+11460128 sprd_comp_ops_sec
+11460146 sprd_comp_ops
+11460160 sprd_pll_ops
+11461730 sprd_crypto_sha256
+11461749 sprd_crypto_verify
+11461828 sprd_kproperty_get
+11461847 sprd_kproperty_eq
+11466428 give_up_console
+11466474 console_blanked
+11466490 console_blank_hook
+11466509 fg_console
+11466686 do_take_over_console
+11466842 uart_remove_one_port
+11466863 uart_add_one_port
+11466881 uart_resume_port
+11466898 uart_suspend_port
+11466916 uart_unregister_driver
+11466939 uart_register_driver
+11466960 uart_write_wakeup
+11466978 uart_insert_char
+11466995 uart_handle_cts_change
+11467018 uart_handle_dcd_change
+11467041 uart_match_port
+11467057 uart_set_options
+11467074 uart_parse_options
+11467093 uart_parse_earlycon
+11467113 uart_console_write
+11467132 uart_get_divisor
+11467149 uart_get_baud_rate
+11467168 uart_update_timeout
+11484455 dwc3_sprd_gpio_plug
+11491691 i2c_generic_gpio_recovery
+11491717 i2c_generic_scl_recovery
+11495660 sprd_cpufreq_update_opp
+11498361 sprd_sip_svc_get_handle
+11499102 of_console_check
+11515944 sprd_audio_debug_init
+11516010 sprd_asoc_shutdown
+11516029 sprd_asoc_board_comm_late_probe
+11516061 sprd_asoc_board_comm_probe
+11516088 sprd_asoc_card_controls
+11516112 sprd_asoc_card_widgets
+11516135 sprd_vbc_codec
+11965412 console=ttyAMA0
+11965617 no_console_suspend
+11965636 console=
+11965673 debug_mode=
+11966658 recovery_nu
+11966908 sprd_serial
+11966924 sprd,sc9836-uart
+11967060 sprd_serial
+11967076 sprd,sc9836-uart-ex
+11971524 sprd,orca-suspend-timer
+11971724 sprd,orca-timer
+11971924 sprd,roc1-suspend-timer
+11972124 sprd,roc1-timer
+11972324 sprd,sharkl5-suspend-timer
+11972524 sprd,sharkl5-timer
+11972724 sprd,sc9860-suspend-timer
+11972924 sprd,sc9860-timer
+13846636 uart
+13910284 sprd-cpufreq
+13929516 sprd,roc1-sipa
+13929716 sprd,orca-sipa
+13929916 sprd,orca-8198d-sipa
+13930116 sprd,remote-sipa
+13931964 sprd,roc1-sipa-delegate
+13932164 sprd,orca-sipa-delegate
+13934996 sprd_governor
+14143708 SPRD
+14145879 ,Unisoc UDX710
+14145907 =Spreadtrum UDX710_4h10 Board
+14145951 Csprd,udx710_4h10
+14145969 sprd,udx710
+14147351 Csprd,sys-ap-ahb
+14147471 Csprd,sys-ap-apb
+14147591 Csprd,sys-ap-ipa-ahb
+14149771 Csprd,sys-pmu-apb
+14149891 Csprd,sys-aon-apb
+14150099 Csprd,orca-dma
+14150303 Csprd,orca-nandc
+14150667 Csprd,sdhc-r11p1
+14151099 Csprd,sdhc-r11p1
+14151311 Csprd,sc9836-uart
+14151329 sprd,sc9838-uart
+14151435 uart
+14151515 Csprd,orca-i2c
+14152047 Csprd,orca-i2c
+14152287 Csprd,orca-i2c
+14152527 Csprd,orca-i2c
+14152767 Csprd,orca-i2c
+14153007 Csprd,sc9860-spi
+14153024 sprd,orca-spi
+14153391 Csprd,sc9860-spi
+14153408 sprd,orca-spi
+14153635 Csprd,sc9860-spi
+14153652 sprd,orca-spi
+14153879 Csprd,sharkl5-pwm
+14154191 Csprd,i2s
+14154615 Csprd,roc1-vbc
+14154939 Csprd,roc1-mcdt
+14155083 Csprd,roc1-dma
+14155299 Csprd,audio-codec-dig-agcp
+14155407 Csprd,agdsp-access
+14155863 Csprd,orca-dmc-mpu
+14156999 Csprd,orca-dmc
+14157095 Csprd,orca-ptm
+14157483 Csprd,orca-eic-debounce
+14157507 sprd,sharkl5-eic-debounce
+14157743 Csprd,orca-eic-latch
+14157764 sprd,sharkl5-eic-latch
+14157979 Csprd,orca-eic-async
+14158000 sprd,sharkl5-eic-async
+14158215 Csprd,orca-eic-sync
+14158235 sprd,sharkl5-eic-sync
+14158451 Csprd,orca-timer
+14158571 Csprd,orca-suspend-timer
+14158675 Csprd,sc9836-uart-ex
+14158803 uart
+14158883 Csprd,orca-hw-i2c
+14159063 Csprd,orca-gpio
+14159079 sprd,sharkl5-gpio
+14159263 Csprd,mailbox
+14159435 Csprd,orca-efuse
+14160475 Csprd,orca-thermal
+14160779 Csprd,orca-thermal
+14161083 Csprd,orca-thermal
+14161555 Csprd,cluster0-thermal
+14161767 Csprd,soc-thermal
+14161971 Csprd,orca-cpufreq
+14162031 Csprd,orca-pinctrl
+14179371 Csprd,dbg-log-orca
+14179699 Csprd,dbg-log-orca
+14180011 Csprd,dbg-log-orca
+14180303 Csprd,djtag
+14180547 Csprd,orca-busmonitor
+14181403 Csprd,orca-busmonitor
+14181683 Csprd,orca-busmonitor
+14182551 Csprd,orca-busmonitor
+14183551 Csprd,orca-busmonitor
+14184407 Csprd,orca-busmonitor
+14184791 Csprd,orca-busmonitor
+14185307 Csprd,orca-wdt
+14185487 Csprd,sharkl5-adi
+14185505 sprd,orca-adi
+14185711 Csprd,sc2730
+14185891 Csprd,sc27xx-bltc
+14185909 sprd,sc2730-bltc
+14186155 Csprd,sc27xx-rtc
+14186172 sprd,sc2730-rtc
+14186271 Csprd,sc27xx-eic
+14186288 sprd,sc2730-eic
+14186459 Csprd,sc27xx-efuse
+14186478 sprd,sc2730-efuse
+14187187 Csprd,sc27xx-typec
+14187206 sprd,sc2730-typec
+14187379 Csprd,sc27xx-fast-chg
+14187401 sprd,sc2730-fast-charger
+14187575 Csprd,sc27xx-adc
+14187592 sprd,sc2730-adc
+14187807 Csprd,sc27xx-fgu
+14187824 sprd,sc2730-fgu
+14188043 Csprd,sc27xx-pd
+14188059 sprd,sc2730-pd
+14188299 Csprd,sc2730-audio-codec
+14188324 sprd,sc27xx-audio-codec
+14188535 Csprd,sc27xx-syscon
+14188623 Csprd,sc27xx-regulator
+14188646 sprd,sc2730-regulator
+14192059 Csprd,sc27xx-poweroff
+14192081 sprd,sc2730-poweroff
+14192155 Csprd,sc27xx-tsensor
+14192176 sprd,sc2730-tsensor
+14192347 Csprd,sc27xx-keypad-led
+14192371 sprd,sc2730-keypad-led
+14192451 Csprd,sc27xx-vibrator
+14192473 sprd,sc2730-vibrator
+14192547 Csprd,sc27xx-7sreset
+14192568 sprd,sc2730-7sreset
+14192655 Csprd,orca-hwspinlock
+14192823 Csprd,orca-apb-busmonitor
+14192956 sprd,sipa@2E000000
+14192987 Csprd,orca-8198d-sipa
+14193755 Csprd,orca-sipa-delegate
+14194475 Csprd,orca-dwc3
+14194991 Csprd,pcie
+14196151 Csprd,pcie-ep
+14196667 Csprd,roc1-pamu3
+14196911 Csprd,orca1-ssphy0
+14197155 Csprd,orca1-ssphy1
+14197415 Csprd,orca-apahb-gate
+14197551 Csprd,orca-ap-clk
+14197679 Csprd,orca-apapb-gate
+14197799 Csprd,orca-ipa-gate
+14197919 Csprd,orca-audcpapb-gate
+14198027 Csprd,orca-audcpahb-gate
+14198163 Csprd,orca-aon-clk
+14198287 Csprd,orca-g3-pll
+14198419 Csprd,orca-apcpu-clk
+14198531 Csprd,orca-pmu-gate
+14198631 Csprd,orca-aon-gate
+14198763 Csprd,orca-spahb-gate
+14201172 sprd-pcm-audio
+14201199 Csprd,roc1-pcm-platform
+14201636 sprd-compr-audio
+14201667 Csprd,roc1-compress-platform
+14201812 sprd-fe-dai
+14201835 Csprd,fe-dai
+14201888 sprd-routing-pcm
+14201919 Csprd,pcm-routing
+14202003 Csprd,audio_sipc
+14202071 Csprd,audio-mem-orca
+14202367 Csprd,audio_dsp_log
+14202507 Csprd,audio_dsp_pcm
+14202647 Csprd,audio_dsp_mem
+14202807 Csprd,audio_pipe_voice
+14202915 Csprd,orca-audcp-boot
+14203591 Csprd,sipa_eth
+14203683 Csprd,sipa_eth
+14203775 Csprd,sipa_eth
+14203867 Csprd,sipa_eth
+14203959 Csprd,sipa_eth
+14204051 Csprd,sipa_eth
+14204143 Csprd,sipa_eth
+14204235 Csprd,sipa_eth
+14204327 Csprd,sipa_usb
+14204407 Csprd,sipa_eth
+14204499 Csprd,sipa_eth
+14204591 Csprd,sipa_eth
+14204683 Csprd,sipa_eth
+14204775 Csprd,sipa_eth
+14204867 Csprd,sipa_eth
+14204959 Csprd,sipa_eth
+14205051 Csprd,sipa_eth
+14205143 Csprd,sipa_eth
+14205235 Csprd,sipa_eth
+14205331 Csprd,sipa_eth
+14205427 Csprd,sipa_eth
+14205519 Csprd,sipa_mbim
+14205583 Csprd,sipa_mbim
+14205647 Csprd,sipa_mbim
+14205711 Csprd,sipa_mbim
+14205775 Csprd,sipa_mbim
+14205839 Csprd,sipa_mbim
+14205903 Csprd,sipa_mbim
+14205967 Csprd,sipa_mbim
+14209199 AP_UART0
+14211575 Csprd,autotest
+14212179 Csprd,scproc_pubcp
+14213347 Csprd,sipc
+14213487 Csprd,sipc
+14213627 Csprd,sipc
+14213767 Csprd,sipc
+14213907 Csprd,sipc
+14214051 Csprd,sipc
+14214195 Csprd,sipc
+14214431 Csprd,spipe
+14214571 Csprd,spipe
+14214711 Csprd,spipe
+14214855 Csprd,spipe
+14214999 Csprd,spipe
+14215143 Csprd,spipe
+14215287 Csprd,spipe
+14215455 Csprd,spipe
+14215619 Csprd,spipe
+14215759 Csprd,spipe
+14215899 Csprd,spool
+14216075 Csprd,spool
+14216251 Csprd,spool
+14216427 Csprd,spool
+14216591 Csprd,spool
+14216755 Csprd,spool
+14216939 Csprd,slog_bridge
+14217067 Csprd,crypto_modem_verify
+14217127 Csprd,time-sync
+14218059 Csprd,dfs
+14219267 Csprd,cluster-cooling
+14219748 sprd-headset
+14219775 Csprd,headset
+14220116 sprd,headset-button@0
+14220196 sprd,headset-button@1
+14220276 sprd,headset-button@2
+14220379 Csprd,vbc-v4-codec-sc2730
+14220440 sprdphone-sc2730
+14220708 sprd-audio-card,dai-link@0
+14221004 sprd-audio-card,dai-link@1
+14221300 sprd-audio-card,dai-link@2
+14221580 sprd-audio-card,dai-link@3
+14221844 sprd-audio-card,dai-link@4
+14222132 sprd-audio-card,dai-link@5
+14222416 sprd-audio-card,dai-link@6
+14222696 sprd-audio-card,dai-link@7
+14222960 sprd-audio-card,dai-link@8
+14223224 sprd-audio-card,dai-link@9
+14223496 sprd-audio-card,dai-link@10
+14223776 sprd-audio-card,dai-link@11
+14224072 sprd-audio-card,dai-link@12
+14224360 sprd-audio-card,dai-link@13
+14224648 sprd-audio-card,dai-link@14
+14224940 sprd-audio-card,dai-link@15
+14225212 sprd-audio-card,dai-link@16
+14225476 sprd-audio-card,dai-link@17
+14225748 sprd-audio-card,dai-link@18
+14226036 sprd-audio-card,dai-link@19
+14226324 sprd-audio-card,dai-link@20
+14226596 sprd-audio-card,dai-link@21
+14226856 sprd-audio-card,dai-link@22
+14227136 sprd-audio-card,dai-link@23
+14227428 sprd-audio-card,dai-link@24
+14227720 sprd-audio-card,dai-link@25
+14227972 sprd-audio-card,dai-link@26
+14228248 sprd-audio-card,dai-link@27
+14228508 sprd-audio-card,dai-link@28
+14228792 sprd-audio-card,dai-link@29
+14229076 sprd-audio-card,dai-link@30
+14229344 sprd-audio-card,dai-link@31
+14229596 sprd-audio-card,dai-link@32
+14229872 sprd-audio-card,dai-link@33
+14230144 sprd-audio-card,dai-link@34
+14230412 sprd-audio-card,dai-link@35
+14230664 sprd-audio-card,dai-link@36
+14230932 sprd-audio-card,dai-link@37
+14231192 sprd-audio-card,dai-link@38
+14231468 sprd-audio-card,dai-link@39
+14231736 sprd-audio-card,dai-link@40
+14232004 sprd-audio-card,dai-link@41
+14232272 sprd-audio-card,dai-link@42
+14232540 sprd-audio-card,dai-link@43
+14232784 sprd-audio-card,dai-link@44
+14233036 sprd-audio-card,dai-link@45
+14233280 sprd-audio-card,dai-link@46
+14233548 sprd-audio-card,dai-link@47
+14233820 sprd-audio-card,dai-link@48
+14234060 sprd-audio-card,dai-link@49
+14234356 sprd-audio-card,dai-link@50
+14234628 sprd-audio-card,dai-link@51
+14234888 sprd-audio-card,dai-link@52
+14235160 sprd-audio-card,dai-link@68
+14235440 sprd-audio-card,dai-link@69
+14235700 sprd-audio-card,dai-link@70
+14235980 sprd-audio-card,dai-link@71
+14236244 sprd-pcm-iis
+14236271 Csprd,sharkl5-pcm-platform
+14236479 Csprd,i2s-null-codec
+14236548 sprd-audio-card,dai-link@0
+14236832 earlycon console=ttyS0,115200n8 loglevel=1 init=/sbin/init root=ubi0:system rootfstype=ubifs rootwait ro androidboot.hardware=udx710_4h10 androidboot.selinux=permissive swiotlb=64k androidboot.dtbo_idx=0 printk.devkmsg=on pcie_ports=compat
+14237095 Csprd,ion
+14237363 Csprd,rtl8367_ctrl
+14237464 sprd-sysdump
+14237544 sprd-verify
+14237567 Csprd,orca-verify
+14239015 Cquectel-power
+14239151 Cquectel-simdet
+14239371 Cquectel_w_disable
+14239447 Cquectel,virtual-uart
+14239562 sprd,sc-id
+14239905 sprd,hs200-dly
+14239920 sprd,ddr52-dly
+14240031 sprd,name
+14240041 sprd,sdio-adma
+14240177 sprd,config_type
+14240194 sprd,slave_timeout
+14240213 sprd,fs
+14240221 sprd,bus_type
+14240235 sprd,rtx_mode
+14240249 sprd,byte_per_chan
+14240268 sprd,slave_mode
+14240284 sprd,lsb
+14240293 sprd,lrck
+14240303 sprd,low_for_left
+14240321 sprd,clk_inv
+14240334 sprd,pcm_short_frame
+14240355 sprd,pcm_slot
+14240369 sprd,pcm_cycle
+14240384 sprd,tx_watermark
+14240402 sprd,rx_watermark
+14240437 sprd,syscon-agcp-ahb
+14240458 sprd,vbc-phy-offset
+14240528 sprd,ap-addr-offset
+14240548 sprd,syscon-pmu-apb
+14240589 sprd,dst
+14240598 sprd,channel
+14240611 sprd,mailbox-core
+14240629 sprd,ddr-addr-offset
+14240658 sprd,auto_agcp_access
+14240680 sprd,channel-num
+14240697 sprd,mpu-num
+14240710 sprd,channel-names
+14240729 sprd,ranges
+14240741 sprd,chn-config
+14240757 sprd,id-config
+14240772 sprd,port-map
+14240786 sprd,ddr-offset
+14240802 sprd,panic
+14240813 sprd,funnel-port
+14240830 sprd,ddr-chn
+14240843 sprd,chn-name
+14240923 sprd,aon-apb
+14240936 sprd,core-cnt
+14242679 sprd,control
+14242701 sprd,sleep-mode
+14242717 sprd,syscon-dsi-apb
+14242737 sprd,ch-name
+14242750 sprd,ch-index
+14242764 sprd,dcfix
+14242788 sprd,bm-num
+14242800 sprd,bm-name
+14242813 sprd,bm-type
+14242826 sprd,bm-dap
+14242838 sprd,bm-config
+14242853 sprd,bm-id
+14242864 sprd,bm-ranges
+14242891 sprd,hw-channels
+14243102 sprd,target-addr
+14243119 sprd,target-data
+14243162 sprd,tft-mode
+14243176 sprd,sipa-bypass-mode
+14243198 sprd,usb-dl-tx
+14243213 sprd,usb-dl-rx
+14243228 sprd,usb-ul-tx
+14243243 sprd,usb-ul-rx
+14243258 sprd,cp-dl-tx
+14243272 sprd,cp-dl-rx
+14243286 sprd,cp-ul-tx
+14243300 sprd,cp-ul-rx
+14243314 sprd,wifi-dl-tx
+14243330 sprd,wifi-dl-rx
+14243346 sprd,wifi-ul-tx
+14243362 sprd,wifi-ul-rx
+14243378 sprd,ap-eth-dl-tx
+14243396 sprd,ap-eth-dl-rx
+14243414 sprd,ap-eth-ul-tx
+14243432 sprd,ap-eth-ul-rx
+14243450 sprd,ap-ip-dl-tx
+14243467 sprd,ap-ip-dl-rx
+14243484 sprd,ap-ip-ul-tx
+14243501 sprd,ap-ip-ul-rx
+14243518 sprd,pcie-dl-dma
+14243535 sprd,from-pcie-no-mac
+14243557 sprd,to-pcie-no-mac
+14243577 sprd,ap-eth-ul-mtu-standard
+14243605 sprd,ap-eth-ul-mtu-inter
+14243630 sprd,ap-eth-ul-mtu-jumbo
+14243655 sprd,ul-fifo-depth
+14243674 sprd,dl-fifo-depth
+14244118 sprd,pcie-startup-syscons
+14244144 sprd,pcie-shutdown-syscons
+14244171 sprd,pcie-resume-syscons
+14244196 sprd,pcie-suspend-syscons
+14244285 sprd,pcie-inta-assert-syscons
+14244315 sprd,pcie-inta-deassert-syscons
+14244347 sprd,syscon-aon-apb
+14244367 sprd,syscon-ap-ahb
+14244386 sprd,syscon-ipa-ahb
+14244406 sprd,syscon-anag4
+14244424 sprd,vdd-voltage
+14244452 sprd,syscon
+14244547 sprd,cmdaddr
+14244560 sprd,smsg-addr
+14244575 sprd,ddr32-dspmemdump
+14244597 sprd,shmaddr-aud-str
+14244618 sprd,shmaddr-dsp-vbc
+14244639 sprd,shmaddr-nxp
+14244656 sprd,shmaddr-dsp-smartpa
+14244681 sprd,shmaddr-reg-dump
+14244703 sprd,ddr32-dma
+14244718 sprd,audcp-aon-iram
+14244752 sprd-usemem-type
+14244769 sprd-dst
+14244778 sprd-channel
+14244791 sprd-rxblocknum
+14244807 sprd-rxblocksize
+14244824 sprd-usemem-bytes
+14244842 sprd,dspdumpmem
+14244858 sprd,writesync
+14244873 sprd,maxuserwritebufsize
+14244917 sprd,netid
+14244928 sprd,term-type
+14244943 sprd,mac-header
+14244959 sprd,sid
+14245229 sprd,sys-ap-ahb
+14245245 sprd,ap-ahb-reg-tbl
+14245265 sprd,sys-ap-apb
+14245281 sprd,ap-apb-reg-tbl
+14245301 sprd,sys-pmu-apb
+14245318 sprd,pmu-apb-reg-tbl
+14245339 sprd,sys-aon-apb
+14245356 sprd,aon-apb-reg-tbl
+14245377 sprd,sys-ap-intc
+14245394 sprd,ap-intc
+14245407 sprd,pdm-name
+14245421 sprd,cm4-uart
+14245435 sprd,bit-width
+14245450 sprd,bit-index
+14245465 sprd,pdm-names
+14245480 sprd,int-names
+14245495 sprd,pinctrl
+14245601 sprd,decoup
+14245613 sprd,type
+14245623 sprd,core
+14245633 sprd,smem-info
+14245648 sprd,client
+14245660 sprd,ep-fun
+14245672 sprd,smem-type
+14245687 sprd,high-offset
+14245704 sprd,ringnr
+14245716 sprd,size-rxbuf
+14245732 sprd,size-txbuf
+14245748 sprd,preconfigured
+14245767 sprd,tx-blksize
+14245783 sprd,tx-blknum
+14245798 sprd,rx-blksize
+14245814 sprd,rx-blknum
+14245829 sprd,tx_is_usb
+14245844 sprd,tx_dst
+14245856 sprd,rx_dst
+14245868 sprd,priority
+14245918 sprd-scene
+14245929 sprd-freq
+14246080 sprd,efuse-block7
+14246098 sprd,efuse-block15
+14246117 sprd,leak-core
+14246132 sprd,leak-cluster
+14246150 sprd,core-temp-scale
+14246171 sprd,core-voltage-scale
+14246195 sprd,cluster-temp-scale
+14246219 sprd,cluster-voltage-scale
+14246246 sprd,efuse-switch
+14246264 sprd,hotplug-period
+14246284 sprd,min-cpufreq
+14246301 sprd,min-cpunum
+14246317 sprd,core-base
+14246332 sprd,cluster-base
+14246350 sprd,dynamic-core
+14246368 sprd,dynamic-cluster
+14246389 sprd,sensor-names
+14246407 sprd,cii-per-core-tp
+14246428 sprd,cii-max-tp-core
+14246449 sprd,jack-type
+14246464 sprd,debounce-interval
+14246498 sprd,3pole-adc-threshold
+14246523 sprd,adc-gnd
+14246536 sprd,half-adc-gnd
+14246554 sprd,coefficient
+14246571 sprd,irq-threshold-button
+14246618 sprd-audio-card,name
+14246639 sprd-audio-card,widgets
+14246663 sprd-audio-card,routing
+14246687 sprd-audio-card,headset
+14246837 sprd,dma-2stage-usecase
+14246861 sprd,node-count-2stage-level-1
+14246892 sprd,dma-2stage-level-1-int-source
+14671737 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/dloader/packet.c
+14671893 sprd,memory-region-auto
+14672008 SPRD4:AutoD
+14672135 FDL_PacketDoIdle
+14672271 fdl_ubi_dev_init
+14672697 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/dwc3/ep0.c
+14672900 pctool_mode_detect_uart
+14673567 fdt_quec_recovery_test
+14673819 sprd_rsa_verify
+14674064 sprd_i2c_init
+14674117 sprd_anti_rollback
+14674152 sprd_verify_cert
+14674169 boot_sprdisk
+14674197 sprd_get_sechdr_addr
+14674218 sprd_verify_img
+14674246 sprd_secure_check
+14674264 sprd_dl_check
+14674342 sprd_mmc_exit
+14674527 __SprdCheckNancParam
+14674548 SprdGetNandParam
+14674640 fastboot_bind
+14674654 usb_fastboot_init
+14674672 set_fastboot_buf_base_size
+14674738 sprd_mtd_part_erase
+14675732 sprd nand ecc mode not support!
+14675765 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/mtdcore.c
+14675882 switch to recovery kernel
+14675972 %s, sprdisk mode failure!
+14676591 sprd nand cmd %s fail
+14677230 sprd nand read ecc sts %d
+14677257 sprd nand ioaddr = 0x%x ,freq = %d
+14677853 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/mtdpart.c
+14678099 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/ubi/attach.c
+14678589 [eic keys] volumeup : sprd_eic_get return ERROR!
+14678639 [eic keys] volumedown : sprd_eic_get return ERROR!
+14680832 sprd_nand:retry %d
+14680852 sprd nand ops mode error!
+14681791 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/gadget/composite.c
+14681910 ubi0:recoveryfs
+14682162 bootargs=mem=512M loglevel=7 console=ttyS0,115200n8 init=/init mtdparts=sprd-nand:256k(splloader),1280k(uboot),768k(sml),1024k(trustos),1280k(ubootbak),768k(smlbak),1024k(trustosbak),1280k(rawdata),1280k(custinfo),-(ubipac)
+14682448 mtdparts=mtdparts=sprd-nand:256k(splloader),1280k(uboot),768k(sml),1024k(trustos),1280k(ubootbak),768k(smlbak),1024k(trustosbak),1280k(rawdata),1280k(custinfo),-(ubipac)
+14683229 orca fdl2 verify img:%s
+14683535 fdl2_download_start:part:%s,size:0x%x
+14683574 fdl2_download_start(): the part should be checked. %s
+14684483 quectel: the fw is not match with the hw(%s)
+14686447 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/cmd_nvedit.c
+14690332 sprd,name
+14690342 sprd,iram-dsize
+14690400 sprd,iram-data
+14690456 sprd,mini-dump
+14692336 aarch64-unisoc-linux-gcc (GCC) 9.3.0
+14692835 failed to put link in Recovery
+14693579 factorytest
+14693591 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/usb/gadget/f_fastboot.c
+14695201 console=null
+14695214 console=ttyS1
+14695312 sprd,%s
+14695386 sprd,cpdbg-size
+14695577 sprd,iq-mem
+14696212 update_recovery=1
+14696885 Ctrl+C enter DEBUG MODE
+14696910 debug_mode
+14696921 debug_mode=1
+14697032 recovery_nu=1
+14697046 recovery_nu=0
+14697060 sprd,decoup
+14698937 Cannot find console
+14699452 fastboot
+14699468 sprdisk
+14699476 update_recovery
+14699492 boot-recovery
+14699533 mtdparts=sprd-nand:256k(splloader),1280k(uboot),768k(sml),1024k(trustos),1280k(ubootbak),768k(smlbak),1024k(trustosbak),1280k(rawdata),1280k(custinfo),-(ubipac)
+14701916 /sprd-sysdump
+14702641 partition <misc> read error, can not get recovery message
+14703178 .sprdtest
+14704324 nand0=sprd-nand
+14706644 .callbacks:callbacks,.flags:flags,baudrate:baudrate,loadaddr:loadaddr,stdin:console,stdout:console,stderr:console,
+14706845 fdl1
+14706850 fdl2
+14707455 uart calibrate detecting
+14708753 Quectel: enter recovery mode
+14708783 Quectel: get pcie ep wait rc=%s
+14708816 Quectel: get pcie mode=%s
+14708852 Quectel: Set simdet to AP
+14708879 Quectel: get usb mode=%s
+14708905 Quectel: get usb speed=%s
+14708964 PINTEST OR FASTBOOT OR RECOVERY OR DEBUG
+14709009 PINTEST: test gpio(s) connectivity.
+14709046 PINTEST
+14709070 RECOVERY
+14709079 RECOVERY MODE
+14709101 DEBUG MODE
+14709114 FASTBOOT
+14709123 FASTBOOT MODE
+14709996 sprd dump memory %d: 0x%08lx-0x%08lx
+14710653 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/misc/adi.c
+14710971 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/common/env_common.c
+14711071 set fastboot buffer error
+14711235 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/lib/crypto/sprd/sprdsha256.c
+14711911 	 sprd_dl_check err
+14712660 sprd_nand_write_spl
+14712681 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/misc/pmic_efuse.c
+14713057 	 sprd_secure_check err
+14714561 it is used for downloading firmwares to storage in factory or research purpose
+14714671 recovery, fastboot, dloader, charge, normal, vlx, caliberation.
+14715235 print console devices and information
+14715273 echo args to console
+14715303     - echo args to console; \c suppresses newline
+14720001 manufacturer part number
+14720026 manufacturer rev. number
+14724900 factory test
+14724944 sprd disk
+14725071 sprd_r8p0_i2c5
+14725086 sprd_r8p0_i2c4
+14725101 sprd_r8p0_i2c3
+14725116 sprd_r8p0_i2c2
+14725131 sprd_r8p0_i2c1
+14725146 sprd_r8p0_i2c0
+14726390 fastboot Data
+14726404 fastboot Ethernet
+14726422 fastboot Communications Control
+14728625 sprd_dump
+14729707 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/bsp/u-boot15_orca/drivers/mtd/ubi/vtbl.c
+14733856 ap_uart0
+14733876 cm4_uart
+14733896 ps_cp_uart0
+14733916 v3_ps_uart0
+14733936 v3_phy_uart0
+14733976 auddsp_uart0
+14733996 nr_cp_uart0
+14734016 nr_cp_uart1
+14734036 nr_cp_uart2
+14734168 ap_uart0
+14734188 cm4_uart
+14734208 ps_cp_uart0
+14734228 v3_ps_uart0
+14734248 v3_phy_uart0
+14734288 auddsp_uart0
+14734308 nr_cp_uart0
+14734328 nr_cp_uart1
+14734348 nr_cp_uart2
+14734480 ap_uart0
+14734500 cm4_uart
+14734520 ps_cp_uart0
+14734540 v3_ps_uart0
+14734560 v3_phy_uart0
+14734600 auddsp_uart0
+14734620 nr_cp_uart0
+14734640 nr_cp_uart1
+14734660 nr_cp_uart2
+14734792 ap_uart0
+14734812 cm4_uart
+14734832 ps_cp_uart0
+14734852 v3_ps_uart0
+14734872 v3_phy_uart0
+14734912 auddsp_uart0
+14734932 nr_cp_uart0
+14734952 nr_cp_uart1
+14734972 nr_cp_uart2
+14735104 ap_uart0
+14735124 cm4_uart
+14735144 ps_cp_uart0
+14735164 v3_ps_uart0
+14735184 v3_phy_uart0
+14735224 auddsp_uart0
+14735244 nr_cp_uart0
+14735264 nr_cp_uart1
+14735284 nr_cp_uart2
+14735416 ap_uart0
+14735436 cm4_uart
+14735456 ps_cp_uart0
+14735476 v3_ps_uart0
+14735496 v3_phy_uart0
+14735536 auddsp_uart0
+14735556 nr_cp_uart0
+14735576 nr_cp_uart1
+14735596 nr_cp_uart2
+14735728 ap_uart0
+14735748 cm4_uart
+14748696 sprd_serial
+14749778 fastboot Gadget
+14790356 Spreadtrum udx710_4h10_nse Board
+14790404 sprd,udx710_4h10_nse
+14790520 fastbootbuffer@82000000
+14791068 sprd,ion
+14791151 Pcarveout_fastboot
+14791617 sprd,sc-id
+15720092 fDl}d
+20133504 WBsL
+24397960 [NV:_recovery] IN (item_id = %u, size = %u)
+24398008 [NV:_recovery] _write_dir failed
+24398044 [NV:_recovery] _recovery_dir failed
+24398200 [NV:NVD_WriteItem] _recovery_dir failed(item %u)
+24419364 [NV:_recovery_dir] IN (item_id = %u)
+24622804 Production test dummy function: Register_MMI_Test_CmdRoutine
+24784080 production_test_current: Register Cmd Routine
+25950677 FDLA
+26762728 RRC: a %d research timer has not expired.
+26762772 RRC: a %d research lte search timer has not expired.
+26792700 RRC: a %d research timer has not expired.
+26792744 RRC: a %d research lte search timer has not expired.
+26793880 NULL != research_num_ptr
+26965559 "FALSE == nr_pdcp_tx_prv_g.data_recovery_in_progress
+27525252 PS/build/obj/gen/production/nvm_easn_structs_pack.c
+27550759 FDLAMAN
+28010536 NRRC: this is udx710m0,already disable all fdd band
+28268692 UNISOC_INFO_TABLE:NR_PCI:%d
+28664340 nreng_is_udx710M0_version return %d
+28664376 NRRC: nreng_disable_fdd_band_in_udx710m0=%d
+29044616 UNISOC_INFO_TABLE:NR_PCI:%d,UNISOC_INFO_TABLE:NR_SS_RSRQ: %d dB
+29044680 UNISOC_INFO_TABLE:NR_PCI:%d,UNISOC_INFO_TABLE:NR_SS_SINR: %d dB
+32105933 FDLDM h
+32108043 FdL  
+33239141 FDL(h
+33338984 testmode=
+33725240 uart_sprd.c
+33923222 VFDL
+34013720 Unisoc simlock version salt string
+34127084 ***factory array
+34127168 ****HALO halo_get_factory_feature verify license failed!
+34127228 ****HALO halo_get_factory_feature verify read nv failed! %d
+34127296 halo_get_factory_feature
+34128224 ****HALO HALO_factory_Check_signature_length to success! %d
+34128288 ****HALO HALO_factory_Check_signature_length end! %d
+34128396 ****HALO HALO_factory_CheckLicense_ext timeout ! %d
+34128452 ****HALO HALO_factory_ReadUid_ext timeout ! %d
+34128500 ****HALO HALO_factory_WriteLicense timeout ! %d
+34130984 halo_factory.c
+34131016 ****HALO halo_get_factory_feature Read Uid result %x
+34131084 ****HALO  halo_get_factory_feature Read Uid retry %d 
+34131140 ****HALO halo_get_factory_feature Read Uid success 
+35410040 PNULL != manufactory_str
+35450024 AT+CSIM=10,"00C00000%02x"%c
+35459296 Assert by AT+SPATASSERT
+35469300 AT+RSIMRSP="VSIM",%d,"%s"%c
+35475304 +SPTESTMODEM: %d,%d,%d,%d,%d,%d,%d
+35475344 +SPTESTMODEM: (0-255)
+35476467 	+SPTESTMODE: %d,%d,%d,%d,%d,%d
+35476504 +SPTESTMODE: (0-255)
+35501560 +SPTESTMODE: 1
+35614317 FdLdM h
+35713356 sprd_efuse_init_late fail!
+36234896 3GPP_IMS/Conf_Factory_URI
+36236652 production_test.c
+36513048 halo_factory.c
+36513480 @@@@HALO  HALO_factory_ReadUid  reset mode = 0x%02X
+36514560 HALO_factory_WriteLicense HALO_ReadUid:
+36514700 HALO_factory_WriteLicense check memory
+36516156 ***sprd_rsa_sign128_256 RSA_PrvEnc result:
+36516228 ***sprd_rsa_verify128_256  input signed values are:
+36516548 ***sprd_rsa_sign128_256 after pri_ende uid_sign_result:
+36516732 sprd_rsa_sign128_256 verify local uid  :
+36516776 sprd_rsa_sign128_256 verify  vfy_digest  :
+36619876 sprd_adc_mutex_init fail!
+36736776 ***sprd_rsa_verify128_256  input signed values are:
+36737204 ***sprd_rsa_sign128_256 after pri_ende uid_sign_result:
+36737372 sprd_rsa_sign128_256 verify local uid  :
+36737416 sprd_rsa_sign128_256 verify  vfy_digest  :
+36737460 @@@@HALO ***sprd_rsa_sign128_256 compare_equal uid value[%d] 
+36933936 UARTRXQ_RESID
+37612756 sip:mmtel@conf-factory.%s
+37721560 SPRD-IMS-UE
+37959843 FDlN
+38068220 HALO_factory_CheckLicense
+38068246 HALO_factory_ReadUid
+38068267 HALO_factory_WriteLicense
+38068359 sprd_rsa_verify128_256_multithread
+38068416 sprd_rsa_verify128_256
+38367452 System engineering release 2.5.1
+38367656 System engineering release 1.0.0
+38486156 HW Version:        udx710_modem
+38492332 ****HALO factory_feature_status halo_callback[%d] ret [%d][%d][%d][%d]
+38492404 ****HALO ******halo_get_factory_feature Read Uid failed result %x
+38492472 ****HALO ******halo_get_factory_feature verify license success!
+38492540 ****HALO HALO_factory_Check_signature_length HALO_SignRead failed! %d
+38492612 ****HALO HALO_factory_Check_signature_length abnormal, need correct! %x
+38492688 ****HALO HALO_factory_Check_signature_length HALO_SignWrite failed! %d
+38493676 TB_UART_INT
+38510888 @@@@HALO ***sprd_rsa_sign128_256 verify RSA_PubDec ret_len invalid [%d] 
+38511032 @@@@HALO ***sprd_rsa_sign128_256 after RSA_PubDec is ret_len: %d
+38511100 @@@@HALO ***sprd_rsa_sign128_256 verify RSA_PubDec ret_len invalid [%d] 
+38511176 @@@@HALO ***sprd_rsa_sign128_256 compare_equal hash result [%d] 
+38515800 +SPTESTMODEM
+38515840 +SPTESTMODE
+38521772 ATC: sptestmodem set auto attach multimode_ps_id=%d,gsm_only_ps_id=%,is_support_lte_dsds=%d
+38630444 RRC: Warning, plmn scan research a %d, c >= MAX_BSIC_RESEARCH_COUNT
+38739488 UNISOC_INFO_TABLE:NR_PCI:%d,UNISOC_INFO_TABLE:NR_SS_RSRP: %d dBm
+38739556 UNISOC_INFO_TABLE:NR_PCI:%d,UNISOC_INFO_TABLE:NR_SS_RSRP_N: %d dBm
+38739624 UNISOC_INFO_TABLE:NR_PCI:%d ,UNISOC_INFO_TABLE:NR_SS_RSRQ_N: %d dB
+38739692 UNISOC_INFO_TABLE:NR_PCI:%d ,UNISOC_INFO_TABLE:NR_SS_SINR_N: %d dB
+38751160 NRRC: drb_to_recovery_list.length: %d, srb_to_reestablish_list.length: %d, drb_to_reestablish_list.length: %d, rlc_reestablish_list.length: %d
+38755196 (0 == a_msg_ptr->dataRecoveryPdcpEntitiesBitmap[0]) && (0 == a_msg_ptr->dataRecoveryPdcpEntitiesBitmap[1])
+38758948 NR_PDCP_TX_error: NR_pdcp_tx data recovery unkown RB_Type or error Bear_Type!
+38771664 RRC: Warning, plmn scan research a %d, c >= MAX_BSIC_RESEARCH_COUNT
+38771996 RRC: Warning, PLMN SRCH research a %d, c >= MAX_BSIC_RESEARCH_COUNT
+38786792 PS/build/obj/gen/production/nvm_easn_structs_pack.c:length of freq_list will not fit length field with width 8.
+38786908 PS/build/obj/gen/production/nvm_easn_structs_pack.c:length of plmn_list will not fit length field with width 8.
+38787024 PS/build/obj/gen/production/nvm_easn_structs_pack.c:length of tdd_freq_info will not fit length field with width 8.
+38904756 console
+38918236 UART
+42806542 quectel
+43314183 	factory
+43317391 %	factory
+45856403 Produced At+\
+46360106 #udx710-module
+46362361 AT+SPASENGMD=\"#dsm_{
+46363276 AT+SPASENGMD=\"#dsm_{
+46364130 AT+SPASENGMD=\"#dsm_s
+46364899 AT+SPASENGMD=\"#dsm_w
+46365627 AT+SPASENGMD=\"#dsm_x
+46367138 AT+SPASENGMD=\"#dsm_{
+46368086 AT+SPASENGMD=\"#dsm_{
+46369074 AT+SPASENGMD=\"#dsm_{
+46370100 AT+SPASENGMD=\"#dsm_s
+46371115 AT+SPASENGMD=\"#dsm_{
+46372108 AT+SPASENGMD=\"#dsm_{
+46373233 AT+SPASENGMD=\"#dsm_{
+46375625 	echo "usbenum.ini error, sprd-
+46435134 recovery filesystem tabl
+46464530 # SPDX-FileCopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd.
+46499654 	Quectel_FOTA}
+46513392 recovery|
+46514294 recovery
+47013742 sprdtrum
+47014137 RECOVERY
+47067823 BFdl`
+47145382 CONSOLE
+47159239 fastboot
+47163294 setconsole
+47202128 	/dev/console'<
+47227670 console=
+47268072 noconsole
+47314061 at+|
+47598348 (at+h
+48671696 rfdl
+49284828 )tMBsL&mN`]9X^K
+49787325 =udx710-module
+49789582 update_recovery=0
+49798339  Microsystems Inc. workstation console
+49803308  console
+49836414 ../init.d/start_recovery_service1
+49836502 S99start_recovery_service
+49843833 module_manufacture=Quec'\
+49843860 odel=RG500U-EB+[
+49844206 quectel-project-name
+49853902 quectel
+49860034 CONSOLE 
+49869414 console
+49873214 CONSOLE		
+49877574 CONSOLE@
+49878814 unisoc-initgc-distro udx710-module+unisoc-initgc-1.0+W25.44.1:20.02.46+user+native %h
+49879182 unisoc-initgc-distro udx710-module+unisoc-initgc-1.0+W25.44.1:20.02.46+user+native \n \l
+49883493 echo "Quectel 
+49885254 chown user.user /proc/sprd_sysdump
+49885843 DESC="start_recovery_service"
+49887895 uart1 
+49888686 start_recovery_service
+49892246 `# SPDX-FileCopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd.
+49893646 `# SPDX-FileCopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd.
+49896741 QUECTEL MODIFY
+49910615 30 $CONSOLE
+49915638 console 
+49916068 setprop ro.sprd.debug 1
+49917060  udx710-module
+49917350 udx710-module
+49927947 DISTRO = unisoc-initgc
+49934522  console(s) on startup.
+49934559  SERIAL_CONSOLES can be
+50466853 /sys/class/tty/console/active_
+51218470 sprd_dvfs_table_update
+51218494 sprd_dvfs_cluster_config
+51218526 sprd_dvfs_idle_disable
+51218550 sprd_dvfs_freq_set
+51219990 sprd_dvfs_freq_get
+51220014 sprd_dvfs_index_info
+51220038 sprd_dvfs_init
+51220054 sprd_dvfs_phy_enable
+51221718 ERROR:   SPRD System Reset: operation not handled.
+51221774 ERROR:   SPRD System Off: operation not handled.
+51222820 -"sprd_sip_svc
+56668409 sip:conference@factory.ims.vodafone.com.au
+56673094 sip:mmtel@conf-factory.ims.mnc002.mcc426.3gppnetwork.org
+56685548 sip:mmtel@conf-factory.ims.tigo.com.co
+56688830 sip:teleconferenceuri-factory@telefonica.de
+56690290 sip:conf-factory@ims.mnc***.mcc###.3gppnetwork.org
+56713701 sip:teleconferenceuri-factory@ims.vodafone.ie
+56732360 sip:conference@factory.ims.movistar.mx
+56734886 sip:conference-factory@yes.my
+56742048 sip:conference@conf-factory.ims.mnc024.mcc530.3gppnetwork.org
+56743034 sip:conference@factory.ims.mnc***.mcc###.3gppnetwork.org
+56750923 sip:mmtel@conf-factory.ims.mnc***.mcc###.3gppnetwork.org
+56756197 sip:conf-factory.ims.mnc***.mcc###.3gppnetwork.org
+56760902 sip:conf-factory@ims.mnc***.mcc###.3gppnetwork.org
+56766122 sip:conf-factory.ics.mnc004.mcc520.3gppnetwork.org
+56769743 sip:conf-factory@ims.taiwanmobile.com
+56813662 uart_sprd.c
+59369510 quectel
+59371029 : udx710_module
+59372816 udx710_
+59373949 unisoc-
+59373976 udx710_
+59374967 up-unisoc-
+59375574 Architecture: udx710_module
+59375998 up-unisoc-base-connmX
+59376664 udx710_module
+59378786 udx710_
+59380237 -unisoc-minimal
+59380271 udx710_module7v
+59382441 Package: sprdrild
+59382933 udx710_
+59383235 up-unisoc-base-
+59383917 udx710_
+59384859 udx710_
+59386178 up-unisoc-base-quec-gadget*
+59386833 Architecture: udx710_module
+59389402 udx710_
+59390091 udx710_module7
+59390914 unisoc$
+59391015 Architecture: udx710_module
+59391417 up-unisoc-base-quec-lan(K
+59392420 group-unisoc-a3-
+59392463 udx710_
+59392902 =common-api, packagegroup-unisoc-base-libcust:
+59393254 Architecture: udx710_Itu
+59394450 up-unisoc-base-smartlink*
+59394493 udx710_
+59395318 @dynamicproduction, libgetuid
+59395373 Architecture: udx710_mX
+59397047 udx710_
+59398719  Unisoc Get Release Mode
+59401127 .z@unisoc.com>
+59402222 .z@unisoc.com>
+59403036 .z@unisoc.com>
+59404609 .z@unisoc.com>
+59405442  Unisoc Get Release Mode
+59407168 .z@unisoc.com>
+59409423  Unisocd
+59409902 /usr/bin/unisoc-reboot	0100755
+59410150 unisoc-reboot.list
+59410222 @Package: unisoc-reboot
+59410710 unisoc-reboot.control
+59411667 .z@unisoc.com>
+59415142 5/usr/share/zoneinfo/Factory	0100644
+59431630 .z@unisoc.com>
+59432531 .z@unisoc.com>
+59434238 2/etc/quectel/thermal.ini	0100444
+59434676  Unisoc
+59435698 .z@unisoc.com>
+59438163 .z@unisoc.com>
+59440074 .z@unisoc.com>
+59440591 if [ "${SERIAL_CONSOLES_CHECK}" = "" ];H
+59440760 oc/consoles'h
+59441795 .z@unisoc.com>
+59441838 udx710_module
+59443543 .z@unisoc.com>
+59444670 .z@unisoc.com>
+59446223 if true && [ -z "$D" -a -x "/etc/init.d/sprdrild-init" ]; then
+59446286 	/etc/init.d/sprdrild-init stop || :
+59446542 sprdrild.prerm
+59446731  sprdrild-init remove
+59446974 sprdrild.postrm
+59447161  sprdrild-init start 18 5 2 3 .B
+59447430 sprdrild.postinst
+59447521 /etc/init.d/sprdrild-init	0100755
+59447555 /usr/bin/sprdrild	0100755
+59447798 sprdrild.list
+59447862 ;Package: sprdrild
+59447917  Unisoc Get Release Mode
+59448414 sprdrild.control
+59448486 /usr/lib/libsprd-ril.so	0100755
+59448734 sprd-ril.list
+59448798 ;Package: sprd-ril
+59448853  Unisoc Get Release Mode
+59449310 sprd-ril.control
+59451127  Unisoc Get Release M@
+59452998 /usr/bin/quectel_slic_daemon	0100777
+59453455 .z@unisoc.com>
+59454459 .z@unisoc.com>
+59455288 .z@unisoc.com>
+59458111 .z@unisoc.com>
+59458973  Unisoc Get Release Mode
+59459494 /usr/lib/librilsprd.so	0100755
+59459742 rilsprd.list
+59459806 :Package: rilsprd
+59459860  Unisoc Get Release Mode
+59460318 rilsprd.control
+59460780  Unisoc Get Release Mode
+59461794 .z@unisoc.com>
+59461818 UNISOC
+59463911  Unisoc Get Release Mode
+59466215 .z@unisoc.com>
+59470102 .z@unisoc.com>
+59470908 .z@unisoc.com>
+59470951 udx710_
+59473173 .z@unisoc.com>
+59475490 .z@unisoc.com>
+59476419 .z@unisoc.com>
+59477351 .z@unisoc.com>
+59479056 /etc/quectel/quec_nic.ini	0100755
+59479536 .z@unisoc.com>
+59481326 /etc/quectel/quec_lan.ini	0100755
+59481771 .z@unisoc.com>
+59483986 .z@unisoc.com>
+59486334 .z@unisoc.com>
+59487291 .z@unisoc.com>
+59488080  quectel A
+59488148 .z@unisoc.com>
+59489367 .z@unisoc.com>
+59490575  Unisoc power man\
+59492883 .z@unisoc.com>
+59493757 .z@unisoc.com>
+59495719 .z@unisoc.com>
+59496690 .z@unisoc.com>
+59497647 .z@unisoc.com>
+59498607 .z@unisoc.com>
+59499570 .z@unisoc.com>
+59500525 .z@unisoc.com>
+59501468 .z@unisoc.com>
+59502427 .z@unisoc.com>
+59503383 .z@unisoc.com>
+59504344 .z@unisoc.com>
+59505305 .z@unisoc.com>
+59506262 .z@unisoc.com>
+59507235 .z@unisoc.com>
+59508188 .z@unisoc.com>
+59509133 .z@unisoc.com>
+59510694 .z@unisoc.com>
+59511342 packagegroup-unisoc-minimal.list
+59511445 group-unisoc-minimal
+59511641 udx710_module
+59511894 packagegroup-unisoc-minimal.control
+59512150 packagegroup-unisoc-console.list
+59512253 group-unisoc-console
+59512462 udx710_moduJ
+59513070 packagegroup-unisoc-console.control
+59513326 packagegroup-unisoc-base-usbcontrol.list
+59513436 #group-unisoc-base-usbcontrol
+59513634 udx710_module
+59513902 packagegroup-unisoc-base-usbcontrol.control
+59514166 packagegroup-unisoc-base-terminal.list
+59514268 !group-unisoc-base-terminal
+59514446 udx710_module
+59514774 packagegroup-unisoc-base-terminal.control
+59515038 packagegroup-unisoc-base-smartlink.list
+59515140 "group-unisoc-base-smartlink
+59515320 udx710_module
+59515590 packagegroup-unisoc-base-smartlink.control
+59515854 packagegroup-unisoc-base-slic.list
+59515957 group-unisoc-base-slic
+59516007 quectel 
+59516139 udx710_module
+59516406 packagegroup-unisoc-base-slic.control
+59516662 packagegroup-unisoc-base-rsync.list
+59516765 group-unisoc-base-rsync
+59516939 udx710_module
+59517206 packagegroup-unisoc-base-rsync.control
+59517462 packagegroup-unisoc-base-radio.list
+59517565 group-unisoc-base-radio
+59517775 udx710_module
+59517834 sprd
+59518094 packagegroup-unisoc-base-radio.control
+59518350 packagegroup-unisoc-base-quec-yt6801.list
+59518460 $group-unisoc-base-quec-yt6801
+59518649 udx710_module
+59518918 packagegroup-unisoc-base-quec-yt6801.control
+59519182 packagegroup-unisoc-base-quec-voice.list
+59519292 #group-unisoc-base-quec-voice
+59519478 udx710_module
+59519742 packagegroup-unisoc-base-quec-voice.control
+59520006 packagegroup-unisoc-base-quec-tts.list
+59520108 !group-unisoc-base-quec-tts
+59520293 udx710_module
+59520558 packagegroup-unisoc-base-quec-tts.control
+59520822 packagegroup-unisoc-base-quec-security.list
+59520932 &group-unisoc-base-quec-security
+59521125 udx710_module
+59521390 packagegroup-unisoc-base-quec-security.control
+59521654 packagegroup-unisoc-base-quec-restore.list
+59521764 %group-unisoc-base-quec-restore
+59521954 udx710_module
+59522222 packagegroup-unisoc-base-quec-restore.control
+59522486 packagegroup-unisoc-base-quec-nic.list
+59522588 !group-unisoc-base-quec-nic
+59522773 udx710_module
+59523038 packagegroup-unisoc-base-quec-nic.control
+59523302 packagegroup-unisoc-base-quec-lan.list
+59523404 !group-unisoc-base-quec-lan
+59523589 udx710_module
+59523854 packagegroup-unisoc-base-quec-lan.control
+59524118 packagegroup-unisoc-base-quec-gadget.list
+59524228 $group-unisoc-base-quec-gadget
+59524420 udx710_module
+59524686 packagegroup-unisoc-base-quec-gadget.control
+59524950 packagegroup-unisoc-base-quec-app-monitor.list
+59525060 )group-unisoc-base-quec-app-monitor
+59525255 udx710_module
+59525518 packagegroup-unisoc-base-quec-app-monitor.control
+59525790 packagegroup-unisoc-base-quec-464xlatcfg.list
+59525900 (group-unisoc-base-quec-464xlatcfg
+59526093 udx710_module
+59526358 packagegroup-unisoc-base-quec-464xlatcfg.control
+59526630 packagegroup-unisoc-base-ql-api-test.list
+59526740 $group-unisoc-base-ql-api-test
+59526798 quectel U
+59526933 udx710_module
+59527198 packagegroup-unisoc-base-ql-api-test.control
+59527462 packagegroup-unisoc-base-production.list
+59527573 group-unisoc-base-production
+59527757 udx710_mI
+59528054 packagegroup-unisoc-base-production.control
+59528318 packagegroup-unisoc-base-pppd.list
+59528421 group-unisoc-base-pppd
+59528598 udx710_module
+59528870 packagegroup-unisoc-base-pppd.control
+59529126 packagegroup-unisoc-base-param-check.list
+59529236 $group-unisoc-base-param-check
+59529427 udx710_module
+59529694 packagegroup-unisoc-base-param-check.control
+59529958 packagegroup-unisoc-base-orca-deamon.list
+59530068 $group-unisoc-base-orca-deamon
+59530249 udx710_module
+59530526 packagegroup-unisoc-base-orca-deamon.control
+59530790 packagegroup-unisoc-base-networkutils.list
+59530900 %group-unisoc-base-networkutils
+59531093 udx710_module
+59531494 packagegroup-unisoc-base-networkutils.control
+59531758 packagegroup-unisoc-base-netfuns.list
+59531860  group-unisoc-base-netfuns
+59532041 udx710_module
+59532318 packagegroup-unisoc-base-netfuns.control
+59532582 packagegroup-unisoc-base-modem.list
+59532685 group-unisoc-base-modem
+59532861 udx710_N
+59533190 packagegroup-unisoc-base-modem.control
+59533446 packagegroup-unisoc-base-localtime.list
+59533548 "group-unisoc-base-localtime
+59533744 udx710_
+59534014 packagegroup-unisoc-base-localtime.control
+59534278 packagegroup-unisoc-base-libcust.list
+59534380  group-unisoc-base-libcust
+59534434 quectel f
+59534571 udx710_module
+59534838 packagegroup-unisoc-base-libcust.control
+59535102 packagegroup-unisoc-base-libcommon-api.list
+59535212 &group-unisoc-base-libcommon-api
+59535272 quectel ,
+59535401 udx710_module
+59535670 packagegroup-unisoc-base-libcommon-api.control
+59535934 packagegroup-unisoc-base-engpc.list
+59536037 group-unisoc-base-engpc
+59536091  for cali && factory test
+59536233 udx710_module
+59536654 packagegroup-unisoc-base-engpc.control
+59536910 packagegroup-unisoc-base-connman.list
+59537012  group-unisoc-base-connman
+59537211 udx710_module
+59537510 packagegroup-unisoc-base-connman.control
+59537774 packagegroup-unisoc-base-audiohal.list
+59537876 !group-unisoc-base-audiohal
+59538056 udx710_module
+59538342 packagegroup-unisoc-base-audiohal.control
+59538756 (s required to fully support udx710-module hardware
+59538908 .z@unisoc.com>
+59539756 udx710_module
+59540506 .z@unisoc.com>
+59541309 .z@unisoc.com>
+59541350 udx710_module
+59542229 .z@unisoc.com>
+59542269 udx710_module
+59543148 .z@unisoc.com>
+59543188 udx710_module
+59543975 .z@unisoc.com>
+59544015 udx710_module
+59544896 .z@unisoc.com>
+59545829 .z@unisoc.com>
+59547158 .z@unisoc.com>
+59547190 : udx710_module
+59548498 .z@unisoc.com>
+59549448 .z@unisoc.com>
+59550679 .z@unisoc.com>
+59551694 .z@unisoc.\
+59556548 .z@unisoc.\
+59558931 .z@unisoc.\
+59561178 .z@unisoc.\
+59562341 .z@unisoc.\
+59564702 .z@unisoc._	>
+59566995  Unisoc Get Release Mode
+59568664 .z@unisoc.L
+59573781 .z@unisoc.L
+59575294 .z@unisoc.O
+59576807 .z@unisoc.O
+59577808 .z@unisoc.com>
+59580072 .z@unisoc.com>
+59583692 .z@unisoc.com>
+59584520  Unisoc
+59585426  Unisoc-
+59587659  Unisoc Get Release M@
+59588888 .z@unisoc.com>
+59589335 if true && [ -z "$D" -a -x "/etc/init.d/sprdzmbim-init" ]; then
+59589399 	/etc/init.d/sprdzmbim-init stop || :
+59589859  sprdzmbim-init remove
+59590305  sprdzmbim-init start 18 5 2 3 .B
+59590646 '/etc/init.d/sprdzmbim-`
+59591105  Unisoc Get Release Mode
+59592097 .z@unisoc.com>
+59593054 .z@unisoc.com>
+59593078 UNISOC
+59594442 .z@unisoc.R
+59597025 .z@unisoc.R
+59598333 .z@unisoc.com>
+59599216  Unisoc+
+59599307 UNISOC
+59602577 .z@unisoc.com>
+59605428 .z@unisoc.com>
+59605474 udx710_P
+59606295  Unisoc*
+59606386 UNISOC
+59607158  Unisoc)
+59608518 .z@unisoc.com>
+59609014 /usr/lib/npidevice/libteeproduction.so	0100777
+59609061 /usr/lib/libteeproduction.so	0100777
+59609318 libteeproduction.list
+59609390 /Package: libteeproduction
+59609510 .z@unisoc.com>
+59609878 libteeproduction.control
+59611041 .z@unisoc.X
+59612420 .z@unisoc.com>
+59615379 .z@unisoc.com>
+59616210  Unisoc
+59616300 UNISOC
+59617097  Unisoc,
+59617188 UNISOC
+59617993  Unisoc,
+59618084 UNISOC
+59621277 .z@unisoc.com>
+59622204 .z@unisoc.com>
+59626755 .z@unisoc.com>
+59630616  Unisoc RGB LED deamon
+59630712 UNISOC
+59631547  Unisoc'x
+59631638 UNISOC
+59632993 .z@unisoc.com>
+59634321 .z@unisoc.com>
+59640711 .z@unisoc.com>
+59642287 .z@unisoc.com>
+59643784 .z@unisoc.com>
+59645321 .z@unisoc.com>
+59646198  Unisocb
+59646293 UNISOC
+59648555 UNISOC
+59650978 UNISOC
+59652359 .z@unisoc.H
+59653886 .z@unisoc.X
+59654706  Unisoc
+59654803 UNISOC
+59656306 .z@unisoc.com>
+59660107  Unisoc'x
+59660198 UNISOC
+59664618 .z@unisoc.com>
+59666885 .z@unisoc.com>
+59667863 .z@unisoc.com>
+59669378 .z@unisoc.com>
+59670865 .z@unisoc.X
+59671702  Unisoc)
+59671791 UNISOC
+59673926 /usr/lib/npidevice/libfactoryreset.so	0100777
+59674190 libfactoryreset.list
+59674262 BPackage: libfactoryreset
+59674324  Unisoc/
+59674415 UNISOC
+59674742 libfactoryreset.control
+59675835 .z@unisoc.com>
+59677358 .z@unisoc.com>
+59678194  Unisoc
+59678284 UNISOC
+59679748 .z@unisoc.J&>
+59681195 .z@unisoc.com>
+59681654 /usr/lib/npidevice/libdynamicproduction.so	0100777
+59681926 libdynamicproduction.list
+59682006 3Package: libdynamicproduction
+59682131 .z@unisoc.com>
+59682494 libdynamicproduction.control
+59684563  Quectel'|
+59684633 .z@unisoc.com>
+59686188 .z@unisoc.[
+59687581 .z@unisoc.com>
+59688985 .z@unisoc.com>
+59689827  Unisoc.
+59691185 .z@unisoc.com>
+59692050  Quectel(
+59692117 .z@unisoc.P
+59693670 .z@unisoc.\#
+59694510  Unisoc)
+59694601 UNISOC
+59695438 .z@unisoc.com>
+59696254  Unisoc)
+59696344 UNISOC
+59697840 .z@unisoc.com>
+59699459 .z@unisoc.com>
+59701050 .z@unisoc.O
+59702367 .z@unisoc.com>
+59703855 .z@unisoc.com>
+59704696  Unisoc+
+59706235 .z@unisoc.D
+59707164  Unisoc(|
+59707255 UNISOC
+59708060  Unisoc.
+59708151 UNISOC
+59708934  Unisoc)
+59709024 UNISOC
+59710419 .z@unisoc.com>
+59712450 .z@unisoc.R
+59714724  Unisoc Orca-
+59714815 UNISOC
+59715558 linux-unisoc-r
+59715691 udx710_
+59717528 .z@unisoc.T
+59717571 udx710_
+59719748 .z@unisoc.com>
+59719791 udx710_
+59720472 	linux-unisoc
+59720604 udx710_module
+59721263 	linux-unisoc
+59721395 udx710_module
+59722585 	linux-unisoc
+59722717 udx710_module
+59723457  Unisoc netfuns module
+59724417 .z@unisoc.com>
+59725438 .z@unisoc.com>
+59726439 .z@unisoc.com>
+59727432 .z@unisoc.com>
+59728416 .z@unisoc.com>
+59729400 .z@unisoc.com>
+59731124 .z@unisoc.com>
+59732193 .z@unisoc.com>
+59733204 .z@unisoc.com>
+59734204 .z@unisoc.com>
+59735848 .z@unisoc.F
+59736897 .z@unisoc.F
+59738396 .z@unisoc.com>
+59739316 .z@unisoc.com>
+59740238 .z@unisoc.com>
+59741144 .z@unisoc.com>
+59742116 .z@unisoc.com>
+59743036 .z@unisoc.com>
+59743955 .z@unisoc.com>
+59744901 .z@unisoc.com>
+59745880 .z@unisoc.com>
+59746812 .z@unisoc.com>
+59747754 .z@unisoc.com>
+59748695 .z@unisoc.com>
+59749651 .z@unisoc.com>
+59750625 .z@unisoc.com>
+59752539 .z@unisoc.com>
+59753472 .z@unisoc.com>
+59754405 .z@unisoc.com>
+59755346 .z@unisoc.com>
+59756279 .z@unisoc.com>
+59757257 .z@unisoc.com>
+59758191 .z@unisoc.com>
+59759136 .z@unisoc.com>
+59760080 .z@unisoc.com>
+59761025 .z@unisoc.com>
+59761959 .z@unisoc.com>
+59762892 .z@unisoc.com>
+59763824 .z@unisoc.com>
+59764759 .z@unisoc.com>
+59765704 .z@unisoc.com>
+59766659 .z@unisoc.com>
+59767629 .z@unisoc.com>
+59768548 .z@unisoc.com>
+59769471 .z@unisoc.com>
+59770407 .z@unisoc.com>
+59771340 .z@unisoc.com>
+59772261 .z@unisoc.com>
+59773190 .z@unisoc.com>
+59774127 .z@unisoc.H	
+59775083 .z@unisoc.com>
+59776015 .z@unisoc.com>
+59776960 .z@unisoc.com>
+59777913 .z@unisoc.com>
+59778844 .z@unisoc.com>
+59779764 .z@unisoc.com>
+59780725 .z@unisoc.com>
+59781666 .z@unisoc.com>
+59782597 .z@unisoc.com>
+59783571 .z@unisoc.com>
+59784492 .z@unisoc.com>
+59785492 .z@unisoc.com>
+59786444 .z@unisoc.com>
+59787434 .z@unisoc.com>
+59788387 .z@unisoc.com>
+59789339 .z@unisoc.com>
+59790280 .z@unisoc.T	
+59791225 .z@unisoc.com>
+59792177 .z@unisoc.com>
+59793130 .z@unisoc.com>
+59794072 .z@unisoc.com>
+59795004 .z@unisoc.com>
+59795927 .z@unisoc.com>
+59796881 .z@unisoc.com>
+59797816 .z@unisoc.com>
+59798790 .z@unisoc.com>
+59799712 .z@unisoc.com>
+59800658 .z@unisoc.com>
+59801612 .z@unisoc.com>
+59802553 .z@unisoc.com>
+59803498 .z@unisoc.com>
+59804453 .z@unisoc.com>
+59805382 .z@unisoc.com>
+59806304 .z@unisoc.com>
+59807238 .z@unisoc.com>
+59808160 .z@unisoc.com>
+59809117 .z@unisoc.com>
+59810045 .z@unisoc.com>
+59810967 .z@unisoc.com>
+59811912 .z@unisoc.com>
+59812856 .z@unisoc.com>
+59813789 .z@unisoc.com>
+59814730 .z@unisoc.com>
+59815684 .z@unisoc.com>
+59816634 .z@unisoc.com>
+59817565 .z@unisoc.com>
+59818509 .z@unisoc.com>
+59819439 .z@unisoc.com>
+59820399 .z@unisoc.com>
+59821345 .z@unisoc.com>
+59822317 .z@unisoc.com>
+59823239 .z@unisoc.com>
+59824184 .z@unisoc.com>
+59825129 .z@unisoc.com>
+59826023 .z@unisoc.com>
+59826968 .z@unisoc.com>
+59827912 .z@unisoc.com>
+59828845 .z@unisoc.com>
+59830816 .z@unisoc.com>
+59832019 .z@unisoc.com>
+59841049 .z@unisoc.com>
+59842258 .z@unisoc.com>
+59844389 .z@unisoc.com>
+59848070 .z@unisoc.com>
+59848110 udx710_module
+59849958  Unisoc
+59850043 UNISOC
+59852195  Unisoc
+59852280 UNISOC
+59853046  Unisoc)
+59853137 UNISOC
+59853944  Unisoc
+59854030 UNISOC
+59856538 .z@unisoc.com>
+59858725 .z@unisoc.com>
+59859720 .z@unisoc.com>
+59866582 .z@unisoc.[
+59867604 .z@unisoc.com>
+59868543 .z@unisoc.com>
+59870419 sprd_wifi_ap_f
+59875455 c_and_Research_Institux6
+59877032 .z@unisoc.com>
+59883756 fbsLr
+59896986 .z@unisoc.com>
+59899372 .z@unisoc.S
+59900307 etc/quectel+O
+59901530 .z@unisoc.com>
+59901570 : udx710_module
+59902722 .z@unisoc.com>
+59903596 .z@unisoc.com>
+59906013 .z@unisoc.com>
+59908284  Unisoc(|
+59909473  Unisoc Get Release Mode
+59910367  Unisoc Get Release Mode
+59911318 .z@unisoc.com>
+60007670 Factory
+60320224 ut"bSll
+60419879 ut"bSll
+60498434 GVtcyBTLiBkZSBSLkwuMSc[
+60499950 As8e5ZTZ845b2EzwnexhF7sUMlQMAimTHpKG9n/v55IFDlndmQguLvqcAFLTxWYp
+60500563 gwbVHJ1c3RDb3IgU3lzdGVtcyBTLiBkZSBSLkwuMScX
+60502266 gwbVHJ1c3RDb3IgU3lzdGVtcyBTLiBkZSBSLkwuMScX
+60513698 g1XqfMIpiRvpb7PO4gWEyS8+eIVibslfwXhjdFjASBgMmTnrpMwatXlajRWc2BQN
+60519897 0q23KXB56jzaYyWf/Wi3MOxw+3WKt21gZ7IeyLnp2KhvAotnDU0mV3HaIPzBSlCN
+60521523 pL/QlwVKvOoYKAKQvVR4CSFx09F9HdkWsKlhPdAKACL8x3vLCWRFCztAgfd9fDL1
+60534199 nXkZ7/e7DDWQw4rtTw/1zBLZpD67oPwglV9PJi8RI4NOdQcPv5vRtB3pEAT+ymCP
+60549736 BluornFdLwUvZ+YTRYPENSMwCY
+60565354 ddug4lQUsbocKaQY9hK6ohQU4zE1yED/t+AFdlfBHFny+L/k7SViXITwfn4fs775
+60571850 l1gEIt44w8y8bckzOmoKaT+gyOpyj4xjhiO9bTyWnpXgSUyqorkqG5w2gXjtw+hG
+60580326 Hellenic_Academic_and_Research_Institutions_RootCA_2015.crt
+60582054 Hellenic_Academic_and_Research_Institutions_RootCA_2011.crt
+60583302 Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.crt
+60597582 FspjsbmG+IpXwVfOQvpzofdlQv8ewQCybnMO/8ch5RikqtlxP6jUuc6MHaNCMO1
+60614644 6SmU4DHhmak8fdLQ/uE
+60640622 p1x4EaTByIVcJdPTsuclzxFUl6s1wB52HO8AU5853BSlLCIls3Jy/I2z5T4IHhQq
+60673178 LIxyh6mx/H9z/WNxeKWHWc8w4Q0QshNabYL1auaAn6AFC2jkR2vHat+2/XcycuUY
+61192040 bSLP-DA
+61684065 ad<=0 rfdl
+62774273 source/unisoc/radio/ofono-1.25/plugins/udevng.c
+62777096 source/unisoc/radio/ofono-1.25/gX
+62782576  Manufacturer+\
+62782610 ce/unisoc/radio/ofono-1.25/drivers'Y
+62783247 AT+CCLK?
+62787303 AT+EPINC
+62788103 source/unisoc/radio/ofono-1.25/drivers/L	
+62789191 AT+SPLBAND=10,=
+62790027 source/unisoc/radio/ofono-1.25/drivers/L
+62806383 *source/unisoc/radio/ofono-1.25/drivers/isimodem/phonebook.c
+62806638 -source/unisoc/radio/ofono-1.25/drivers/isimodem/devinfo.c
+62808516 ce/unisoc/radio/ofono-1.25/drG
+62811875 source/unisoc/radio/ofono-1.25/plugin
+62815606 source/unisoc/radio/ofono-1.25/
+62815725 manufacturp
+62816825 source/unisoc/radio/ofono-1.25/drivers/O
+62818466 source/unisoc/radio/ofono-1.25/drivers/O
+62818919 	AT+CCWA=1,%dH
+62820408 AT+CCFC=%d,2
+62820474 source/unisoc/radio/ofono-1.25/drivers/atz:m/
+62822215 AT+CUAD
+62823186 e/unisoc/radio/ofono-1.25/drivers/
+62824212 AT+CMUT?
+62824518 !source/unisoc/radio/ofono-1.25/drivers/atmodem/gprs
+62827108 AT+CGPADDR=
+62827807 source/unisoc/radio/ofono-1.25/drivers/
+62827901 AT+CGACT=0,%u_
+62829534 *source/unisoc/radio/ofono-1.25/drivers/stemodem/caif_rtnl.c
+62831358 AT+CESQ
+62831427 source/unisoc/radio/ofono-1.25/drivers/
+62833223 source/unisoc/radio/ofono-1.25/plugins/mbm.c
+62833271 AT+CFUN=4
+62835085 rce/unisoc/radio/ofono-1.25/plugins/\
+62835414 AT+CFUN=7
+62836436 source/unisoc/radio/ofono-1.25/plugins/samsung.c\
+62836487 AT+MODESELECT=2|
+62838320 source/unisoc/radio/
+62840893 /unisoc/radio/ofono-1.25/gb
+62852481 source/unisoc/radio/ofono-1.25/srK
+62854294 source/unisoc/radio/
+62856211 source/unisoc/radio/
+62857076 source/unisoc/radio/
+62859088 source/unisoc/radio/
+62860386 source/unisoc/radio/
+62861856 source/unisoc/radio/ofono-1.25/src/sim.c_
+62864356 source/unisoc/radio/
+62867029 source/unisoc/radio/
+62868517 source/unisoc/radio/
+62875876 source/unisoc/#I-/#
+62876665 source/unisoc/radio
+62879580 source/unisoc/radio/
+62882745 source/unisoc/radio/ofono-1.25/src/lte.c\
+63087585 ("L.}FdL
+63542747 FdL\
+63733066 IFdll\&\
+64002108 mFdL
+64615832 source/unisoc/i&m
+64617632 source/unisoc/l$
+64625132 ce/unisoc/
+64625596 source/unisoc/|
+64627873 at+cgdcont?
+64632770 source/unisoc/
+64635982 D%s:%d at %s() AT+SPDHCPCFG: host_ip:%s, subnet_mask
+64639831 source/unisoc/connman/src/service.c
+64646210 source/unisoc/
+64653001 rce/unisoc/
+64655190 source/unisoc/
+64659142 source/unisoc/
+64663750 source/unisoc/
+64667204 source/unisoc/
+64668135 udx710-
+64669095 AT+SPURSPEVA=0,"%s", 3
+64671984 ce/unisoc/connman/src/
+64675121 %s() Quectel: en
+64677192 AT+SPASENGMD="#dsm#A2d@
+64680292 AT+SPDHCPCFG?2
+64680940 source/unisoc/
+64682687 source/unisoc/connman/(
+64684447 source/unisoc/
+64684512 AT+SPASENGMD="#2
+64684564 /sprd_time_sync-8
+64685038 udx710-
+64689359 source/unisoc/
+64691785 source/unisoc/`2R!/g
+64693219 ce/unisoc/
+64695457 source/unisoc/
+64872621 # Quectel add
+65359702 (ID=unisoc-initgc
+65372602 production CA organize_rsp, start!
+65374158 $libteeproduction.so
+65374974 libteeproduction.so
+65383356 AT+SPREF="AUTODLOADER"~
+65404709 	AT+SPBBTEST=|
+65429175 /quec_factory.ini1
+65440633 AT+LEDTEST,
+65457643 +GETTESTMODE:Q
+65461374 factoryreT
+65462054 $libfactoryreset.so
+65462870 libfactoryreset.so
+65467981 (libdynamicproduction.so
+65468766 libdynamicproduction.so
+65470250 AT+CHIPID=e
+65477844 sprdfgu/L
+65483634 AT+EUICC?
+65497317 AT+SPVSERLOGPORT=
+65497563 proc/sprd_dmcu
+66316731 ZN6unisoc6ParcelC2Ev1U
+67220274 production CA organize_rsp, start!
+67221830 $libteeproduction.so
+67222646 libteeproduction.so
+68795672 }fDL@]~
+69143401 SPTESTMODE@
+69319273 AT+SFUN=4)<
+69322134 MAT+CCMMD=%d,1,"m=audio"
+69324581 SPENGMDrat+
+69328201 AT+CGCONTRDP=@
+69329829 AT+SPENGMD=0,11,1
+69331582 1AT+CGACT deactivate all
+69334136 AT+SPCAPABILITY=51,0*
+69337487 com.sprd.modem_singleMM
+69337574 AT+SAC
+69337967 Absl[
+69341179 AT+CNMI=3,1,2M
+69349679 AT+D
+69351390  libsprd-ril.so
+69352286 libsprd-ril.so
+69745116 'at+
+69826417 librilsprd.so\
+69827278 librilsprd.so
+69990784 AT+|
+69990881 AT+SFUN=4
+69991635 AT+CRSM
+69994562 AT+CLCK="%s",%d,
+69995249 UDX710#9(m1
+69995575 AT+SPSWDATA
+69999294 	AT+COPS=3,2;
+70001447 AT+CMGS=
+70208803 quectel_exec_qlpa_profi)
+70218611 AT+CSIM=10,"0070
+70218806 _UDX710_yocot/sourc(
+70236223 quectel_lpa_es10a_setT
+70312249 src/quectel_lpa_euicc_management.c
+70320432 quectel_ 
+70324980 src/quectel_lpa_parse_https_data.c
+70567750 peat+
+70690466  UART transport P
+71260154 rhat+*
+71353897 AT+SPCONFIGH
+71360293 	Manufacturer|
+71360551 AT+CSCS?7
+71362881 AT+SP5GCMDS="get nr indicators"0
+71365943 AT+cufp=E	"
+71366419 AT+RSIMRSP="VC
+71817626 !bSL
+71918614 7FactoryD2 
+72516506 \PmFDL
+72542309 !smfdLj
+73263541 BSLB
+74707835 updat+
+75363617 reebsL|
+75408486 3FDL
+75437713 tat+
+75766630 	Jf]fdl!l[]E
+76291721 AT+SPDHCPCFG?
+76292271 AT+SPSWDATA
+76292735 AT+|
+76474448 AT+TEST
+77927275 Produced At+\
+78484442 AT+SPERRLOG=5.
+78486928 /run/quectel.urc.fifo.
+78488070 AT+CCED=2,8
+78488559 RG500U_CNAA5]
+78489445 AT+SPENGMD=0,6,0
+78490356 AT+*
+78490409 SPTESTMODE=128,L
+78492134 AT+SP5GCMDS="
+78492260 at+cops?3|
+78493622 cy]AT+CFUN? failed.l	X
+78495144 AT+CCID,
+78495465 	at+
+78495742 glat+
+78496885 AT+VTSf	c
+78496916 at+cgu=1,
+78498122 AT+SPSMNW2
+78645258 	AT+CGCONTRDP|
+78645559 AT+EGMR|
+78663330 AT+EUICC?
+79165313 FACTORYRE@
+79217015 AT+USBMD
+79217791 AT+SERDES
+79218555 /usr/bin/unisoc-red
+79218587 recovery
+79218895 AT+USBMD
+79219838 $AT+SPNETPORTSCHEME
+79220181 /sys/devices/virtual/misc/sprd_mbim/p
+79281922 #udx710-module
+79284177 AT+SPASENGMD=\"#dsm_{
+79285092 AT+SPASENGMD=\"#dsm_{
+79285946 AT+SPASENGMD=\"#dsm_s
+79286715 AT+SPASENGMD=\"#dsm_w
+79287443 AT+SPASENGMD=\"#dsm_x
+79288954 AT+SPASENGMD=\"#dsm_{
+79289902 AT+SPASENGMD=\"#dsm_{
+79290890 AT+SPASENGMD=\"#dsm_{
+79291916 AT+SPASENGMD=\"#dsm_s
+79292931 AT+SPASENGMD=\"#dsm_{
+79293924 AT+SPASENGMD=\"#dsm_{
+79295049 AT+SPASENGMD=\"#dsm_{
+79297441 	echo "usbenum.ini error, sprd-
+79301492 unisoc-reboot\
+79302366 unisoc-reboot
+79421874 # SPDX-FileCopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd.
+79715450 BsLADD
+80160396 ad<=0 rfdl
+80345321 L	mfDl	|
+80607772 	recovery.map
+80635914 libsprd-ril.so
+80636538 sprdrildl
+80637390 sprdrild
+80640478 sprd_wifi_ap_config
+80804907 AT+ARMLOGEVT=1
+80812280 UART
+81455967 sprdwl_ng)
+81706392 	Quectel
+81710290 	Quectel
+81711695  quectel_si3218x_iP#
+81712999 quectel_si3218x_i
+81717522 quectel_le964x_init
+81718865 	Quectel
+81720755 quectel_n6813xx_D	
+81721954 	Quectel
+81724357 [32;40;1m[%s]Enter quectel_slic_active_hook_on_process
+81724551 at+chld=1
+81725761 	quectel_slic`
+81727871 inuart_up
+81771470 +quectel_slic_daemon
+81772390 quectel_slic_daemon
+82140210 # Quectel, 2020-09-22T
+82142561 # Quectel AP product bt infon
+82155673 	Quectel
+82155906 at+cgdcont?0
+82174693 	Quectel
+82174880 AT+NRPHY=21,1,8,19
+82176552 AT+SPTEST=47,1E
+82176765 at+nrphy=16Q"2,}
+82180513 AT+CSMS=0
+82262041 uart~
+82378230 manufacturerIdentity 
+82427606 manufacturerIdentity 
+82527039 manufacturerIdentity 
+82989294 " factorytest!
+82989319 %s:check recoveryp
+82994775 halo_set_factory/^
+82998808 sprd_rsa_sign128_256 verify RSA_Pub8
+83008283 AT+SPCORESIGHT=\
+83230327 AT+"&5OP
+83230590 AT+SPENGPCLOGLEVEL
+83504648 UARTc
+83910485 c/asound/sprdphon@"
+83916304 sprdphone4adnc=
+83922625 free_sprd
+83923956 _sprd_
+83926267 AT+SPATASSERT=^
+84550048 AT+SPTTYROUTER=1
+84551509 at+c
+84551873 AT+SPCARDINFO=5,2,1
+84553917 at+cA)?4
+84555810 AT+SPTESTMODE]
+84557861 AT+SPMBIMMODE 
+84561319 uart speed is wrong,
+84563349 AT+SPTTYROUTER=1
+84565122 	AT+CGDCONT=1~
+84565758 at+qtts=2,
+84567515 at+n
+84569219 AT+s
+84570881 d]Count of "AT+
+84573133 AT+SPASENGMD="#nras_get_utc_
+84573605 Xat+
+84577151 hAT+
+84578043 AT+CCID?
+84579018 TBSL
+84579828 AT+SPENGMD=0,14,1
+84581536 o OK found in AT+SFUN=20_
+84583959 AT+SGMR=0,0,3,41
+84585384 AT+SFUN=3Q
+84585840 	RG500U_EAAA,(-
+84589248 AT+P
+84589537 at+cH
+84590265 AT+CFUN=4
+84590728 		_RG500U_CNAA5]
+84591904 --exec /usr/bin/quectel_slic_
+84592458 	AT+CCED=2,8
+84593884 AT+SPERRLOG=%d
+84597927 AT+SFUN=5
+84598301 begin at+sZ
+84598483 TESTMODE=%d,%d
+84599160 at+spcapability=51,0
+84599810 AT+SP5GCMDS="]
+84600753 +SPTESTMODEM:.<
+84602097 d]: send cmd AT+CEREG? fail.
+84604012 at+cgda8?
+84604425 AT+CGDATA="M-ETHER"`H,]
+84605566 AT+SPT
+84606414 AT+SPT
+84608236 AT+SPFORCm
+84610701 AT+CNMI=
+84611927 AT+SPENGMD=0,0,4
+84617871 UART/^
+84620461 at+sp5gcmds="t
+84620506 AT+SPFLUSHNV
+84621984 AT+SPSURC="@
+84624229 AT+SPNETDTS?
+84626856 UART_O\g2
+84627069 UART_work_thread\
+84627210 _myftp_UartOpen}
+84628661 QL_AT_FTPPUT_UART_thread
+84628780 uart_fd
+84630204 AT+CGDATA="M-ETHER"YN
+84630541 AT+CG]
+84634659 UART_O\
+84636107 device(%s) uart_fd
+84639710 @Unisoc\S
+84735530 AT+SPCARDINFO=5,3,0
+84780992 AT+SPENGMD=0,11,1
+84786249 (e.g. AT+RSIMRSP="MBAU",4),
+85204078 sprdtrum
+85204473 RECOVERY
+85258159 BFdl`
+85337768 Eat+
+85595678 CONSOLE
+85621719 fastboot
+85625774 setconsole
+85713307 debug modey
+85995345 MbsLQ
+86122720 	/dev/console'<
+86239438 console=
+86304864 noconsole
+86358205 at+|
+86383683 f_sprd)
+86387745 mfdl
+86387910 !misc/sprd_audio/
+87177467 absl
+87732121 G2vat+
+87886097 qaT+
+88046128 rfdl
+88657860 )tMBsL&mN`]9X^K
+89270926 -factory
+89271937 -factory.'}
+89272697 -factory@ims.vodafone.i
+89273333 =udx710-module
+89275590 update_recovery=0
+89276544 <!-- Quectel m_
+89276933 AT+SPTPPB='
+89285587  Microsystems Inc. workstation console
+89290556  console
+89293894 `# SPDX-FileCopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd.
+89335985 LIxyh6mx/H9z/WNxeKWHWc8w4Q0QshNabYL1auaAn6AFC2jkR2vHat+2/XcycuUY
+89359410 p1x4EaTByIVcJdPTsuclzxFUl6s1wB52HO8AU5853BSlLCIls3Jy/I2z5T4IHhQq
+89386478 6SmU4DHhmak8fdLQ/uE
+89397372 FspjsbmG+IpXwVfOQvpzofdlQv8ewQCybnMO/8ch5RikqtlxP6jUuc6MHaNCMM1
+89421985 l1gEIt44w8y8bckzOmoKaT+gyOpyj4xjhiO9bTyWnpXgSUyqorkqG5w2gXjtw+hG
+89428604 ddug4lQUsbocKaQY9hK6ohQU4zE1yED/t+AFdlfBHFny+L/k7SViXITwfn4fs775
+89440316 BluornFdLwUvZ+YTRYPENSMwCY
+89461576 pL/QlwVKvOoYKAKQvVR4CSFx09F9HdkWsKlhPdAKACL8x3vLCWRFCztAgfd9fDL1
+89462467 0q23KXB56jzaYyWf/Wi3MOxw+3WKt21gZ7IeyLnp2KhvAotnDU0mV3HaIPzBSlCN
+89467149 nXkZ7/e7DDWQw4rtTw/1zBLZpD67oPwglV9PJi8RI4NOdQcPv5vRtB3pEAT+ymCP
+89469274 	kZSBSLkwuMScX
+89470570 gwbVHJ1c3RDb3IgU3lzdGVtcyBTLiBkZSBSLkwuMScX
+89473450 As8e5ZTZ845b2EzwnexhF7sUMlQMAimTHpKG9n/v55IFDlndmQguLvqcAFLTxWYp
+89477529 g1XqfMIpiRvpb7PO4gWEyS8+eIVibslfwXhjdFjASBgMmTnrpMwatXlajRWc2BQN
+89511326 ../../../usr/share/ca-certificates/mozilla/Hellenic_Academic_and_Research_Institutions_RootCA_2015.crt
+89511486 Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+89511710 ../../../usr/share/ca-certificates/mozilla/Hellenic_Academic_and_Research_Institutions_RootCA_2011.crt
+89511870 Hellenic_Academic_and_Research_Institutions_RootCA_2011.pem
+89512094 ../../../usr/share/ca-certificates/mozilla/Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.crt
+89512262 Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+89536814 Hellenic_Academic_and_Research_Institutions_ECC_RootCA_2015.pem
+89547174 Hellenic_Academic_and_Research_Institutions_RootCA_2015.pem
+89549574 Hellenic_Academic_and_Research_Institutions_RootCA_2011.pem
+89669445 4BFDLL
+89789370 fo=RG500UEBAAR03A09M4G.
+89803150 ../init.d/sprdzmbim-init1
+89803230 K20sprdzmbim-init
+89803414 ../init.d/sprdrild-init
+89803494 K20sprdrild-init
+89811518 ../init.d/sprdzmbim-init1
+89811598 S18sprdzmbim-init
+89811782 ../init.d/sprdrild-init
+89811862 S18sprdrild-init
+89825374 ../init.d/sprdzmbim-init1
+89825454 S18sprdzmbim-init
+89825638 ../init.d/sprdrild-init
+89825718 S18sprdrild-init
+89833214 ../init.d/sprdzmbim-init1
+89833294 S18sprdzmbim-init
+89833478 ../init.d/sprdrild-init
+89833558 S18sprdrild-init
+89840254 ../init.d/sprdzmbim-init1
+89840334 K20sprdzmbim-init
+89840518 ../init.d/sprdrild-init
+89840598 K20sprdrild-init
+89848846 ../init.d/sprdzmbim-init1
+89848926 K20sprdzmbim-init
+89849110 ../init.d/sprdrild-init
+89849190 K20sprdrild-init
+89851673 module_manufacture=Quec'\
+89851700 odel=RG500U-EB+[
+89852046 quectel-project-name
+89863142 quectel
+89890642 CONSOLE 
+89898027 arch udx710_module 21
+89907817 !-- SPRD: add for bug
+89908150 !-- SPRD: add for bug243791 --;q
+89908940 !-- SPRD:Add for Bug 451135 --<e
+89911620 !--UNISOC: add for bug 963462--;
+89915039 <!-- SPRD: add operator fL
+89918966 !-- SPRD: add operator fL
+89932798 console
+89936598 CONSOLE		
+89940958 CONSOLE@
+89945723 	eeproduction/0
+89947446 unisoc-initgc-distro udx710-module+unisoc-initgc-1.0+W25.44.1:20.02.46+user+native %h
+89947814 unisoc-initgc-distro udx710-module+unisoc-initgc-1.0+W25.44.1:20.02.46+user+native \n \l
+89959341 echo "Quectel 
+89962982 chown user.user /proc/sprd_sysdump
+89968430 sprdzmbim-init
+89968506 DESC="sprdrild"
+89969398 sprdrild-init
+89970098 DESC="quectel slic daemon"
+89974894 `# SPDX-FileCopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd.
+89976294 `# SPDX-FileCopyrightText: 2019-2021 Unisoc (Shanghai) Technologies Co., Ltd.
+89984509 QUECTEL MODIFY
+89985122 DESC="quectel-voice-serv^
+89992032 #QuectelE
+89999303 #Quectel Remove, 
+90012783 30 $CONSOLE
+90017798 console 
+90019428 setprop ro.sprd.debug 1
+90020420  udx710-module
+90020710 udx710-module
+90029217 	SPRD
+90030063 SPRD_LTE
+90030109 #Quectel(
+90030445 above is QUECTEL ADD
+90031969 ve is QUECTEL ADD
+90036272 AT+d
+90040327 sprdphone Headset Jack(
+90050889 <allow own="com.unisoc.atrouter"/-
+90059291 DISTRO = unisoc-initgc
+92784942 	card="sprdphH
+92785786 <card_name val="sprdphL
+92934315 Tester ChipName="udx710" FmTyp]
+93059974 etraT+6
+93069423 	SPRD: Modify*
+93087883 	SPRD: Modify France (208) oQ
+93116468 SPRD
+93121082 SPRD: modified the config file @{5C
+93144682 SPRD: Add
+93156276 SPRD
+93171850 !-- SPRD
+93191063 !--UNISOC: add for bug1157033 -- 
+93194574 !--UNISOC: add for bug1157033 --8;
+93195959 !--UNISOC: add for bug1157033 -- 
+93234018  console(s) on startup.
+93234055  SERIAL_CONSOLES can be
+93897845 /sys/class/tty/console/active_
+94175464 *{MBsL
+94181673 $\1mFdL
+94460821 aarch64-unisoc-linux-gnu
+95973882 sprd_adc_mutex_init fail!
+96001730 uart_sprd.c
+96032790 [NV:_recovery] IN (item_id = %u, size = %u)
+96032842 [NV:_recovery] _write_dir failed
+96032878 [NV:_recovery] _recovery_dir failed
+96033038 [NV:NVD_WriteItem] _recovery_dir failed(item %u)
+96049786 [NV:_recovery_dir] IN (item_id = %u)
+96300382 testmode=
+96318298 sprd_efuse_init_late fail!
+99248750 System engineering release 2.5.1
+99248954 System engineering release 1.0.0
+99273110 HW Version:        udx710_modem
+99274622 TB_UART_INT
+99588570 *UART0
+108718866 testmode=
+108721862 sprd_adc_mutex_init fail!
+108802662 [NV:_recovery] IN (item_id = %u, size = %u)
+108802714 [NV:_recovery] _write_dir failed
+108802750 [NV:_recovery] _recovery_dir failed
+108802910 [NV:NVD_WriteItem] _recovery_dir failed(item %u)
+108815250 uart_sprd.c
+108932630 [NV:_recovery_dir] IN (item_id = %u)
+109050110 sprd_efuse_init_late fail!
+109211390 System engineering release 2.5.1
+109211594 System engineering release 1.0.0
+109242082 HW Version:        udx710_modem
+109242714 TB_UART0_INT
+109279965 *UART0
+109431622 (ulEHEvtExeTs + DFE_ONE_QUARTER_SYMB_TS) < ulNextSlotStartTime
+119165874 %s version %s (quectel@eb3f655982c8) (gcc version 9.3.0 (GCC)) %s
+119165946 Linux version 4.14.98 (quectel@eb3f655982c8) (gcc version 9.3.0 (GCC)) #1 SMP PREEMPT Mon Oct 27 12:16:54 UTC 2025
+119206250 printk.console_suspend
+119305410 ql_recovery_vol
+119384426 sprd,orca-pinctrl
+119387754 sprd,sc9860-eic-debounce
+119387954 sprd,sc9860-eic-latch
+119388154 sprd,sc9860-eic-async
+119388354 sprd,sc9860-eic-sync
+119388554 sprd,sharkl5-eic-debounce
+119388754 sprd,sharkl5-eic-latch
+119388954 sprd,sharkl5-eic-async
+119389154 sprd,sharkl5-eic-sync
+119389354 sprd,roc1-eic-debounce
+119389554 sprd,roc1-eic-latch
+119389754 sprd,roc1-eic-async
+119389954 sprd,roc1-eic-sync
+119390154 sprd,sharkl3-eic-debounce
+119390354 sprd,sharkl3-eic-latch
+119390554 sprd,sharkl3-eic-async
+119390754 sprd,sharkl3-eic-sync
+119391282 sprd,sc27xx-eic
+119391682 sprd,sc9860-gpio
+119391882 sprd,sharkl5-gpio
+119392082 sprd,roc1-gpio
+119392938 sprd,sharkl5-pwm
+119397282 pci_epf_sprd_init
+119397546 sprd_epf_get_smem
+119397570 pci_epf_sprd
+119397802 sprd_pcie_configure_device
+119397834 sprd_pcie_unconfigure_device
+119398290 sprd,pcie
+119398626 sprd_pcie_establish_link
+119398770 sprd,pcie-ep
+119404266 sprd_clk_regmap_init
+119406226 sprd,orca-apahb-gate
+119406426 sprd,orca-ap-clk
+119406626 sprd,orca-apapb-gate
+119406826 sprd,orca-ipa-gate
+119407026 sprd,orca-audcpapb-gate
+119407226 sprd,orca-audcpahb-gate
+119407426 sprd,orca-aon-clk
+119407626 sprd,orca-g3-pll
+119407826 sprd,orca-apcpu-clk
+119408026 sprd,orca-pmu-gate
+119408226 sprd,orca-aon-gate
+119408426 sprd,orca-spahb-gate
+119410666 sprd,sc9860-dma
+119410866 sprd,sharkl5-dma
+119411066 sprd,roc1-dma
+119411266 sprd,sharkl3-dma
+119411466 sprd,pike2-dma
+119411666 sprd,orca-dma
+119412106 sprd,sc2720-7sreset
+119412306 sprd,sc2721-7sreset
+119412506 sprd,sc2730-7sreset
+119412706 sprd,sc2731-7sreset
+119413042 sprd_pm_parse_node
+119413066 sprd_pm_parse_regmap
+119413090 sprd_pm_parse_intc_info
+119413114 sprd_pm_parse_pdm_info
+119413138 sprd_pm_debug_init
+119413162 sprd_pm_print_intc_state
+119413194 sprd_pm_print_wakeup_source
+119413530 sprd,time-sync
+119413930 sprd,sc27xx-syscon
+119414386 sprd,sipc
+119417418 sprd,sbuf_bridge
+119417818 sprd,sblock_bridge
+119418218 sprd,slog_bridge
+119418906 sprd,spipe
+119419578 sprd,spool
+119419978 sprd,scproc
+119420178 sprd,scproc_pubcp
+119420314 sprd_cproc_parse_dt
+119420338 sprd_cproc_probe
+119421098 sprd_cproc_init
+119421154 sprd_crypto_probe
+119421242 sprd,crypto_modem_verify
+119421578 sprd_crypt_hash
+119422426 sprd,orca-verify
+119423170 sprd,roc1-modem-ctrl
+119423370 sprd,orca-modem-ctrl
+119423818 sprd_sysdump_write
+119424082 sprd_sysdump_enable_prepare
+119424114 sprd_debug_check_crash_key
+119424146 sprd_debug_save_context
+119425658 sprd,sharkl3-dmc
+119425858 sprd,sharkl5-dmc
+119426058 sprd,roc1-dmc
+119426258 sprd,orca-dmc
+119439642 consoleblank
+119440018 uart_set_info
+119440562 sprd,sc9836-uart
+119441330 sprd,sc9836-uart-ex
+119454050 sprd,sc2731
+119454250 sprd,sc2730
+119454450 sprd,sc2721
+119455298 sprd,agdsp-access
+119456034 sprd,audio_dsp_log
+119456234 sprd,audio_dsp_pcm
+119456434 sprd,audio_dsp_mem
+119457122 sprd,sharkl3-audio-mem
+119457322 sprd,audio-mem-whale2
+119457522 sprd,audio-mem-sharkl5
+119457722 sprd,audio-mem-roc1
+119457922 sprd,audio-mem-orca
+119459050 sprd,audio_sipc
+119459954 sprd,audio_pipe_voice
+119460154 sprd,audio_pipe_effect
+119460354 sprd,audio_pipe_recordproc
+119460554 sprd,audio_pipe_bthal
+119462530 sprd,sharkl5-mcdt
+119462730 sprd,roc1-mcdt
+119467202 sprd_create_bbt_init
+119467530 sprd,orca-nandc
+119471930 sprd,sc9860-spi
+119472130 sprd,sc9863-spi
+119472714 sprd,sc9860-adi
+119472914 sprd,sharkl5-adi
+119473114 sprd,sharkl3-adi
+119515282 S:  Manufacturer=%.100s
+119516162 sprd_ssphy_init
+119516242 sprd,orca1-ssphy1
+119516682 sprd,orca1-ssphy0
+119525546 sprd,sc9860-dwc3
+119525946 sprd,roc1-dwc3
+119526146 sprd,orca-dwc3
+119529994 sprd_pamu3_set_suspend
+119530098 sprd,roc1-pamu3
+119530298 sprd,orca-pamu3
+119536610 sprd,sc2730-typec
+119536810 sprd,sc2721-typec
+119543666 sprd,sc2731-rtc
+119543866 sprd,sc2730-rtc
+119544066 sprd,sc2721-rtc
+119545034 sprd,sc9860-i2c
+119545234 sprd,sharkl5-i2c
+119545434 sprd,roc1-i2c
+119545634 sprd,sharkl3-i2c
+119545834 sprd,orca-i2c
+119546442 sprd,sharkl5-hw-i2c
+119546642 sprd,roc1-hw-i2c
+119546842 sprd,sharkl3-hw-i2c
+119547042 sprd,orca-hw-i2c
+119547626 sprd,sc2721-poweroff
+119547826 sprd,sc2730-poweroff
+119548026 sprd,sc2731-poweroff
+119550922 sprd,sharkl5-thermal
+119551122 sprd,roc1-thermal
+119551322 sprd,orca-thermal
+119551730 sprd,cluster0-thermal
+119552170 sprd,soc-thermal
+119552962 sprd,sp9860-wdt
+119553162 sprd,sharkl5-wdt
+119553362 sprd,sharkl3-wdt
+119553562 sprd,roc1-wdt
+119553762 sprd,orca-wdt
+119554786 sprd,orca-cpufreq
+119555154 sprd_hotplug_init
+119555194 sprd_add_sysfs_files
+119558482 mmc_blk_cmd_recovery
+119560754 sprd_sdhc_hs400_enhanced_strobe
+119560786 sprd_sdhc_prepare_hs400_tuning
+119560818 sprd_sdhc_execute_tuning
+119560850 sprd_sdhc_set_vqmmc
+119560874 sprd_sdhc_timeout
+119561042 sprd_set_mmc_struct
+119561066 sprd_sdhc_irq
+119561098 sprd_signal_voltage_on_off
+119561130 sprd_sdhc_set_ios
+119561170 sprd_sdhc_enable_dpll
+119561258 sprd,sdhc-r11p1
+119562522 sprd,sc2731-bltc
+119562722 sprd,sc2730-bltc
+119562922 sprd,sc2721-bltc
+119593866 sprd,sipa_eth
+119595330 sprd,sipa_usb
+119596482 sprd,sipa_mbim
+119600386 sprd,dbg-log-orca
+119601026 sprd,hwspinlock-r3p0
+119601226 sprd,sharkl5-hwspinlock
+119601426 sprd,roc1-hwspinlock
+119601626 sprd,orca-hwspinlock
+119602362 sprd,dfs
+119602698 devfreq_sprd_gov_start
+119602962 devfreq_sprd_gov_exit
+119605762 sprd,sc2731-adc
+119605962 sprd,sc2730-adc
+119606162 sprd,sc2721-adc
+119614178 sprd,sharkl5-efuse
+119614378 sprd,roc1-efuse
+119614578 sprd,sharkl3-efuse
+119614778 sprd,orca-efuse
+119615242 sprd,sc2731-efuse
+119615442 sprd,sc2730-efuse
+119615642 sprd,sc2721-efuse
+119617618 quectel-power
+119618018 quectel_w_disable
+119618602 quectel,virtual-uart
+119619186 quectel-simdet
+119723146 snd_pcm_sprd_debug_write
+119723178 asoc_sprd_card_sub_parse_of
+119723234 asoc_sprd_card_dai_link_of
+119723266 asoc_sprd_card_dummy_codec_sel
+119723298 asoc_sprd_card_dai_link_of_misc
+119723330 asoc_sprd_card_probe
+119723354 asoc_sprd_card_parse_of
+119728746 sprd_asoc_card_parse_hook_spk
+119728778 sprd_pcm_trigger
+119728802 sprd_pcm_hw_free
+119728826 sprd_pcm_hw_params
+119728850 sprd_pcm_request_dma_channel
+119728882 sprd_pcm_config_dma
+119728906 sprd_pcm_close
+119729082 sprd_pcm_open
+119729098 sprd_pcm_preallocate_dma_ddr32_buffer
+119729138 sprd_pcm_pm_notifier
+119729258 sprd,sharkl5-pcm-platform
+119729458 sprd,roc1-pcm-platform
+119729858 sprd,pcm-routing
+119785818 sprd_compr_dma_buf_done
+119785842 sprd_platform_compr_probe
+119785874 sprd_platform_compr_copy
+119785906 sprd_platform_compr_pointer
+119785954 sprd_platform_compr_suspend
+119785986 sprd_platform_compr_get_codec_caps
+119786026 sprd_platform_compr_ack
+119786050 sprd_platform_compr_resume
+119786082 sprd_platform_compr_get_caps
+119786114 sprd_compr_drain_work
+119786138 sprd_platform_compr_remove
+119786186 sprd_compr_probe
+119786226 sprd_platform_compr_update_params
+119786266 sprd_platform_compr_set_metadata
+119786306 sprd_platform_compr_open
+119786338 sprd_compr_populate_codec_list
+119786370 sprd_compr_config_dma_channel
+119786466 sprd_platform_compr_trigger
+119786522 sprd_platform_compr_free
+119786578 sprd_platform_compr_set_params
+119786610 sprd_compr_config_sprd_rtd
+119786858 sprd,sharkl5-compress-platform
+119787058 sprd,roc1-compress-platform
+119792762 sprd_dai_vbc_probe
+119793506 sprd_vbc_codec_probe
+119794090 sprd,sharkl5-vbc
+119794290 sprd,roc1-vbc
+119816434 __sprd_get_codec_dp_base
+119816466 __sprd_codec_virt_mclk_mixer_put
+119817922 sprd_fe_dai_driver_init
+119818354 sprd_dma_config
+119818458 sprd,fe-dai
+119818690 sprd,vbc-r3p0-codec-sc2731
+119818890 sprd,vbc-r1p0v3-codec-sc2721
+119819090 sprd,vbc-r1p0v3-codec-sc2731
+119819290 sprd,vbc-r2p0-codec-sc2723
+119819490 sprd,vbc-v4-codec-sc2730
+119951226 testmode
+120014074 console
+120014658 /dev/console
+120014675 3Warning: unable to open an initial console.
+120041770 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/kernel/params.c
+120048362 ===debug_mode : %s ===
+120048531 6debug: skip boot console de-registration.
+120048890 Suspending console(s) (use no_console_suspend to debug)
+120048995 6%sconsole [%s%d] disabled
+120049027 4bootconsole [%s%d] uses init memory and must be disabled even before the real one is ready
+120049154 console '%s%d' already registered
+120049195 6Too late to register bootconsole %s%d
+120049243 6printk: continuation disabled due to ext consoles, expect more fragments in /dev/kmsg
+120049339 6%sconsole [%s%d] enabled
+120081362 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/mm/pgtable-generic.c
+120096562 OFDLCK
+120101042 :console
+120101210 system:console
+120101362 consoles
+120124402 INFO: recovery required on readonly filesystem
+120124498 write access will be enabled during recovery
+120125018 required journal recovery suppressed and not mounted read-only
+120126266 recovery complete
+120126746 norecovery
+120130691 3JBD2: Out of memory during recovery.
+120130731 3JBD2: recovery pass %d ended at transaction %u, expected %u
+120132715 4JBD2: %s recovery information on journal
+120133035 4JBD2: recovery failed
+120140890 completing deferred recovery
+120140954 deferred recovery completed
+120142034 recovery needed
+120142050 recovery deferred
+120142074 recovery completed
+120160698 tst_recovery
+120167754 syslog_console
+120203803 6sprd_pull_set gpio:%d, pullsel:%d
+120203843 6sprd_pull_set gpio:%d
+120203875 6sprd_sleep_direction_get gpio:%d
+120203915 6sprd_sleep_direction_set gpio:%d
+120203955 6sprd_sleep_pull_set gpio:%d, pullsel:%d
+120204003 6sprd_sleep_pull_get gpio:%d
+120204202 sprd,control
+120204218 sprd,sleep-mode
+120205946 sprd-pinctrl
+120205962 ORCA_UART_INF6_SYS_SEL
+120205986 ORCA_UART_INF5_SYS_SEL
+120206010 ORCA_UART_INF4_SYS_SEL
+120206034 ORCA_UART_INF3_SYS_SEL
+120206058 ORCA_UART_INF2_INF3_LOOP
+120206090 ORCA_UART_INF2_INF4_LOOP
+120206122 ORCA_UART_INF2_SYS_SEL
+120206146 ORCA_UART_INF1_INF4_LOOP
+120206178 ORCA_UART_INF1_INF3_LOOP
+120206210 ORCA_UART_INF1_SYS_SEL
+120206234 ORCA_UART_INF0_SYS_SEL
+120207074 ORCA_UART_USB_PHY_SEL
+120216834 sprd-eic
+120217090 sprd-pmic-eic
+120217170 sprd-gpio
+120217930 sprd-pwm
+120233379 6quectel, sprd_epf_bind quec_no_msi = %d 
+120233634 pci_epf_sprd
+120233691 3%s: failed to init SPRD PCI epf debugfs, ret=%d
+120233747 3%s: failed to register SPRD PCIe epf driver, ret=%d
+120234171 6quectel,quec_no_msi=%d .
+120234219 3%s: sprd_epf_get_smem: retries=%llu
+120234258 g_epf_sprd: read base_reg, size_reg success, base_reg=%#x, size_reg=%#x
+120235667 3sprd_pcie: cannot find RC for pci endpoint device.
+120235723 6sprd_pcie: event is registered for RC
+120235771 6sprd_pcie:event is deregistered for RC
+120235858 sprd,pcie-resume-syscons
+120235986 sprd,pcie-aspml1p2-syscons
+120236050 sprd,pcie-suspend-syscons
+120237058 sprd,pcie-shutdown-syscons
+120237298 sprd,pcie-startup-syscons
+120237442 sprd-pcie-msi
+120237642 &ctrl->sprd_pcie_mutex
+120237770 sprd-pcie
+120237802 sprd pcie add action:%d
+120237962 sprd pcie wait for link timeout
+120238586 &ep->sprd_pcie_mutex
+120238610 sprd_pcie_ep
+120238778 sprd,pcie-inta-assert-syscons
+120238874 sprd-pcie-ep
+120241698 sprd,syscon
+120241714 sprd,sec-clk
+120241898 sp-uart0-eb
+120242170 audcp-uart-eb
+120245154 aon-uart0-clk
+120245602 ap-uart0-eb
+120245898 ap-uart0-clk
+120247410 sprd_dma
+120247650 sprd-dma
+120247930 sprd,cm4-uart
+120247946 sprd,sys-ap-intc
+120247994 sprd,pdm-name
+120248042 sprd,ap-ahb-reg-tbl
+120248066 sprd,ap-apb-reg-tbl
+120248090 sprd,pmu-apb-reg-tbl
+120248114 sprd,aon-apb-reg-tbl
+120248138 sprd,aon-sec-reg-tbl
+120248210 sprd,sys-ap-ahb
+120248266 sprd,sys-ap-apb
+120248322 sprd,sys-pmu-apb
+120248386 sprd,sys-aon-apb
+120248450 sprd,sys-aon-sec
+120248554 sprd,ap-intc
+120248626 sprd,int-names
+120248675 3%s,Failed find sprd_pwr_status[%d]
+120248746 sprd,bit-width
+120248763 3%s, Failed to find sprd,bit-width
+120248802 sprd,bit-index
+120248818 sprd,pdm-names
+120248835 3%s, Failed to find sprd,pdm-names
+120249026 sprd_pm_thread
+120249554 start parse sprd_time_sync
+120249586 sprd_time_sync
+120249602 Failed to parse sprd_time_sync device tree, ret=%d
+120249658 Failed to alloc sprd_time_sync chrdev
+120249698 Failed to add sprd_time_sync cdev
+120249762 success parse sprd_time_sync
+120250186 sprd-pmic-glb
+120250242 sprd,name
+120250258 sprd,type
+120250290 sprd,client
+120250306 sprd,dst
+120250322 sprd,core
+120250338 sprd,core_sensor
+120250394 sprd,ep-fun
+120250482 sprd,smem-type
+120250498 sprd,smem-info
+120250554 sprd,high-offset
+120257234 sprd,channel_a
+120257274 sprd,channel_b
+120257314 sprd,mask
+120257346 sprd,priority
+120257762 sprd,tx_is_usb
+120257802 sprd,tx_dst
+120257834 sprd,rx_dst
+120258346 sprd,channel
+120258362 sprd,ringnr
+120258378 sprd,size-rxbuf
+120258394 sprd,size-txbuf
+120258714 sprd,preconfigured
+120258738 sprd,tx-blksize
+120258754 sprd,tx-blknum
+120258770 sprd,rx-blksize
+120258786 sprd,rx-blknum
+120258802 sprd,nodev
+120259786 sprd,iram-dsize
+120259802 sprd,iram-data
+120260946 sprd_cproc
+120261099 3%s: alloc sprd_crypto failed: %d
+120261138 sprd_crypto
+120261155 3%s: alloc sprd_crypto_alg failed: %d
+120261426 sprd-crypto
+120262746 sprd-verify
+120263226 sprd,roc1-modem-ctrl
+120264738 ubi0:recoveryfs
+120264755 3Quectel: current mode is recovery mode, no panic!
+120266042 sprd-sysdump
+120266059 0Not find sprd-sysdump node from dts,use SPRD_SYSDUMP_MAGIC
+120266139 0Not find magic-addr property from sprd-sysdump node
+120266411 0sprd_sysdump_write: start!!!
+120266443 0sprd_sysdump_write: enable user version sysdump!!!
+120266499 0sprd_sysdump_write: disable user version sysdump!!!
+120266603 0sprd_sysdump_write: end!!!
+120266635 0sprd_sysdump_write: copy_from_user failed!!!
+120266794 sprd_sysdump
+120266810 SPRD_SYSDUMP_119
+120266851 0reason: %s, sprd_sysdump_info->crash_key: %d
+120266931 0get sprd_sysdump_info_paddr failed.
+120267074 sprd,sc27xx-syscon
+120267138 sprd,sc2721
+120267491 0get sprd_sysdump_info_paddr failed2.
+120267531 0sprd_sysdump_info_paddr failed...
+120268522 sprd_dmc
+120268570 sprd_pub_monitor
+120268626 sprd-dmc
+120269026 sprd,autotest
+120269082 sprd,pinctrl
+120269458 sprd,sc2730
+120278026 Couldn't register /dev/console driver
+120282042 vtconsole
+120282059 4Unable to create vt console class; errno = %ld
+120282203 6Console: %s %s %dx%d
+120282227 6Console: switching 
+120282251 cconsoles %d-%d 
+120282442 Couldn't allocate console driver
+120282482 Couldn't register console driver
+120282938 %d: uart:%s %s%08llX irq:%d
+120283346 uartclk
+120283738 uart
+120283746 uart%d can't get uart clock
+120283778 uart%d can't get source clock
+120283810 uart%d can't get enable clock
+120283875 3Failed to register SPRD-UART driver
+120283914 sprd_serial%d
+120284106 sprd_serial
+120284122 uart%d set rs485 on
+120284178 Failed to register SPRD-UART driver
+120284291 3cm4 uart init failed
+120284322 failed to create cm4 uart task
+120284354 sprd-serial-ex
+120297962 sprd,sc27xx-wdt
+120297994 sprd,sc27xx-rtc
+120298026 sprd,sc27xx-charger
+120298074 sprd,sc27xx-chg-timer
+120298114 sprd,sc27xx-fast-chg
+120298154 sprd,sc27xx-chg-wdt
+120298194 sprd,sc27xx-typec
+120298234 sprd,sc27xx-flash
+120298274 sprd,sc27xx-eic
+120298306 sprd,sc27xx-efuse
+120298346 sprd,sc27xx-thermal
+120298386 sprd,sc27xx-adc
+120298426 sprd,sc27xx-audio-codec
+120298450 sprd,sc27xx-regulator
+120298490 sprd,sc27xx-vibrator
+120298538 sprd,sc27xx-keypad-led
+120298578 sprd,sc27xx-bltc
+120298618 sprd,sc27xx-fgu
+120298634 sprd,sc27xx-7sreset
+120298674 sprd,sc27xx-poweroff
+120298730 sprd,sc27xx-tsensor
+120298770 sprd,sc27xx-pd
+120300178 sprd,mailbox-core
+120300338 sprd,ddr-addr-offset
+120300363 3[Audio:AGDSP_ACCESS] %s, parse 'sprd,ddr-addr-offset' failed!
+120300434 sprd,auto_agcp_access
+120300514 sprd,syscon-agcp-ahb
+120300538 sprd,syscon-pmu-apb
+120305770 sprd_audio_dsp_dump
+120306018 sprd-usemem-type
+120306043 6[Audio:DSPDUMP] %s no sprd-usemem-type
+120306090 sprd-dst
+120306107 6[Audio:DSPDUMP] %s no sprd-dst
+120306146 sprd-channel
+120306163 6[Audio:DSPDUMP] %s no sprd-channel
+120306202 sprd-usemem-bytes
+120306227 6[Audio:DSPDUMP] sprd-usemem-bytes %d
+120306266 sprd,dspdumpmem
+120306371 6[Audio:DSPDUMP] %s, no sprd-txblocknum
+120306418 sprd-txblocksize
+120306442 sprd-rxblocknum
+120306458 sprd-rxblocksize
+120307362 sprd-txblocknum
+120307794 sprd,ddr32-dma
+120307811 3[Audio:MEM] read 'sprd,ddr32-dma' failed!(%d)
+120307867 4[Audio:MEM] the size(%#x) of 'sprd,ddr32-dma' is greater than the total size(%#x)
+120307954 sprd,ddr32-dspmemdump
+120307979 3[Audio:MEM] read 'sprd,ddr32-dspmemdump' failed!(%d)
+120308122 sprd,iram-ap-base
+120308186 sprd,iram-dsp-base
+120308306 sprd,cmdaddr
+120308323 3[Audio:MEM] %s, ERR:Must give me the sprd,dsp_base!
+120308378 sprd,smsg-addr
+120308450 sprd,shmaddr-aud-str
+120308586 sprd,shmaddr-dsp-vbc
+120308610 sprd,shmaddr-nxp
+120308746 sprd,cm4-shmem
+120308834 sprd,shmaddr-reg-dump
+120308914 sprd,offload-addr
+120308994 sprd,dsplog
+120309010 sprd,normal-captue-linklilst-node1
+120309051 3[Audio:MEM] %s, ERR:Must give me the iram sprd,normal-captue-linklilst-node1 addr!
+120309138 sprd,normal-captue-linklilst-node2
+120309179 3[Audio:MEM] %s, ERR:Must give me the iram sprd,normal-captue-linklilst-node2 addr!
+120309266 sprd,normal-captue-data
+120309362 sprd,dma-offset
+120309586 sprd,iram_phy_addr
+120309610 sprd,iram_normal
+120309635 3[Audio:MEM] %s, ERR:Must give me the sprd,iram-phy-addr!
+120309698 sprd,iram_deepbuf
+120309723 3[Audio:MEM] %s, ERR:Must give me the sprd,iram_normal!
+120309786 sprd,iram_4arm7
+120309803 3[Audio:MEM] %s, sprd,iram_deepbuf!
+120309843 3[Audio:MEM] %s, ERR:Must give me the sprd,iram_4arm7!
+120309978 sprd,shmaddr-dsp-smartpa
+120310434 sprd,audcp-aon-iram
+120317370 sprd,writesync
+120317387 3[Audio:PIPE] %s  sprd,writesync, failed
+120317434 sprd,maxuserwritebufsize
+120317467 3[Audio:PIPE] %s  sprd,maxwritebufsize, failed
+120317523 3[Audio:PIPE] %s  sprd,channel,core failed
+120318394 sprd_audio_pipe
+120318858 sprd,ap-addr-offset
+120319050 sprd_mcdt_ap
+120319346 mcdt_sprd
+120323547 6nand: device found, Manufacturer ID: 0x%02x, Chip ID: 0x%02x
+120328531 3sprd nand cmd %s fail
+120328555 3nand:sprd nand ops mode error!
+120328595 3sprd nand read ecc sts %d
+120328666 nand:sprd nand ops mode error!
+120328699 3sprd_nand:retry %d
+120329298 sprd,random-mode
+120329322 sprd,multi-cs
+120329378 nand_drv_probe  flash0 sprd_nand_readid fail
+120329450 flash%d sprd_nand_readid fail
+120329482 nand:sprd nand ecc mode not support!
+120330002 sprd_nand get basic resource fail
+120330042 sprd-nand
+120330642 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/mtd/nand/sprd_nand/nfc_base.c
+120335690 Quectel update ubi vol_name = %s
+120347210 sprd-spi
+120347458 recovery
+120347554 sprdisk
+120347562 factorytest
+120347738 sprd,hw-channels
+120347874 sprd-adi
+120355771 Please turn on /sys/class/net/<iface>/rtk_adv/testmode.
+120356314 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/net/ethernet/realtek/r8168/r8168_n.c
+120359138 testmode
+120359954 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/net/ethernet/realtek/r8125/r8125_n.c
+120366922 Manufacturer
+120374618 manufacturer
+120377842 sprd,syscon-ipa-ahb
+120377914 sprd,syscon-aon-apb
+120377986 sprd,syscon-anag4
+120378058 sprd,vdd-voltage
+120378234 sprd,eye-pattern-modify-value
+120378266 sprd-ssphy
+120378426 sprd,syscon-ap-ahb
+120378450 sprd-ssphy0
+120380610 failed to put link in Recovery
+120382994 Recovery
+120389186 dwc3-sprd
+120389906 Dwc3 sprd suspend failed!
+120390658 Attempting compliance mode recovery
+120391810 %s: compliance mode recovery timer deleted
+120392466 Compliance Mode Recovery Timer deleted!
+120392506 Compliance mode recovery timer initialized
+120402738 Compliance Mode Recovery Timer Deleted.
+120403674 sprd-pamu3
+120415322 sprd_mbim
+120423362 sprd-rtc
+120423378 SCL is stuck low, exit recovery
+120424818 Not using recovery: %s
+120425594 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/i2c/i2c-dev.c
+120425810 sprd-i2c
+120426546 sprd-i2c-hw
+120426762 sprd-i2c-r9p0
+120427114 factory-internal-resistance-micro-ohms
+120433883 6sprd_cpu_cooling: cpu%u update max_freq to %u
+120433939 4sprd_cpu_cooling: %s: table has duplicate entries
+120434027 6sprd_cpu_cooling: cpu%u allow max_freq to %u
+120434075 3sprd_cpu_cooling: %s: cpu:%d not part of any cooling device
+120434291 6sprd_cpu_cooling: cpu%u temp:%u target_freq:%u online:%u qos_cpu:%u power:%u
+120434395 3sprd_cpu_cooling: hotplug: topology core cpumask error!
+120434459 3sprd_cpu_cooling: get invaild cpu core number
+120434515 6sprd_cpu_cooling: hotplug: test cpu:%u, cpu num in cluster: %u
+120434587 3sprd_cpu_device: get thermal zone failed
+120434635 3sprd_cpu_device: get thermal %s temp failed
+120434699 3sprd_cpu_device: unable to find thermal zones
+120434755 3sprd_cpu_device: fail to get cooling devices id
+120434811 4sprd_cpu_device: cluster_id id: %d > %d
+120434859 4sprd_cpu_device: %s cpu offline unnormal
+120434906 sprd,efuse-block15
+120434931 3sprd_cpu_device: fail to get cooling devices efuse_block
+120434994 sprd,efuse-switch
+120435019 3sprd_cpu_device: fail to get cooling devices efuse_switch
+120435082 sprd,core-base
+120435099 3sprd_cpu_device: fail to get default cooling devices leak-core-base
+120435170 sprd,cluster-base
+120435195 3sprd_cpu_device: fail to get default cooling devices leak-cluster-base
+120435274 sprd,core-temp-scale
+120435299 3sprd_cpu_device: fail to get cooling devices core-temp-scale
+120435362 sprd,core-voltage-scale
+120435387 3sprd_cpu_device: fail to get cooling devices core-voltage-scale
+120435458 sprd,cluster-temp-scale
+120435483 3sprd_cpu_device: fail to get cooling devices cluster-temp-scale
+120435554 sprd,cluster-voltage-scale
+120435587 3sprd_cpu_device: fail to get cooling devices cluster_voltage-scale
+120435658 sprd,dynamic-core
+120435683 3sprd_cpu_device: fail to get cooling devices dynamic-core-coeff
+120435754 sprd,dynamic-cluster
+120435779 3sprd_cpu_device: fail to get cooling devices dynamic-cluster-coeff
+120435850 sprd,hotplug-period
+120435874 sprd,min-cpufreq
+120435899 3sprd_cpu_device: fail to get cooling devices min_cpufreq
+120435962 sprd,min-cpunum
+120435979 3sprd_cpu_device: fail to get cooling devices min_cpunum
+120436042 sprd,resistance-ja
+120436067 3sprd_cpu_device: fail to get cooling devices resistance-ja
+120436130 sprd,sensor-names
+120436155 3sprd_cpu_device: sensor names not found
+120436203 3sprd_cpu_device: fail to get sensor-names
+120436251 3sprd_cpu_device: get thermal zone %s failed
+120436298 sprd,cii-per-core-tp
+120436323 3sprd_cpu_device: fail to get cooling devices per-core-tp
+120436386 sprd,cii-max-tp-core
+120436411 3sprd_cpu_device: fail to get cooling devices max-tp-core
+120436475 3sprd_cpu_device: fail to get power model coeff !
+120436531 3sprd_cpu_device: Error registering cooling device %d
+120436587 3sprd_cpu_device: No cpu device for cpu %d
+120436635 3sprd_cpu_device: No cpufreq devices!
+120436675 4sprd_cpu_device: Thermal: Can not register suspend notifier, return %d
+120437354 sprd-thermal
+120437875 6sprd cluster0 sensor id %d
+120438179 6sprd soc sensor id %d
+120439234 sprd-wdt
+120443458 sprd-cpufreq
+120444546 sprd-hotplug
+120444563 4DT: not find sprd-hotplug
+120444674 sprdhotplug
+120455786 sprd_sdhc get basic resource fail
+120456290 can not read the property of sprd name
+120456330 sprd,sdio-adma
+120456466 sprd,legacy-dly
+120456482 sprd,mmchs-dly
+120456498 sprd,sdhs-dly
+120456514 sprd,sdr50-dly
+120456530 sprd,sdr104-dly
+120456546 sprd,ddr50-dly
+120456562 sprd,ddr52-dly
+120456578 sprd,hs200-dly
+120456594 sprd,hs400-dly
+120456610 sprd,hs400es-dly
+120457499 6sprd_sdhc %s CMD%d int 0x%x
+120458515 6+++++++++ sprd sdhc dpll locked faile +++++++++!
+120458571 6sprd sdhc dpll register DLL_STS0 : 0x%x
+120458619 6sprd sdhc dpll register DLL_CFG : 0x%x
+120458667 6sprd sdhc dpll register DLL_DLY : 0x%x
+120458715 6sprd sdhc dpll register DLL_STS1 : 0x%x
+120458826 sprd_sdhcr11
+120459538 sprd-bltc
+120460467 5sprd_sip: SPRD SIP SVC PERF:v%d.%d detected in firmware.
+120460531 5sprd_sip: SPRD SIP SVC DVFS:v%d.%d detected in firmware.
+120460922 sprd_suspend_timer
+120460946 sprd_timer
+120462506 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/hid-core.c
+120464762 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/hid-input.c
+120476418 iManufacturer
+120476834 ManufacturerDate
+120477010 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/usbhid/hid-core.c
+120478258 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/hid/usbhid/hid-quirks.c
+120479946 console=ttyAMA0
+120483154 sprd,mailbox
+120483274 sprd,sensor
+120483290 sprd,core-cnt
+120483306 sprd,version
+120484826 sprd-mailbox_source
+120484850 sprd-mailbox_target
+120484874 sprd-sensorbox_target
+120495506 sprd,sipa-bypass-mode
+120495594 sprd,to-pcie-no-mac
+120495618 sprd,from-pcie-no-mac
+120495642 sprd,need-through-pcie
+120495666 sprd,wiap-ul-dma
+120495690 sprd,pcie-dl-dma
+120495714 sprd,tft-mode
+120496370 sprd,usb-ul-tx
+120496386 sprd,usb-ul-rx
+120496402 sprd,sdio-ul-tx
+120496418 sprd,sdio-ul-rx
+120496434 sprd,ap-ip-ul-tx
+120496458 sprd,ap-ip-ul-rx
+120496482 sprd,pcie-ul-tx
+120496498 sprd,pcie-ul-rx
+120496514 sprd,remote-pcie0-ul-tx
+120496538 sprd,remote-pcie0-ul-rx
+120496562 sprd,remote-pcie1-ul-tx
+120496586 sprd,remote-pcie1-ul-rx
+120496610 sprd,remote-pcie2-ul-tx
+120496634 sprd,remote-pcie2-ul-rx
+120496658 sprd,remote-pcie3-ul-tx
+120496682 sprd,remote-pcie3-ul-rx
+120496706 sprd,ap-eth-dl-tx
+120496730 sprd,ap-eth-dl-rx
+120496754 sprd,local-pcie0-dl-tx
+120496778 sprd,local-pcie0-dl-rx
+120496802 sprd,local-pcie1-dl-tx
+120496826 sprd,local-pcie1-dl-rx
+120496850 sprd,local-pcie2-dl-tx
+120496874 sprd,local-pcie2-dl-rx
+120496898 sprd,local-pcie3-dl-tx
+120496922 sprd,local-pcie3-dl-rx
+120496946 sprd,wifi-ul-tx
+120496962 sprd,wifi-ul-rx
+120496978 sprd,cp-dl-tx
+120496994 sprd,cp-dl-rx
+120497010 sprd,usb-dl-tx
+120497026 sprd,usb-dl-rx
+120497042 sprd,sdio-dl-tx
+120497058 sprd,sdio-dl-rx
+120497074 sprd,ap-ip-dl-tx
+120497098 sprd,ap-ip-dl-rx
+120497122 sprd,pcie-dl-tx
+120497138 sprd,pcie-dl-rx
+120497154 sprd,remote-pcie0-dl-tx
+120497178 sprd,remote-pcie0-dl-rx
+120497202 sprd,remote-pcie1-dl-tx
+120497226 sprd,remote-pcie1-dl-rx
+120497250 sprd,remote-pcie2-dl-tx
+120497274 sprd,remote-pcie2-dl-rx
+120497298 sprd,remote-pcie3-dl-tx
+120497322 sprd,remote-pcie3-dl-rx
+120497346 sprd,ap-eth-ul-tx
+120497370 sprd,ap-eth-ul-rx
+120497394 sprd,local-pcie0-ul-tx
+120497418 sprd,local-pcie0-ul-rx
+120497442 sprd,local-pcie1-ul-tx
+120497466 sprd,local-pcie1-ul-rx
+120497490 sprd,local-pcie2-ul-tx
+120497514 sprd,local-pcie2-ul-rx
+120497538 sprd,local-pcie3-ul-tx
+120497562 sprd,local-pcie3-ul-rx
+120497586 sprd,wifi-dl-tx
+120497602 sprd,wifi-dl-rx
+120497618 sprd,cp-ul-tx
+120497634 sprd,cp-ul-rx
+120497650 sprd,ap-eth-ul-mtu-standard
+120497682 sprd,ap-eth-ul-mtu-inter
+120497714 sprd,ap-eth-ul-mtu-jumbo
+120500690 sprd,sipa
+120507130 sprd,netid
+120507147 3sipa_eth: read sprd,netid ret %d
+120507186 sprd,term-type
+120507203 3sipa_eth: read sprd,term-type ret %d
+120507242 sprd,mac-header
+120509147 3sipa_usb: read sprd,netid ret %d
+120509187 3sipa_usb: read sprd,term-type ret %d
+120510122 sprd,sid
+120510139 3sipa_mbim: read sprd,index ret %d
+120514586 sprd,ul-fifo-depth
+120514650 sprd,dl-fifo-depth
+120515714 sprd-log-tp
+120517074 sprd,syscon-dsi-apb
+120517266 sprd,dcfix
+120517322 sprd,ch-name
+120517378 sprd,ch-index
+120518562 sprd_hwspinlock
+120518722 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/drivers/devfreq/devfreq.c
+120519874 sprd-scene
+120519930 sprd-freq
+120519962 sprd_governor
+120520586 sprd_dfs_auto
+120528882 sprd-efuse
+120528930 sprd,sharkl3-efuse
+120528954 sprd,orca-efuse
+120529522 quectel-power
+120529730 quectel_w_disable
+120529762 Failed to register quec-UART driver
+120529835 3tx work uart init failed
+120529866 failed to create uart task
+120530178 Quectel Simdet Event
+120530530 quectel-simdet
+120552082 asoc-sprd-debug
+120552402 sprd-audio-card,
+120552602 sprd-dummy-playback-dai
+120552626 sprd-dummy-playback
+120553794 sprd-audio-card,dai-link
+120553826 sprd-audio-card,name
+120553850 sprd-audio-card,widgets
+120553874 sprd-audio-card,routing
+120553898 sprd-audio-card,mclk-fs
+120553922 sprd-audio-card,fm-hw-rate
+120553954 sprd-audio-card,codec-replace-adc-rate
+120553994 sprd-audio-card,fm-open-src
+120554026 sprd-audio-card,codec-type
+120554690 sprd,smartamp-boost-names
+120554770 sprd,smartamp-boost-gpios
+120555818 sprd,spk-ext-pa-info
+120556114 sprd,spk-ext-pa-names
+120556194 sprd,spk-ext-pa-gpio
+120556762 sprd-dmaengine
+120559659 6[ASoC: PCM ] runtime->hw.periods_max*(sizeof(struct sprd_dma_cfg)=%zd,
+120559739 6[ASoC: PCM ] sizeof(struct sprd_dma_cfg) = %zd, size_inout=%u
+120559971 6[ASoC: PCM ] %s, sprd_pcm_preallocate_dma_buffer buf->area(virt)=%#lx, buf->addr(phy)=%#x, size=%zu
+120560314 sprd-pcm-audio
+120560330 sprd-pcm-routing
+120566634 sprd-compress
+120567491 3[ASoC:COMPR] sprd_compr_config_dma_channel error
+120569379 6[ASoC:COMPR] sprd_compr_config_sprd_rtd error %d
+120569546 sprd-compr-platform
+120578586 sprd,need-aud-top-clk
+120579578 sprd,vbc-phy-offset
+120585611 3[ASoC: FE.VBC ] %s sprd fe dai driver failed
+120587362 sprd-dai-fe
+120587379 3[ASoC:BOARD] ERR: %s, asoc_sprd_card_probe failed!
+120590122 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/dev.c
+120592050 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/include/net/udp_tunnel.h
+120592466 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/ethtool.c
+120592570 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/dev_addr_lists.c
+120593314 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/neighbour.c
+120594050 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/rtnetlink.c
+120596570 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/core/fib_rules.c
+120596714 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/include/net/sch_generic.h
+120597082 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/sch_api.c
+120597290 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/cls_api.c
+120597474 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/sched/act_api.c
+120615506 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/devinet.c
+120617370 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/igmp.c
+120618362 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/fib_notifier.c
+120618514 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv4/ip_tunnel.c
+120620074 tcp_recovery
+120621882 TCPRenoRecovery
+120621898 TCPSackRecovery
+120622202 TCPLossProbeRecovery
+120622226 TCPRenoRecoveryFail
+120622250 TCPSackRecoveryFail
+120631794 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/anycast.c
+120631914 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/addrconf.c
+120635762 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/mcast.c
+120640594 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/ipv6/sit.c
+120642234 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_fdb.c
+120643034 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_if.c
+120643650 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/bridge/br_stp_if.c
+120644810 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/8021q/vlan_core.c
+120644986 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/8021q/vlan.c
+120646026 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/feat.c
+120647314 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/minisocks.c
+120647578 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/options.c
+120648042 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/output.c
+120648298 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/proto.c
+120648834 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/ccid2.c
+120649050 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ackvec.c
+120649410 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/tfrc.h
+120649586 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/ccid3.c
+120649818 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/tfrc_equation.c
+120650186 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/packet_history.c
+120650490 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/dccp/ccids/lib/loss_interval.c
+120657994 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/core.c
+120658458 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/util.c
+120658562 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/reg.c
+120659234 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/scan.c
+120659618 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/nl80211.c
+120659802 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/mlme.c
+120659906 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/ibss.c
+120660010 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/sme.c
+120660114 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/chan.c
+120660218 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/core.h
+120660434 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/wext-sme.c
+120660538 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/wireless/wext-core.c
+120666066 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/iface.c
+120666442 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/rate.c
+120668658 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/key.c
+120668874 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/util.c
+120676722 /home/quectel/workspace/Scm_Unisoc_UDX710_yocot/source/kernel/kernel4.14_orca/net/mac80211/tdls.c
+120858257 unregister_console
+120858276 register_console
+120858293 console_start
+120858307 console_stop
+120858320 console_conditional_schedule
+120858349 console_unlock
+120858364 console_trylock
+120858380 console_lock
+120858393 console_suspend_enabled
+120858473 console_set_on_cmdline
+120858496 console_drivers
+120858529 console_printk
+120863061 sprd_time_sync_register_notifier
+120914534 sprd_pci_epf_unmap_memory
+120914560 sprd_epf_ipa_unmap
+120914579 sprd_epf_ipa_map
+120914596 sprd_pci_epf_map_memory
+120914620 sprd_pci_epf_raise_irq
+120914643 sprd_pci_epf_set_irq_number
+120914671 sprd_pci_epf_unregister_irq_handler
+120914707 sprd_pci_epf_set_write_addr
+120914735 sprd_pci_epf_register_irq_handler
+120914769 sprd_pci_epf_unregister_notify
+120914800 sprd_pci_epf_register_notify
+120914829 sprd_pcie_dump_rc_regs
+120914852 sprd_pcie_teardown_msi_irq
+120914879 sprd_pcie_unconfigure_device
+120914908 sprd_pcie_configure_device
+120914935 sprd_pcie_deregister_event
+120914962 sprd_pcie_register_event
+120917841 sprd_clk_probe
+120917856 sprd_clk_regmap_init
+120917877 sprd_pll_sc_gate_ops
+120917898 sprd_sc_gate_ops
+120917915 sprd_gate_ops
+120917929 sprd_mux_ops_sec
+120917946 sprd_mux_helper_set_parent_sec
+120917977 sprd_mux_helper_get_parent_sec
+120918008 sprd_mux_ops
+120918021 sprd_mux_helper_set_parent
+120918048 sprd_mux_helper_get_parent
+120918075 sprd_div_ops_sec
+120918092 sprd_div_helper_set_rate_sec
+120918121 sprd_div_helper_recalc_rate_sec
+120918153 sprd_div_ops
+120918166 sprd_div_helper_set_rate
+120918191 sprd_div_helper_recalc_rate
+120918219 sprd_div_helper_round_rate
+120918246 sprd_comp_ops_sec
+120918264 sprd_comp_ops
+120918278 sprd_pll_ops
+120919848 sprd_crypto_sha256
+120919867 sprd_crypto_verify
+120919946 sprd_kproperty_get
+120919965 sprd_kproperty_eq
+120924546 give_up_console
+120924592 console_blanked
+120924608 console_blank_hook
+120924627 fg_console
+120924804 do_take_over_console
+120924960 uart_remove_one_port
+120924981 uart_add_one_port
+120924999 uart_resume_port
+120925016 uart_suspend_port
+120925034 uart_unregister_driver
+120925057 uart_register_driver
+120925078 uart_write_wakeup
+120925096 uart_insert_char
+120925113 uart_handle_cts_change
+120925136 uart_handle_dcd_change
+120925159 uart_match_port
+120925175 uart_set_options
+120925192 uart_parse_options
+120925211 uart_parse_earlycon
+120925231 uart_console_write
+120925250 uart_get_divisor
+120925267 uart_get_baud_rate
+120925286 uart_update_timeout
+120942573 dwc3_sprd_gpio_plug
+120949809 i2c_generic_gpio_recovery
+120949835 i2c_generic_scl_recovery
+120953778 sprd_cpufreq_update_opp
+120956479 sprd_sip_svc_get_handle
+120957220 of_console_check
+120974062 sprd_audio_debug_init
+120974128 sprd_asoc_shutdown
+120974147 sprd_asoc_board_comm_late_probe
+120974179 sprd_asoc_board_comm_probe
+120974206 sprd_asoc_card_controls
+120974230 sprd_asoc_card_widgets
+120974253 sprd_vbc_codec
+121423530 console=ttyAMA0
+121423735 no_console_suspend
+121423754 console=
+121423791 debug_mode=
+121424776 recovery_nu
+121425026 sprd_serial
+121425042 sprd,sc9836-uart
+121425178 sprd_serial
+121425194 sprd,sc9836-uart-ex
+121429642 sprd,orca-suspend-timer
+121429842 sprd,orca-timer
+121430042 sprd,roc1-suspend-timer
+121430242 sprd,roc1-timer
+121430442 sprd,sharkl5-suspend-timer
+121430642 sprd,sharkl5-timer
+121430842 sprd,sc9860-suspend-timer
+121431042 sprd,sc9860-timer
+123304754 uart
+123368402 sprd-cpufreq
+123387634 sprd,roc1-sipa
+123387834 sprd,orca-sipa
+123388034 sprd,orca-8198d-sipa
+123388234 sprd,remote-sipa
+123390082 sprd,roc1-sipa-delegate
+123390282 sprd,orca-sipa-delegate
+123393114 sprd_governor
+123601826 SPRD
+123603997 ,Unisoc UDX710
+123604025 =Spreadtrum UDX710_4h10 Board
+123604069 Csprd,udx710_4h10
+123604087 sprd,udx710
+123605469 Csprd,sys-ap-ahb
+123605589 Csprd,sys-ap-apb
+123605709 Csprd,sys-ap-ipa-ahb
+123607889 Csprd,sys-pmu-apb
+123608009 Csprd,sys-aon-apb
+123608217 Csprd,orca-dma
+123608421 Csprd,orca-nandc
+123608785 Csprd,sdhc-r11p1
+123609217 Csprd,sdhc-r11p1
+123609429 Csprd,sc9836-uart
+123609447 sprd,sc9838-uart
+123609553 uart
+123609633 Csprd,orca-i2c
+123610165 Csprd,orca-i2c
+123610405 Csprd,orca-i2c
+123610645 Csprd,orca-i2c
+123610885 Csprd,orca-i2c
+123611125 Csprd,sc9860-spi
+123611142 sprd,orca-spi
+123611509 Csprd,sc9860-spi
+123611526 sprd,orca-spi
+123611753 Csprd,sc9860-spi
+123611770 sprd,orca-spi
+123611997 Csprd,sharkl5-pwm
+123612309 Csprd,i2s
+123612733 Csprd,roc1-vbc
+123613057 Csprd,roc1-mcdt
+123613201 Csprd,roc1-dma
+123613417 Csprd,audio-codec-dig-agcp
+123613525 Csprd,agdsp-access
+123613981 Csprd,orca-dmc-mpu
+123615117 Csprd,orca-dmc
+123615213 Csprd,orca-ptm
+123615601 Csprd,orca-eic-debounce
+123615625 sprd,sharkl5-eic-debounce
+123615861 Csprd,orca-eic-latch
+123615882 sprd,sharkl5-eic-latch
+123616097 Csprd,orca-eic-async
+123616118 sprd,sharkl5-eic-async
+123616333 Csprd,orca-eic-sync
+123616353 sprd,sharkl5-eic-sync
+123616569 Csprd,orca-timer
+123616689 Csprd,orca-suspend-timer
+123616793 Csprd,sc9836-uart-ex
+123616921 uart
+123617001 Csprd,orca-hw-i2c
+123617181 Csprd,orca-gpio
+123617197 sprd,sharkl5-gpio
+123617381 Csprd,mailbox
+123617553 Csprd,orca-efuse
+123618593 Csprd,orca-thermal
+123618897 Csprd,orca-thermal
+123619201 Csprd,orca-thermal
+123619673 Csprd,cluster0-thermal
+123619885 Csprd,soc-thermal
+123620089 Csprd,orca-cpufreq
+123620149 Csprd,orca-pinctrl
+123637489 Csprd,dbg-log-orca
+123637817 Csprd,dbg-log-orca
+123638129 Csprd,dbg-log-orca
+123638421 Csprd,djtag
+123638665 Csprd,orca-busmonitor
+123639521 Csprd,orca-busmonitor
+123639801 Csprd,orca-busmonitor
+123640669 Csprd,orca-busmonitor
+123641669 Csprd,orca-busmonitor
+123642525 Csprd,orca-busmonitor
+123642909 Csprd,orca-busmonitor
+123643425 Csprd,orca-wdt
+123643605 Csprd,sharkl5-adi
+123643623 sprd,orca-adi
+123643829 Csprd,sc2730
+123644009 Csprd,sc27xx-bltc
+123644027 sprd,sc2730-bltc
+123644273 Csprd,sc27xx-rtc
+123644290 sprd,sc2730-rtc
+123644389 Csprd,sc27xx-eic
+123644406 sprd,sc2730-eic
+123644577 Csprd,sc27xx-efuse
+123644596 sprd,sc2730-efuse
+123645305 Csprd,sc27xx-typec
+123645324 sprd,sc2730-typec
+123645497 Csprd,sc27xx-fast-chg
+123645519 sprd,sc2730-fast-charger
+123645693 Csprd,sc27xx-adc
+123645710 sprd,sc2730-adc
+123645925 Csprd,sc27xx-fgu
+123645942 sprd,sc2730-fgu
+123646161 Csprd,sc27xx-pd
+123646177 sprd,sc2730-pd
+123646417 Csprd,sc2730-audio-codec
+123646442 sprd,sc27xx-audio-codec
+123646653 Csprd,sc27xx-syscon
+123646741 Csprd,sc27xx-regulator
+123646764 sprd,sc2730-regulator
+123650177 Csprd,sc27xx-poweroff
+123650199 sprd,sc2730-poweroff
+123650273 Csprd,sc27xx-tsensor
+123650294 sprd,sc2730-tsensor
+123650465 Csprd,sc27xx-keypad-led
+123650489 sprd,sc2730-keypad-led
+123650569 Csprd,sc27xx-vibrator
+123650591 sprd,sc2730-vibrator
+123650665 Csprd,sc27xx-7sreset
+123650686 sprd,sc2730-7sreset
+123650773 Csprd,orca-hwspinlock
+123650941 Csprd,orca-apb-busmonitor
+123651074 sprd,sipa@2E000000
+123651105 Csprd,orca-8198d-sipa
+123651873 Csprd,orca-sipa-delegate
+123652593 Csprd,orca-dwc3
+123653109 Csprd,pcie
+123654269 Csprd,pcie-ep
+123654785 Csprd,roc1-pamu3
+123655029 Csprd,orca1-ssphy0
+123655273 Csprd,orca1-ssphy1
+123655533 Csprd,orca-apahb-gate
+123655669 Csprd,orca-ap-clk
+123655797 Csprd,orca-apapb-gate
+123655917 Csprd,orca-ipa-gate
+123656037 Csprd,orca-audcpapb-gate
+123656145 Csprd,orca-audcpahb-gate
+123656281 Csprd,orca-aon-clk
+123656405 Csprd,orca-g3-pll
+123656537 Csprd,orca-apcpu-clk
+123656649 Csprd,orca-pmu-gate
+123656749 Csprd,orca-aon-gate
+123656881 Csprd,orca-spahb-gate
+123659290 sprd-pcm-audio
+123659317 Csprd,roc1-pcm-platform
+123659754 sprd-compr-audio
+123659785 Csprd,roc1-compress-platform
+123659930 sprd-fe-dai
+123659953 Csprd,fe-dai
+123660006 sprd-routing-pcm
+123660037 Csprd,pcm-routing
+123660121 Csprd,audio_sipc
+123660189 Csprd,audio-mem-orca
+123660485 Csprd,audio_dsp_log
+123660625 Csprd,audio_dsp_pcm
+123660765 Csprd,audio_dsp_mem
+123660925 Csprd,audio_pipe_voice
+123661033 Csprd,orca-audcp-boot
+123661709 Csprd,sipa_eth
+123661801 Csprd,sipa_eth
+123661893 Csprd,sipa_eth
+123661985 Csprd,sipa_eth
+123662077 Csprd,sipa_eth
+123662169 Csprd,sipa_eth
+123662261 Csprd,sipa_eth
+123662353 Csprd,sipa_eth
+123662445 Csprd,sipa_usb
+123662525 Csprd,sipa_eth
+123662617 Csprd,sipa_eth
+123662709 Csprd,sipa_eth
+123662801 Csprd,sipa_eth
+123662893 Csprd,sipa_eth
+123662985 Csprd,sipa_eth
+123663077 Csprd,sipa_eth
+123663169 Csprd,sipa_eth
+123663261 Csprd,sipa_eth
+123663353 Csprd,sipa_eth
+123663449 Csprd,sipa_eth
+123663545 Csprd,sipa_eth
+123663637 Csprd,sipa_mbim
+123663701 Csprd,sipa_mbim
+123663765 Csprd,sipa_mbim
+123663829 Csprd,sipa_mbim
+123663893 Csprd,sipa_mbim
+123663957 Csprd,sipa_mbim
+123664021 Csprd,sipa_mbim
+123664085 Csprd,sipa_mbim
+123667317 AP_UART0
+123669693 Csprd,autotest
+123670297 Csprd,scproc_pubcp
+123671465 Csprd,sipc
+123671605 Csprd,sipc
+123671745 Csprd,sipc
+123671885 Csprd,sipc
+123672025 Csprd,sipc
+123672169 Csprd,sipc
+123672313 Csprd,sipc
+123672549 Csprd,spipe
+123672689 Csprd,spipe
+123672829 Csprd,spipe
+123672973 Csprd,spipe
+123673117 Csprd,spipe
+123673261 Csprd,spipe
+123673405 Csprd,spipe
+123673573 Csprd,spipe
+123673737 Csprd,spipe
+123673877 Csprd,spipe
+123674017 Csprd,spool
+123674193 Csprd,spool
+123674369 Csprd,spool
+123674545 Csprd,spool
+123674709 Csprd,spool
+123674873 Csprd,spool
+123675057 Csprd,slog_bridge
+123675185 Csprd,crypto_modem_verify
+123675245 Csprd,time-sync
+123676177 Csprd,dfs
+123677385 Csprd,cluster-cooling
+123677866 sprd-headset
+123677893 Csprd,headset
+123678234 sprd,headset-button@0
+123678314 sprd,headset-button@1
+123678394 sprd,headset-button@2
+123678497 Csprd,vbc-v4-codec-sc2730
+123678558 sprdphone-sc2730
+123678826 sprd-audio-card,dai-link@0
+123679122 sprd-audio-card,dai-link@1
+123679418 sprd-audio-card,dai-link@2
+123679698 sprd-audio-card,dai-link@3
+123679962 sprd-audio-card,dai-link@4
+123680250 sprd-audio-card,dai-link@5
+123680534 sprd-audio-card,dai-link@6
+123680814 sprd-audio-card,dai-link@7
+123681078 sprd-audio-card,dai-link@8
+123681342 sprd-audio-card,dai-link@9
+123681614 sprd-audio-card,dai-link@10
+123681894 sprd-audio-card,dai-link@11
+123682190 sprd-audio-card,dai-link@12
+123682478 sprd-audio-card,dai-link@13
+123682766 sprd-audio-card,dai-link@14
+123683058 sprd-audio-card,dai-link@15
+123683330 sprd-audio-card,dai-link@16
+123683594 sprd-audio-card,dai-link@17
+123683866 sprd-audio-card,dai-link@18
+123684154 sprd-audio-card,dai-link@19
+123684442 sprd-audio-card,dai-link@20
+123684714 sprd-audio-card,dai-link@21
+123684974 sprd-audio-card,dai-link@22
+123685254 sprd-audio-card,dai-link@23
+123685546 sprd-audio-card,dai-link@24
+123685838 sprd-audio-card,dai-link@25
+123686090 sprd-audio-card,dai-link@26
+123686366 sprd-audio-card,dai-link@27
+123686626 sprd-audio-card,dai-link@28
+123686910 sprd-audio-card,dai-link@29
+123687194 sprd-audio-card,dai-link@30
+123687462 sprd-audio-card,dai-link@31
+123687714 sprd-audio-card,dai-link@32
+123687990 sprd-audio-card,dai-link@33
+123688262 sprd-audio-card,dai-link@34
+123688530 sprd-audio-card,dai-link@35
+123688782 sprd-audio-card,dai-link@36
+123689050 sprd-audio-card,dai-link@37
+123689310 sprd-audio-card,dai-link@38
+123689586 sprd-audio-card,dai-link@39
+123689854 sprd-audio-card,dai-link@40
+123690122 sprd-audio-card,dai-link@41
+123690390 sprd-audio-card,dai-link@42
+123690658 sprd-audio-card,dai-link@43
+123690902 sprd-audio-card,dai-link@44
+123691154 sprd-audio-card,dai-link@45
+123691398 sprd-audio-card,dai-link@46
+123691666 sprd-audio-card,dai-link@47
+123691938 sprd-audio-card,dai-link@48
+123692178 sprd-audio-card,dai-link@49
+123692474 sprd-audio-card,dai-link@50
+123692746 sprd-audio-card,dai-link@51
+123693006 sprd-audio-card,dai-link@52
+123693278 sprd-audio-card,dai-link@68
+123693558 sprd-audio-card,dai-link@69
+123693818 sprd-audio-card,dai-link@70
+123694098 sprd-audio-card,dai-link@71
+123694362 sprd-pcm-iis
+123694389 Csprd,sharkl5-pcm-platform
+123694597 Csprd,i2s-null-codec
+123694666 sprd-audio-card,dai-link@0
+123694950 earlycon console=ttyS0,115200n8 loglevel=1 init=/sbin/init root=ubi0:system rootfstype=ubifs rootwait ro androidboot.hardware=udx710_4h10 androidboot.selinux=permissive swiotlb=64k androidboot.dtbo_idx=0 printk.devkmsg=on pcie_ports=compat
+123695213 Csprd,ion
+123695481 Csprd,rtl8367_ctrl
+123695582 sprd-sysdump
+123695662 sprd-verify
+123695685 Csprd,orca-verify
+123697133 Cquectel-power
+123697269 Cquectel-simdet
+123697489 Cquectel_w_disable
+123697565 Cquectel,virtual-uart
+123697680 sprd,sc-id
+123698023 sprd,hs200-dly
+123698038 sprd,ddr52-dly
+123698149 sprd,name
+123698159 sprd,sdio-adma
+123698295 sprd,config_type
+123698312 sprd,slave_timeout
+123698331 sprd,fs
+123698339 sprd,bus_type
+123698353 sprd,rtx_mode
+123698367 sprd,byte_per_chan
+123698386 sprd,slave_mode
+123698402 sprd,lsb
+123698411 sprd,lrck
+123698421 sprd,low_for_left
+123698439 sprd,clk_inv
+123698452 sprd,pcm_short_frame
+123698473 sprd,pcm_slot
+123698487 sprd,pcm_cycle
+123698502 sprd,tx_watermark
+123698520 sprd,rx_watermark
+123698555 sprd,syscon-agcp-ahb
+123698576 sprd,vbc-phy-offset
+123698646 sprd,ap-addr-offset
+123698666 sprd,syscon-pmu-apb
+123698707 sprd,dst
+123698716 sprd,channel
+123698729 sprd,mailbox-core
+123698747 sprd,ddr-addr-offset
+123698776 sprd,auto_agcp_access
+123698798 sprd,channel-num
+123698815 sprd,mpu-num
+123698828 sprd,channel-names
+123698847 sprd,ranges
+123698859 sprd,chn-config
+123698875 sprd,id-config
+123698890 sprd,port-map
+123698904 sprd,ddr-offset
+123698920 sprd,panic
+123698931 sprd,funnel-port
+123698948 sprd,ddr-chn
+123698961 sprd,chn-name
+123699041 sprd,aon-apb
+123699054 sprd,core-cnt
+123700797 sprd,control
+123700819 sprd,sleep-mode
+123700835 sprd,syscon-dsi-apb
+123700855 sprd,ch-name
+123700868 sprd,ch-index
+123700882 sprd,dcfix
+123700906 sprd,bm-num
+123700918 sprd,bm-name
+123700931 sprd,bm-type
+123700944 sprd,bm-dap
+123700956 sprd,bm-config
+123700971 sprd,bm-id
+123700982 sprd,bm-ranges
+123701009 sprd,hw-channels
+123701220 sprd,target-addr
+123701237 sprd,target-data
+123701280 sprd,tft-mode
+123701294 sprd,sipa-bypass-mode
+123701316 sprd,usb-dl-tx
+123701331 sprd,usb-dl-rx
+123701346 sprd,usb-ul-tx
+123701361 sprd,usb-ul-rx
+123701376 sprd,cp-dl-tx
+123701390 sprd,cp-dl-rx
+123701404 sprd,cp-ul-tx
+123701418 sprd,cp-ul-rx
+123701432 sprd,wifi-dl-tx
+123701448 sprd,wifi-dl-rx
+123701464 sprd,wifi-ul-tx
+123701480 sprd,wifi-ul-rx
+123701496 sprd,ap-eth-dl-tx
+123701514 sprd,ap-eth-dl-rx
+123701532 sprd,ap-eth-ul-tx
+123701550 sprd,ap-eth-ul-rx
+123701568 sprd,ap-ip-dl-tx
+123701585 sprd,ap-ip-dl-rx
+123701602 sprd,ap-ip-ul-tx
+123701619 sprd,ap-ip-ul-rx
+123701636 sprd,pcie-dl-dma
+123701653 sprd,from-pcie-no-mac
+123701675 sprd,to-pcie-no-mac
+123701695 sprd,ap-eth-ul-mtu-standard
+123701723 sprd,ap-eth-ul-mtu-inter
+123701748 sprd,ap-eth-ul-mtu-jumbo
+123701773 sprd,ul-fifo-depth
+123701792 sprd,dl-fifo-depth
+123702236 sprd,pcie-startup-syscons
+123702262 sprd,pcie-shutdown-syscons
+123702289 sprd,pcie-resume-syscons
+123702314 sprd,pcie-suspend-syscons
+123702403 sprd,pcie-inta-assert-syscons
+123702433 sprd,pcie-inta-deassert-syscons
+123702465 sprd,syscon-aon-apb
+123702485 sprd,syscon-ap-ahb
+123702504 sprd,syscon-ipa-ahb
+123702524 sprd,syscon-anag4
+123702542 sprd,vdd-voltage
+123702570 sprd,syscon
+123702665 sprd,cmdaddr
+123702678 sprd,smsg-addr
+123702693 sprd,ddr32-dspmemdump
+123702715 sprd,shmaddr-aud-str
+123702736 sprd,shmaddr-dsp-vbc
+123702757 sprd,shmaddr-nxp
+123702774 sprd,shmaddr-dsp-smartpa
+123702799 sprd,shmaddr-reg-dump
+123702821 sprd,ddr32-dma
+123702836 sprd,audcp-aon-iram
+123702870 sprd-usemem-type
+123702887 sprd-dst
+123702896 sprd-channel
+123702909 sprd-rxblocknum
+123702925 sprd-rxblocksize
+123702942 sprd-usemem-bytes
+123702960 sprd,dspdumpmem
+123702976 sprd,writesync
+123702991 sprd,maxuserwritebufsize
+123703035 sprd,netid
+123703046 sprd,term-type
+123703061 sprd,mac-header
+123703077 sprd,sid
+123703347 sprd,sys-ap-ahb
+123703363 sprd,ap-ahb-reg-tbl
+123703383 sprd,sys-ap-apb
+123703399 sprd,ap-apb-reg-tbl
+123703419 sprd,sys-pmu-apb
+123703436 sprd,pmu-apb-reg-tbl
+123703457 sprd,sys-aon-apb
+123703474 sprd,aon-apb-reg-tbl
+123703495 sprd,sys-ap-intc
+123703512 sprd,ap-intc
+123703525 sprd,pdm-name
+123703539 sprd,cm4-uart
+123703553 sprd,bit-width
+123703568 sprd,bit-index
+123703583 sprd,pdm-names
+123703598 sprd,int-names
+123703613 sprd,pinctrl
+123703719 sprd,decoup
+123703731 sprd,type
+123703741 sprd,core
+123703751 sprd,smem-info
+123703766 sprd,client
+123703778 sprd,ep-fun
+123703790 sprd,smem-type
+123703805 sprd,high-offset
+123703822 sprd,ringnr
+123703834 sprd,size-rxbuf
+123703850 sprd,size-txbuf
+123703866 sprd,preconfigured
+123703885 sprd,tx-blksize
+123703901 sprd,tx-blknum
+123703916 sprd,rx-blksize
+123703932 sprd,rx-blknum
+123703947 sprd,tx_is_usb
+123703962 sprd,tx_dst
+123703974 sprd,rx_dst
+123703986 sprd,priority
+123704036 sprd-scene
+123704047 sprd-freq
+123704198 sprd,efuse-block7
+123704216 sprd,efuse-block15
+123704235 sprd,leak-core
+123704250 sprd,leak-cluster
+123704268 sprd,core-temp-scale
+123704289 sprd,core-voltage-scale
+123704313 sprd,cluster-temp-scale
+123704337 sprd,cluster-voltage-scale
+123704364 sprd,efuse-switch
+123704382 sprd,hotplug-period
+123704402 sprd,min-cpufreq
+123704419 sprd,min-cpunum
+123704435 sprd,core-base
+123704450 sprd,cluster-base
+123704468 sprd,dynamic-core
+123704486 sprd,dynamic-cluster
+123704507 sprd,sensor-names
+123704525 sprd,cii-per-core-tp
+123704546 sprd,cii-max-tp-core
+123704567 sprd,jack-type
+123704582 sprd,debounce-interval
+123704616 sprd,3pole-adc-threshold
+123704641 sprd,adc-gnd
+123704654 sprd,half-adc-gnd
+123704672 sprd,coefficient
+123704689 sprd,irq-threshold-button
+123704736 sprd-audio-card,name
+123704757 sprd-audio-card,widgets
+123704781 sprd-audio-card,routing
+123704805 sprd-audio-card,headset
+123704955 sprd,dma-2stage-usecase
+123704979 sprd,node-count-2stage-level-1
+123705010 sprd,dma-2stage-level-1-int-source
+123758521     <Product name="udx710-module">
+123758556 			<SchemeName>udx710-module</SchemeName>
+123785783 				<Partition id="project_RG500U_EBAA" size ="1"/>
+123785872 				<Partition id="recovery" size="16"/>
+123786238 				<Partition id="recoveryfs" size="12"/>
+123786538                 <Scheme name="udx710-module">
+123786594 				<ID>FDL</ID>
+123786611 				<IDAlias>FDL1</IDAlias>
+123786639 				<Type>FDL</Type>
+123786873 				<ID>FDL2</ID>
+123786891 				<IDAlias>FDL2</IDAlias>
+123786919 				<Type>NAND_FDL</Type>
+123788534                                <Block id="project_RG500U_EBAA">
+123792750 				<ID>Recovery</ID>
+123792772 				<IDAlias>Recovery</IDAlias>
+123792827 				<Block id="recovery">
+123792958 				<Description>Recovery image file</Description>
+123793030 				<ID>Recoveryfs</ID>
+123793054 				<IDAlias>Recoveryfs</IDAlias>
+123793116 				<Block id="recoveryfs">
+123793249 				<Description>Recoveryfs image file</Description>

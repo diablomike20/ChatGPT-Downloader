@@ -1,0 +1,48 @@
+ 545113 tftpboot recovery.bin
+ 549375 ERROR: Failed to register console event
+ 549416 ERROR: Failed to set console timer
+ 549585 Uart(%lld,%d,
+ 559349 Uart
+ 561787 nmbm0:1024k(bl2),512k(u-boot-env),2048k(factory),256k(bdinfo),2048k(fip),65536k(ubi)
+ 567930 \.callbacks:callbacks,\.flags:flags,baudrate:baudrate,bootfile:bootfile,ipaddr:ipaddr,gatewayip:gatewayip,netmask:netmask,serverip:serverip,nvlan:nvlan,vlan:vlan,eth\d*addr:ethaddr,bootmeths:bootmeths,loadaddr:loadaddr,stdin:console,stdout:console,stderr:console,serial#:serialno,
+ 571492 manufacturer
+ 576930 print console devices and information
+ 576968 echo args to console
+ 577003     - echo args to console; -n suppresses newline
+ 588714 wm_uart_0
+ 588724 uart2_0
+ 588732 net_wo0_uart_txd_0
+ 588751 net_wo0_uart_txd_1
+ 588770 net_wo0_uart_txd_2
+ 588789 uart1_0
+ 588797 uart1_1
+ 588825 uart0
+ 589189 UART0_RXD
+ 589199 UART0_TXD
+ 589514 mediatek,hsuart
+ 589530 mediatek,mt6577-uart
+ 607632 5uart
+ 607652 >uart1_2
+ 608273 mediatek,hsuart
+ 608489 mediatek,hsuart
+ 608733 mediatek,hsuart
+3897773 %at+"
+4657100 fdLTt
+5727368 mediatek,mt6577-uart
+5727576 mediatek,mt6577-uart
+5727788 mediatek,mt6577-uart
+5730476 uart1-pins-g1
+5730512 uart
+5730532 uart1_1
+5730552 uart2-pins-g1
+5730588 uart
+5730608 uart2_1
+5738516 console=ttyS0,115200n1 loglevel=8  				earlycon=uart8250,mmio32,0x11002000
+5740651 	Factory
+6921564 CBsl
+7251631 gFDl
+7452428 3&at+
+9460773 FFdLr
+13454529 {FDLY
+14250441 nZQFdl
+15287978 BSL$,LxO

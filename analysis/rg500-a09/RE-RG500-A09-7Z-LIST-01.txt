@@ -1,0 +1,51 @@
+=== A09 7Z LIST ===
+
+7-Zip 23.01 (x64) : Copyright (c) 1999-2023 Igor Pavlov : 2023-06-20
+ 64-bit locale=C.UTF-8 Threads:4 OPEN_MAX:65536
+
+Scanning the drive for archives:
+1 file, 123796071 bytes (119 MiB)
+
+Listing archive: /tmp/rg500/P2_RG500_A09.bin
+
+
+ERROR: /tmp/rg500/P2_RG500_A09.bin : Cannot open the file as archive
+
+
+
+Errors: 1
+
+=== R91 7Z LIST ===
+
+7-Zip 23.01 (x64) : Copyright (c) 1999-2023 Igor Pavlov : 2023-06-20
+ 64-bit locale=C.UTF-8 Threads:4 OPEN_MAX:65536
+
+Scanning the drive for archives:
+1 file, 17698334 bytes (17 MiB)
+
+Listing archive: /tmp/rg500/R91-2.4.23b-20251208-CellularUpgrade.bin
+
+--
+Path = /tmp/rg500/R91-2.4.23b-20251208-CellularUpgrade.bin
+Type = xz
+ERRORS:
+Data Error
+WARNINGS:
+There are data after the end of archive
+Offset = 5773582
+Physical Size = 127032
+Tail Size = 11797720
+Method = LZMA2:18
+Streams = 2
+Blocks = 2
+Characteristics = BlockPackSize BlockUnpackSize
+
+   Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+                    .....       274196       127032  R91-2.4.23b-20251208-CellularUpgrade
+------------------- ----- ------------ ------------  ------------------------
+                                274196       127032  1 files
+
+Warnings: 1
+
+Errors: 1
