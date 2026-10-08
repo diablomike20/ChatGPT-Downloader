@@ -127,18 +127,18 @@ jobs:
             find . -type f ! -name RE-SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum
           ) > "$FULL/RE-SHA256SUMS.txt"
 
-          cat > "$FULL/RE-README-FIRST.txt" <<'EOF'
-Exact full static unpack of P2_RG500_A09.bin.
-
-Source SHA-256:
-7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b
-
-raw-components/ contains EVERY component emitted by the PAC extractor, not a selected subset.
-filesystems/ contains extracted rootfs.ubifs, recoveryfs.ubifs and userdata_b128k_p2k.img trees.
-deep-extract/ contains recursive binwalk extraction attempts for every raw component.
-
-STATIC_VERIFIED only. No firmware code was executed and no target was modified.
-          EOF
+          printf '%s\n' \
+            'Exact full static unpack of P2_RG500_A09.bin.' \
+            '' \
+            'Source SHA-256:' \
+            '7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b' \
+            '' \
+            'raw-components/ contains EVERY component emitted by the PAC extractor, not a selected subset.' \
+            'filesystems/ contains extracted rootfs.ubifs, recoveryfs.ubifs and userdata_b128k_p2k.img trees.' \
+            'deep-extract/ contains recursive binwalk extraction attempts for every raw component.' \
+            '' \
+            'STATIC_VERIFIED only. No firmware code was executed and no target was modified.' \
+            > "$FULL/RE-README-FIRST.txt"
 
       - uses: actions/upload-artifact@v4
         with:
