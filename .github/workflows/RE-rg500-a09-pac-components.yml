@@ -1,0 +1,177 @@
+name: RE RG500 A09 PAC Component Analysis
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-rg500-a09-pac-components.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RG_SHA: 7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 1
+
+      - name: Install helpers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq binwalk file binutils binutils-aarch64-linux-gnu >/dev/null
+          python3 -m pip install --quiet ubi-reader || true
+
+      - name: Acquire exact PAC
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/rgpac
+          gh release download cudy-cellular-modem-p2-rg500-a09 --repo "$GITHUB_REPOSITORY" --pattern "P2_RG500_A09.bin" --dir /tmp/rgpac
+          test "$(sha256sum /tmp/rgpac/P2_RG500_A09.bin | awk '{print $1}')" = "$RG_SHA"
+
+      - name: Parse PAC and extract components
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-RG500-A09-PAC-COMPONENTS"
+          mkdir -p "$OUT/components" "$OUT/system-selected"
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct,csv,hashlib,re
+          src=Path('/tmp/rgpac/P2_RG500_A09.bin')
+          out=Path.cwd()/'RE-RG500-A09-PAC-COMPONENTS'
+          b=src.read_bytes()
+          def u16(raw):
+              return raw.decode('utf-16le','replace').split('\x00',1)[0]
+          def u32(off): return struct.unpack_from('<I',b,off)[0]
+          hdr={
+            'version':u16(b[0:44]),
+            'hi_size':u32(44),'lo_size':u32(48),
+            'product':u16(b[52:564]),
+            'firmware_name':u16(b[564:1076]),
+            'partition_count':u32(1076),
+            'partition_list_start':u32(1080),
+            'mode':u32(1084),'flash_type':u32(1088),
+            'nand_strategy':u32(1092),'is_nv_backup':u32(1096),'nand_page_type':u32(1100),
+            'prd_alias':u16(b[1104:2100]),
+            'oma_dm_product_flag':u32(2100),'is_oma_dm':u32(2104),'is_preload':u32(2108),
+            'reserved':u32(2112),'magic':u32(2116),
+            'crc1':struct.unpack_from('<H',b,2120)[0],'crc2':struct.unpack_from('<H',b,2122)[0],
+          }
+          with open(out/'RE-RG500-A09-PAC-HEADER.txt','w') as f:
+              for k,v in hdr.items(): f.write(f'{k}={v}\n')
+              f.write(f'actual_size={len(b)}\n')
+              f.write(f'combined_size={(hdr["hi_size"]<<32)|hdr["lo_size"]}\n')
+          rec_size=2580
+          pos=hdr['partition_list_start']
+          rows=[]
+          for idx in range(hdr['partition_count']):
+              if pos+rec_size>len(b): break
+              r=b[pos:pos+rec_size]
+              length=struct.unpack_from('<I',r,0)[0]
+              pname=u16(r[4:516]); fname=u16(r[516:1028]); szfname=u16(r[1028:1540])
+              hi_ps,unk1,unk2,hi_off,lo_ps=struct.unpack_from('<IIIII',r,1540)
+              fileflag,checkflag=struct.unpack_from('<HH',r,1560)
+              lo_off,canomit,addrnum,addr,resv=struct.unpack_from('<IIIII',r,1564)
+              size=(hi_ps<<32)|lo_ps
+              dataoff=(hi_off<<32)|lo_off
+              row=dict(index=idx,record_offset=pos,record_length=length,partition_name=pname,file_name=fname,
+                       sz_file_name=szfname,size=size,data_offset=dataoff,file_flag=fileflag,
+                       check_flag=checkflag,can_omit=canomit,addr_num=addrnum,addr=addr,
+                       unk1=unk1,unk2=unk2,reserved=resv)
+              if fname and dataoff < len(b) and size and dataoff+size <= len(b):
+                  data=b[dataoff:dataoff+size]
+                  sha=hashlib.sha256(data).hexdigest(); row['sha256']=sha
+                  safe=re.sub(r'[^A-Za-z0-9._+-]+','_',fname)
+                  if any(x in fname.lower() for x in ['u-boot','spl','fdl1','fdl2','boot-sign','recovery']) and size <= 40*1024*1024:
+                      (out/'components'/safe).write_bytes(data)
+              rows.append(row)
+              pos += length if length>=1584 and length<=8192 else rec_size
+          fields=sorted({k for r in rows for k in r})
+          with open(out/'RE-RG500-A09-PAC-FILE-TABLE.csv','w',newline='') as f:
+              w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
+          with open(out/'RE-RG500-A09-PAC-FILE-TABLE.txt','w') as f:
+              for r in rows:
+                  f.write(f"{r['index']:02d} id={r['partition_name']!r} file={r['file_name']!r} off={r['data_offset']:#x} size={r['size']:#x} flags={r['file_flag']}/{r['check_flag']} addr={r['addr']:#x} sha={r.get('sha256','')}\n")
+          PY
+
+          for f in "$OUT"/components/*; do
+            [ -f "$f" ] || continue
+            base="$(basename "$f")"
+            {
+              echo "=== $base ==="
+              stat -c 'size=%s' "$f"
+              sha256sum "$f"
+              file -k "$f" || true
+              binwalk "$f" || true
+              echo
+              echo "=== TARGETED STRINGS ==="
+              strings -a -t x -n 4 "$f" | grep -iE 'DEBUG MODE|debug_mode|PINTEST|FASTBOOT|RECOVERY|factorytest|CTRL.C|instruction mode|research purpose|download mode|adb.bin|autodloader|iqmode|cftreboot|sprdisk|secure|verify|console|UART' | head -n 5000 || true
+            } > "$OUT/RE-$base-ANALYSIS.txt"
+          done
+
+      - name: Extract exact system UBIFS and selected engineering files
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-RG500-A09-PAC-COMPONENTS"
+          SYSOFF=$(python3 - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('RE-RG500-A09-PAC-COMPONENTS/RE-RG500-A09-PAC-FILE-TABLE.csv')))
+          for r in rows:
+              if r['file_name']=='rootfs.ubifs':
+                  print(r['data_offset']); break
+          PY
+          )
+          SYSSIZE=$(python3 - <<'PY'
+          import csv
+          rows=list(csv.DictReader(open('RE-RG500-A09-PAC-COMPONENTS/RE-RG500-A09-PAC-FILE-TABLE.csv')))
+          for r in rows:
+              if r['file_name']=='rootfs.ubifs':
+                  print(r['size']); break
+          PY
+          )
+          dd if=/tmp/rgpac/P2_RG500_A09.bin of=/tmp/rgpac/rootfs.ubifs bs=1 skip="$SYSOFF" count="$SYSSIZE" status=none
+          mkdir -p /tmp/rgpac/rootfs
+          ubireader_extract_files -o /tmp/rgpac/rootfs /tmp/rgpac/rootfs.ubifs >/tmp/rgpac/ubireader.log 2>&1 || true
+          MISC="$(find /tmp/rgpac/rootfs -type f -path '*/etc/quectel/quec_misc.ini' | head -n1)"
+          ROOT="$(dirname "$(dirname "$(dirname "$MISC")")")"
+          echo "root=$ROOT" > "$OUT/RE-RG500-A09-SYSTEM-EXTRACT-ROOT.txt"
+          cat /tmp/rgpac/ubireader.log > "$OUT/RE-RG500-A09-SYSTEM-UBIREADER.txt"
+
+          copy_one() {
+            p="$1"
+            if [ -f "$ROOT/$p" ]; then
+              mkdir -p "$OUT/system-selected/$(dirname "$p")"
+              cp -a "$ROOT/$p" "$OUT/system-selected/$p"
+            fi
+          }
+          for p in             etc/quectel/quec_misc.ini             etc/quectel/quec_usbcfg.ini             etc/quectel/quec_pciecfg.ini             etc/init.d/adbd-init             etc/init.d/engpc-init             etc/init.d/sysdump_switch_enable.sh             etc/init.d/audiohaldeamon.sh             etc/init.d/udc.sh             etc/engpc/engpc.ini             etc/engpc/BBAT.conf             etc/engpc/gpiotest/conntest             etc/engpc/gpiotest/shorttest             etc/engpc/chnl/pcie/autotest.conf             etc/engpc/chnl/usb/autotest.conf             etc/inittab             etc/ssh/sshd_config             var/lib/opkg/info/packagegroup-unisoc-base-engpc.control             var/lib/opkg/info/packagegroup-unisoc-base-production.control             var/lib/opkg/info/packagegroup-unisoc-base-terminal.control             var/lib/opkg/info/packagegroup-unisoc-base-usbcontrol.control             var/lib/opkg/info/packagegroup-unisoc-base-ql-api-test.control             var/lib/opkg/info/engpc-srv-engpc.control             var/lib/opkg/info/engpc-ctl.control             var/lib/opkg/info/engpc-adapt.control             var/lib/opkg/info/adbd.control             var/lib/opkg/info/ql-api-test.control             var/lib/opkg/info/libdynamicproduction.control             var/lib/opkg/info/libteeproduction.control             var/lib/opkg/info/libfactoryreset.control             usr/bin/engpc             usr/bin/engpc-ctl             usr/bin/ql_api_test             usr/bin/modem_control             usr/bin/adbd             usr/lib/libengpc-adapt.so             usr/lib/libteeproduction.so             usr/lib/npidevice/libdynamicproduction.so             usr/lib/npidevice/libfactoryreset.so
+          do copy_one "$p"; done
+
+          find "$OUT/system-selected" -type f -printf '%s %p\n' | sort > "$OUT/RE-RG500-A09-SELECTED-INVENTORY.txt"
+
+          while IFS= read -r f; do
+            rel="$(realpath --relative-to="$OUT/system-selected" "$f")"
+            safe="$(echo "$rel" | tr '/' '_')"
+            {
+              file -k "$f" || true
+              strings -a -t x -n 4 "$f" | grep -iE 'debug|factory|production|engpc|diag|adb|ssh|uart|console|test|at\+|usb|pcie|download|recovery|fastboot|root|shell' | head -n 4000 || true
+            } > "$OUT/RE-SELECTED-$safe-STRINGS.txt"
+          done < <(find "$OUT/system-selected" -type f -size +4k -size -3M)
+
+      - name: Upload component evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-A09-PAC-COMPONENTS
+          path: RE-RG500-A09-PAC-COMPONENTS/
+          if-no-files-found: error
+          retention-days: 14
