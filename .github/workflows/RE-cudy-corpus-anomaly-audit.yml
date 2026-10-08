@@ -1,0 +1,305 @@
+name: RE Cudy Corpus Anomaly Audit
+
+on:
+  push:
+    branches: [cudy-beta]
+    paths:
+      - ".github/workflows/RE-cudy-corpus-anomaly-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-beta
+          fetch-depth: 1
+
+      - name: Install static RE tools
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq binwalk squashfs-tools p7zip-full unzip file binutils xz-utils zstd lz4 >/dev/null || true
+          python3 -m pip install --quiet ubi-reader || true
+
+      - name: Collect exact corpus inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/corpus/input /tmp/corpus/work RE-CUDY-CORPUS-ANOMALY-AUDIT-01
+
+          # Beta / dev payloads archived in cudy-beta.
+          cp firmware/cudy/beta/firmware/P2-R91-2.4.29b-20260422-101502-sysupgrade.bin /tmp/corpus/input/P2-BETA.bin
+          cp firmware/cudy/beta/firmware/WR3000-R31-2.4.2Beta-20250429-181532-sysupgrade.bin /tmp/corpus/input/WR3000-BETA.bin
+          cp firmware/cudy/beta/firmware/R46-2.1.10Beta-20240530-103557-flash.bin /tmp/corpus/input/TR1200-BETA.bin
+
+          # Same-model stable controls already archived.
+          unzip -p firmware/cudy/stable/TR1200/TR1200-R46-2.1.3-20240428-102143-flash.zip '*.bin' > /tmp/corpus/input/TR1200-STABLE-2.1.3.bin
+
+          # LT500 R25 current project control.
+          unzip -p firmware/cudy/stable/LT500/LT500V2-R25-2.4.16-20250804-150319-flash.zip '*.bin' > /tmp/corpus/input/LT500-R25-2.4.16.bin
+
+          # Pull support/private corpus from its dedicated branch.
+          git fetch --depth=1 origin cudy-dev-support:refs/remotes/origin/cudy-dev-support
+          git show origin/cudy-dev-support:firmware/cudy/dev-support/firmware/P2-R91-2.4.22-20251204-184925-sysupgrade.bin > /tmp/corpus/input/P2-STABLE-2.4.22.bin
+          git show origin/cudy-dev-support:firmware/cudy/dev-support/firmware/C200P-R74-2.5.14-20260618-150931-flash.bin > /tmp/corpus/input/C200P-INTERNAL-2.5.14.bin
+
+          # Public WR3000 controls surrounding the beta date.
+          curl -fL --retry 3 -A 'Mozilla/5.0 OpenCudy-RE'             'https://www.cudy.com/cdn/shop/files/WR3000-R31-2.3.7-20250117-181756-sysupgrade.zip?v=14859092184080051729'             -o /tmp/corpus/work/WR3000-2.3.7.zip
+          curl -fL --retry 3 -A 'Mozilla/5.0 OpenCudy-RE'             'https://www.cudy.com/cdn/shop/files/WR3000-R31-2.4.7-20250529-181923-sysupgrade.zip?v=18073092043682477939'             -o /tmp/corpus/work/WR3000-2.4.7.zip
+          unzip -p /tmp/corpus/work/WR3000-2.3.7.zip '*.bin' > /tmp/corpus/input/WR3000-STABLE-2.3.7.bin
+          unzip -p /tmp/corpus/work/WR3000-2.4.7.zip '*.bin' > /tmp/corpus/input/WR3000-STABLE-2.4.7.bin
+
+          (
+            cd /tmp/corpus/input
+            sha256sum *.bin | sort
+          ) > RE-CUDY-CORPUS-ANOMALY-AUDIT-01/RE-INPUT-SHA256SUMS.txt
+
+          stat -c '%n|%s' /tmp/corpus/input/*.bin | sort             > RE-CUDY-CORPUS-ANOMALY-AUDIT-01/RE-INPUT-SIZES.txt
+
+      - name: Extract firmware roots
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-CUDY-CORPUS-ANOMALY-AUDIT-01"
+          mkdir -p /tmp/corpus/roots /tmp/corpus/binwalk
+
+          python3 - <<'PY'
+from pathlib import Path
+import subprocess, struct
+inp=Path('/tmp/corpus/input')
+roots=Path('/tmp/corpus/roots')
+report=Path.cwd()/'RE-CUDY-CORPUS-ANOMALY-AUDIT-01'/'RE-EXTRACTION.tsv'
+rows=['firmware\tmethod\toffset\tstatus\troot']
+for fw in sorted(inp.glob('*.bin')):
+    name=fw.stem
+    b=fw.read_bytes()
+    candidates=[]
+    pos=0
+    while True:
+        i=b.find(b'hsqs',pos)
+        if i<0: break
+        candidates.append(i); pos=i+1
+    success=False
+    for idx,off in enumerate(candidates[:20]):
+        sq=Path('/tmp/corpus/work')/f'{name}-{idx}-{off:x}.sqfs'
+        sq.write_bytes(b[off:])
+        dst=roots/name
+        p=subprocess.run(['unsquashfs','-no-progress','-d',str(dst),str(sq)],
+                         stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
+        if p.returncode==0 and dst.exists():
+            rows.append(f'{name}\tsquashfs\t0x{off:x}\tOK\t{dst}')
+            success=True
+            break
+        if dst.exists():
+            subprocess.run(['rm','-rf',str(dst)])
+    if not success:
+        rows.append(f'{name}\tsquashfs\t-\tNO_DIRECT_ROOT\t-')
+report.write_text('\n'.join(rows)+'\n')
+PY
+
+          # Generic binwalk fallback for firmware without direct SquashFS root.
+          for fw in /tmp/corpus/input/*.bin; do
+            n="$(basename "$fw" .bin)"
+            [ -d "/tmp/corpus/roots/$n" ] && continue
+            mkdir -p "/tmp/corpus/binwalk/$n"
+            (
+              cd "/tmp/corpus/binwalk/$n"
+              timeout 240 sudo binwalk -Me --run-as=root "$fw" || true
+            ) > "$OUT/RE-BINWALK-$n.log" 2>&1
+          done
+
+          # Locate best root-like directory in binwalk output and copy a normalized view.
+          python3 - <<'PY'
+from pathlib import Path
+import os, shutil
+roots=Path('/tmp/corpus/roots')
+bw=Path('/tmp/corpus/binwalk')
+for d in sorted(bw.iterdir()) if bw.exists() else []:
+    name=d.name
+    if (roots/name).exists(): continue
+    cand=[]
+    for p in d.rglob('*'):
+        if not p.is_dir(): continue
+        score=sum((p/x).exists() for x in ['etc','usr','bin','sbin','www','lib'])
+        if score>=3:
+            try: count=sum(1 for q in p.rglob('*') if q.is_file())
+            except: count=0
+            cand.append((score,count,p))
+    if cand:
+        cand.sort(key=lambda x:(x[0],x[1]), reverse=True)
+        src=cand[0][2]
+        shutil.copytree(src, roots/name, symlinks=True, dirs_exist_ok=True)
+PY
+
+          sudo chmod -R a+rX /tmp/corpus/roots /tmp/corpus/binwalk || true
+
+          find /tmp/corpus/roots -maxdepth 2 -type d -printf '%p\n' | sort             > "$OUT/RE-ROOTS.txt"
+
+      - name: Cross-firmware anomaly analysis
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+from pathlib import Path
+import csv,re,subprocess,hashlib,collections,os
+
+roots=Path('/tmp/corpus/roots')
+out=Path.cwd()/'RE-CUDY-CORPUS-ANOMALY-AUDIT-01'
+fw_names=sorted([p.name for p in roots.iterdir() if p.is_dir()])
+
+interesting_path=re.compile(
+ r'(debug|develop|research|factory|manufact|production|test|diag|terminal|sandbox|telnet|dropbear|ssh|'
+ r'console|uart|recovery|rescue|failsafe|airdump|tcpdump|batchcmd|firstboot|preset|forbidden|'
+ r'hcshd|rom_[a-z0-9_-]+|mtd|flash|backup|restore|calib|aging|burn|ate|eng|support)', re.I)
+
+terms=[
+ 'rom_research','rom_develop','rom_dbg','rom_release','testonly.js',
+ 'hcshd','terminal','sandbox','telnet','dropbear','sshd','authorized_keys',
+ 'factory','factorytest','manufacturing','production','engineering','developer',
+ 'debug','debug_mode','research','pintest','testmode','ate','aging','burnin','calibration',
+ 'recovery','rescue','failsafe','firstboot','preset','airdump','tcpdump',
+ 'batchcmd','mesh_tcpdump','mesh_diag','dmesg','logread','console','uart',
+ 'oem-check','sysupgrade','backup','restore','mtd','flash','shell'
+]
+termrx=re.compile('|'.join(re.escape(x) for x in terms),re.I)
+
+# Path inventories and rarity.
+presence=collections.defaultdict(set)
+sizes={}
+for fw in fw_names:
+    root=roots/fw
+    for p in root.rglob('*'):
+        if p.is_file() or p.is_symlink():
+            rel=p.relative_to(root).as_posix()
+            presence[rel].add(fw)
+            try:sizes[(fw,rel)]=p.lstat().st_size
+            except:sizes[(fw,rel)]=0
+
+with open(out/'RE-FILE-RARITY.csv','w',newline='') as f:
+    w=csv.writer(f);w.writerow(['path','firmware_count','firmwares','interesting_path'])
+    for rel,s in sorted(presence.items(), key=lambda kv:(len(kv[1]),kv[0])):
+        w.writerow([rel,len(s),';'.join(sorted(s)),bool(interesting_path.search(rel))])
+
+with open(out/'RE-UNIQUE-INTERESTING-PATHS.csv','w',newline='') as f:
+    w=csv.writer(f);w.writerow(['firmware','path','size'])
+    for rel,s in sorted(presence.items()):
+        if len(s)==1 and interesting_path.search(rel):
+            fw=next(iter(s));w.writerow([fw,rel,sizes.get((fw,rel),0)])
+
+# Targeted strings from text and manageable binaries.
+hits=[]
+for fw in fw_names:
+    root=roots/fw
+    for p in root.rglob('*'):
+        if not p.is_file(): continue
+        try: sz=p.stat().st_size
+        except: continue
+        if sz>12_000_000: continue
+        rel=p.relative_to(root).as_posix()
+        data=None
+        if sz<=2_000_000:
+            try:data=p.read_bytes()
+            except:continue
+            text=data.decode('utf-8','ignore')
+        else:
+            try:
+                text=subprocess.run(['strings','-a','-n','5',str(p)],
+                    stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,text=True,timeout=10).stdout
+            except:continue
+        matches=sorted(set(m.group(0).lower() for m in termrx.finditer(text)))
+        if matches:
+            hits.append((fw,rel,sz,';'.join(matches)))
+
+with open(out/'RE-KEYWORD-HITS.csv','w',newline='') as f:
+    w=csv.writer(f);w.writerow(['firmware','path','size','terms'])
+    w.writerows(hits)
+
+# Exact path diffs for useful same-model comparisons.
+pairs=[
+ ('P2-BETA','P2-STABLE-2.4.22'),
+ ('TR1200-BETA','TR1200-STABLE-2.1.3'),
+ ('WR3000-BETA','WR3000-STABLE-2.3.7'),
+ ('WR3000-BETA','WR3000-STABLE-2.4.7'),
+]
+for a,b in pairs:
+    if a not in fw_names or b not in fw_names: continue
+    A={p.relative_to(roots/a).as_posix() for p in (roots/a).rglob('*') if p.is_file() or p.is_symlink()}
+    B={p.relative_to(roots/b).as_posix() for p in (roots/b).rglob('*') if p.is_file() or p.is_symlink()}
+    fp=out/f'RE-DIFF-{a}-VS-{b}.txt'
+    lines=[f'{a} only: {len(A-B)}',f'{b} only: {len(B-A)}',f'common: {len(A&B)}','',
+           f'=== {a} ONLY ===',*sorted(A-B),'',f'=== {b} ONLY ===',*sorted(B-A)]
+    fp.write_text('\n'.join(lines)+'\n')
+
+# High-priority candidate scoring: rarity + path keywords + string hits.
+hit_by=collections.defaultdict(set)
+for fw,rel,sz,ts in hits: hit_by[(fw,rel)].update(ts.split(';'))
+rows=[]
+for rel,s in presence.items():
+    rarity=1/len(s)
+    for fw in s:
+        terms_here=hit_by.get((fw,rel),set())
+        score=(10 if len(s)==1 else 5 if len(s)<=2 else 0)
+        if interesting_path.search(rel):score+=6
+        score+=min(12,len(terms_here)*2)
+        if score>=8:
+            rows.append((score,fw,rel,len(s),';'.join(sorted(terms_here))))
+rows.sort(key=lambda x:(-x[0],x[1],x[2]))
+with open(out/'RE-ANOMALY-RANKING.csv','w',newline='') as f:
+    w=csv.writer(f);w.writerow(['score','firmware','path','corpus_presence_count','terms']);w.writerows(rows)
+
+# Human-readable first-pass summary.
+md=['# Cudy firmware corpus anomaly audit — pass 01','',
+    'Evidence level: STATIC_VERIFIED for extracted file/path/string presence only.','',
+    '## Corpus']
+for fw in fw_names:
+    n=sum(1 for p in (roots/fw).rglob('*') if p.is_file() or p.is_symlink())
+    md.append(f'- {fw}: {n} file/symlink entries')
+md += ['', '## Highest scored candidates']
+for row in rows[:150]:
+    md.append(f"- score {row[0]:02d} | {row[1]} | `{row[2]}` | corpus={row[3]} | {row[4]}")
+(out/'RE-CORPUS-ANOMALY-SUMMARY.md').write_text('\n'.join(md)+'\n')
+PY
+
+          # Preserve exact high-value source files as readable evidence.
+          EVID="$GITHUB_WORKSPACE/RE-CUDY-CORPUS-ANOMALY-AUDIT-01/RE-HIGHVALUE-FILES"
+          mkdir -p "$EVID"
+          python3 - <<'PY'
+from pathlib import Path
+import csv,shutil,re
+roots=Path('/tmp/corpus/roots')
+out=Path.cwd()/'RE-CUDY-CORPUS-ANOMALY-AUDIT-01'/'RE-HIGHVALUE-FILES'
+rows=list(csv.DictReader(open(Path.cwd()/'RE-CUDY-CORPUS-ANOMALY-AUDIT-01'/'RE-ANOMALY-RANKING.csv')))
+seen=set()
+for r in rows:
+    if int(r['score'])<12: continue
+    k=(r['firmware'],r['path'])
+    if k in seen: continue
+    seen.add(k)
+    src=roots/r['firmware']/r['path']
+    if not src.is_file(): continue
+    try:sz=src.stat().st_size
+    except:continue
+    if sz>2_000_000: continue
+    dst=out/r['firmware']/r['path']
+    dst.parent.mkdir(parents=True,exist_ok=True)
+    try:shutil.copy2(src,dst,follow_symlinks=False)
+    except:pass
+PY
+
+          (
+            cd "$OUT"
+            find . -type f -print0 | sort -z | xargs -0 sha256sum
+          ) > "$OUT/RE-SHA256SUMS.txt"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-CUDY-CORPUS-ANOMALY-AUDIT-01
+          path: RE-CUDY-CORPUS-ANOMALY-AUDIT-01/
+          if-no-files-found: error
+          retention-days: 14
