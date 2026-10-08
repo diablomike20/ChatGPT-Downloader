@@ -1,0 +1,210 @@
+name: RE Analyze RG500 A09 Firmware
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-analyze-rg500-a09.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GH_TOKEN: ${{ github.token }}
+      EXPECTED_SHA256: 7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 1
+
+      - name: Install forensic helpers
+        shell: bash
+        run: |
+          set -e
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq binwalk p7zip-full squashfs-tools e2fsprogs libarchive-tools xz-utils gzip bzip2 lz4 zstd file >/dev/null || true
+          python3 -m pip install --quiet ubi-reader || true
+
+      - name: Download exact release asset
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/rg500
+          cd /tmp/rg500
+          gh release download cudy-cellular-modem-p2-rg500-a09             --repo "${GITHUB_REPOSITORY}"             --pattern "P2_RG500_A09.bin"
+          got="$(sha256sum P2_RG500_A09.bin | awk '{print $1}')"
+          echo "EXPECTED=${EXPECTED_SHA256}"
+          echo "ACTUAL=${got}"
+          test "${got}" = "${EXPECTED_SHA256}"
+
+      - name: Static forensic analysis
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC=/tmp/rg500/P2_RG500_A09.bin
+          OUT="${GITHUB_WORKSPACE}/RE-RG500-A09-FORENSICS"
+          mkdir -p "$OUT"
+
+          {
+            echo "=== RE RG500 A09 BASIC ==="
+            date -u
+            stat -c 'size=%s bytes' "$SRC"
+            sha256sum "$SRC"
+            file -k "$SRC" || true
+            echo
+            echo "=== HEAD 512 ==="
+            xxd -g1 -l 512 "$SRC"
+            echo
+            echo "=== TAIL 512 ==="
+            tail -c 512 "$SRC" | xxd -g1
+          } > "$OUT/RE-RG500-A09-BASIC.txt"
+
+          {
+            echo "=== BINWALK SIGNATURES ==="
+            binwalk "$SRC" || true
+          } > "$OUT/RE-RG500-A09-BINWALK.txt" 2>&1
+
+          {
+            echo "=== 7Z LIST WHOLE IMAGE ==="
+            7z l "$SRC" || true
+            echo
+            echo "=== BSDTAR LIST WHOLE IMAGE ==="
+            bsdtar -tf "$SRC" || true
+          } > "$OUT/RE-RG500-A09-ARCHIVE-PROBES.txt" 2>&1
+
+          strings -a -t x -n 4 "$SRC" > /tmp/rg500/strings.txt
+
+          grep -iE             'debug|developer|develop|factory|factorytest|pintest|fastboot|recovery|uart|console|research|engineering|engmode|diag|diagnostic|download|flash|fdl|bsl|bootloader|root|shell|adb|telnet|ssh|at\+|nvitem|calib|calibration|unisoc|spreadtrum|sprd|quectel|rg500|udx710|trustzone|secureboot|verity|selinux|testmode|prodtest'             /tmp/rg500/strings.txt             > "$OUT/RE-RG500-A09-STRING-HITS.txt" || true
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import csv,re,math,collections
+          src=Path('/tmp/rg500/P2_RG500_A09.bin')
+          out=Path.cwd()/'RE-RG500-A09-FORENSICS'
+          b=src.read_bytes()
+          sigs={
+            'ELF':b'\x7fELF',
+            'GZIP':b'\x1f\x8b\x08',
+            'XZ':b'\xfd7zXZ\x00',
+            'BZIP2':b'BZh',
+            'ZIP':b'PK\x03\x04',
+            'SQUASHFS_LE':b'hsqs',
+            'SQUASHFS_BE':b'sqsh',
+            'UBI_EC':b'UBI#',
+            'UBIFS':b'\x31\x18\x10\x06',
+            'ANDROID_SPARSE':b'\x3a\xff\x26\xed',
+            'DTB':b'\xd0\x0d\xfe\xed',
+            'UIMAGE':b'\x27\x05\x19\x56',
+            'CPIO_NEWC':b'070701',
+            'CPIO_CRC':b'070702',
+            'SEANDROID':b'SEANDROIDENFORCE',
+            'AVB':b'AVB0',
+            'BOOTIMG':b'ANDROID!',
+            'VBMETA':b'AVBf',
+          }
+          rows=[]
+          for name,sig in sigs.items():
+            start=0
+            count=0
+            while True:
+              i=b.find(sig,start)
+              if i<0: break
+              rows.append((name,i,hex(i),sig.hex()))
+              count+=1
+              if count>=500: break
+              start=i+1
+          rows.sort(key=lambda r:r[1])
+          with open(out/'RE-RG500-A09-SIGNATURE-HITS.csv','w',newline='') as f:
+            w=csv.writer(f); w.writerow(['signature','offset_dec','offset_hex','magic_hex']); w.writerows(rows)
+
+          # Entropy by 1 MiB window to expose compressed/encrypted vs sparse/plain zones.
+          with open(out/'RE-RG500-A09-ENTROPY.csv','w',newline='') as f:
+            w=csv.writer(f); w.writerow(['offset_dec','offset_hex','length','entropy'])
+            step=1024*1024
+            for off in range(0,len(b),step):
+              c=b[off:off+step]
+              freq=collections.Counter(c)
+              n=len(c)
+              H=-sum((v/n)*math.log2(v/n) for v in freq.values())
+              w.writerow([off,hex(off),n,f'{H:.6f}'])
+
+          keywords=[
+            b'DEBUG MODE',b'debug_mode=1',b'PINTEST',b'FASTBOOT',b'RECOVERY',
+            b'factorytest',b'UART',b'console',b'research',b'factory',b'engineering',
+            b'FDL',b'FDL2',b'BSL_CMD',b'QDloader',b'udx710',b'RG500'
+          ]
+          with open(out/'RE-RG500-A09-EXACT-KEYWORD-OFFSETS.txt','w') as f:
+            for kw in keywords:
+              f.write(f'## {kw.decode("ascii","replace")}\n')
+              pos=0; n=0
+              low=b.lower(); needle=kw.lower()
+              while True:
+                i=low.find(needle,pos)
+                if i<0: break
+                s=max(0,i-160); e=min(len(b),i+len(kw)+320)
+                chunk=b[s:e]
+                printable=''.join(chr(x) if 32<=x<127 else '.' for x in chunk)
+                f.write(f'offset={i} hex={i:#x}\n{printable}\n\n')
+                n+=1
+                if n>=100: break
+                pos=i+1
+              if n==0: f.write('NOT_FOUND\n\n')
+          PY
+
+          rm -rf /tmp/rg500/extract
+          mkdir -p /tmp/rg500/extract
+          (
+            cd /tmp/rg500/extract
+            binwalk -Me --run-as=root "$SRC"
+          ) > "$OUT/RE-RG500-A09-BINWALK-EXTRACT.txt" 2>&1 || true
+
+          {
+            echo "=== EXTRACTED TREE ==="
+            find /tmp/rg500/extract -printf '%y %s %p\n' 2>/dev/null | sort
+          } > "$OUT/RE-RG500-A09-EXTRACTED-INVENTORY.txt"
+
+          {
+            echo "=== FILE TYPES OF EXTRACTED OBJECTS ==="
+            find /tmp/rg500/extract -type f -size +0c -print0 2>/dev/null |
+              xargs -0 -r file -k
+          } > "$OUT/RE-RG500-A09-EXTRACTED-FILETYPES.txt" 2>&1
+
+          {
+            echo "=== ELF INVENTORY ==="
+            while IFS= read -r -d '' f; do
+              if head -c4 "$f" 2>/dev/null | grep -q $'\x7fELF'; then
+                echo "--- $f ---"
+                file "$f" || true
+                readelf -h "$f" 2>/dev/null | head -40 || true
+              fi
+            done < <(find /tmp/rg500/extract -type f -print0 2>/dev/null)
+          } > "$OUT/RE-RG500-A09-ELF-INVENTORY.txt"
+
+          {
+            echo "=== HIGH VALUE STRINGS IN EXTRACTED FILES ==="
+            grep -RInaE --binary-files=text               'DEBUG MODE|debug_mode|PINTEST|FASTBOOT|RECOVERY|factorytest|UART|console|research|factory|engineering|FDL2?|BSL_CMD|QDloader|udx710|RG500'               /tmp/rg500/extract 2>/dev/null | head -n 20000 || true
+          } > "$OUT/RE-RG500-A09-EXTRACTED-HITS.txt"
+
+          {
+            echo "=== SUMMARY COUNTS ==="
+            wc -l "$OUT"/* || true
+            echo
+            echo "Extracted files:"
+            find /tmp/rg500/extract -type f 2>/dev/null | wc -l
+            echo "Extracted bytes:"
+            du -sb /tmp/rg500/extract 2>/dev/null || true
+          } > "$OUT/RE-RG500-A09-SUMMARY.txt"
+
+      - name: Upload forensic reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-A09-FORENSICS
+          path: RE-RG500-A09-FORENSICS/
+          if-no-files-found: error
+          retention-days: 14
