@@ -85,6 +85,69 @@ jobs:
             (cd RE-RG500-A09-SELECTED-PARTITIONS && sha256sum * | sort) || true
           } > RE-RG500-A09-EXACT-PAC/RE-RG500-A09-SELECTED-MANIFEST.txt
 
+      - name: Build full unpacked tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          FULL="$GITHUB_WORKSPACE/RE-RG500-A09-FULL-UNPACKED-01"
+          mkdir -p "$FULL/raw-components" "$FULL/filesystems" "$FULL/deep-extract"
+
+          cp -a /tmp/pac/out/. "$FULL/raw-components/"
+
+          for f in /tmp/pac/out/rootfs.ubifs /tmp/pac/out/recoveryfs.ubifs /tmp/pac/out/userdata_b128k_p2k.img; do
+            [ -f "$f" ] || continue
+            n="$(basename "$f")"
+            mkdir -p "$FULL/filesystems/$n"
+            ubireader_extract_files -o "$FULL/filesystems/$n" "$f"               > "$FULL/filesystems/$n/RE-UBIREADER.log" 2>&1 || true
+          done
+
+          for f in /tmp/pac/out/*; do
+            [ -f "$f" ] || continue
+            n="$(basename "$f")"
+            mkdir -p "$FULL/deep-extract/$n"
+            (
+              cd "$FULL/deep-extract/$n"
+              timeout 300 binwalk -Me --run-as=root "$f" || true
+            ) > "$FULL/deep-extract/$n/RE-BINWALK.log" 2>&1
+          done
+
+          {
+            echo "=== RAW COMPONENTS ==="
+            find "$FULL/raw-components" -type f -printf '%s|%P\n' | sort
+            echo
+            echo "=== EXTRACTED FILESYSTEMS ==="
+            find "$FULL/filesystems" -type f -printf '%s|%P\n' | sort
+            echo
+            echo "=== DEEP EXTRACT ==="
+            find "$FULL/deep-extract" -type f -printf '%s|%P\n' | sort
+          } > "$FULL/RE-FULL-INVENTORY.txt"
+
+          (
+            cd "$FULL"
+            find . -type f ! -name RE-SHA256SUMS.txt -print0 | sort -z | xargs -0 sha256sum
+          ) > "$FULL/RE-SHA256SUMS.txt"
+
+          cat > "$FULL/RE-README-FIRST.txt" <<'EOF'
+Exact full static unpack of P2_RG500_A09.bin.
+
+Source SHA-256:
+7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b
+
+raw-components/ contains EVERY component emitted by the PAC extractor, not a selected subset.
+filesystems/ contains extracted rootfs.ubifs, recoveryfs.ubifs and userdata_b128k_p2k.img trees.
+deep-extract/ contains recursive binwalk extraction attempts for every raw component.
+
+STATIC_VERIFIED only. No firmware code was executed and no target was modified.
+EOF
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-A09-FULL-UNPACKED-01
+          path: RE-RG500-A09-FULL-UNPACKED-01/
+          if-no-files-found: error
+          compression-level: 6
+          retention-days: 14
+
       - uses: actions/upload-artifact@v4
         with:
           name: RE-RG500-A09-EXACT-PAC-REPORTS
