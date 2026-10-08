@@ -139,7 +139,7 @@ jobs:
                   print(r['size']); break
           PY
           )
-          dd if=/tmp/rgpac/P2_RG500_A09.bin of=/tmp/rgpac/rootfs.ubifs bs=1 skip="$SYSOFF" count="$SYSSIZE" status=none
+          dd if=/tmp/rgpac/P2_RG500_A09.bin of=/tmp/rgpac/rootfs.ubifs iflag=skip_bytes,count_bytes skip="$SYSOFF" count="$SYSSIZE" status=none
           mkdir -p /tmp/rgpac/rootfs
           ubireader_extract_files -o /tmp/rgpac/rootfs /tmp/rgpac/rootfs.ubifs >/tmp/rgpac/ubireader.log 2>&1 || true
           MISC="$(find /tmp/rgpac/rootfs -type f -path '*/etc/quectel/quec_misc.ini' | head -n1)"
