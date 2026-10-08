@@ -25,7 +25,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq binwalk squashfs-tools p7zip-full unzip file binutils xz-utils zstd lz4 >/dev/null || true
+          sudo apt-get install -y -qq binwalk squashfs-tools p7zip-full unzip file binutils xz-utils zstd lz4 libarchive-tools >/dev/null || true
           python3 -m pip install --quiet ubi-reader || true
 
       - name: Collect exact corpus inputs
