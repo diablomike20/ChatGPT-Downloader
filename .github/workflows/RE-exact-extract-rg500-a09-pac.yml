@@ -138,7 +138,7 @@ filesystems/ contains extracted rootfs.ubifs, recoveryfs.ubifs and userdata_b128
 deep-extract/ contains recursive binwalk extraction attempts for every raw component.
 
 STATIC_VERIFIED only. No firmware code was executed and no target was modified.
-EOF
+          EOF
 
       - uses: actions/upload-artifact@v4
         with:
