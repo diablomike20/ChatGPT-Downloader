@@ -1,0 +1,143 @@
+name: RE TR1200 Beta Unlock Audit
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-tr1200-beta-unlock-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq megatools binwalk squashfs-tools p7zip-full file binutils >/dev/null
+
+      - name: Download beta and public baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/tr1200/beta /tmp/tr1200/stock
+          megadl --path=/tmp/tr1200/beta 'https://mega.nz/file/Lixz3Z4K#wcGY0-oqeiLqU_CMFO8lQ0TpU_kE-slh8ebYUkX6nNQ'
+          curl -fL 'https://www.cudy.com/cdn/shop/files/TR1200-R46-2.1.3-20240428-102143-flash.zip?v=8897001738887698298' -o /tmp/tr1200/stock/TR1200-R46-2.1.3.zip
+          find /tmp/tr1200 -maxdepth 3 -type f -printf '%s|%p\n' | sort
+          sha256sum /tmp/tr1200/beta/* /tmp/tr1200/stock/*
+
+      - name: Normalize archives and identify firmware images
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/tr1200/beta-x /tmp/tr1200/stock-x
+          for f in /tmp/tr1200/beta/*; do
+            7z x -y "$f" -o/tmp/tr1200/beta-x >/dev/null 2>&1 || cp "$f" /tmp/tr1200/beta-x/
+          done
+          7z x -y /tmp/tr1200/stock/TR1200-R46-2.1.3.zip -o/tmp/tr1200/stock-x >/dev/null
+          find /tmp/tr1200/beta-x /tmp/tr1200/stock-x -type f -printf '%s|%p\n' | sort
+
+      - name: Extract U-Boot and rootfs
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-TR1200-R46-BETA-UNLOCK-AUDIT-01"
+          mkdir -p "$OUT" /tmp/tr1200/work/beta /tmp/tr1200/work/stock
+
+          BETA="$(find /tmp/tr1200/beta-x -type f \( -name '*.bin' -o -name '*.img' \) -printf '%s %p\n' | sort -nr | head -n1 | cut -d' ' -f2-)"
+          STOCK="$(find /tmp/tr1200/stock-x -type f \( -name '*.bin' -o -name '*.img' \) -printf '%s %p\n' | sort -nr | head -n1 | cut -d' ' -f2-)"
+          echo "BETA=$BETA" > "$OUT/RE-IDENTITY.txt"
+          echo "STOCK=$STOCK" >> "$OUT/RE-IDENTITY.txt"
+          stat -c 'beta_size=%s' "$BETA" >> "$OUT/RE-IDENTITY.txt"
+          stat -c 'stock_size=%s' "$STOCK" >> "$OUT/RE-IDENTITY.txt"
+          sha256sum "$BETA" "$STOCK" >> "$OUT/RE-IDENTITY.txt"
+
+          dd if="$BETA" of=/tmp/tr1200/work/beta/u-boot.bin bs=1 count=$((0x30000)) status=none
+          dd if="$STOCK" of=/tmp/tr1200/work/stock/u-boot.bin bs=1 count=$((0x30000)) status=none
+
+          {
+            echo "=== BETA BINWALK ==="
+            binwalk "$BETA" || true
+            echo
+            echo "=== STOCK BINWALK ==="
+            binwalk "$STOCK" || true
+          } > "$OUT/RE-BINWALK.txt"
+
+          # Find squashfs offsets and extract.
+          BETA_SQ="$(binwalk "$BETA" | awk '/Squashfs filesystem/{print $1; exit}')"
+          STOCK_SQ="$(binwalk "$STOCK" | awk '/Squashfs filesystem/{print $1; exit}')"
+          echo "beta_squashfs_offset=$BETA_SQ" >> "$OUT/RE-IDENTITY.txt"
+          echo "stock_squashfs_offset=$STOCK_SQ" >> "$OUT/RE-IDENTITY.txt"
+
+          if [ -n "$BETA_SQ" ]; then
+            dd if="$BETA" of=/tmp/tr1200/work/beta/rootfs.squashfs bs=1 skip="$BETA_SQ" status=none
+            unsquashfs -d /tmp/tr1200/work/beta/rootfs /tmp/tr1200/work/beta/rootfs.squashfs >/dev/null 2>&1 || true
+          fi
+          if [ -n "$STOCK_SQ" ]; then
+            dd if="$STOCK" of=/tmp/tr1200/work/stock/rootfs.squashfs bs=1 skip="$STOCK_SQ" status=none
+            unsquashfs -d /tmp/tr1200/work/stock/rootfs /tmp/tr1200/work/stock/rootfs.squashfs >/dev/null 2>&1 || true
+          fi
+
+          {
+            echo "=== BETA U-BOOT TARGETED STRINGS ==="
+            strings -a -t x /tmp/tr1200/work/beta/u-boot.bin | grep -iE 'unlock|lock|password|passwd|console|uart|tftp|recovery|bootdelay|bootcmd|bootmenu|reset|flash|upgrade|debug|test|factory|protect|erase|write|md5|rsa|signature|verify|openwrt' || true
+            echo
+            echo "=== STOCK U-BOOT TARGETED STRINGS ==="
+            strings -a -t x /tmp/tr1200/work/stock/u-boot.bin | grep -iE 'unlock|lock|password|passwd|console|uart|tftp|recovery|bootdelay|bootcmd|bootmenu|reset|flash|upgrade|debug|test|factory|protect|erase|write|md5|rsa|signature|verify|openwrt' || true
+          } > "$OUT/RE-UBOOT-TARGETED-STRINGS.txt"
+
+          strings -a -n 4 /tmp/tr1200/work/beta/u-boot.bin | sort -u > /tmp/tr1200/beta-uboot.str
+          strings -a -n 4 /tmp/tr1200/work/stock/u-boot.bin | sort -u > /tmp/tr1200/stock-uboot.str
+          comm -23 /tmp/tr1200/beta-uboot.str /tmp/tr1200/stock-uboot.str > "$OUT/RE-UBOOT-BETA-ONLY-STRINGS.txt"
+          comm -13 /tmp/tr1200/beta-uboot.str /tmp/tr1200/stock-uboot.str > "$OUT/RE-UBOOT-STOCK-ONLY-STRINGS.txt"
+
+          if [ -d /tmp/tr1200/work/beta/rootfs ] && [ -d /tmp/tr1200/work/stock/rootfs ]; then
+            (cd /tmp/tr1200/work/beta/rootfs && find . -type f -o -type l | sort) > /tmp/tr1200/beta-files.txt
+            (cd /tmp/tr1200/work/stock/rootfs && find . -type f -o -type l | sort) > /tmp/tr1200/stock-files.txt
+            comm -23 /tmp/tr1200/beta-files.txt /tmp/tr1200/stock-files.txt > "$OUT/RE-ROOTFS-BETA-ONLY.txt"
+            comm -13 /tmp/tr1200/beta-files.txt /tmp/tr1200/stock-files.txt > "$OUT/RE-ROOTFS-STOCK-ONLY.txt"
+
+            {
+              echo "=== BETA ROOTFS ENGINEERING HITS ==="
+              grep -RInaE --binary-files=without-match                 'rom_(develop|research|alpha|dbg)|bdinfo dbg|factory|engineering|debug|testonly|terminal|sandbox|telnet|dropbear|uart|console|tftp|recovery|firstboot|preset|magic|airdmp|airdump|batchcmd|diag|manufactur|burn.?in|calibrat|ate|production'                 /tmp/tr1200/work/beta/rootfs 2>/dev/null | head -n 100000 || true
+              echo
+              echo "=== STOCK ROOTFS ENGINEERING HITS ==="
+              grep -RInaE --binary-files=without-match                 'rom_(develop|research|alpha|dbg)|bdinfo dbg|factory|engineering|debug|testonly|terminal|sandbox|telnet|dropbear|uart|console|tftp|recovery|firstboot|preset|magic|airdmp|airdump|batchcmd|diag|manufactur|burn.?in|calibrat|ate|production'                 /tmp/tr1200/work/stock/rootfs 2>/dev/null | head -n 100000 || true
+            } > "$OUT/RE-ROOTFS-ENGINEERING-HITS.txt"
+
+            # Hash-by-relative-path comparison for changed common files.
+            python3 - <<'PY'
+from pathlib import Path
+import hashlib
+b=Path('/tmp/tr1200/work/beta/rootfs'); s=Path('/tmp/tr1200/work/stock/rootfs')
+def inv(root):
+    d={}
+    for p in root.rglob('*'):
+        if p.is_file() and not p.is_symlink():
+            try:d[str(p.relative_to(root))]=hashlib.sha256(p.read_bytes()).hexdigest()
+            except:pass
+    return d
+bi,si=inv(b),inv(s)
+out=Path('RE-TR1200-R46-BETA-UNLOCK-AUDIT-01/RE-ROOTFS-CHANGED-COMMON.txt')
+out.write_text('\n'.join(sorted(k for k in bi.keys()&si.keys() if bi[k]!=si[k]))+'\n')
+PY
+          fi
+
+          cp /tmp/tr1200/work/beta/u-boot.bin "$OUT/RE-TR1200-BETA-UBOOT.bin"
+          cp /tmp/tr1200/work/stock/u-boot.bin "$OUT/RE-TR1200-STOCK-UBOOT.bin"
+          sha256sum "$OUT"/* > "$OUT/RE-SHA256SUMS.txt"
+
+      - name: Upload audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE-TR1200-R46-BETA-UNLOCK-AUDIT-01
+          path: RE-TR1200-R46-BETA-UNLOCK-AUDIT-01/
+          if-no-files-found: error
+          retention-days: 14
