@@ -1,0 +1,98 @@
+name: RE Exact Extract RG500 A09 PAC
+
+on:
+  push:
+    branches: [cudy-cellular-modem]
+    paths:
+      - ".github/workflows/RE-exact-extract-rg500-a09-pac.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      EXPECTED_SHA256: 7402449ddc19db64e42e41031d35b4a36f01e4d8b19219fcf3c4c6def897f52b
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-cellular-modem
+          fetch-depth: 1
+      - name: Install helpers
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq binwalk p7zip-full squashfs-tools e2fsprogs libarchive-tools device-tree-compiler file >/dev/null || true
+          python3 -m pip install --quiet ubi-reader || true
+      - name: Acquire exact PAC
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/pac
+          gh release download cudy-cellular-modem-p2-rg500-a09 --repo "${GITHUB_REPOSITORY}" --pattern P2_RG500_A09.bin --dir /tmp/pac
+          test "$(sha256sum /tmp/pac/P2_RG500_A09.bin | awk '{print $1}')" = "$EXPECTED_SHA256"
+      - name: Extract exact PAC partitions
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/pac/out RE-RG500-A09-EXACT-PAC
+          curl -fsSL             https://raw.githubusercontent.com/bjnicbhv-lgtm/PAC/bd6cc001b1bd2651668a491538960d1dacf3e8b1/python/pacExtractor.py             -o /tmp/pac/pacExtractor.py
+          python3 /tmp/pac/pacExtractor.py -d /tmp/pac/P2_RG500_A09.bin /tmp/pac/out             > RE-RG500-A09-EXACT-PAC/RE-RG500-A09-PAC-EXTRACT-DEBUG.txt 2>&1
+          {
+            echo "=== exact extracted files ==="
+            find /tmp/pac/out -maxdepth 1 -type f -printf '%f|%s\n' | sort
+            echo
+            echo "=== sha256 ==="
+            (cd /tmp/pac/out && sha256sum * | sort)
+            echo
+            echo "=== file types ==="
+            file -k /tmp/pac/out/* || true
+          } > RE-RG500-A09-EXACT-PAC/RE-RG500-A09-PARTITION-INVENTORY.txt
+
+          for f in /tmp/pac/out/*; do
+            [ -f "$f" ] || continue
+            n="$(basename "$f")"
+            {
+              echo "===== $n ====="
+              stat -c 'size=%s' "$f"
+              sha256sum "$f"
+              file -k "$f" || true
+              binwalk "$f" || true
+            } > "RE-RG500-A09-EXACT-PAC/RE-PART-${n}.txt" 2>&1
+            strings -a -t x -n 4 "$f" |
+              grep -iE 'debug|factory|research|engineering|pintest|fastboot|recovery|uart|console|download|dloader|fdl|adb|telnet|ssh|root|shell|diag|calib|at\+|quectel|rg500|udx710|secure|verity|selinux'               > "RE-RG500-A09-EXACT-PAC/RE-PART-${n}-HITS.txt" || true
+          done
+
+          # Preserve selected boot/loader engineering partitions as artifacts for byte-level local RE.
+          mkdir -p RE-RG500-A09-SELECTED-PARTITIONS
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil,re
+          root=Path('/tmp/pac/out')
+          dst=Path('RE-RG500-A09-SELECTED-PARTITIONS')
+          rx=re.compile(r'(fdl|spl|uboot|boot|recovery|misc|project|prod|nv)',re.I)
+          for p in root.iterdir():
+              if p.is_file() and rx.search(p.name) and p.stat().st_size <= 25*1024*1024:
+                  shutil.copy2(p,dst/p.name)
+          PY
+
+          {
+            echo "=== selected ==="
+            find RE-RG500-A09-SELECTED-PARTITIONS -type f -printf '%f|%s\n' | sort
+            echo
+            (cd RE-RG500-A09-SELECTED-PARTITIONS && sha256sum * | sort) || true
+          } > RE-RG500-A09-EXACT-PAC/RE-RG500-A09-SELECTED-MANIFEST.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-A09-EXACT-PAC-REPORTS
+          path: RE-RG500-A09-EXACT-PAC/
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-RG500-A09-SELECTED-PARTITIONS
+          path: RE-RG500-A09-SELECTED-PARTITIONS/
+          if-no-files-found: error
+          retention-days: 14
