@@ -1,0 +1,94 @@
+name: RE Cudy Full Corpus Anomaly Audit
+
+on:
+  push:
+    branches: [cudy-beta]
+    paths:
+      - ".github/workflows/RE-cudy-full-corpus-anomaly-audit.yml"
+      - "scripts/RE_cudy_full_corpus_anomaly_audit.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-beta
+          fetch-depth: 1
+
+      - name: Install RE tools
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools unzip binutils file python3-pip lzop >/dev/null
+          python3 -m pip install --quiet ubi-reader
+
+      - name: Assemble full corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/full-corpus/input RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02
+          python3 - <<'PY'
+          from pathlib import Path
+          import zipfile,re,shutil
+          base=Path("firmware/cudy/stable")
+          out=Path("/tmp/full-corpus/input")
+          for z in sorted(base.rglob("*.zip")):
+              try:
+                  with zipfile.ZipFile(z) as q:
+                      bins=[i for i in q.infolist() if not i.is_dir() and i.filename.lower().endswith(".bin")]
+                      if not bins: continue
+                      item=max(bins,key=lambda i:i.file_size)
+                      model=z.parent.name
+                      stem=z.stem
+                      name=re.sub(r"[^A-Za-z0-9._-]+","_",f"{model}__{stem}")
+                      (out/f"{name}.bin").write_bytes(q.read(item))
+              except Exception as e:
+                  print("ZIP_FAIL",z,e)
+
+          # direct beta payloads
+          beta=Path("firmware/cudy/beta/firmware")
+          for p in sorted(beta.glob("*.bin")):
+              name=re.sub(r"[^A-Za-z0-9._-]+","_",f"BETA__{p.stem}")
+              shutil.copy2(p,out/f"{name}.bin")
+          PY
+
+          # support/private inputs
+          git fetch --depth=1 origin cudy-dev-support:refs/remotes/origin/cudy-dev-support
+          git show origin/cudy-dev-support:firmware/cudy/dev-support/firmware/C200P-R74-2.5.14-20260618-150931-flash.bin             > /tmp/full-corpus/input/SUPPORT__C200P-R74-2.5.14-20260618-150931.bin
+          git show origin/cudy-dev-support:firmware/cudy/dev-support/firmware/P2-R91-2.4.22-20251204-184925-sysupgrade.bin             > /tmp/full-corpus/input/SUPPORT__P2-R91-2.4.22-20251204-184925.bin
+
+          (
+            cd /tmp/full-corpus/input
+            sha256sum *.bin | sort
+            echo "COUNT=$(find . -maxdepth 1 -name '*.bin' | wc -l)"
+          ) > "$GITHUB_WORKSPACE/RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02/RE-INPUTS.txt"
+
+      - name: Run full corpus audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/RE_cudy_full_corpus_anomaly_audit.py             /tmp/full-corpus/input             "$GITHUB_WORKSPACE/RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02"
+
+      - name: Package reports
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$GITHUB_WORKSPACE"
+          zip -9 -r /tmp/RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02.zip RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02 >/dev/null
+          sha256sum /tmp/RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02.zip > /tmp/RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02.zip.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02
+          path: |
+            /tmp/RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02.zip
+            /tmp/RE-CUDY-FULL-CORPUS-ANOMALY-AUDIT-02.zip.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
