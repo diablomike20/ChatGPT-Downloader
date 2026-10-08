@@ -108,10 +108,10 @@ jobs:
 
             {
               echo "=== BETA ROOTFS ENGINEERING HITS ==="
-              grep -RInaE --binary-files=without-match                 'rom_(develop|research|alpha|dbg)|bdinfo dbg|factory|engineering|debug|testonly|terminal|sandbox|telnet|dropbear|uart|console|tftp|recovery|firstboot|preset|magic|airdmp|airdump|batchcmd|diag|manufactur|burn.?in|calibrat|ate|production'                 /tmp/tr1200/work/beta/rootfs 2>/dev/null | head -n 100000 || true
+              grep -rInaE --binary-files=without-match                 'rom_(develop|research|alpha|dbg)|bdinfo dbg|factory|engineering|debug|testonly|terminal|sandbox|telnet|dropbear|uart|console|tftp|recovery|firstboot|preset|magic|airdmp|airdump|batchcmd|diag|manufactur|burn.?in|calibrat|ate|production'                 /tmp/tr1200/work/beta/rootfs 2>/dev/null | head -n 100000 || true
               echo
               echo "=== STOCK ROOTFS ENGINEERING HITS ==="
-              grep -RInaE --binary-files=without-match                 'rom_(develop|research|alpha|dbg)|bdinfo dbg|factory|engineering|debug|testonly|terminal|sandbox|telnet|dropbear|uart|console|tftp|recovery|firstboot|preset|magic|airdmp|airdump|batchcmd|diag|manufactur|burn.?in|calibrat|ate|production'                 /tmp/tr1200/work/stock/rootfs 2>/dev/null | head -n 100000 || true
+              grep -rInaE --binary-files=without-match                 'rom_(develop|research|alpha|dbg)|bdinfo dbg|factory|engineering|debug|testonly|terminal|sandbox|telnet|dropbear|uart|console|tftp|recovery|firstboot|preset|magic|airdmp|airdump|batchcmd|diag|manufactur|burn.?in|calibrat|ate|production'                 /tmp/tr1200/work/stock/rootfs 2>/dev/null | head -n 100000 || true
             } > "$OUT/RE-ROOTFS-ENGINEERING-HITS.txt"
 
             # Content-level changed/common comparison without executing firmware content.
