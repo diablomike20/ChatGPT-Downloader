@@ -32,40 +32,75 @@ for fw in sorted(inp.glob("*.bin")):
     for idx,o in enumerate(cands[:24]):
         sq=work/f"{name}-{idx}-{o:x}.sqfs"; sq.write_bytes(b[o:])
         if dst.exists(): shutil.rmtree(dst,ignore_errors=True)
-        p=run(["unsquashfs","-no-progress","-d",str(dst),str(sq)],timeout=120)
+        p=run(["sudo","unsquashfs","-no-progress","-no-exit-code","-d",str(dst),str(sq)],timeout=120)
         if p.returncode==0 and dst.exists():
             method="squashfs";off=o;ok=True;break
         shutil.rmtree(dst,ignore_errors=True)
-    # UBI fallback
+    # UBI fallback — reproduce the FU7 P2 extractor: split volumes first,
+    # then extract UBIFS filesystem(s), rather than assuming the whole trailing
+    # image is one UBIFS volume.
     if not ok:
         u=b.find(b"UBI#")
         if u>=0:
             ubi=work/f"{name}-{u:x}.ubi"; ubi.write_bytes(b[u:])
-            if dst.exists(): shutil.rmtree(dst,ignore_errors=True)
-            dst.mkdir(parents=True,exist_ok=True)
-            p=run(["ubireader_extract_files","-o",str(dst),str(ubi)],timeout=180)
-            # locate best rootfs-shaped subtree and normalize to dst/root
+            vol_dir=work/f"{name}-ubi-volumes"
+            file_dir=work/f"{name}-ubi-files"
+            shutil.rmtree(vol_dir,ignore_errors=True); vol_dir.mkdir(parents=True,exist_ok=True)
+            shutil.rmtree(file_dir,ignore_errors=True); file_dir.mkdir(parents=True,exist_ok=True)
+
+            pi=run(["ubireader_extract_images","-o",str(vol_dir),str(ubi)],timeout=180)
+            notes=[pi.stdout[-1000:]]
+
+            # Direct file extraction may succeed even if the image length has
+            # harmless trailing bytes.
+            pf=run(["ubireader_extract_files","-o",str(file_dir),str(ubi)],timeout=180)
+            notes.append(pf.stdout[-1000:])
+
             candidates=[]
-            for q in dst.rglob("*"):
+            for base in (file_dir,vol_dir):
+                for q in base.rglob("*"):
+                    try:
+                        if not q.is_dir(): continue
+                        score=sum((q/x).exists() for x in ["etc","usr","bin","sbin","www","lib"])
+                        if score>=3:
+                            count=sum(1 for z in q.rglob("*") if z.is_file() or z.is_symlink())
+                            candidates.append((score,count,q))
+                    except: pass
+
+            # If split volumes are raw UBIFS, extract each one independently.
+            for vol in vol_dir.rglob("*"):
                 try:
-                    if not q.is_dir(): continue
-                    score=sum((q/x).exists() for x in ["etc","usr","bin","sbin","www","lib"])
-                    if score>=3:
-                        count=sum(1 for z in q.rglob("*") if z.is_file() or z.is_symlink())
-                        candidates.append((score,count,q))
-                except: pass
+                    if not vol.is_file(): continue
+                    head=vol.read_bytes()[:4]
+                except: continue
+                if head==b"hsqs":
+                    vd=work/f"{name}-vol-{vol.name}-sqfs"
+                    shutil.rmtree(vd,ignore_errors=True)
+                    pr=run(["sudo","unsquashfs","-no-progress","-no-exit-code","-d",str(vd),str(vol)],timeout=120)
+                    if vd.exists():
+                        candidates.append((6,sum(1 for z in vd.rglob("*") if z.is_file() or z.is_symlink()),vd))
+                else:
+                    vd=work/f"{name}-vol-{vol.name}-files"
+                    shutil.rmtree(vd,ignore_errors=True); vd.mkdir(parents=True,exist_ok=True)
+                    pr=run(["ubireader_extract_files","-o",str(vd),str(vol)],timeout=120)
+                    for q in vd.rglob("*"):
+                        try:
+                            if not q.is_dir(): continue
+                            score=sum((q/x).exists() for x in ["etc","usr","bin","sbin","www","lib"])
+                            if score>=3:
+                                count=sum(1 for z in q.rglob("*") if z.is_file() or z.is_symlink())
+                                candidates.append((score,count,q))
+                        except: pass
+
             if candidates:
                 candidates.sort(key=lambda x:(x[0],x[1]),reverse=True)
                 src=candidates[0][2]
-                norm=roots/(name+"-NORM")
-                if norm.exists(): shutil.rmtree(norm,ignore_errors=True)
-                shutil.copytree(src,norm,symlinks=True,dirs_exist_ok=True)
-                shutil.rmtree(dst,ignore_errors=True)
-                norm.rename(dst)
-                method="ubi";off=u;ok=True;note=p.stdout[-800:]
+                if dst.exists(): shutil.rmtree(dst,ignore_errors=True)
+                shutil.copytree(src,dst,symlinks=True,dirs_exist_ok=True)
+                method="ubi";off=u;ok=True;note=" | ".join(notes)
             else:
                 shutil.rmtree(dst,ignore_errors=True)
-                note=p.stdout[-1200:]
+                note=" | ".join(notes)[:1800]
     extract.append([name,method,hex(off) if off is not None else "", "OK" if ok else "NO_ROOT", note.replace("\n"," ")[:1200]])
 
 with (out/"RE-FULL-EXTRACTION.tsv").open("w",newline="") as f:
