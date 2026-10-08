@@ -141,10 +141,19 @@ jobs:
           fi
           sudo chmod -R a+rX "$OUT"
 
+          # Preserve Linux filenames exactly (including ':' names) inside a tarball;
+          # GitHub artifact upload cannot represent some valid Linux filenames directly.
+          sudo tar -czf /tmp/RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-02.tar.gz -C "$GITHUB_WORKSPACE" RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-01
+          sudo chown "$(id -u):$(id -g)" /tmp/RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-02.tar.gz
+          sha256sum /tmp/RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-02.tar.gz > /tmp/RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-02.tar.gz.sha256
+
       - name: Upload evidence
         uses: actions/upload-artifact@v4
         with:
-          name: RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-01
-          path: RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-01/
+          name: RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-02
+          path: |
+            /tmp/RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-02.tar.gz
+            /tmp/RE-R91-CELLULARUPGRADE-DEEP-EXTRACT-02.tar.gz.sha256
           if-no-files-found: error
+          compression-level: 0
           retention-days: 14
