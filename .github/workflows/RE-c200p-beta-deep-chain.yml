@@ -1,0 +1,166 @@
+name: RE C200P Beta Deep Chain
+
+on:
+  push:
+    branches: [cudy-beta]
+    paths:
+      - ".github/workflows/RE-c200p-beta-deep-chain.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-beta
+          fetch-depth: 1
+
+      - name: Install tools
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools lua5.1 binutils file >/dev/null
+
+      - name: Acquire and extract C200P
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/re /tmp/re/out
+          git fetch --depth=1 origin cudy-dev-support:refs/remotes/origin/cudy-dev-support
+          git show origin/cudy-dev-support:firmware/cudy/dev-support/firmware/C200P-R74-2.5.14-20260618-150931-flash.bin > /tmp/re/C200P.bin
+          python3 - <<'PY'
+          from pathlib import Path
+          b=Path('/tmp/re/C200P.bin').read_bytes()
+          o=b.find(b'hsqs')
+          assert o>=0, 'SquashFS magic absent'
+          Path('/tmp/re/C200P.sqfs').write_bytes(b[o:])
+          print(hex(o))
+          PY
+          sudo unsquashfs -no-progress -no-exit-code -d /tmp/re/root /tmp/re/C200P.sqfs >/dev/null
+          sudo chmod -R a+rX /tmp/re/root
+
+      - name: Patched-header Lua 5.1 disassembly
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=/tmp/re/root
+          OUT=/tmp/re/out
+          for rel in \
+            usr/lib/lua/luci/controller/ssh.lua \
+            usr/lib/lua/luci/model/cbi/ssh/ssh.lua \
+            usr/lib/lua/luci/model/cbi/mesh/ssh.lua \
+            usr/lib/lua/cmagent/router/ssh.lua \
+            usr/lib/lua/cmagent/router/batchcmd.lua \
+            usr/lib/lua/cmagent/router/diag.lua \
+            usr/lib/lua/cmagent/router/tcpdump.lua \
+            usr/lib/lua/luci/model/cbi/apcontroller/client_view.lua \
+            usr/lib/lua/luci/model/cbi/apcontroller/client_view_debug.lua \
+            usr/lib/lua/luci/model/cbi/apcontroller/client_view_tcpdump.lua \
+            usr/lib/lua/luci/model/cbi/diag/mesh.lua \
+            usr/lib/lua/mickedebug.lua \
+            usr/lib/lua/cmagent.lua \
+            usr/lib/lua/acmanager.lua
+          do
+            p="$ROOT/$rel"
+            [ -f "$p" ] || continue
+            safe=$(echo "$rel" | tr '/' '_')
+            cp "$p" "/tmp/re/$safe"
+            python3 - "/tmp/re/$safe" <<'PY'
+          import sys
+          p=sys.argv[1]
+          b=bytearray(open(p,'rb').read())
+          if b[:4]==b'\x1bLua' and len(b)>=12 and b[11]==4:
+              b[11]=0
+          open(p,'wb').write(b)
+          PY
+            {
+              echo "PATH=$rel"
+              sha256sum "$p"
+              od -An -tx1 -N12 "$p"
+              file "$p"
+              echo
+              luac5.1 -l -l "/tmp/re/$safe"
+            } > "$OUT/RE-LUAC-$safe.txt" 2>&1 || true
+          done
+
+      - name: Raw beta rom_research consumer scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT=/tmp/re/out
+          {
+            echo "# raw beta rom_research scan"
+            echo
+            for p in firmware/cudy/beta/firmware/*.bin; do
+              case "$(basename "$p")" in
+                *P2-R91-2.4.29b*|*WR3000-R31-2.4.2Beta*|*R46-2.1.10Beta*) ;;
+                *) continue ;;
+              esac
+              echo "## $(basename "$p")"
+              sha256sum "$p"
+              echo "-- exact rom_research --"
+              strings -a -t x -n 4 "$p" | grep -iE '(/etc/)?rom_research' || echo NOT_FOUND
+              echo "-- broader research marker neighborhood --"
+              strings -a -t x -n 5 "$p" | grep -iE 'rom_(research|develop|dbg|release)|research' | head -200 || true
+              echo
+            done
+          } > "$OUT/RE-BETA-ROM-RESEARCH-RAW-SCAN.txt"
+
+      - name: Exact C200P control-plane evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT=/tmp/re/root
+          OUT=/tmp/re/out
+          {
+            echo "# C200P exact engineering-control evidence"
+            for rel in \
+              etc/init.d/activate \
+              usr/sbin/activate \
+              etc/init.d/cmagent \
+              etc/init.d/dropbear \
+              etc/init.d/telnet \
+              usr/sbin/mesh_diag.sh \
+              usr/sbin/mesh_tcpdump.sh \
+              usr/lib/lua/luci/view/ssh/ssh_button.htm
+            do
+              echo
+              echo "===== $rel ====="
+              sha256sum "$ROOT/$rel"
+              cat "$ROOT/$rel"
+            done
+          } > "$OUT/RE-C200P-CONTROL-PLANE-SOURCE.txt"
+
+          {
+            for rel in \
+              usr/sbin/cmagent \
+              usr/lib/libbdinfo.so \
+              usr/lib/lua/cmagent.lua \
+              usr/lib/lua/acmanager.lua \
+              usr/lib/lua/mickedebug.lua \
+              usr/lib/lua/luci/controller/apcontroller.lua
+            do
+              echo "===== $rel ====="
+              sha256sum "$ROOT/$rel"
+              file "$ROOT/$rel"
+              strings -a -t x -n 4 "$ROOT/$rel" | grep -iE 'service_call|cmagent/%s|batchcmd|mesh_diag|mesh_tcpdump|ssh_enable|router|sysreport|capability|rom_dbg|rom_release|rom_develop|flash_uuid|@2025|mickedebug|debug|tcpdump_upload|diag_upload|sshctl|sshinfo|activate' || true
+              echo
+            done
+          } > "$OUT/RE-C200P-CONTROL-PLANE-STRINGS.txt"
+
+          (
+            cd "$OUT"
+            sha256sum RE-* | sort
+          ) > "$OUT/RE-SHA256SUMS.txt"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-CUDY-C200P-BETA-DEEP-CHAIN-01
+          path: /tmp/re/out/
+          if-no-files-found: error
+          retention-days: 14
