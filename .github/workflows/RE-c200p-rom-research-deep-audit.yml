@@ -1,0 +1,164 @@
+name: RE C200P RomResearch Deep Audit
+
+on:
+  push:
+    branches: [cudy-beta]
+    paths:
+      - ".github/workflows/RE-c200p-rom-research-deep-audit.yml"
+      - "scripts/RE-C200P-ROM-RESEARCH-DEEP-AUDIT.py"
+      - "scripts/RE-LUA51-LNUM32-DISASSEMBLER.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cudy-beta
+          fetch-depth: 1
+
+      - name: Install static RE tools
+        shell: bash
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq squashfs-tools unzip binutils file python3-pip binwalk >/dev/null || true
+          python3 -m pip install --quiet ubi-reader
+
+      - name: Assemble targeted corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          IN=/tmp/full-corpus/input
+          mkdir -p "$IN" /tmp/full-corpus/aux
+
+          cp firmware/cudy/beta/firmware/P2-R91-2.4.29b-20260422-101502-sysupgrade.bin "$IN/BETA-P2-2.4.29b.bin"
+          cp firmware/cudy/beta/firmware/WR3000-R31-2.4.2Beta-20250429-181532-sysupgrade.bin "$IN/BETA-WR3000-2.4.2Beta.bin"
+          cp firmware/cudy/beta/firmware/R46-2.1.10Beta-20240530-103557-flash.bin "$IN/BETA-TR1200-2.1.10Beta.bin"
+
+          git fetch --depth=1 origin cudy-dev-support:refs/remotes/origin/cudy-dev-support
+          git show origin/cudy-dev-support:firmware/cudy/dev-support/firmware/C200P-R74-2.5.14-20260618-150931-flash.bin > "$IN/C200P-2.5.14.bin"
+          git show origin/cudy-dev-support:firmware/cudy/dev-support/firmware/P2-R91-2.4.22-20251204-184925-sysupgrade.bin > "$IN/P2-STABLE-2.4.22.bin"
+
+          unzip -p firmware/cudy/stable/TR1200/TR1200-R46-2.5.25-20260805-112208-flash.zip '*.bin' > "$IN/TR1200-2.5.25.bin"
+          unzip -p firmware/cudy/stable/TR1200/TR1200-R46-2.1.3-20240428-102143-flash.zip '*.bin' > "$IN/TR1200-STABLE-2.1.3.bin"
+          unzip -p firmware/cudy/stable/WR1300/WR1300B-R23-2.5.25-20260805-113408-flash.zip '*.bin' > "$IN/WR1300-2.5.25.bin"
+          unzip -p firmware/cudy/stable/WR1200/WR1200V3-R149-2.5.24-20260727-130115-flash.zip '*.bin' > "$IN/WR1200V3-2.5.24.bin"
+
+          curl -fL --retry 3 -A 'Mozilla/5.0 OpenCudy-RE' \
+            'https://www.cudy.com/cdn/shop/files/WR3000-R31-2.4.7-20250529-181923-sysupgrade.zip?v=18073092043682477939' \
+            -o /tmp/full-corpus/aux/WR3000-2.4.7.zip
+          unzip -p /tmp/full-corpus/aux/WR3000-2.4.7.zip '*.bin' > "$IN/WR3000-STABLE-2.4.7.bin"
+
+          (cd "$IN" && sha256sum *.bin | sort) > /tmp/RE-TARGET-INPUT-SHA256SUMS.txt
+          stat -c '%n|%s' "$IN"/*.bin | sort > /tmp/RE-TARGET-INPUT-SIZES.txt
+
+      - name: Extract targeted roots
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/RE-TARGET-BASE-AUDIT
+          sudo -E python3 scripts/RE_cudy_full_corpus_anomaly_audit.py \
+            /tmp/full-corpus/input /tmp/RE-TARGET-BASE-AUDIT
+          sudo chmod -R a+rX /tmp/full-corpus/roots /tmp/RE-TARGET-BASE-AUDIT
+
+      - name: Run exact deep audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01"
+          python3 scripts/RE-C200P-ROM-RESEARCH-DEEP-AUDIT.py \
+            /tmp/full-corpus/input /tmp/full-corpus/roots "$OUT"
+          cp /tmp/RE-TARGET-INPUT-SHA256SUMS.txt "$OUT/RE-TARGET-INPUT-SHA256SUMS.txt"
+          cp /tmp/RE-TARGET-INPUT-SIZES.txt "$OUT/RE-TARGET-INPUT-SIZES.txt"
+
+      - name: Disassemble LNUM32 Lua control plane
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01/RE-LUA-DISASSEMBLY"
+          mkdir -p "$OUT"
+          for root in /tmp/full-corpus/roots/*; do
+            [ -d "$root" ] || continue
+            model=$(basename "$root")
+            for rel in \
+              usr/lib/lua/cmagent/router/batchcmd.lua \
+              usr/lib/lua/cmagent/router/ssh.lua \
+              usr/lib/lua/cmagent/router/diag.lua \
+              usr/lib/lua/cmagent/router/tcpdump.lua \
+              usr/lib/lua/cmagent/router/sysreport.lua \
+              usr/lib/lua/cmagent.lua \
+              usr/lib/lua/mickedebug.lua \
+              usr/lib/lua/luci/controller/ssh.lua \
+              usr/lib/lua/luci/model/cbi/ssh/ssh.lua \
+              usr/lib/lua/luci/model/cbi/mesh/ssh.lua \
+              usr/lib/lua/luci/controller/apcontroller.lua \
+              usr/lib/lua/luci/model/cbi/apcontroller/client_view.lua \
+              usr/lib/lua/luci/model/cbi/apcontroller/client_view_debug.lua \
+              usr/lib/lua/luci/model/cbi/apcontroller/client_view_tcpdump.lua \
+              usr/lib/lua/luci/model/cbi/diag/mesh.lua
+            do
+              src="$root/$rel"
+              [ -f "$src" ] || continue
+              n=$(echo "$rel" | tr '/' '_')
+              python3 scripts/RE-LUA51-LNUM32-DISASSEMBLER.py "$src" \
+                > "$OUT/RE-DISASM-${model}-${n}.txt" 2>&1 || true
+            done
+          done
+
+      - name: Deep raw beta rom_research hunt
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01"
+          mkdir -p /tmp/RE-ROMRESEARCH-BINWALK
+          : > "$OUT/RE-ROM-RESEARCH-BINWALK-HITS.txt"
+          for fw in /tmp/full-corpus/input/BETA-*.bin; do
+            n=$(basename "$fw" .bin)
+            d="/tmp/RE-ROMRESEARCH-BINWALK/$n"
+            mkdir -p "$d"
+            (
+              cd "$d"
+              timeout 180 sudo binwalk -Me --run-as=root "$fw" || true
+            ) > "$OUT/RE-BINWALK-$n.log" 2>&1
+            sudo chmod -R a+rX "$d" || true
+
+            echo "===== $n =====" >> "$OUT/RE-ROM-RESEARCH-BINWALK-HITS.txt"
+            while IFS= read -r -d '' f; do
+              if grep -aHi -m 20 -E 'rom_research|/etc/rom_research' "$f" >/tmp/re-hit 2>/dev/null; then
+                echo "--- FILE $f" >> "$OUT/RE-ROM-RESEARCH-BINWALK-HITS.txt"
+                cat /tmp/re-hit >> "$OUT/RE-ROM-RESEARCH-BINWALK-HITS.txt"
+              elif strings -a "$f" 2>/dev/null | grep -i -m 20 -E 'rom_research|/etc/rom_research' >/tmp/re-hit; then
+                echo "--- STRINGS $f" >> "$OUT/RE-ROM-RESEARCH-BINWALK-HITS.txt"
+                cat /tmp/re-hit >> "$OUT/RE-ROM-RESEARCH-BINWALK-HITS.txt"
+              fi
+            done < <(find "$d" -type f -print0)
+          done
+          rm -f /tmp/re-hit
+
+      - name: Final hashes and package
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$GITHUB_WORKSPACE/RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01"
+          (
+            cd "$OUT"
+            find . -type f ! -name RE-SHA256SUMS-FINAL.txt -print0 | sort -z | xargs -0 sha256sum
+          ) > "$OUT/RE-SHA256SUMS-FINAL.txt"
+          zip -9 -r /tmp/RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01.zip "$OUT" >/dev/null
+          sha256sum /tmp/RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01.zip \
+            > /tmp/RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01.zip.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01
+          path: |
+            /tmp/RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01.zip
+            /tmp/RE-CUDY-C200P-ROM-RESEARCH-DEEP-AUDIT-01.zip.sha256
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
